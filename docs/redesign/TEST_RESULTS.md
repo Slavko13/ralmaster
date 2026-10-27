@@ -57,22 +57,42 @@
 
 ## Local baseline
 
-Статус: `BLOCKED`.
+Статус safe baseline: `PASSED`.
 
-Причины:
+| Проверка | Результат | Время |
+| --- | --- | ---: |
+| Development build/start | `db` и `web` healthy | — |
+| `/healthz.php` | HTTP 200 | — |
+| `/` | HTTP 200 | — |
+| Smoke | **32/32 passed** | **3.0 min** |
+| Полный safe baseline | **54/54 passed**, 0 failed/skipped/flaky | **5.2 min** |
 
-- Docker Desktop не запускает engine из-за stale OTel socket;
-- WSL возвращает `E_ACCESS_DENIED`;
-- санитизированный дамп Bitrix DB отсутствует.
+Команды для текущего локального порта:
 
-После снятия блокировки требуется:
+```powershell
+docker compose up --build
+$env:BASE_URL='http://127.0.0.1:8084'; npm run test:e2e:smoke
+$env:BASE_URL='http://127.0.0.1:8084'; npm run test:e2e
+```
 
-1. `docker compose up --build`;
-2. healthcheck и smoke `/`;
-3. `BASE_URL=http://127.0.0.1:8080 npm run test:e2e`;
-4. state-changing forms/cart/auth tests на изолированных данных;
-5. production-like build и повторная регрессия.
+После ручного импорта backup не обнаружены HTTP 5xx, PHP fatal или Bitrix
+fatal. Browser diagnostics на `/`, `/product/`,
+`/services/metal-bending/`, `/contacts/`: `console.error=0`, `pageerror=0`,
+ignored=0. Critical axe violations: 0; известные serious-проблемы из таблицы
+выше остаются baseline для редизайна.
+
+Локальная схема содержит 422 таблицы; контрольные записи: `b_user` — 1,
+`b_iblock` — 43, `b_iblock_element` — 334, `b_form` — 11, `b_lang` — 1.
+
+### Оставшиеся проверки
+
+- Actual production-like run на порту 8085 и повторный health/smoke.
+- State-changing forms/cart/auth scenarios только на локальной БД с контролем
+  отправки почты и восстановлением состояния.
 
 ## Интерпретация
 
-Прохождение live baseline доказывает работоспособность покрытых production-сценариев на момент запуска. Оно не доказывает воспроизводимость локального окружения, корректность скрытых DB-dependent сценариев или визуальное соответствие Paper.
+Live и local safe baseline подтверждают покрытые read-only/invalid-input
+сценарии и воспроизводимость development runtime на момент запуска. Они не
+подтверждают state-changing flows, фактический production-like профиль или
+визуальное соответствие Paper.

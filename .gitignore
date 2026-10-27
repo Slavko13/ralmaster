@@ -25,6 +25,9 @@
 /docker/db/init/*.sql
 /docker/db/init/*.sql.gz
 /docker/db/init/*.dump
+/*.sql
+/*.sql.gz
+/*.dump
 
 # Local archives and editor/OS files
 *.tar.gz

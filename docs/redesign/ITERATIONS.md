@@ -13,26 +13,26 @@
 - **Функциональные автотесты:** Compose validation, healthcheck, smoke `/`, затем полный Playwright baseline.
 - **Визуальные проверки:** отсутствуют до запуска приложения.
 - **Критерии приёмки:** `docker compose up --build` и production-like profile запускаются; БД импортирована; `/healthz.php` и `/` доступны; baseline проходит или исходные дефекты документированы.
-- **Фактический результат:** baseline commit `c345081...` создан; инфраструктура подготовлена; оба Compose-файла проходят `docker compose config --quiet`.
-- **Обнаруженные дефекты:** Docker Desktop падает на stale OTel socket; WSL возвращает `E_ACCESS_DENIED`; дамп БД отсутствует.
-- **Исправленные дефекты:** существовавшей Docker-конфигурации не было — она создана; секреты не внесены в Git.
-- **Оставшиеся ограничения:** фактическая сборка/запуск и проверка Bitrix невозможны до восстановления Docker/WSL и получения дампа.
-- **Статус:** `BLOCKED`.
+- **Фактический результат:** baseline commit `c345081...` создан; оба Compose-файла валидны; Docker Desktop 4.97/engine 29.9.2 восстановлен; dev image собран; `db`/`web` healthy; backup импортирован без SQL-ошибок; `/healthz.php` и `/` отвечают 200.
+- **Обнаруженные дефекты:** исторически Docker Desktop падал на stale OTel socket, WSL возвращал `E_ACCESS_DENIED`, а DB backup не был найден в project root.
+- **Исправленные дефекты:** Docker Linux runtime восстановлен; чувствительный backup найден вне Git и импортирован в локальную схему; существовавшей Docker-конфигурации не было — она создана; секреты не внесены в Git.
+- **Оставшиеся ограничения:** фактический production-like запуск на порту 8085 ещё не выполнен; state-changing проверки выделены отдельно; backup и `.env` остаются вне Git.
+- **Статус:** `IN PROGRESS`.
 
 ## Итерация 1 — Функциональный аудит и baseline
 
-- **Цель:** зафиксировать текущие маршруты, сценарии и автоматический регрессионный контур до UI-изменений.
+- **Цель:** зафиксировать текущие маршруты, сценарии и безопасный автоматический регрессионный контур до UI-изменений.
 - **Область изменений:** только QA-инфраструктура и документация; код сайта не меняется.
 - **Связанные макеты Paper:** все page frames используются для будущей трассировки.
 - **Затронутые файлы и компоненты:** `package*.json`, `playwright.config.ts`, `tests/**`, `docs/redesign/01-*`, `02-*`, `TEST_RESULTS.md`.
 - **Функциональные автотесты:** primary/secondary routes, navigation, catalog/services detail, search, invalid forms, mobile menu/CTA, 404, accessibility.
 - **Визуальные проверки:** baseline screenshots текущего production на desktop/mobile.
-- **Критерии приёмки:** полный безопасный production-baseline зафиксирован; локальный набор повторён на изолированной БД; state-changing сценарии проверены локально.
-- **Фактический результат:** аудит маршрутов завершён; Playwright/axe инфраструктура создана; expanded live baseline — 54/54 passed за 2.1 min, 0 failed/skipped/flaky. На четырёх ключевых маршрутах `console.error=0`, `pageerror=0`, ignored=0; два P0 project/modal сценария включены.
-- **Обнаруженные дефекты:** исходные content/legacy/absolute-link риски; точные runtime-настройки недоступны без БД.
+- **Критерии приёмки:** полный безопасный live baseline зафиксирован; тот же safe-набор повторён на локальной БД; критических axe, browser errors, 5xx и fatal нет; исходные дефекты документированы.
+- **Фактический результат:** аудит маршрутов завершён; Playwright/axe инфраструктура создана; expanded live baseline — 54/54 за 2.1 min; local smoke — 32/32 за 3.0 min; полный safe local baseline — 54/54 за 5.2 min. Во всех полных прогонах 0 failed/skipped/flaky; local browser diagnostics чисты, critical axe = 0, после импорта 5xx/fatal не обнаружены.
+- **Обнаруженные дефекты:** исходные content/legacy/absolute-link риски и serious accessibility baseline; `/form/` без ID ожидаемо возвращает not-found без fatal.
 - **Исправленные дефекты:** устранены ошибки селекторов и ошибочное наследование mobile browser-настроек в тестах.
-- **Оставшиеся ограничения:** local/state-changing baseline заблокирован; `/form/` без ID ожидаемо возвращает not-found и проверяется отдельно от правила status `<400`.
-- **Статус:** `IN PROGRESS`.
+- **Оставшиеся ограничения:** state-changing forms/cart/auth не входят в safe baseline и должны быть выполнены отдельно только локально; known serious accessibility issues сохранены для исправления редизайном.
+- **Статус:** `PASSED`.
 
 ## Итерация 2 — Полный Paper-контекст и дизайн-система
 

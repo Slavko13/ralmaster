@@ -4,11 +4,14 @@
 
 | ID | Приоритет | Область | Проблема | Статус / действие |
 | --- | --- | --- | --- | --- |
-| ENV-001 | BLOCKER | Docker | Docker Desktop падает при удалении `userAnalyticsOtlpHttp.sock` | Восстановить Docker/WSL; factory reset не выполнялся |
-| ENV-002 | BLOCKER | WSL | `wsl.exe --status` возвращает `Wsl/E_ACCESS_DENIED` | Требуется исправление Windows/WSL доступа |
+| ENV-001 | RESOLVED | Docker | Docker Desktop исторически падал при удалении `userAnalyticsOtlpHttp.sock` | Закрыто: Docker Desktop 4.97/engine 29.9.2 работает; factory reset не выполнялся |
+| ENV-002 | RESOLVED | WSL | Первичный `wsl.exe --status` возвращал `Wsl/E_ACCESS_DENIED` | Закрыто для Docker workflow: Linux engine доступен и dev runtime проверен |
 | ENV-003 | MEDIUM | Production-like image | Исходники подключаются read-only bind mount, а не запекаются в автономный image | Допустимо для локальной приёмки; не считать deployment artifact |
-| ENV-004 | BLOCKER | Native fallback | PHP/MySQL/web server и альтернативный container runtime на машине отсутствуют | Нужен рабочий Docker host либо установка native runtime вместе с санитизированной БД |
-| DATA-001 | BLOCKER | Bitrix DB | Нет санитизированного дампа БД/backup | Предоставить dump до первого создания Docker volume |
+| ENV-004 | RESOLVED | Native fallback | PHP/MySQL/web server и альтернативный container runtime на машине отсутствуют | Native fallback больше не требуется: Docker runtime восстановлен |
+| ENV-005 | MEDIUM | Production-like run | Compose-конфигурация валидна, но фактический запуск на 8085 не выполнен | Запустить и повторить health/smoke до UI-итераций |
+| DATA-001 | RESOLVED | Bitrix DB | На первичном аудите backup не был найден в project root | Закрыто: чувствительный Beget backup вне Git импортирован без SQL-ошибок; 422 таблицы |
+| DATA-002 | HIGH | Backup security | Использованный hosting backup содержит чувствительные данные | Оставлять вне Git, не публиковать, не копировать в tracked paths |
+| TEST-001 | MEDIUM | State-changing flows | Forms/cart/auth не входят в safe baseline | Выполнить отдельно только локально с контролем побочных эффектов |
 | PAPER-001 | BLOCKER | Paper MCP | Достигнут недельный лимит, восстановление через три дня от аудита | Продолжить read-only аудит после reset |
 | PAPER-002 | HIGH | Paper identity | Открыт `Cheerful breeze`, а ожидался `Polite hill` | Подтвердить целевой файл/версию |
 | PAPER-003 | MEDIUM | Responsive | Нет mobile/tablet-фреймов | Зафиксировать производные responsive-решения |
@@ -35,6 +38,8 @@ Accessibility, legacy links и content issues выше обнаружены до
 
 - Live production baseline намеренно не изменяет данные.
 - Expanded live baseline полностью проходит: 54/54; browser diagnostics на четырёх ключевых маршрутах чисты.
-- Локальные формы, корзина, auth/cabinet и региональность не могут быть полноценно проверены без БД.
+- Local smoke полностью проходит: 32/32; safe baseline — 54/54, browser diagnostics clean, critical axe = 0.
+- Локальная БД доступна, но формы, корзина и auth/cabinet с изменением состояния ещё не проверены.
+- Production-like профиль фактически ещё не запущен.
 - Paper audit неполон до восстановления квоты.
 - Production-инфраструктура не изменялась и не должна изменяться в рамках локальной подготовки.
