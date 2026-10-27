@@ -1,0 +1,42 @@
+body  .maxwidth-theme, body.fill_bg_y.visible_banner .contacts-page-map, body.fill_bg_y.visible_banner .banners-big .maxwidth-banner, body.fill_bg_y.visible_banner > .body > .main,
+body.fill_bg_y.visible_banner footer, .banners-big.short-banner.small .maxwidth-banner, .fill_bg_y.visible_banner header .line-row{ max-width: 1216px; }
+body.fill_bg_y.visible_banner .banner.TOP_HEADER, body.fill_bg_y.visible_banner .banner.TOP_UNDERHEADER{max-width: 1216px;}
+.body .main > .container.with_error > .row > .content-md > .page404{max-width: 1136px;margin:auto;}
+.contacts-page-map + .contacts.contacts-page-map-overlay{max-width: 1168px;}
+
+.catalog .bx_filter_button_box .bx_filter_parameters_box_container{text-align:center;}
+.catalog .bx_filter_button_box .bx_filter_parameters_box_container .btn{margin:0px 5px 10px !important;}
+
+@media (min-width: 992px){
+	body .header-v4 .logo_and_menu-row .logo-row>.maxwidth-theme>.col-md-4{width:33.33333333333333%;}
+	.detail .gallery-block .bigs.flexslider .slides .item{height:578px;line-height:575px;}
+}
+@media (min-width:1200px){
+	body .header-v4 .logo_and_menu-row .logo-row>.maxwidth-theme>.col-md-4{width:36.6%;}
+	.top-block .top-block-item.addr{width: 25%;}
+	body .linked .flexslider.shadow .slides{padding-bottom:103px;}
+	
+	/*tarifs*/
+	.tarifs .items_view td{width:224px;min-width:224px;}
+	.tarifs .data_table_props.items_view td:first-child{width:195px;min-width:195px;max-width:195px;}
+
+	.with_regions .logo-row .slogan{width: 8%;}
+	.header-v9 .with_regions .logo-row .slogan{display:none !important;}
+	.header_8 .logo-row .slogan{margin-left: 2%;}
+
+	body.header-v9 .with_regions .search_wr{width: 22%;}
+
+	.header-v9 .header_9:not(.with_regions) .logo_and_menu-row .phone-block .inner-table-block{padding:0px;}
+}
+/* @media all and (max-width: 1300px){
+	body .banners-big .flexslider .nav-carousel .flex-direction-nav{overflow:hidden;}
+	body .banners-big .flexslider:hover .nav-carousel .flex-direction-nav li.flex-nav-prev{left:0px;}
+	body .banners-big .flexslider:hover .nav-carousel .flex-direction-nav li.flex-nav-next{right:0px;}
+} */
+
+@media (min-width: 768px) and (max-width: 1250px){
+	.contacts-page-map + .contacts.contacts-page-map-overlay{padding-left:0px;padding-right:0px;margin-left:53px;margin-right:53px;}
+}
+@media all and (min-width: 768px){
+	.contacts-page-map + .contacts.contacts-page-map-overlay{/*max-width: 1210px;*/}
+}

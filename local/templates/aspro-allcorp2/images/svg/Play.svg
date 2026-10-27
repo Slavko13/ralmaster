@@ -1,0 +1,11 @@
+<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+    <style>
+      .acls-1 {
+        fill-rule: evenodd;
+        clip-rule:evenodd;
+      }
+    </style>
+</defs>  
+<path class="acls-1" d="M10 5L0 10V0L10 5Z"/>
+</svg>

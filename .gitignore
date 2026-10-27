@@ -1,0 +1,35 @@
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+/bitrix/
+/include/contacts-site-map.php
+
+# Runtime and user-generated data
+/upload/
+/.cache/
+/local/cache/
+/local/managed_cache/
+/local/php_interface/logs/
+*.log
+
+# Dependency and test artifacts
+/node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/coverage/
+
+# Docker runtime data and private database dumps
+/docker/db/data/
+/docker/db/init/*.sql
+/docker/db/init/*.sql.gz
+/docker/db/init/*.dump
+
+# Local archives and editor/OS files
+*.tar.gz
+*.zip
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/

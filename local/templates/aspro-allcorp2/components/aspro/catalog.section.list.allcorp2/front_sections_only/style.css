@@ -1,0 +1,12 @@
+.row.flexbox .item {
+    height: 100%;
+    min-height: 100%;
+}
+.front-section-only .section_item_inner .img {
+    padding-bottom: 10px;
+}
+.sections_wrapper .list .item.section_item.front-section-only .name {
+    padding-bottom: 0px;
+    font-size: calc(1.200em - 1px);
+}
+

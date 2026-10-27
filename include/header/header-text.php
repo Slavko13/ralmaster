@@ -1,0 +1,1 @@
+<b><span style="font-family: Arial, Helvetica;">Лучше товары по лучшим ценам</span></b>
