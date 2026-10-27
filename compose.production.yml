@@ -1,0 +1,62 @@
+name: ${COMPOSE_PROJECT_NAME:-ralmaster-redesign}-production
+
+services:
+  db:
+    image: mysql:8.0.40
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${BITRIX_DB_NAME:-bitrix}
+      MYSQL_USER: ${BITRIX_DB_USER:-bitrix}
+      MYSQL_PASSWORD: ${BITRIX_DB_PASSWORD:-bitrix_local_only}
+      MYSQL_ROOT_PASSWORD: ${BITRIX_DB_ROOT_PASSWORD:-bitrix_root_local_only}
+      TZ: ${TZ:-Europe/Moscow}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --sql-mode=ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+    volumes:
+      - bitrix-db-production:/var/lib/mysql
+      - ./docker/db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - mysqladmin ping -h 127.0.0.1 -uroot -p"$$MYSQL_ROOT_PASSWORD" --silent
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  web:
+    build:
+      context: .
+      target: production
+    restart: unless-stopped
+    environment:
+      APP_ENV: production
+      BITRIX_DB_HOST: db
+      BITRIX_DB_PORT: 3306
+      BITRIX_DB_NAME: ${BITRIX_DB_NAME:-bitrix}
+      BITRIX_DB_USER: ${BITRIX_DB_USER:-bitrix}
+      BITRIX_DB_PASSWORD: ${BITRIX_DB_PASSWORD:-bitrix_local_only}
+      TZ: ${TZ:-Europe/Moscow}
+    ports:
+      - 127.0.0.1:${APP_PROD_PORT:-8081}:80
+    volumes:
+      - .:/var/www/html:ro
+      - ./upload:/var/www/html/upload
+      - ./docker/bitrix/.settings_extra.php:/var/www/html/bitrix/.settings_extra.php:ro
+      - ./docker/bitrix/dbconn.php:/var/www/html/bitrix/php_interface/dbconn.php:ro
+      - bitrix-cache:/var/www/html/bitrix/cache
+      - bitrix-managed-cache:/var/www/html/bitrix/managed_cache
+      - bitrix-stack-cache:/var/www/html/bitrix/stack_cache
+      - bitrix-logs:/var/www/html/local/php_interface/logs
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  bitrix-db-production:
+  bitrix-cache:
+  bitrix-managed-cache:
+  bitrix-stack-cache:
+  bitrix-logs:

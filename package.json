@@ -1,0 +1,17 @@
+{
+  "name": "ralmaster-redesign-qa",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:e2e:smoke": "playwright test tests/e2e/smoke --project=desktop-chromium",
+    "test:e2e:baseline": "node tests/run-baseline.mjs",
+    "test:e2e:headed": "playwright test --headed --project=desktop-chromium",
+    "test:e2e:report": "playwright show-report",
+    "test:e2e:install": "playwright install chromium"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1"
+  }
+}
