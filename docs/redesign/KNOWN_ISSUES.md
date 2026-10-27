@@ -7,6 +7,7 @@
 | ENV-001 | BLOCKER | Docker | Docker Desktop падает при удалении `userAnalyticsOtlpHttp.sock` | Восстановить Docker/WSL; factory reset не выполнялся |
 | ENV-002 | BLOCKER | WSL | `wsl.exe --status` возвращает `Wsl/E_ACCESS_DENIED` | Требуется исправление Windows/WSL доступа |
 | ENV-003 | MEDIUM | Production-like image | Исходники подключаются read-only bind mount, а не запекаются в автономный image | Допустимо для локальной приёмки; не считать deployment artifact |
+| ENV-004 | BLOCKER | Native fallback | PHP/MySQL/web server и альтернативный container runtime на машине отсутствуют | Нужен рабочий Docker host либо установка native runtime вместе с санитизированной БД |
 | DATA-001 | BLOCKER | Bitrix DB | Нет санитизированного дампа БД/backup | Предоставить dump до первого создания Docker volume |
 | PAPER-001 | BLOCKER | Paper MCP | Достигнут недельный лимит, восстановление через три дня от аудита | Продолжить read-only аудит после reset |
 | PAPER-002 | HIGH | Paper identity | Открыт `Cheerful breeze`, а ожидался `Polite hill` | Подтвердить целевой файл/версию |

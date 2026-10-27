@@ -11,6 +11,13 @@ infrastructure.
    `docker/db/init/` before the first database volume is created.
 3. A local `.env` copied from `.env.example` with local-only passwords.
 
+There is currently no native fallback runtime on this workstation: PHP,
+Composer, MySQL, Apache/nginx, XAMPP/Laragon, Podman, and other compatible
+container engines were not found. Until Docker Desktop/WSL is repaired and a
+sanitized database dump is available, the source-backed site cannot be started
+locally. The safe live baseline remains available through
+`npm run test:e2e:baseline`.
+
 ## Development mode
 
 ```powershell
