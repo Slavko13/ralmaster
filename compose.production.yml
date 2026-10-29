@@ -44,8 +44,6 @@ services:
     volumes:
       - .:/var/www/html:ro
       - ./upload:/var/www/html/upload
-      - ./docker/bitrix/.settings_extra.php:/var/www/html/bitrix/.settings_extra.php:ro
-      - ./docker/bitrix/dbconn.php:/var/www/html/bitrix/php_interface/dbconn.php:ro
       - bitrix-cache:/var/www/html/bitrix/cache
       - bitrix-managed-cache:/var/www/html/bitrix/managed_cache
       - bitrix-stack-cache:/var/www/html/bitrix/stack_cache

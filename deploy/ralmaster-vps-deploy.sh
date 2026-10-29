@@ -515,6 +515,21 @@ restore_file_backup() {
 
 restore_file_backup
 
+install_bitrix_runtime_config() {
+  local settings_source="${APP_DIR}/docker/bitrix/.settings_extra.php"
+  local dbconn_source="${APP_DIR}/docker/bitrix/dbconn.php"
+
+  [[ -f "${settings_source}" ]] || die 'docker/bitrix/.settings_extra.php is missing from the Git checkout'
+  [[ -f "${dbconn_source}" ]] || die 'docker/bitrix/dbconn.php is missing from the Git checkout'
+
+  mkdir -p -- "${APP_DIR}/bitrix/php_interface"
+  install -m 0640 -- "${settings_source}" "${APP_DIR}/bitrix/.settings_extra.php"
+  install -m 0640 -- "${dbconn_source}" "${APP_DIR}/bitrix/php_interface/dbconn.php"
+  log 'Installed environment-based Bitrix database configuration into the restored core'
+}
+
+install_bitrix_runtime_config
+
 normalize_application_permissions() {
   # The deployment script itself uses umask 077 so secrets created below stay
   # root-only. Bind-mounted application files need narrower, explicit access:
