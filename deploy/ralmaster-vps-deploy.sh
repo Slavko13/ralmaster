@@ -514,6 +514,25 @@ restore_file_backup() {
 }
 
 restore_file_backup
+
+normalize_application_permissions() {
+  # The deployment script itself uses umask 077 so secrets created below stay
+  # root-only. Bind-mounted application files need narrower, explicit access:
+  # Apache runs as uid/gid 33, while the MySQL image uses its own mysql uid.
+  chown -R root:33 -- "${APP_DIR}"
+  chmod -R u+rwX,g+rX,o-rwx -- "${APP_DIR}"
+
+  if [[ -d "${APP_DIR}/.git" ]]; then
+    chown -R root:root -- "${APP_DIR}/.git"
+    chmod -R go-rwx -- "${APP_DIR}/.git"
+  fi
+
+  [[ -d "${APP_DIR}/docker/db/init" ]] || die 'docker/db/init is missing from the Git checkout'
+  chmod 0755 -- "${APP_DIR}/docker/db/init"
+  find "${APP_DIR}/docker/db/init" -maxdepth 1 -type f -exec chmod 0644 -- {} +
+}
+
+normalize_application_permissions
 mkdir -p -- \
   "${APP_DIR}/bitrix/cache" \
   "${APP_DIR}/bitrix/managed_cache" \
