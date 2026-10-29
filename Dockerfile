@@ -30,9 +30,11 @@ RUN apt-get update \
     && a2enmod expires headers rewrite \
     && rm -rf /var/lib/apt/lists/*
 
-COPY docker/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY docker/php/bitrix.ini /usr/local/etc/php/conf.d/90-bitrix.ini
-COPY docker/healthz.php /opt/ralmaster/healthz.php
+RUN install -d -m 0755 /opt/ralmaster
+
+COPY --chmod=0644 docker/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY --chmod=0644 docker/php/bitrix.ini /usr/local/etc/php/conf.d/90-bitrix.ini
+COPY --chmod=0644 docker/healthz.php /opt/ralmaster/healthz.php
 
 WORKDIR /var/www/html
 
@@ -40,7 +42,7 @@ HEALTHCHECK --interval=10s --timeout=5s --start-period=30s --retries=6 \
     CMD curl --fail --silent http://127.0.0.1/healthz.php >/dev/null || exit 1
 
 FROM runtime AS development
-COPY docker/php/development.ini /usr/local/etc/php/conf.d/99-environment.ini
+COPY --chmod=0644 docker/php/development.ini /usr/local/etc/php/conf.d/99-environment.ini
 
 FROM runtime AS production
-COPY docker/php/production.ini /usr/local/etc/php/conf.d/99-environment.ini
+COPY --chmod=0644 docker/php/production.ini /usr/local/etc/php/conf.d/99-environment.ini
