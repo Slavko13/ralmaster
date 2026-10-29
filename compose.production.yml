@@ -4,6 +4,10 @@ services:
   db:
     image: mysql:8.0.40
     restart: unless-stopped
+    networks:
+      default:
+        aliases:
+          - ${BITRIX_DB_HOST:-ralmaster-db}
     environment:
       MYSQL_DATABASE: ${BITRIX_DB_NAME:-bitrix}
       MYSQL_USER: ${BITRIX_DB_USER:-bitrix}
@@ -33,7 +37,7 @@ services:
     restart: unless-stopped
     environment:
       APP_ENV: production
-      BITRIX_DB_HOST: db
+      BITRIX_DB_HOST: ${BITRIX_DB_HOST:-ralmaster-db}
       BITRIX_DB_PORT: 3306
       BITRIX_DB_NAME: ${BITRIX_DB_NAME:-bitrix}
       BITRIX_DB_USER: ${BITRIX_DB_USER:-bitrix}

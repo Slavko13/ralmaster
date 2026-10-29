@@ -558,13 +558,27 @@ chown -R 33:33 -- "${APP_DIR}/upload"
 chmod -R u+rwX,go+rX -- "${APP_DIR}/upload"
 
 create_environment() {
+  local desired_db_host="${COMPOSE_PROJECT//_/-}-db"
+  [[ "${desired_db_host}" =~ ^[a-z0-9][a-z0-9.-]*$ ]] || die 'the Compose project name cannot be converted to a safe database alias'
+
   if [[ -f "${ENV_FILE}" ]]; then
     local saved_port
     local saved_project
+    local saved_db_host
     saved_port="$(sed -n 's/^APP_PROD_PORT=//p' "${ENV_FILE}" | tail -n 1)"
     saved_project="$(sed -n 's/^PROD_COMPOSE_PROJECT_NAME=//p' "${ENV_FILE}" | tail -n 1)"
+    saved_db_host="$(sed -n 's/^BITRIX_DB_HOST=//p' "${ENV_FILE}" | tail -n 1)"
     [[ "${saved_port}" == "${APP_PORT}" ]] || die "existing ${ENV_FILE} uses APP_PROD_PORT=${saved_port}; requested ${APP_PORT}"
     [[ "${saved_project}" == "${COMPOSE_PROJECT}" ]] || die "existing ${ENV_FILE} uses project ${saved_project}; requested ${COMPOSE_PROJECT}"
+    if [[ -n "${saved_db_host}" ]]; then
+      sed -i "s/^BITRIX_DB_HOST=.*/BITRIX_DB_HOST=${desired_db_host}/" "${ENV_FILE}"
+    else
+      printf 'BITRIX_DB_HOST=%s\n' "${desired_db_host}" >> "${ENV_FILE}"
+    fi
+    chmod 600 -- "${ENV_FILE}"
+    if [[ "${saved_db_host}" != "${desired_db_host}" ]]; then
+      log "Updated the database network alias in ${ENV_FILE}: ${desired_db_host}"
+    fi
     log "Reusing root-only environment file ${ENV_FILE}"
     return
   fi
@@ -578,7 +592,7 @@ create_environment() {
 PROD_COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT}
 APP_PROD_PORT=${APP_PORT}
 TZ=Europe/Moscow
-BITRIX_DB_HOST=db
+BITRIX_DB_HOST=${desired_db_host}
 BITRIX_DB_PORT=3306
 BITRIX_DB_NAME=bitrix
 BITRIX_DB_USER=bitrix
