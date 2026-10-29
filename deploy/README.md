@@ -2,8 +2,10 @@
 
 Скрипт `ralmaster-vps-deploy.sh` предназначен для отдельного staging-сайта
 `test.ral-master.ru` на том же VPS, где Caddy уже обслуживает другой сайт.
-Он не использует публичный порт приложения: Apache публикуется только на
-`127.0.0.1:8081`, а Caddy маршрутизирует домен на этот loopback-порт.
+Он не использует отдельный публичный порт приложения. Для системного Caddy
+Apache публикуется только на `127.0.0.1:8081`. Если Caddy уже работает в
+Docker, скрипт подключает web-контейнер к существующей proxy-сети под уникальным
+alias и маршрутизирует домен напрямую на этот alias.
 
 ## Что требуется до запуска
 
@@ -30,9 +32,12 @@ sudo ss -lntp
 sudo systemctl status caddy --no-pager
 ```
 
-Автоматическая настройка proxy поддерживает Caddy как системный сервис с
-`/etc/caddy/Caddyfile`. Если Caddy работает в контейнере, скрипт безопасно
-остановится: сначала нужно согласовать общую Docker-сеть и путь его конфигурации.
+Автоматическая настройка proxy поддерживает Caddy как системный сервис и Caddy
+в Docker. Для контейнерного Caddy скрипт находит его Compose-сеть и
+смонтированный `/etc/caddy/Caddyfile`, создаёт отдельный Compose override для
+РАЛМАСТЕР и проверяет конфигурацию внутри работающего proxy-контейнера. Если
+запущено несколько Caddy или контейнер подключён к нескольким сетям, передайте
+точный выбор через `--caddy-container` и `--caddy-network`.
 
 ## Установка скрипта
 
@@ -80,6 +85,7 @@ file-архиву непосредственно в `/root/ralmaster`. При н
    идемпотентную миграцию формы `ralmaster_estimate_s1`.
 8. Добавляет в Caddy отдельный маркированный блок, валидирует конфигурацию,
    делает backup и только затем reload. При ошибке Caddyfile восстанавливается.
+   Для Docker Caddy существующий сайт и его контейнер не пересоздаются.
 9. Проверяет локальный маршрут и публичный HTTPS. Если DNS ещё не обновился,
    контейнеры остаются рабочими, а скрипт выводит предупреждение.
 
@@ -96,15 +102,17 @@ docker compose \
   --env-file /root/ralmaster/.env.production \
   -p ralmaster-test \
   -f /root/ralmaster/app/compose.production.yml \
+  -f /root/ralmaster/compose.caddy-proxy.yml \
   ps --all
 
 docker compose \
   --env-file /root/ralmaster/.env.production \
   -p ralmaster-test \
   -f /root/ralmaster/app/compose.production.yml \
+  -f /root/ralmaster/compose.caddy-proxy.yml \
   logs --tail 100 web db
 
-journalctl -u caddy -n 100 --no-pager
+docker logs --tail 100 itsoft-test-caddy-1
 curl -I https://test.ral-master.ru/
 ```
 

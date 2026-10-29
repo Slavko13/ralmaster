@@ -18,6 +18,13 @@ REPO_URL="${RALMASTER_GIT_URL:-}"
 DB_BACKUP=""
 FILES_BACKUP=""
 CADDYFILE="/etc/caddy/Caddyfile"
+CADDYFILE_EXPLICIT=0
+CADDY_CONTAINER=""
+CADDY_NETWORK=""
+CADDY_MODE=""
+CADDY_CONTAINER_CONFIG="/etc/caddy/Caddyfile"
+CADDY_PROXY_ALIAS=""
+CADDY_COMPOSE_OVERRIDE=""
 ASSUME_YES=0
 SKIP_CADDY=0
 RESTORE_FILES=0
@@ -52,7 +59,9 @@ Options:
   --state-dir PATH           Persistent deployment directory (default: ${STATE_DIR}).
   --db-backup PATH           MySQL .sql, .sql.gz, .dump or .dump.gz file.
   --files-backup PATH        Beget file backup in .tar, .tar.gz, .tgz or .zip.
-  --caddyfile PATH           Host Caddyfile (default: ${CADDYFILE}).
+  --caddyfile PATH           Host path to Caddyfile (auto-detected for Docker Caddy).
+  --caddy-container NAME     Existing Docker Caddy container (auto-detected).
+  --caddy-network NAME       Existing Docker network used by Caddy (auto-detected).
   --restore-files            Restore bitrix/upload even if already present.
   --skip-caddy               Deploy containers without changing Caddy.
   --yes                      Do not ask for the final interactive confirmation.
@@ -116,6 +125,17 @@ while (($#)); do
     --caddyfile)
       (($# >= 2)) || die '--caddyfile requires a value'
       CADDYFILE="$2"
+      CADDYFILE_EXPLICIT=1
+      shift 2
+      ;;
+    --caddy-container)
+      (($# >= 2)) || die '--caddy-container requires a value'
+      CADDY_CONTAINER="$2"
+      shift 2
+      ;;
+    --caddy-network)
+      (($# >= 2)) || die '--caddy-network requires a value'
+      CADDY_NETWORK="$2"
       shift 2
       ;;
     --restore-files)
@@ -199,20 +219,94 @@ docker compose version >/dev/null 2>&1 || die 'Docker Compose v2 plugin is not i
 git check-ref-format --branch "${GIT_REF}" >/dev/null 2>&1 || die 'invalid Git branch name'
 
 detect_caddy() {
-  ((SKIP_CADDY == 1)) && return
-
-  if command -v caddy >/dev/null 2>&1 && systemctl is-active --quiet caddy; then
-    [[ -f "${CADDYFILE}" ]] || die "Caddy is active, but ${CADDYFILE} does not exist"
+  if ((SKIP_CADDY == 1)); then
+    CADDY_MODE="skipped"
     return
   fi
 
-  local container_caddy
-  container_caddy="$(docker ps --format '{{.Names}} {{.Image}}' | awk 'tolower($0) ~ /caddy/ {print; exit}')"
-  if [[ -n "${container_caddy}" ]]; then
-    die "Caddy runs in Docker (${container_caddy}). Automatic proxy editing is intentionally stopped because 127.0.0.1 inside that container is not the VPS host. Re-run with --skip-caddy, or provide the container network/configuration for a dedicated integration."
+  if command -v caddy >/dev/null 2>&1 && systemctl is-active --quiet caddy; then
+    [[ -f "${CADDYFILE}" ]] || die "Caddy is active, but ${CADDYFILE} does not exist"
+    CADDY_MODE="host"
+    return
   fi
 
-  die 'an active host Caddy service was not found; refusing to install a second proxy on ports 80/443'
+  local -a candidates=()
+  local -a networks=()
+  local caddy_project=""
+  local preferred_network=""
+  local network_name=""
+  local mount_line=""
+  local mount_type=""
+  local mount_source=""
+  local mount_destination=""
+
+  if [[ -n "${CADDY_CONTAINER}" ]]; then
+    docker inspect "${CADDY_CONTAINER}" >/dev/null 2>&1 || die "Caddy container does not exist: ${CADDY_CONTAINER}"
+    [[ "$(docker inspect --format '{{.State.Running}}' "${CADDY_CONTAINER}")" == "true" ]] || die "Caddy container is not running: ${CADDY_CONTAINER}"
+  else
+    mapfile -t candidates < <(docker ps --format '{{.Names}}|{{.Image}}' | awk -F'|' 'tolower($1 " " $2) ~ /caddy/ {print $1}')
+    ((${#candidates[@]} > 0)) || die 'an active host or Docker Caddy instance was not found; refusing to install a second proxy on ports 80/443'
+    ((${#candidates[@]} == 1)) || {
+      printf 'Running Caddy containers:\n  %s\n' "${candidates[@]}" >&2
+      die 'multiple Caddy containers were found; select one with --caddy-container'
+    }
+    CADDY_CONTAINER="${candidates[0]}"
+  fi
+
+  if [[ -z "${CADDY_NETWORK}" ]]; then
+    mapfile -t networks < <(
+      docker inspect --format '{{range $name, $_ := .NetworkSettings.Networks}}{{println $name}}{{end}}' "${CADDY_CONTAINER}" |
+        awk 'NF && $0 != "bridge" && $0 != "host" && $0 != "none"'
+    )
+    ((${#networks[@]} > 0)) || die "Caddy container ${CADDY_CONTAINER} has no user-defined Docker network"
+    if ((${#networks[@]} == 1)); then
+      CADDY_NETWORK="${networks[0]}"
+    else
+      caddy_project="$(docker inspect --format '{{index .Config.Labels "com.docker.compose.project"}}' "${CADDY_CONTAINER}" 2>/dev/null || true)"
+      preferred_network="${caddy_project}_default"
+      for network_name in "${networks[@]}"; do
+        if [[ -n "${caddy_project}" && "${network_name}" == "${preferred_network}" ]]; then
+          CADDY_NETWORK="${network_name}"
+          break
+        fi
+      done
+      if [[ -z "${CADDY_NETWORK}" ]]; then
+        printf 'Networks attached to %s:\n  %s\n' "${CADDY_CONTAINER}" "${networks[@]}" >&2
+        die 'Caddy uses multiple Docker networks; select one with --caddy-network'
+      fi
+    fi
+  fi
+
+  [[ "${CADDY_NETWORK}" =~ ^[A-Za-z0-9][A-Za-z0-9_.-]*$ ]] || die 'invalid Caddy Docker network name'
+  docker network inspect "${CADDY_NETWORK}" >/dev/null 2>&1 || die "Caddy Docker network does not exist: ${CADDY_NETWORK}"
+  docker inspect --format '{{range $name, $_ := .NetworkSettings.Networks}}{{println $name}}{{end}}' "${CADDY_CONTAINER}" |
+    grep -Fxq "${CADDY_NETWORK}" || die "Caddy container is not attached to network ${CADDY_NETWORK}"
+
+  if ((CADDYFILE_EXPLICIT == 0)); then
+    mount_line="$(docker inspect --format '{{range .Mounts}}{{printf "%s|%s|%s\n" .Type .Source .Destination}}{{end}}' "${CADDY_CONTAINER}" |
+      awk -F'|' '$3 == "/etc/caddy/Caddyfile" {print; exit}')"
+    if [[ -n "${mount_line}" ]]; then
+      IFS='|' read -r mount_type mount_source mount_destination <<< "${mount_line}"
+      CADDYFILE="${mount_source}"
+    else
+      mount_line="$(docker inspect --format '{{range .Mounts}}{{printf "%s|%s|%s\n" .Type .Source .Destination}}{{end}}' "${CADDY_CONTAINER}" |
+        awk -F'|' '$3 == "/etc/caddy" {print; exit}')"
+      if [[ -n "${mount_line}" ]]; then
+        IFS='|' read -r mount_type mount_source mount_destination <<< "${mount_line}"
+        CADDYFILE="${mount_source}/Caddyfile"
+      fi
+    fi
+  fi
+
+  [[ -f "${CADDYFILE}" ]] || {
+    docker inspect --format '{{range .Mounts}}{{println .Type .Source "->" .Destination}}{{end}}' "${CADDY_CONTAINER}" >&2
+    die "unable to locate the host-mounted Caddyfile for ${CADDY_CONTAINER}; pass its host path with --caddyfile"
+  }
+  [[ -w "${CADDYFILE}" ]] || die "Caddyfile is not writable: ${CADDYFILE}"
+
+  CADDY_PROXY_ALIAS="${COMPOSE_PROJECT//_/-}-web"
+  [[ "${CADDY_PROXY_ALIAS}" =~ ^[a-z0-9][a-z0-9.-]*$ ]] || die 'the Compose project name cannot be converted to a safe proxy alias'
+  CADDY_MODE="container"
 }
 
 detect_caddy
@@ -278,11 +372,20 @@ log "  Git ref:         ${GIT_REF}"
 log "  state directory: ${STATE_DIR}"
 log "  database backup: ${DB_BACKUP:-not auto-detected}"
 log "  file backup:     ${FILES_BACKUP:-not auto-detected}"
-if ((SKIP_CADDY == 0)); then
-  log "  Caddyfile:        ${CADDYFILE}"
-else
-  log '  Caddy:           skipped by request'
-fi
+case "${CADDY_MODE}" in
+  host)
+    log "  Caddy:           host service (${CADDYFILE})"
+    ;;
+  container)
+    log "  Caddy:           Docker container ${CADDY_CONTAINER}"
+    log "  Caddy network:   ${CADDY_NETWORK}"
+    log "  Caddyfile:        ${CADDYFILE}"
+    log "  proxy upstream:   ${CADDY_PROXY_ALIAS}:80"
+    ;;
+  skipped)
+    log '  Caddy:           skipped by request'
+    ;;
+esac
 
 if ((ASSUME_YES == 0)); then
   [[ -t 0 ]] || die 'non-interactive execution requires --yes'
@@ -461,6 +564,26 @@ COMPOSE=(
   -f "${APP_DIR}/compose.production.yml"
 )
 
+if [[ "${CADDY_MODE}" == "container" ]]; then
+  CADDY_COMPOSE_OVERRIDE="${STATE_DIR}/compose.caddy-proxy.yml"
+  cat > "${CADDY_COMPOSE_OVERRIDE}" <<EOF
+services:
+  web:
+    networks:
+      default: {}
+      caddy_proxy:
+        aliases:
+          - ${CADDY_PROXY_ALIAS}
+
+networks:
+  caddy_proxy:
+    external: true
+    name: ${CADDY_NETWORK}
+EOF
+  chmod 600 -- "${CADDY_COMPOSE_OVERRIDE}"
+  COMPOSE+=( -f "${CADDY_COMPOSE_OVERRIDE}" )
+fi
+
 "${COMPOSE[@]}" config --quiet
 log 'Starting the isolated MySQL service'
 "${COMPOSE[@]}" up -d --wait db
@@ -534,6 +657,11 @@ configure_caddy() {
   local end_count
   local backup_file
   local candidate_file
+  local upstream="127.0.0.1:${APP_PORT}"
+
+  if [[ "${CADDY_MODE}" == "container" ]]; then
+    upstream="${CADDY_PROXY_ALIAS}:80"
+  fi
 
   start_count="$(grep -Fxc "${marker_start}" "${CADDYFILE}" || true)"
   end_count="$(grep -Fxc "${marker_end}" "${CADDYFILE}" || true)"
@@ -555,7 +683,7 @@ configure_caddy() {
 ${marker_start}
 ${DOMAIN} {
     encode zstd gzip
-    reverse_proxy 127.0.0.1:${APP_PORT}
+    reverse_proxy ${upstream}
 }
 ${marker_end}
 EOF
@@ -565,16 +693,28 @@ EOF
   chown --reference="${backup_file}" "${CADDYFILE}"
   rm -f -- "${candidate_file}"
 
-  if ! caddy validate --config "${CADDYFILE}" --adapter caddyfile; then
-    cp -a -- "${backup_file}" "${CADDYFILE}"
-    die "Caddy validation failed; restored ${backup_file}"
+  if [[ "${CADDY_MODE}" == "host" ]]; then
+    if ! caddy validate --config "${CADDYFILE}" --adapter caddyfile; then
+      cat -- "${backup_file}" > "${CADDYFILE}"
+      die "Caddy validation failed; restored ${backup_file}"
+    fi
+    if ! systemctl reload caddy; then
+      cat -- "${backup_file}" > "${CADDYFILE}"
+      systemctl reload caddy || true
+      die "Caddy reload failed; restored ${backup_file}"
+    fi
+  else
+    if ! docker exec "${CADDY_CONTAINER}" caddy validate --config "${CADDY_CONTAINER_CONFIG}" --adapter caddyfile; then
+      cat -- "${backup_file}" > "${CADDYFILE}"
+      die "Caddy validation failed inside ${CADDY_CONTAINER}; restored ${backup_file}"
+    fi
+    if ! docker exec "${CADDY_CONTAINER}" caddy reload --config "${CADDY_CONTAINER_CONFIG}" --adapter caddyfile; then
+      cat -- "${backup_file}" > "${CADDYFILE}"
+      docker exec "${CADDY_CONTAINER}" caddy reload --config "${CADDY_CONTAINER_CONFIG}" --adapter caddyfile || true
+      die "Caddy reload failed inside ${CADDY_CONTAINER}; restored ${backup_file}"
+    fi
   fi
-  if ! systemctl reload caddy; then
-    cp -a -- "${backup_file}" "${CADDYFILE}"
-    systemctl reload caddy || true
-    die "Caddy reload failed; restored ${backup_file}"
-  fi
-  log "Caddy route installed for ${DOMAIN}; previous config saved as ${backup_file}"
+  log "Caddy route installed for ${DOMAIN} via ${upstream}; previous config saved as ${backup_file}"
 }
 
 configure_caddy
@@ -599,7 +739,11 @@ if ((SKIP_CADDY == 0)); then
   if curl --fail --silent --show-error --head --max-time 30 "https://${DOMAIN}/" >/dev/null 2>&1; then
     log "Public HTTPS check passed: https://${DOMAIN}/"
   else
-    warn "public HTTPS is not ready yet. Confirm the Beget A record for ${DOMAIN}, then inspect: journalctl -u caddy -n 100 --no-pager"
+    if [[ "${CADDY_MODE}" == "container" ]]; then
+      warn "public HTTPS is not ready yet. Confirm the Beget A record for ${DOMAIN}, then inspect: docker logs --tail 100 ${CADDY_CONTAINER}"
+    else
+      warn "public HTTPS is not ready yet. Confirm the Beget A record for ${DOMAIN}, then inspect: journalctl -u caddy -n 100 --no-pager"
+    fi
   fi
 fi
 
@@ -617,7 +761,17 @@ Update command (same options may be reused):
   ${PROGRAM_NAME} --repo '${REPO_URL}' --ref '${GIT_REF}' --domain '${DOMAIN}' --port '${APP_PORT}' --project '${COMPOSE_PROJECT}'
 
 Diagnostics:
-  docker compose --env-file '${ENV_FILE}' -p '${COMPOSE_PROJECT}' -f '${APP_DIR}/compose.production.yml' ps --all
-  docker compose --env-file '${ENV_FILE}' -p '${COMPOSE_PROJECT}' -f '${APP_DIR}/compose.production.yml' logs --tail 100 web db
-  journalctl -u caddy -n 100 --no-pager
 EOF
+
+printf '  '
+printf '%q ' "${COMPOSE[@]}"
+printf 'ps --all\n'
+printf '  '
+printf '%q ' "${COMPOSE[@]}"
+printf 'logs --tail 100 web db\n'
+
+if [[ "${CADDY_MODE}" == "container" ]]; then
+  printf '  docker logs --tail 100 %q\n' "${CADDY_CONTAINER}"
+elif [[ "${CADDY_MODE}" == "host" ]]; then
+  printf '  journalctl -u caddy -n 100 --no-pager\n'
+fi
