@@ -38,8 +38,9 @@ if ($arElement) {
 			'og:image' => (($arElement['PREVIEW_PICTURE'] || $arElement['DETAIL_PICTURE']) ? CFile::GetPath(($arElement['PREVIEW_PICTURE'] ? $arElement['PREVIEW_PICTURE'] : $arElement['DETAIL_PICTURE'])) : false),
 		)
 	); ?>
-	<div class="detail <?= ($templateName = $component->{'__template'}->{'__name'}) ?> fixed_wrapper">
-		<? if ($arParams["USE_SHARE"] == "Y" && $arElement) : ?>
+	<?$rmProjectPaperView = $arParams['ELEMENT_TYPE_VIEW'] === 'element_projects_paper';?>
+	<div class="detail <?= ($templateName = $component->{'__template'}->{'__name'}) ?> fixed_wrapper<?=$rmProjectPaperView ? ' rm-project-paper-wrapper' : ''?>">
+		<? if (!$rmProjectPaperView && $arParams["USE_SHARE"] == "Y" && $arElement) : ?>
 			<div class="share top <?= ($arParams['USE_RSS'] !== 'N' ? 'rss-block' : ''); ?>">
 				<? $APPLICATION->IncludeFile(SITE_DIR . "include/share_buttons.php", array(), array("MODE" => "html", "NAME" => GetMessage('CT_BCE_CATALOG_SOC_BUTTON'))); ?>
 			</div>
@@ -74,6 +75,7 @@ if ($arElement) {
 		CAllcorp2::CheckAdditionalChainInMultiLevel($arResult, $arParams, $arElement);
 	}
 	?>
+	<?if (!$rmProjectPaperView):?>
 	<? if (in_array('FORM_QUESTION', $arParams['DETAIL_PROPERTY_CODE']) && $arElement['PROPERTY_FORM_QUESTION_VALUE']) : ?>
 		<div class="row">
 			<div class="col-md-9">
@@ -124,4 +126,5 @@ if ($arElement) {
 			</div>
 		</div>
 	<? endif; ?>
+	<?endif;?>
 <? endif; ?>

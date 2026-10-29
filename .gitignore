@@ -2,15 +2,28 @@
 .env
 .env.*
 !.env.example
-/bitrix/
+# Bitrix core stays outside Git. Preserve only empty runtime mountpoints needed
+# by the read-only production-like bind mount.
+/bitrix/*
+!/bitrix/cache/
+!/bitrix/managed_cache/
+!/bitrix/stack_cache/
+/bitrix/cache/*
+/bitrix/managed_cache/*
+/bitrix/stack_cache/*
+!/bitrix/cache/.gitkeep
+!/bitrix/managed_cache/.gitkeep
+!/bitrix/stack_cache/.gitkeep
 /include/contacts-site-map.php
 
 # Runtime and user-generated data
-/upload/
+/upload/*
+!/upload/.gitkeep
 /.cache/
 /local/cache/
 /local/managed_cache/
-/local/php_interface/logs/
+/local/php_interface/logs/*
+!/local/php_interface/logs/.gitkeep
 *.log
 
 # Dependency and test artifacts

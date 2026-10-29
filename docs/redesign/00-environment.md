@@ -1,6 +1,6 @@
 # Локальное окружение и воспроизводимый запуск
 
-Дата проверки: 2026-10-27.
+Дата проверки: 2026-10-28.
 
 ## Исходное приложение
 
@@ -12,7 +12,7 @@
 - Зафиксированная на production версия PHP по журналам: `8.2.28`.
 - Production использует MySQL 8.0.x и nginx; локальная конфигурация использует Apache с `mod_rewrite`.
 - Проект содержит короткие PHP-теги, поэтому в контейнере включён `short_open_tag`.
-- Исходное состояние сохранено локальным коммитом `c345081f850d966dcd6bdffa6559b870dce2b977` (`chore: capture pre-redesign baseline`) в ветке `feature/full-paper-redesign`.
+- Первичная Docker/QA-точка была сохранена коммитом `c345081f850d966dcd6bdffa6559b870dce2b977`; фактический baseline HEAD перед выполнением полного редизайна — `a43ff3ee71789da5ee8ddbf2a5bb64c8e0eb0ffb` в ветке `feature/full-paper-redesign`.
 - Удалённый Git remote не настроен; ничего не отправлялось во внешние репозитории.
 
 ## Подготовленная Docker-инфраструктура
@@ -26,7 +26,11 @@
 - конфигурация Apache и PHP;
 - Docker-only переопределения Bitrix DB-конфигурации через переменные окружения;
 - `/healthz.php`, проверяющий необходимые PHP-расширения и подключение к БД;
-- каталог `docker/db/init/` для санитизированного дампа.
+- каталог `docker/db/init/` для санитизированного дампа;
+- `docker/clone-db-to-production.ps1` для потокового клонирования dev-БД в
+  отдельный production-like volume без создания SQL-файла на хосте;
+- отслеживаемые пустые mountpoints для writable cache/log/upload volumes под
+  read-only bind mount исходников.
 
 Подключены только необходимые сервисы:
 
@@ -45,8 +49,11 @@ Production-подобный профиль предназначен для ло�
 Copy-Item .env.example .env
 ```
 
-Локальный `.env` исключён из Git и закрепляет `APP_PORT=8084` и
-`APP_PROD_PORT=8085`; значения локальных паролей не документируются.
+Локальный `.env` исключён из Git и закрепляет отдельные имена проектов
+`DEV_COMPOSE_PROJECT_NAME=ralmaster-redesign` и
+`PROD_COMPOSE_PROJECT_NAME=ralmaster-redesign-production`, а также
+`APP_PORT=8084` и `APP_PROD_PORT=8085`; значения локальных паролей не
+документируются.
 
 Основной запуск:
 
@@ -57,14 +64,21 @@ docker compose up --build
 Production-подобный запуск:
 
 ```powershell
-docker compose -f compose.production.yml up --build
+# Первый запуск при уже работающем dev-стеке: безопасная отдельная копия БД.
+.\docker\clone-db-to-production.ps1
+
+docker compose -p ralmaster-redesign-production -f compose.production.yml up --build -d --wait
 ```
+
+Явный `-p ralmaster-redesign-production` обязателен во всех production-like
+командах: он защищает dev-контейнеры и volumes даже при наличии внешней
+переменной `COMPOSE_PROJECT_NAME`.
 
 Остановка:
 
 ```powershell
 docker compose down
-docker compose -f compose.production.yml down
+docker compose -p ralmaster-redesign-production -f compose.production.yml down
 ```
 
 Диагностика:
@@ -75,6 +89,11 @@ docker compose logs --no-color --tail 100 web
 docker compose logs --no-color --tail 100 db
 curl.exe http://127.0.0.1:8084/healthz.php
 curl.exe -I http://127.0.0.1:8084/
+docker compose -p ralmaster-redesign-production -f compose.production.yml ps --all
+docker compose -p ralmaster-redesign-production -f compose.production.yml logs --no-color --tail 100 web
+docker compose -p ralmaster-redesign-production -f compose.production.yml logs --no-color --tail 100 db
+curl.exe http://127.0.0.1:8085/healthz.php
+curl.exe -I http://127.0.0.1:8085/
 ```
 
 Безопасный ручной импорт в уже созданный volume:
@@ -87,6 +106,12 @@ cmd /c type "<absolute-path-to-sensitive-backup.sql>" | docker compose exec -T d
 контейнера. Реальный пароль и имя backup не включаются в reusable-команды или
 shell history. Backup должен оставаться вне Git; после импорта проверяются код
 завершения, логи, количество таблиц, `/healthz.php` и `/`.
+
+Для production-like профиля предпочтителен скрипт
+`docker/clone-db-to-production.ps1`. Он проверяет, что source непустой, а
+destination пустой, выполняет dump/import внутри Docker-сетей, не пишет SQL на
+диск, разрывает временное сетевое соединение и требует совпадения количества
+таблиц. Непустая destination-БД автоматически не перезаписывается.
 
 Удаление именованного volume БД выполняется только явно командой `docker compose down --volumes`. Это удаляет локальные Docker-данные и не должно применяться к production.
 
@@ -101,7 +126,14 @@ shell history. Backup должен оставаться вне Git; после �
 - Development image успешно собран; контейнеры `db` и `web` достигают состояния healthy.
 - Локальные `/healthz.php` и `/` отвечают HTTP 200 на `http://127.0.0.1:8084`.
 - После импорта не обнаружены HTTP 5xx или PHP/Bitrix fatal errors.
-- Production-like Compose-конфигурация валидна, но её фактический запуск на порту 8085 ещё не выполнен.
+- Production-like профиль фактически запущен отдельным Compose project на
+  `http://127.0.0.1:8085`; `db` и `web` healthy.
+- Изолированный production-like volume содержит 422 таблицы, склонированные из
+  dev без SQL-файла на хосте; dev volume не изменялся.
+- Production-like `/healthz.php`, `/`, основной CSS и логотип отвечают HTTP 200.
+- Production-like browser diagnostics: **4/4 passed**; smoke: **32/32 passed**.
+- В web-логах нет PHP fatal/error; остаётся только некритичное Apache
+  предупреждение об отсутствующем глобальном `ServerName`.
 
 ### Локальная база данных
 
@@ -121,6 +153,10 @@ SQL-ошибок при импорте не было. Контрольные к�
 | `b_iblock_element` | 334 |
 | `b_form` | 11 |
 | `b_lang` | 1 |
+
+Отдельная production-like копия проверена по количеству таблиц: **422**.
+После клонирования её DB-контейнер отключён от development-сети и работает
+только в сети `ralmaster-redesign-production_default`.
 
 ### Подтверждённые проверки
 
@@ -159,7 +195,7 @@ Docker Desktop завершается до запуска engine с ошибко
 
 ## Оставшиеся действия
 
-1. Фактически запустить production-like профиль на порту 8085 и повторить health/smoke.
-2. Выполнить state-changing forms/cart/auth scenarios только на локальной БД с контролем побочных эффектов.
-3. Не публиковать и не коммитить исходный backup или локальный `.env`.
-4. Завершить Paper Gate после восстановления MCP-квоты; до этого UI не начинать.
+1. Выполнить state-changing forms/cart/auth scenarios только на локальной БД с контролем побочных эффектов.
+2. Не публиковать и не коммитить исходный backup или локальный `.env`.
+3. Продолжить UI-итерации по актуальному Paper-файлу и поддерживать оба
+   локальных runtime-профиля проверяемыми.

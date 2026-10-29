@@ -1,6 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const baseURL = process.env.BASE_URL ?? 'http://127.0.0.1:8080';
+// Docker Compose exposes this project on 8084 by default. Keeping the local
+// fallback aligned with Compose prevents a test run from silently exercising
+// an unrelated service that happens to own port 8080.
+const baseURL = process.env.BASE_URL ?? 'http://127.0.0.1:8084';
 
 export default defineConfig({
   testDir: './tests/e2e',

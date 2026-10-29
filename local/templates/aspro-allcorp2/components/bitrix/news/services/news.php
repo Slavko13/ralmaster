@@ -1,5 +1,9 @@
 <?if( !defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true ) die();?>
 <?$this->setFrameMode(true);?>
+<?if(($arParams["SECTIONS_TYPE_VIEW"] ?? '') === 'sections_metalworking_paper'):?>
+	<?include __DIR__.'/page_blocks/sections_metalworking_paper.php';?>
+	<?return;?>
+<?endif;?>
 <?// intro text?>
 <?ob_start();?>
 <?$APPLICATION->IncludeComponent(

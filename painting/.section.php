@@ -1,7 +1,7 @@
 <?
-$sSectionName = "Покраска";
+$sSectionName = "Порошковая окраска";
 $arDirProperties = Array(
-   "description" => "Покраска",
-   "title" => "Покраска"
+   "description" => "Порошковая окраска металлических изделий",
+   "title" => "Порошковая окраска"
 );
 ?>

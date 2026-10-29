@@ -2,11 +2,11 @@ import { expect, test } from '@playwright/test';
 import { expectHealthyDocument } from '../helpers/site';
 
 const navigationItems = [
-  { name: /компания/i, path: '/company/' },
+  { name: /компания|производств/i, path: '/company/' },
   { name: /каталог|продукция/i, path: '/product/' },
-  { name: /услуги/i, path: '/services/' },
-  { name: /покраска/i, path: '/painting/' },
-  { name: /проекты/i, path: '/projects/' },
+  { name: /услуги|металлообработк/i, path: '/services/' },
+  { name: /покраска|порошков/i, path: '/painting/' },
+  { name: /проекты|реализованн/i, path: '/projects/' },
   { name: /контакты/i, path: '/contacts/' },
 ] as const;
 

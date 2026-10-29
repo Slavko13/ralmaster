@@ -1,6 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Проекты");
+$APPLICATION->SetTitle("Реализованные проекты");
+$rmProjectsPath = parse_url((string)($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH);
+$rmIsProjectsRoot = rtrim((string)$rmProjectsPath, '/') === '/projects';
 ?><?$APPLICATION->IncludeComponent(
 	"bitrix:news", 
 	"projects", 
@@ -136,7 +138,7 @@ $APPLICATION->SetTitle("Проекты");
 		"DISPLAY_NAME" => "N",
 		"DISPLAY_TOP_PAGER" => "N",
 		"ELEMENTS_TABLE_TYPE_VIEW" => "FROM_MODULE",
-		"ELEMENT_TYPE_VIEW" => "element_1",
+		"ELEMENT_TYPE_VIEW" => "element_projects_paper",
 		"FAQ_IBLOCK_ID" => CCache::$arIBlocks[SITE_ID]["aspro_allcorp2_content"]["aspro_allcorp2_faq"][0],
 		"FB_TITLE" => "Facebook",
 		"FILTER_FIELD_CODE" => array(
@@ -187,7 +189,7 @@ $APPLICATION->SetTitle("Проекты");
 		"PROJECTS_IBLOCK_ID" => CCache::$arIBlocks[SITE_ID]["aspro_allcorp2_content"]["aspro_allcorp2_projects"][0],
 		"REVIEWS_IBLOCK_ID" => CCache::$arIBlocks[SITE_ID]["aspro_allcorp2_content"]["aspro_allcorp2_reviews"][0],
 		"SALES_IBLOCK_ID" => CCache::$arIBlocks[SITE_ID]["aspro_allcorp2_content"]["aspro_allcorp2_sales"][0],
-		"SECTION_ELEMENTS_TYPE_VIEW" => "FROM_MODULE",
+		"SECTION_ELEMENTS_TYPE_VIEW" => "list_elements_projects_paper",
 		"SEF_FOLDER" => "/projects/",
 		"SEF_MODE" => "Y",
 		"SERVICES_IBLOCK_ID" => CCache::$arIBlocks[SITE_ID]["aspro_allcorp2_content"]["aspro_allcorp2_services"][0],

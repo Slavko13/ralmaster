@@ -1,6 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Каталог");
+$APPLICATION->SetTitle("Продукция");
+$rmProductPath = parse_url((string)($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH);
+$rmIsProductRoot = rtrim((string)$rmProductPath, '/') === '/product';
 ?>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news", 
@@ -250,7 +252,7 @@ $APPLICATION->SetTitle("Каталог");
 		"T_DEV" => "Производитель",
 		"T_ITEMS" => "",
 		"GALLERY_TYPE" => "small",
-		"SECTIONS_TYPE_VIEW" => "FROM_MODULE",
+		"SECTIONS_TYPE_VIEW" => $rmIsProductRoot ? "sections_products_paper" : "FROM_MODULE",
 		"ELEMENT_TYPE_VIEW" => "FROM_MODULE",
 		"SHOW_SECTION_PREVIEW_DESCRIPTION" => "Y",
 		"SECTION_TYPE_VIEW" => "FROM_MODULE",

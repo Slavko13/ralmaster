@@ -3,7 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "assets:fonts": "node scripts/sync-design-fonts.mjs",
+    "visual:home": "node scripts/capture-redesign-home.mjs",
+    "visual:pages": "node scripts/capture-redesign-pages.mjs",
+    "visual:shell": "node scripts/capture-redesign-shell.mjs",
     "test:e2e": "playwright test",
+    "test:e2e:redesign": "playwright test tests/e2e/redesign",
     "test:e2e:smoke": "playwright test tests/e2e/smoke --project=desktop-chromium",
     "test:e2e:baseline": "node tests/run-baseline.mjs",
     "test:e2e:headed": "playwright test --headed --project=desktop-chromium",
@@ -12,6 +17,9 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
+    "@fontsource-variable/inter-tight": "^5.3.0",
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource-variable/onest": "^5.3.1",
     "@playwright/test": "^1.64.1"
   }
 }

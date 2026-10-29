@@ -1,5 +1,5 @@
 <?
-$sSectionName = "О компании";
+$sSectionName = "О производстве";
 $arDirProperties = Array(
    "MENU" => "Y"
 );

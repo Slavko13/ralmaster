@@ -1,4 +1,72 @@
 document.addEventListener('DOMContentLoaded', function () {
+  initHomeFaq();
+  labelLegacyControls();
+  initLegacyBannerScaler();
+});
+
+function labelLegacyControls() {
+  const applyLabel = function () {
+    const inlineSearch = document.querySelector('.inline-search-block');
+    if (inlineSearch) {
+      inlineSearch.setAttribute('role', 'search');
+      inlineSearch.setAttribute('aria-label', 'Поиск по сайту');
+    }
+
+    const scrollToTop = document.getElementById('scrollToTop');
+    if (!scrollToTop) return false;
+
+    scrollToTop.setAttribute('aria-label', 'Наверх');
+    if (!scrollToTop.closest('.rm-scroll-navigation')) {
+      const navigation = document.createElement('nav');
+      navigation.className = 'rm-scroll-navigation';
+      navigation.setAttribute('aria-label', 'Навигация по странице');
+      scrollToTop.parentNode.insertBefore(navigation, scrollToTop);
+      navigation.appendChild(scrollToTop);
+    }
+    return true;
+  };
+
+  if (applyLabel()) return;
+
+  const observer = new MutationObserver(function () {
+    if (applyLabel()) observer.disconnect();
+  });
+  observer.observe(document.body, { childList: true });
+  window.setTimeout(function () {
+    applyLabel();
+    observer.disconnect();
+  }, 5_000);
+}
+
+function initHomeFaq() {
+  const items = Array.from(document.querySelectorAll('.rm-home-faq__item'));
+
+  if (!items.length) return;
+
+  items.forEach(function (item) {
+    const button = item.querySelector(':scope > button[aria-controls]');
+    if (!button) return;
+
+    button.addEventListener('click', function () {
+      const willOpen = button.getAttribute('aria-expanded') !== 'true';
+
+      items.forEach(function (candidate) {
+        const candidateButton = candidate.querySelector(':scope > button[aria-controls]');
+        if (!candidateButton) return;
+
+        const panelId = candidateButton.getAttribute('aria-controls');
+        const panel = panelId ? document.getElementById(panelId) : null;
+        const isCurrent = candidate === item && willOpen;
+
+        candidate.classList.toggle('is-open', isCurrent);
+        candidateButton.setAttribute('aria-expanded', isCurrent ? 'true' : 'false');
+        if (panel) panel.hidden = !isCurrent;
+      });
+    });
+  });
+}
+
+function initLegacyBannerScaler() {
   const BANNER_SELECTOR = '.banners-big';
   const BREAKPOINT = 768;
   const DIVIDER = 1135;     // граница между сжатием и расширением
@@ -66,4 +134,4 @@ document.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('resize', fit);
   window.addEventListener('load', fit);
   if (window.ResizeObserver) new ResizeObserver(fit).observe(wrap.parentNode);
-});
+}

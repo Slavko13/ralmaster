@@ -18,20 +18,40 @@ test('P0 contacts expose communication links and feedback UI', async ({ page }) 
   await expect(page.locator('a[href^="tel:"]:visible').first()).toBeVisible();
   await expect(page.locator('a[href^="mailto:"]:visible').first()).toBeVisible();
   await expect(
-    page.locator('form:visible, [data-event="jqm"]:visible, a[href="/form/"]:visible').first(),
+    page
+      .locator(
+        'form:visible, [data-rm-discuss-open]:visible, [data-event="jqm"]:visible, a[href="/form/"]:visible',
+      )
+      .first(),
   ).toBeVisible();
 });
 
 test('P0 an empty request is rejected without a successful submission', async ({ page }) => {
+  const postRequests: string[] = [];
+  page.on('request', (request) => {
+    if (request.method() === 'POST') postRequests.push(request.url());
+  });
+
   await page.goto('/', { waitUntil: 'domcontentloaded' });
 
   const trigger = page
-    .locator('[data-event="jqm"]:visible, a[href="/form/"]:visible')
+    .locator('[data-rm-discuss-open]:visible, [data-event="jqm"]:visible, a[href="/form/"]:visible')
     .filter({ hasText: /заказ|рассчит|заявк|обсудить|вопрос/i })
     .first();
 
   await expect(trigger).toBeVisible();
   await trigger.click();
+
+  const nativeDialog = page.locator('dialog[data-rm-discuss-dialog][open]').first();
+  if (await nativeDialog.isVisible().catch(() => false)) {
+    const submit = nativeDialog.locator('input[type="submit"], button[type="submit"]').first();
+    await expect(submit).toBeVisible();
+    await submit.click();
+    await expect(nativeDialog.locator('[data-SID="CONTACT"] .rm-estimate-error')).toBeVisible();
+    await expect(nativeDialog.locator('[data-SID="TASK"] .rm-estimate-error')).toBeVisible();
+    expect(postRequests).toEqual([]);
+    return;
+  }
 
   if (/\/form\/?$/.test(new URL(page.url()).pathname)) {
     await expect(page.locator('form').first()).toBeVisible();
@@ -47,4 +67,5 @@ test('P0 an empty request is rejected without a successful submission', async ({
 
   await expect(dialog).toBeVisible();
   await expect(dialog).not.toContainText(/успешно отправлен|спасибо.*заявк/i);
+  expect(postRequests).toEqual([]);
 });

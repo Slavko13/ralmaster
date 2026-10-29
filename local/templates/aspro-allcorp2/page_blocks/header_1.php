@@ -1,116 +1,73 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 <?
 global $arTheme, $arRegion;
-$bOrder = ($arTheme['ORDER_VIEW']['VALUE'] == 'Y' && $arTheme['ORDER_VIEW']['DEPENDENT_PARAMS']['ORDER_BASKET_VIEW']['VALUE']=='HEADER' ? true : false);
-$bCabinet = ($arTheme["CABINET"]["VALUE"]=='Y' ? true : false);
-$logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
+$GLOBALS['RM_DESIGN_HEADER_ACTIVE'] = true;
+
+$bOrder = (
+	$arTheme['ORDER_VIEW']['VALUE'] === 'Y' &&
+	$arTheme['ORDER_VIEW']['DEPENDENT_PARAMS']['ORDER_BASKET_VIEW']['VALUE'] === 'HEADER'
+);
+$bCabinet = ($arTheme['CABINET']['VALUE'] === 'Y');
 
 if($arRegion)
-	$bPhone = ($arRegion['PHONES'] ? true : false);
+	$bPhone = !empty($arRegion['PHONES']);
 else
-	$bPhone = ((int)$arTheme['HEADER_PHONES'] ? true : false);
+	$bPhone = (bool)(int)$arTheme['HEADER_PHONES'];
+
+$logoPath = SITE_TEMPLATE_PATH.'/images/ralmaster/';
+$bRalHome = CSite::InDir(SITE_DIR.'index.php');
 ?>
-<header class="<?=basename(__FILE__, ".php")?> long <?=($arRegion ? 'with_regions' : '')?>">
-	<div class="logo_and_menu-row">
-		<div class="logo-row top-fill">
-			<div class="maxwidth-theme">
-				<?//show logo?>
-				<div class="logo-block paddings pull-left">
-					<div class="logo<?=$logoClass?>">
-						<?=CAllcorp2::ShowLogo();?>
-					</div>
-				</div>
-				<?//check slogan text?>
-				<?if(CAllcorp2::checkContentFile(SITE_DIR.'include/header/header-text.php')):?>
-					<div class="col-md-2 visible-lg nopadding-right slogan">
-						<div class="top-description">
-							<div>
-								<?$APPLICATION->IncludeFile(SITE_DIR."include/header/header-text.php", array(), array(
-										"MODE" => "html",
-										"NAME" => "Text in title",
-										"TEMPLATE" => "include_area.php",
-									)
-								);?>
-							</div>
-						</div>
+<header class="<?=basename(__FILE__, '.php')?> long rm-header<?=$bRalHome ? ' rm-header--overlay' : ''?>" data-rm-shell="header">
+	<div class="rm-header__inner">
+		<a class="rm-header__logo" href="<?=SITE_DIR?>" aria-label="РАЛМАСТЕР — на главную">
+			<img class="rm-header__logo-image rm-header__logo-image--dark" src="<?=$logoPath?>logo-dark@2x.png" width="152" height="24" alt="РАЛМАСТЕР">
+			<img class="rm-header__logo-image rm-header__logo-image--light" src="<?=$logoPath?>logo-light@2x.png" width="152" height="24" alt="" aria-hidden="true">
+		</a>
+
+		<div class="rm-header__middle menu-row">
+			<nav class="mega-menu sliced rm-header__nav" aria-label="Основная навигация">
+				<?$APPLICATION->IncludeComponent(
+					'bitrix:main.include',
+					'.default',
+					array(
+						'COMPONENT_TEMPLATE' => '.default',
+						'PATH' => SITE_DIR.'include/header/menu.php',
+						'AREA_FILE_SHOW' => 'file',
+						'AREA_FILE_SUFFIX' => '',
+						'AREA_FILE_RECURSIVE' => 'Y',
+						'EDIT_TEMPLATE' => 'include_area.php',
+					),
+					false,
+					array('HIDE_ICONS' => 'Y')
+				);?>
+			</nav>
+
+			<div class="rm-header__tools" aria-label="Сервисы сайта">
+				<button class="inline-search-show twosmallfont rm-header__tool" type="button" title="<?=GetMessage('SEARCH_TITLE')?>">
+					<?=CAllcorp2::showIconSvg('search', SITE_TEMPLATE_PATH.'/images/svg/Search_black.svg');?>
+				</button>
+				<?if($bOrder):?>
+					<div class="rm-header__tool rm-header__basket">
+						<?=CAllcorp2::showBasketLink('', '', '');?>
 					</div>
 				<?endif;?>
-				<?//show phone and callback?>
-				<div class="right-icons pull-right">
-					<div class="phone-block with_btn">
-						<div class="region-block inner-table-block">
-							<div class="inner-table-block p-block">
-								<?CAllcorp2::ShowListRegions();?>
-							</div>
-							<?//check phone text?>
-							<?if($bPhone || ($arRegion ? $arRegion['PROPERTY_SHCEDULE_VALUE']['TEXT'] : CAllcorp2::checkContentFile(SITE_DIR.'include/header-schedule.php'))):?>
-								<div class="inner-table-block p-block">
-									<?CAllcorp2::ShowHeaderPhones('big', 'Phone_black.svg');?>
-									<?CAllcorp2::showHeaderSchedule();?>
-								</div>
-							<?endif?>
-						</div>
-						<?if($arTheme["CALLBACK_BUTTON"]["VALUE"] == "Y"):?>
-							<div class="inner-table-block">
-								<span class="callback-block animate-load colored  btn-transparent-bg btn-default btn" data-event="jqm" data-param-id="<?=CAllcorp2::getFormID("aspro_allcorp2_callback");?>" data-name="callback"><?=GetMessage("S_CALLBACK")?></span>
-							</div>
-						<?endif;?>
+				<?if($bCabinet):?>
+					<div class="rm-header__tool rm-header__cabinet">
+						<?=CAllcorp2::showCabinetLink(true, false);?>
 					</div>
-				</div>
-				<?//check address text?>
-				<div class="pull-right">
-					<div class="inner-table-block address">
-						<?CAllcorp2::showAddress('address-block', 'address colored');?>
-					</div>
-				</div>
+				<?endif;?>
 			</div>
-		</div><?// class=logo-row?>
-	</div>
-	<?//show menu?>
-	<div class="menu-row with-color bg<?=strtolower($arTheme['MENU_COLOR']['VALUE'])?> <?=(in_array($arTheme['MENU_COLOR']['VALUE'], array("COLORED", "DARK")) ? "colored_all" : "colored_dark");?> sliced">
-		<div class="maxwidth-theme">
-			<div class="col-md-12">
-				<div class="right-icons pull-right">
-					<?if($bOrder):?>
-						<div class="pull-right">
-							<div class="wrap_icon inner-table-block">
-								<?=CAllcorp2::showBasketLink('', '','');?>
-							</div>
-						</div>
-					<?endif;?>
-					<div class="pull-right">
-						<div class="wrap_icon inner-table-block">
-							<button class="inline-search-show twosmallfont" title="<?=GetMessage("SEARCH_TITLE")?>">
-								<?=CAllcorp2::showIconSvg("search", SITE_TEMPLATE_PATH."/images/svg/Search_black.svg");?>
-							</button>
-						</div>
-					</div>
-					<?if($bCabinet):?>
-						<div class="pull-right">
-							<div class="wrap_icon inner-table-block">
-								<?=CAllcorp2::showCabinetLink(true, false);?>
-							</div>
-						</div>
-					<?endif;?>
+		</div>
+
+		<div class="rm-header__contact">
+			<?if($bPhone):?>
+				<div class="rm-header__phone">
+					<?CAllcorp2::ShowHeaderPhones('big', 'Phone_black.svg');?>
 				</div>
-				<div class="menu-only">
-					<nav class="mega-menu sliced">
-						<?$APPLICATION->IncludeComponent("bitrix:main.include", ".default",
-							array(
-								"COMPONENT_TEMPLATE" => ".default",
-								"PATH" => SITE_DIR."include/header/menu.php",
-								"AREA_FILE_SHOW" => "file",
-								"AREA_FILE_SUFFIX" => "",
-								"AREA_FILE_RECURSIVE" => "Y",
-								"EDIT_TEMPLATE" => "include_area.php"
-							),
-							false, array("HIDE_ICONS" => "Y")
-						);?>
-					</nav>
-				</div>
+			<?endif;?>
+			<div class="rm-visually-hidden">
+				<?CAllcorp2::showHeaderSchedule();?>
 			</div>
-			<div class="lines"></div>
 		</div>
 	</div>
-	<div class="line-row"></div>
 </header>

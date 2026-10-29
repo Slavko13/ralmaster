@@ -1,46 +1,46 @@
 <?
 $aMenuLinks = Array(
 	Array(
-		"Компания", 
-		"/company/", 
-		Array(), 
-		Array(), 
-		"" 
+		"Продукция",
+		"/product/",
+		Array(),
+		Array("WIDE_MENU"=>"Y"),
+		""
 	),
 	Array(
-		"Каталог", 
-		"/product/", 
-		Array(), 
-		Array("WIDE_MENU"=>"Y"), 
-		"" 
+		"Металлообработка",
+		"/services/",
+		Array(),
+		Array(),
+		""
 	),
 	Array(
-		"Услуги", 
-		"/services/", 
-		Array(), 
-		Array(), 
-		"" 
+		"Порошковая окраска",
+		"/painting/",
+		Array(),
+		Array(),
+		""
 	),
 	Array(
-		"Покраска", 
-		"/painting/", 
-		Array(), 
-		Array(), 
-		"" 
+		"О производстве",
+		"/company/",
+		Array(),
+		Array(),
+		""
 	),
 	Array(
-		"Проекты", 
-		"/projects/", 
-		Array(), 
-		Array(), 
-		"" 
+		"Реализованные проекты",
+		"/projects/",
+		Array(),
+		Array(),
+		""
 	),
 	Array(
-		"Контакты", 
-		"/contacts/", 
-		Array(), 
-		Array(), 
-		"" 
+		"Контакты",
+		"/contacts/",
+		Array(),
+		Array(),
+		""
 	)
 );
 ?>

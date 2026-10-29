@@ -19,13 +19,30 @@ test('P1 @mobile mobile header is usable at 390px', async ({ page }) => {
   ).toBeVisible();
 });
 
-test('P1 @mobile primary request CTA reaches the contact form', async ({ page }) => {
+test('P1 @mobile primary request CTA opens the request form without submitting', async ({ page }) => {
+  const postRequests: string[] = [];
+  page.on('request', (request) => {
+    if (request.method() === 'POST') postRequests.push(request.url());
+  });
+
   await page.goto('/', { waitUntil: 'domcontentloaded' });
-  const trigger = page.getByRole('link', { name: /оставить заявку/i }).first();
+  const trigger = page
+    .locator('[data-rm-section="hero"] [data-rm-discuss-open="home"]')
+    .filter({ hasText: /рассчитать заказ/i })
+    .first();
 
   await expect(trigger).toBeVisible();
   await trigger.click();
 
-  await expect(page).toHaveURL(/\/contacts\/#contacs_form$/);
-  await expect(page.locator('form:visible').first()).toBeVisible();
+  const dialog = page.locator('dialog[data-rm-discuss-variant="home"][open]');
+  await expect(dialog).toBeVisible();
+  const geometry = await dialog.evaluate((node) => {
+    const rect = node.getBoundingClientRect();
+    return { left: rect.left, right: rect.right, viewport: document.documentElement.clientWidth };
+  });
+  expect(geometry.left).toBeGreaterThanOrEqual(0);
+  expect(geometry.right).toBeLessThanOrEqual(geometry.viewport + 1);
+  expect(postRequests).toEqual([]);
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
 });

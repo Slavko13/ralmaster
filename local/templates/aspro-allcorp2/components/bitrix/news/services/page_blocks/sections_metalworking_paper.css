@@ -1,0 +1,944 @@
+.rm-metalworking,
+.rm-metalworking * {
+  box-sizing: border-box;
+}
+
+.rm-metalworking {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  overflow: clip;
+  color: var(--rm-navy, #101f35);
+  background: #f2f4f5;
+  font-family: var(--rm-font-body, "Onest", Arial, sans-serif);
+}
+
+body:has(.rm-metalworking) > .style-switcher,
+body:has(.rm-metalworking) > .ajax_basket > .fixed_wrapper {
+  display: none !important;
+}
+
+body:has(.rm-metalworking) .body:not(.index) .main > .container {
+  margin-top: 0;
+  padding-bottom: 0;
+}
+
+.rm-metalworking h1,
+.rm-metalworking h2,
+.rm-metalworking h3,
+.rm-metalworking p,
+.rm-metalworking ol,
+.rm-metalworking ul,
+.rm-metalworking dl,
+.rm-metalworking dd {
+  padding: 0;
+  margin: 0;
+}
+
+.rm-metalworking h1,
+.rm-metalworking h2,
+.rm-metalworking h3,
+.rm-metalworking strong {
+  font-family: var(--rm-font-heading, "Inter Tight", Arial, sans-serif);
+}
+
+.rm-metalworking a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.rm-metal-container {
+  width: 1312px;
+  max-width: calc(100% - 128px);
+  height: 100%;
+  margin: 0 auto;
+}
+
+.rm-metal-hero {
+  height: 302px;
+  padding: 40px 0 48px;
+  background: #f2f4f5;
+}
+
+.rm-metal-breadcrumb {
+  display: flex;
+  align-items: center;
+  min-height: 20px;
+  gap: 8px;
+  color: #707b88;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.rm-metal-breadcrumb a:hover {
+  color: var(--rm-primary, #175bef);
+}
+
+.rm-metal-hero__row {
+  display: grid;
+  align-items: end;
+  grid-template-columns: minmax(0, 840px) 336px;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.rm-metal-hero h1 {
+  color: var(--rm-navy, #101f35);
+  font-size: 55px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 60px;
+}
+
+.rm-metal-hero p {
+  max-width: 840px;
+  margin-top: 16px;
+  color: #4e5b6a;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  line-height: 28px;
+}
+
+.rm-metal-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
+  padding: 0 22px;
+  color: #fff !important;
+  background: var(--rm-primary, #175bef);
+  border: 1px solid var(--rm-primary, #175bef);
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.rm-metal-button:hover,
+.rm-metal-button:focus-visible {
+  color: #fff !important;
+  background: #0e49c8;
+  border-color: #0e49c8;
+}
+
+.rm-metal-link-arrow::after {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-left: 16px;
+  content: "";
+  background: currentColor;
+  clip-path: polygon(70% 11%, 16% 11%, 16% 0, 100% 0, 100% 84%, 89% 84%, 89% 30%, 8% 100%, 0 91%);
+}
+
+.rm-metal-services {
+  height: 1760px;
+  background: #f2f4f5;
+}
+
+.rm-metal-services h2,
+.rm-metal-section-heading h2,
+.rm-metal-examples h2 {
+  color: var(--rm-navy, #101f35);
+  font-size: 48px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 56px;
+}
+
+.rm-metal-services h2 {
+  margin-bottom: 24px;
+}
+
+.rm-metal-services__list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.rm-metal-service-card {
+  display: grid;
+  width: 100%;
+  height: 504px;
+  padding: 32px;
+  grid-template-columns: 568px 632px;
+  gap: 48px;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 4px;
+}
+
+.rm-metal-service-card__copy {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.rm-metal-service-card__heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.rm-metal-service-card h3 {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 42px;
+}
+
+.rm-metal-service-card h3 a:hover {
+  color: var(--rm-primary, #175bef);
+}
+
+.rm-metal-service-card__heading > span {
+  color: #8390a0;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.rm-metal-service-card__copy > p {
+  width: 490px;
+  max-width: 100%;
+  margin-top: 20px;
+  color: #4e5b6a;
+  font-size: 17px;
+  line-height: 26px;
+}
+
+.rm-metal-service-card dl {
+  margin-top: 24px;
+  border-top: 1px solid #d9dee4;
+}
+
+.rm-metal-service-card dl > div {
+  display: grid;
+  min-height: 54px;
+  padding: 12px 0;
+  border-bottom: 1px solid #d9dee4;
+  grid-template-columns: 154px minmax(0, 1fr);
+  gap: 16px;
+}
+
+.rm-metal-service-card dt {
+  color: #8390a0;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.rm-metal-service-card dd {
+  color: #27374b;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.rm-metal-button--small {
+  width: 278px;
+  min-height: 60px;
+  margin-top: auto;
+}
+
+.rm-metal-service-card__image {
+  display: block;
+  width: 632px;
+  height: 440px;
+  overflow: hidden;
+  background: #cbd2d9;
+}
+
+.rm-metal-service-card__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rm-metal-services__note,
+.rm-metal-examples__note {
+  margin-top: 24px !important;
+  color: #8390a0;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.rm-metal-operations {
+  height: 862px;
+  padding: 72px 0 48px;
+  background: #fff;
+}
+
+.rm-metal-section-heading {
+  display: grid;
+  align-items: end;
+  grid-template-columns: 1fr 632px;
+  gap: 48px;
+}
+
+.rm-metal-section-heading p {
+  color: #4e5b6a;
+  font-size: 17px;
+  line-height: 26px;
+}
+
+.rm-metal-operations__image {
+  display: block;
+  width: 100%;
+  height: 356px;
+  margin-top: 32px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.rm-metal-operations__steps {
+  display: grid;
+  margin-top: 24px !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  list-style: none;
+}
+
+.rm-metal-operations__steps li {
+  position: relative;
+  display: grid;
+  min-height: 116px;
+  padding-right: 28px;
+  grid-template-columns: 38px 1fr;
+  gap: 8px;
+}
+
+.rm-metal-operations__steps li + li {
+  padding-left: 24px;
+  border-left: 1px solid #d9dee4;
+}
+
+.rm-metal-operations__steps li > span {
+  color: var(--rm-primary, #175bef);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.rm-metal-operations__steps strong {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 25px;
+}
+
+.rm-metal-operations__steps p {
+  margin-top: 8px;
+  color: #697687;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.rm-metal-operations__steps i {
+  position: absolute;
+  top: 0;
+  right: 24px;
+  color: var(--rm-primary, #175bef);
+  font-size: 18px;
+  font-style: normal;
+}
+
+.rm-metal-operations__links {
+  display: flex;
+  align-items: center;
+  min-height: 54px;
+  justify-content: space-between;
+  border-top: 1px solid #d9dee4;
+  color: #697687;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.rm-metal-operations__links nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.rm-metal-operations__links a {
+  color: var(--rm-primary, #175bef);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.rm-metal-examples {
+  height: 888px;
+  padding: 48px 0 54px;
+  background: #f2f4f5;
+}
+
+.rm-metal-examples h2 {
+  margin-bottom: 24px;
+}
+
+.rm-metal-examples__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.rm-metal-example-card {
+  display: flex;
+  height: 656px;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 4px;
+}
+
+.rm-metal-example-card > img {
+  display: block;
+  width: 100%;
+  height: 266px;
+  flex: 0 0 266px;
+  object-fit: cover;
+}
+
+.rm-metal-example-card__copy {
+  display: flex;
+  min-height: 0;
+  padding: 28px;
+  flex: 1;
+  flex-direction: column;
+}
+
+.rm-metal-example-card h3 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 32px;
+}
+
+.rm-metal-example-card p {
+  margin-top: 14px;
+  color: #697687;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.rm-metal-example-card strong {
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid #d9dee4;
+  font-family: var(--rm-font-body, "Onest", Arial, sans-serif);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.rm-metal-example-card a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 18px;
+  color: #27374b;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.rm-metal-example-card a::after {
+  color: var(--rm-primary, #175bef);
+}
+
+.rm-metal-estimate {
+  height: 850px;
+  padding: 56px;
+  background: #eff1f4;
+  scroll-margin-top: 106px;
+}
+
+.rm-metal-estimate__inner {
+  display: grid;
+  width: 1328px;
+  max-width: 100%;
+  height: 738px;
+  margin: 0 auto;
+  grid-template-columns: 540px 748px;
+  gap: 40px;
+}
+
+.rm-metal-estimate__intro {
+  position: relative;
+  height: 738px;
+  overflow: hidden;
+  background: #dce2e8;
+  border-radius: 4px;
+}
+
+.rm-metal-estimate__intro::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 550px;
+  content: "";
+  background-image: linear-gradient(90deg, rgba(8, 18, 35, 0.91) 0%, rgba(8, 18, 35, 0.73) 58%, rgba(8, 18, 35, 0.48) 100%), var(--rm-metal-estimate-image);
+  background-position: center;
+  background-size: cover;
+}
+
+.rm-metal-estimate__lead {
+  position: relative;
+  z-index: 1;
+  height: 550px;
+  padding: 32px;
+  color: #fff;
+}
+
+.rm-metal-estimate__lead h2 {
+  color: #fff;
+  font-size: 48px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 52px;
+}
+
+.rm-metal-estimate__lead > p {
+  width: 430px;
+  max-width: 100%;
+  margin-top: 16px;
+  color: #fff;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.rm-metal-estimate__lead > strong {
+  display: block;
+  margin-top: 22px;
+  color: #fff;
+  font-family: var(--rm-font-body, "Onest", Arial, sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.rm-metal-estimate__lead ul {
+  margin-top: 10px;
+  list-style: none;
+}
+
+.rm-metal-estimate__lead li {
+  position: relative;
+  padding-left: 18px;
+  color: #fff;
+  font-size: 13px;
+  line-height: 22px;
+}
+
+.rm-metal-estimate__lead li::before {
+  position: absolute;
+  top: 9px;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  content: "";
+  background: var(--rm-primary, #175bef);
+}
+
+.rm-metal-estimate__contact {
+  position: relative;
+  display: flex;
+  height: 188px;
+  padding: 28px 32px;
+  flex-direction: column;
+}
+
+.rm-metal-estimate__contact span {
+  color: #697687;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.rm-metal-estimate__phone {
+  margin-top: 8px;
+}
+
+.rm-metal-estimate__phone,
+.rm-metal-estimate__phone * {
+  font-family: var(--rm-font-heading, "Inter Tight", Arial, sans-serif);
+}
+
+.rm-metal-estimate__phone a,
+.rm-metal-estimate__phone .phone,
+.rm-metal-estimate__phone .phone-value {
+  color: var(--rm-primary, #175bef) !important;
+  font-size: 29px !important;
+  font-weight: 600 !important;
+  line-height: 38px !important;
+}
+
+.rm-metal-estimate__contact .rm-metal-estimate__email {
+  margin-top: 8px;
+  color: #27374b;
+  font-size: 15px;
+  line-height: 22px;
+  text-decoration: underline;
+}
+
+.rm-metal-estimate__form.rm-home-order__form {
+  width: 748px;
+  height: 738px;
+  padding: 32px;
+  overflow: hidden;
+}
+
+.rm-metal-estimate__form form > .row > .col-md-8 > .row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 0;
+}
+
+.rm-metal-estimate__form form [data-SID] {
+  width: 100% !important;
+  grid-column: 1 !important;
+  grid-row: auto !important;
+}
+
+.rm-metal-estimate__form .form-group.animated-labels > label:not(.error) {
+  position: static !important;
+  display: block;
+  padding: 0 !important;
+  margin: 0 0 8px !important;
+  color: #27374b;
+  background: transparent !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  transform: none !important;
+}
+
+.rm-metal-estimate__form .form-group.animated-labels .input,
+.rm-metal-estimate__form [data-SID="FILE"] .input {
+  font-size: 0;
+  line-height: 0;
+}
+
+.rm-metal-estimate__form .form-group.animated-labels input,
+.rm-metal-estimate__form .form-group.animated-labels textarea,
+.rm-metal-estimate__form [data-SID="FILE"] label,
+.rm-metal-estimate__form [data-SID="FILE"] .uploader {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.rm-metal-estimate__form .form-group {
+  margin-bottom: 12px;
+}
+
+.rm-metal-estimate__form [data-SID="TASK"] textarea,
+.rm-metal-estimate__form [data-SID="MESSAGE"] textarea {
+  height: 112px !important;
+  min-height: 112px !important;
+}
+
+.rm-metal-estimate__form [data-SID="FILE"] input[type="file"] {
+  min-height: 56px;
+}
+
+.rm-metal-estimate__unavailable {
+  color: #4e5b6a;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.rm-metal-photo {
+  position: relative;
+  height: 543px;
+  overflow: hidden;
+  background: #101f35;
+}
+
+.rm-metal-photo::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 42px;
+  height: 42px;
+  content: "";
+  background: var(--rm-primary, #175bef);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.rm-metal-photo img {
+  display: block;
+  width: 100%;
+  height: 543px;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 1199px) {
+  .rm-metalworking {
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+  }
+
+  .rm-metal-container {
+    width: auto;
+    max-width: none;
+    margin: 0 32px;
+  }
+
+  .rm-metal-hero,
+  .rm-metal-services,
+  .rm-metal-operations,
+  .rm-metal-examples,
+  .rm-metal-estimate {
+    height: auto;
+  }
+
+  .rm-metal-hero__row {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 32px;
+  }
+
+  .rm-metal-service-card {
+    height: auto;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 48%);
+    gap: 32px;
+  }
+
+  .rm-metal-service-card__image {
+    width: 100%;
+  }
+
+  .rm-metal-services {
+    padding-bottom: 64px;
+  }
+
+  .rm-metal-section-heading {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rm-metal-operations {
+    padding-top: 64px;
+    padding-bottom: 56px;
+  }
+
+  .rm-metal-examples {
+    padding: 56px 0;
+  }
+
+  .rm-metal-example-card {
+    height: auto;
+    min-height: 620px;
+  }
+
+  .rm-metal-estimate {
+    padding: 48px 32px;
+  }
+
+  .rm-metal-estimate__inner {
+    width: 100%;
+    height: auto;
+    grid-template-columns: minmax(360px, 42%) minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .rm-metal-estimate__intro,
+  .rm-metal-estimate__form.rm-home-order__form {
+    width: 100%;
+    height: 738px;
+  }
+}
+
+@media (max-width: 767px) {
+  .rm-metal-container {
+    margin: 0 20px;
+  }
+
+  .rm-metal-hero {
+    padding: 24px 0 36px;
+  }
+
+  .rm-metal-hero__row {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .rm-metal-hero h1 {
+    font-size: 39px;
+    line-height: 43px;
+  }
+
+  .rm-metal-hero p {
+    margin-top: 14px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .rm-metal-button {
+    width: 100%;
+  }
+
+  .rm-metal-services {
+    padding: 8px 0 48px;
+  }
+
+  .rm-metal-services h2,
+  .rm-metal-section-heading h2,
+  .rm-metal-examples h2 {
+    font-size: 34px;
+    line-height: 39px;
+  }
+
+  .rm-metal-services__list {
+    gap: 20px;
+  }
+
+  .rm-metal-service-card {
+    display: flex;
+    padding: 20px;
+    flex-direction: column-reverse;
+    gap: 22px;
+  }
+
+  .rm-metal-service-card__image {
+    height: 236px;
+  }
+
+  .rm-metal-service-card h3 {
+    font-size: 30px;
+    line-height: 35px;
+  }
+
+  .rm-metal-service-card__copy > p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .rm-metal-service-card dl > div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .rm-metal-button--small {
+    margin-top: 24px;
+  }
+
+  .rm-metal-services__note {
+    margin-top: 18px !important;
+  }
+
+  .rm-metal-operations {
+    padding: 48px 0 40px;
+  }
+
+  .rm-metal-section-heading {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .rm-metal-operations__image {
+    height: 230px;
+    margin-top: 24px;
+  }
+
+  .rm-metal-operations__steps {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rm-metal-operations__steps li,
+  .rm-metal-operations__steps li + li {
+    min-height: 0;
+    padding: 20px 28px 20px 0;
+    border-top: 1px solid #d9dee4;
+    border-left: 0;
+  }
+
+  .rm-metal-operations__links {
+    align-items: flex-start;
+    padding-top: 18px;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .rm-metal-operations__links nav {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .rm-metal-examples {
+    padding: 44px 0;
+  }
+
+  .rm-metal-examples__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rm-metal-example-card {
+    min-height: 560px;
+  }
+
+  .rm-metal-example-card > img {
+    height: 240px;
+    flex-basis: 240px;
+  }
+
+  .rm-metal-estimate {
+    padding: 32px 20px;
+    scroll-margin-top: 68px;
+  }
+
+  .rm-metal-estimate__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .rm-metal-estimate__intro {
+    height: auto;
+  }
+
+  .rm-metal-estimate__intro::before,
+  .rm-metal-estimate__lead {
+    height: 600px;
+  }
+
+  .rm-metal-estimate__lead {
+    padding: 24px;
+  }
+
+  .rm-metal-estimate__lead h2 {
+    font-size: 38px;
+    line-height: 42px;
+  }
+
+  .rm-metal-estimate__contact {
+    height: 168px;
+    padding: 24px;
+  }
+
+  .rm-metal-estimate__phone a,
+  .rm-metal-estimate__phone .phone,
+  .rm-metal-estimate__phone .phone-value {
+    font-size: 25px;
+    line-height: 34px;
+  }
+
+  .rm-metal-estimate__form.rm-home-order__form {
+    width: 100%;
+    height: auto;
+    min-height: 690px;
+    padding: 24px;
+    overflow: visible;
+  }
+
+  .rm-metal-photo,
+  .rm-metal-photo img {
+    height: 320px;
+  }
+}

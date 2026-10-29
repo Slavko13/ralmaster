@@ -13,6 +13,9 @@
 		<?$APPLICATION->ShowMeta("apple-mobile-web-app-capable", "yes");?>
 		<?$APPLICATION->ShowMeta("apple-mobile-web-app-status-bar-style");?>
 		<?$APPLICATION->ShowMeta("SKYPE_TOOLBAR");?>
+		<?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/css/ralmaster-estimate.css');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/ralmaster-estimate.js');?>
+		<script>window.arAllcorp2Options = window.arAllcorp2Options || {THEME: {}};</script>
 		<?$APPLICATION->ShowHead();?>
 		<?$APPLICATION->AddHeadString('<script>BX.message('.CUtil::PhpToJSObject($MESS, false).')</script>', true);?>
 		<?if(CModule::IncludeModule("aspro.allcorp2")) {CAllcorp2::Start(SITE_ID);}?>
@@ -39,7 +42,7 @@
 
 		<?CAllcorp2::get_banners_position('TOP_UNDERHEADER');?>
 
-		<?if($arTheme["TOP_MENU_FIXED"]["VALUE"] == 'Y'):?>
+		<?if($arTheme["TOP_MENU_FIXED"]["VALUE"] == 'Y' && empty($GLOBALS['RM_DESIGN_HEADER_ACTIVE'])):?>
 			<div id="headerfixed">
 				<?CAllcorp2::ShowPageType('header_fixed');?>
 			</div>

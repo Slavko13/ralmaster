@@ -1,6 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Услуги");
+$APPLICATION->SetTitle("Металлообработка");
 ?>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news", 
@@ -189,7 +189,7 @@ $APPLICATION->SetTitle("Услуги");
 		"SHOW_CHILD_SECTIONS" => "Y",
 		"GALLERY_TYPE" => "small",
 		"PREVIEW_REVIEW_TRUNCATE_LEN" => "255",
-		"SECTIONS_TYPE_VIEW" => "FROM_MODULE",
+		"SECTIONS_TYPE_VIEW" => "sections_metalworking_paper",
 		"SECTION_TYPE_VIEW" => "FROM_MODULE",
 		"ELEMENT_TYPE_VIEW" => "FROM_MODULE",
 		"SHOW_SECTION_PREVIEW_DESCRIPTION" => "Y",
@@ -252,4 +252,55 @@ $APPLICATION->SetTitle("Услуги");
 	),
 	false
 );?>
+<?php
+$rmServiceRequestPath = parse_url((string)($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH);
+if (rtrim((string)$rmServiceRequestPath, '/') === '/services/metal-bending'):
+	$rmBendingEstimateFormId = 0;
+	if (\Bitrix\Main\Loader::includeModule('form')) {
+		$rmBendingEstimateResult = CForm::GetBySID('ralmaster_estimate_s1');
+		if ($rmBendingEstimateResult && ($rmBendingEstimateForm = $rmBendingEstimateResult->Fetch())) {
+			$rmBendingEstimateFormId = (int)$rmBendingEstimateForm['ID'];
+		}
+	}
+	?>
+	<div class="maxwidth-theme rm-discuss-route-cta" data-rm-discuss-fallback="metal-bending">
+		<button type="button" class="btn btn-default" data-rm-discuss-open="metal-bending">Рассчитать гибку</button>
+	</div>
+	<script>
+	var rmBendingNativeTriggers = document.querySelectorAll('[data-name="order_services"]');
+	if (rmBendingNativeTriggers.length) {
+		var rmBendingFallback = document.querySelector('[data-rm-discuss-fallback="metal-bending"]');
+		if (rmBendingFallback) { rmBendingFallback.hidden = true; }
+	}
+	rmBendingNativeTriggers.forEach(function (trigger) {
+		trigger.setAttribute('data-rm-discuss-open', 'metal-bending');
+		trigger.removeAttribute('data-event');
+		trigger.removeAttribute('data-param-id');
+		trigger.classList.remove('animate-load');
+		if (trigger.tagName !== 'BUTTON' && trigger.tagName !== 'A') {
+			trigger.setAttribute('role', 'button');
+			trigger.setAttribute('tabindex', '0');
+			trigger.addEventListener('keydown', function (event) {
+				if (event.key !== 'Enter' && event.key !== ' ') { return; }
+				event.preventDefault();
+				trigger.click();
+			});
+		}
+	});
+	</script>
+	<?php
+	$rmDiscussOptions = array(
+		'title' => 'Расчёт гибки металла',
+		'intro' => 'Пришлите чертёж или опишите задачу. Укажите материал, толщину и количество деталей. Если нужны другие операции, добавьте их в описание.',
+		'task_label' => 'Описание задачи',
+		'task_placeholder' => 'Например: согнуть 300 деталей из стали 3 мм по чертежу. После гибки нужна порошковая окраска.',
+		'upload_label' => 'Прикрепить чертежи или техническое задание',
+		'button' => 'Отправить запрос на расчёт',
+		'note' => 'Проверим задачу и свяжемся с вами для уточнения деталей и согласования стоимости.',
+		'context' => 'metal-bending',
+		'form_id' => $rmBendingEstimateFormId,
+	);
+	require $_SERVER['DOCUMENT_ROOT'].SITE_TEMPLATE_PATH.'/page_blocks/ralmaster_discuss_order.php';
+endif;
+?>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

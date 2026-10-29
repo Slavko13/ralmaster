@@ -1,0 +1,873 @@
+.rm-products-intro,
+.rm-products-intro *,
+.rm-products-catalog,
+.rm-products-catalog *,
+.rm-product-estimate,
+.rm-product-estimate *,
+.rm-product-production-photo,
+.rm-product-production-photo * {
+  box-sizing: border-box;
+}
+
+.rm-products-container {
+  width: min(1312px, calc(100% - 128px));
+  margin-inline: auto;
+}
+
+.rm-products-intro {
+  min-height: 274px;
+  padding: 40px 0 48px;
+  color: var(--rm-text, #0b1f36);
+  background: #f2f4f5;
+  font-family: var(--rm-font-body, Onest, Arial, sans-serif);
+}
+
+.rm-products-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 20px;
+  margin: 0 0 30px;
+  color: #56667a;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.rm-products-breadcrumb a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.rm-products-breadcrumb a:hover,
+.rm-products-breadcrumb a:focus-visible {
+  color: var(--rm-primary, #175bef);
+}
+
+.rm-products-intro__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 840px) 336px;
+  justify-content: space-between;
+  align-items: end;
+  gap: 64px;
+}
+
+.rm-products-intro__copy h1 {
+  margin: 0 0 18px;
+  color: var(--rm-navy, #081223);
+  font-family: var(--rm-font-heading, "Inter Tight", Arial, sans-serif);
+  font-size: 55px;
+  font-weight: 600;
+  line-height: 60px;
+  letter-spacing: -0.02em;
+}
+
+.rm-products-intro__copy p {
+  max-width: 840px;
+  margin: 0;
+  color: #344b6a;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.rm-products-button {
+  display: inline-flex;
+  min-height: 60px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 22px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-family: var(--rm-font-body, Onest, Arial, sans-serif);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  text-decoration: none;
+}
+
+.rm-products-button--primary {
+  color: #fff !important;
+  background: var(--rm-primary, #175bef);
+}
+
+.rm-products-button--primary:hover,
+.rm-products-button--primary:focus-visible {
+  color: #fff !important;
+  background: var(--rm-primary-hover, #0f4ed2);
+}
+
+.rm-products-catalog {
+  min-height: 1083px;
+  padding: 0 0 84px;
+  background: #f2f4f5;
+  font-family: var(--rm-font-body, Onest, Arial, sans-serif);
+}
+
+.rm-product-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.rm-product-card {
+  display: grid;
+  overflow: hidden;
+  color: var(--rm-navy, #081223) !important;
+  background: #f2f4f5;
+  text-decoration: none !important;
+}
+
+.rm-product-card--large {
+  grid-column: span 4;
+  grid-template-rows: 112px 317px 100px;
+  min-height: 529px;
+}
+
+.rm-product-card--small {
+  grid-column: span 3;
+  grid-template-rows: 86px 234px 126px;
+  min-height: 446px;
+}
+
+.rm-product-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 28px;
+  background: #fff;
+  border: 1px solid #e1e6eb;
+  border-bottom: 0;
+}
+
+.rm-product-card__header strong {
+  color: var(--rm-navy, #081223);
+  font-family: var(--rm-font-heading, "Inter Tight", Arial, sans-serif);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 33px;
+  letter-spacing: -0.015em;
+}
+
+.rm-product-card--small .rm-product-card__header strong {
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.rm-product-card__arrow {
+  flex: 0 0 34px;
+  color: var(--rm-primary, #175bef);
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 34px;
+  text-align: center;
+  transition: transform 160ms ease;
+}
+
+.rm-product-card:hover .rm-product-card__arrow,
+.rm-product-card:focus-visible .rm-product-card__arrow {
+  transform: translate(3px, -3px);
+}
+
+.rm-product-card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rm-product-card__description {
+  display: flex;
+  align-items: flex-start;
+  padding: 22px 28px;
+  color: #344b6a;
+  background: #fff;
+  font-size: 18px;
+  line-height: 26px;
+}
+
+.rm-product-card--small .rm-product-card__description {
+  padding-top: 20px;
+}
+
+.rm-product-grid__empty {
+  min-height: 240px;
+  padding: 48px;
+  color: #6a788a;
+  background: #f2f4f5;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.rm-product-estimate {
+  min-height: 804px;
+  padding: 56px 0;
+  background: #eff1f4;
+  font-family: var(--rm-font-body, Onest, Arial, sans-serif);
+}
+
+.rm-product-estimate__layout {
+  display: grid;
+  grid-template-columns: 540px minmax(0, 748px);
+  gap: 40px;
+}
+
+.rm-product-estimate__aside {
+  display: grid;
+  grid-template-rows: 504px 188px;
+  min-width: 0;
+}
+
+.rm-product-estimate__visual {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 32px;
+  color: #fff;
+  background-image:
+    linear-gradient(90deg, rgba(8, 18, 35, 0.91) 0%, rgba(8, 18, 35, 0.73) 58%, rgba(8, 18, 35, 0.48) 100%),
+    var(--rm-product-estimate-image);
+  background-position: center;
+  background-size: cover;
+}
+
+.rm-product-estimate__visual h2 {
+  position: relative;
+  z-index: 1;
+  max-width: 476px;
+  margin: 0 0 24px;
+  color: #fff;
+  font-family: var(--rm-font-heading, "Inter Tight", Arial, sans-serif);
+  font-size: 46px;
+  font-weight: 600;
+  line-height: 52px;
+  letter-spacing: -0.02em;
+}
+
+.rm-product-estimate__visual > p,
+.rm-product-estimate__brief {
+  position: relative;
+  z-index: 1;
+  max-width: 438px;
+}
+
+.rm-product-estimate__visual > p,
+.rm-product-estimate__brief p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 16px;
+  line-height: 23px;
+}
+
+.rm-product-estimate__brief {
+  margin-top: 30px;
+}
+
+.rm-product-estimate__brief strong {
+  display: block;
+  margin: 0 0 12px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+}
+
+.rm-product-estimate__cut {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  background: #eff1f4;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+.rm-product-estimate__contacts {
+  min-height: 188px;
+  padding: 26px 32px 24px;
+  color: var(--rm-navy, #081223);
+  background: #fff;
+}
+
+.rm-product-estimate__contacts > p {
+  margin: 0 0 13px;
+  color: #617086;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.rm-product-estimate__phone {
+  display: block;
+  margin: 0 0 5px;
+}
+
+.rm-product-estimate__phone .phone,
+.rm-product-estimate__phone a {
+  color: var(--rm-primary, #175bef) !important;
+  font-family: var(--rm-font-heading, "Inter Tight", Arial, sans-serif);
+  font-size: 29px;
+  font-weight: 600;
+  line-height: 38px;
+}
+
+.rm-product-estimate__email {
+  display: block;
+  margin: 0;
+  color: #344b6a !important;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.rm-product-estimate__email a {
+  color: #344b6a !important;
+}
+
+.rm-product-estimate__phone .svg,
+.rm-product-estimate__phone .phone_wrap .icons,
+.rm-product-estimate__phone .more_phone,
+.rm-product-estimate__phone .dropdown,
+.rm-product-estimate__phone .callback_wrap {
+  display: none !important;
+}
+
+.rm-product-estimate__email .svg {
+  display: none !important;
+}
+
+.rm-product-estimate__form {
+  min-width: 0;
+  min-height: 692px;
+  padding: 32px;
+  background: #fff;
+}
+
+.rm-product-estimate__form > [id^="comp_"],
+.rm-product-estimate__form > [id^="comp_"] > [id^="comp_"],
+.rm-product-estimate__form #contacs_form,
+.rm-product-estimate__form #contacs_form > .styled-block1,
+.rm-product-estimate__form #contacs_form > .styled-block1 > .maxwidth-theme,
+.rm-product-estimate__form .form.contacts {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.rm-product-estimate__form .form-header,
+.rm-product-estimate__form #contacs_form > hr,
+.rm-product-estimate__form form > .row > .col-md-4,
+.rm-product-estimate__form .more_text_small {
+  display: none !important;
+}
+
+.rm-product-estimate__form #contacs_form,
+.rm-product-estimate__form #contacs_form > .styled-block1,
+.rm-product-estimate__form #contacs_form > .styled-block1 > .maxwidth-theme,
+.rm-product-estimate__form #contacs_form > .styled-block1 > .maxwidth-theme > .col-md-12,
+.rm-product-estimate__form .form.contacts,
+.rm-product-estimate__form .form.contacts > form,
+.rm-product-estimate__form form > .row > .col-md-8 {
+  min-height: 0 !important;
+}
+
+.rm-product-estimate__form #contacs_form > .styled-block1 > .maxwidth-theme > .col-md-12,
+.rm-product-estimate__form form > .row > .col-md-8 {
+  width: 100% !important;
+  padding: 0 !important;
+}
+
+.rm-product-estimate__form form > .row,
+.rm-product-estimate__form form > .row > .col-md-8 > .row {
+  margin: 0 !important;
+}
+
+.rm-product-estimate__form form > .row > .col-md-8 > .row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.rm-product-estimate__form form > .row > .col-md-8 > .row > [class*="col-"] {
+  display: contents;
+}
+
+.rm-product-estimate__form form .row[data-SID] {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.rm-product-estimate__form form .row[data-SID] > [class*="col-"] {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+.rm-product-estimate__form form [data-SID="MESSAGE"] {
+  grid-column: auto;
+}
+
+.rm-product-estimate__form .form-body,
+.rm-product-estimate__form .form-footer {
+  padding: 0 !important;
+}
+
+.rm-product-estimate__form .form-group {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+.rm-product-estimate__form form .form-group.animated-labels > label:not(.error),
+.rm-product-estimate__form form .form-group.animated-labels.input-filed > label:not(.error) {
+  position: static !important;
+  display: block;
+  max-width: 100%;
+  margin: 0 0 8px;
+  padding: 0;
+  transform: none !important;
+  color: #344b6a;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.rm-product-estimate__form form .row[data-SID] {
+  position: relative;
+}
+
+.rm-product-estimate__form form .row[data-SID="NAME"]::after,
+.rm-product-estimate__form form .row[data-SID="CONTACT"]::after,
+.rm-product-estimate__form form .row[data-SID="TASK"]::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #7a8798;
+  font-size: 12px;
+  line-height: 20px;
+  pointer-events: none;
+}
+
+.rm-product-estimate__form form .row[data-SID="NAME"]::after {
+  content: "Необязательно";
+}
+
+.rm-product-estimate__form form .row[data-SID="CONTACT"]::after {
+  content: "Укажите один удобный способ связи";
+}
+
+.rm-product-estimate__form form .row[data-SID="TASK"]::after {
+  content: "Какое изделие нужно изготовить, материал, размеры и количество";
+}
+
+.rm-product-estimate__form form .row[data-SID="NAME"] label > span,
+.rm-product-estimate__form form .row[data-SID="CONTACT"] label > span,
+.rm-product-estimate__form form .row[data-SID="TASK"] label > span {
+  font-size: 0;
+}
+
+.rm-product-estimate__form form .row[data-SID="NAME"] label > span::before,
+.rm-product-estimate__form form .row[data-SID="CONTACT"] label > span::before,
+.rm-product-estimate__form form .row[data-SID="TASK"] label > span::before {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.rm-product-estimate__form form .row[data-SID="NAME"] label > span::before {
+  content: "Ваше имя";
+}
+
+.rm-product-estimate__form form .row[data-SID="CONTACT"] label > span::before {
+  content: "Телефон или электронная почта";
+}
+
+.rm-product-estimate__form form .row[data-SID="TASK"] label > span::before {
+  content: "Описание задачи";
+}
+
+.rm-product-estimate__form form .row[data-SID="CONTACT"] .required-star {
+  color: #c9362b;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.rm-product-estimate__form input.form-control::placeholder,
+.rm-product-estimate__form textarea.form-control::placeholder {
+  color: transparent;
+}
+
+.rm-product-estimate__form input.form-control,
+.rm-product-estimate__form textarea.form-control {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 15px 16px !important;
+}
+
+.rm-product-estimate__form textarea[data-SID="MESSAGE"],
+.rm-product-estimate__form textarea[data-SID="TASK"] {
+  min-height: 112px;
+  height: 112px !important;
+}
+
+.rm-product-estimate__form .form-group > label,
+.rm-product-estimate__form .form-group > label > span {
+  max-width: calc(100% - 24px);
+  white-space: normal;
+}
+
+.rm-product-estimate__form .input,
+.rm-product-estimate__form .uploader {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+/*
+ * The legacy form template leaves an inline whitespace text node after each
+ * control.  Its inherited line-height creates an extra 24px line box below
+ * the input/textarea, so four fields make the Paper panel 80px too tall.
+ * Collapse only that wrapper line box; the controls keep their own line-height.
+ */
+.rm-product-estimate__form .form-group > .input {
+  font-size: 0;
+  line-height: 0;
+}
+
+.rm-product-estimate__form .uploader .filename {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-right: 8px;
+  color: #56667a;
+}
+
+.rm-product-estimate__form form .row[data-SID="FILE"] .form-group > label {
+  display: none !important;
+}
+
+.rm-product-estimate__form .uploader {
+  height: 56px;
+  padding: 8px;
+  border: 1px solid #d8e0e8;
+  background: #fff;
+}
+
+.rm-product-estimate__form .uploader .action {
+  top: 7px;
+  right: 8px;
+  left: auto;
+  padding: 10px 16px;
+  color: #344b6a !important;
+  background: #fff !important;
+  border: 1px solid #d8e0e8 !important;
+  border-radius: 3px;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.rm-product-estimate__form .uploader .filename {
+  top: 0;
+  display: flex;
+  height: 38px;
+  align-items: center;
+  padding: 0 150px 0 36px;
+  color: transparent;
+  font-size: 0;
+}
+
+.rm-product-estimate__form .uploader .filename::before {
+  position: absolute;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  background: no-repeat center / 16px 16px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23175BEF' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.4 11.6-8.9 8.9a6 6 0 0 1-8.5-8.5l9.6-9.6a4 4 0 0 1 5.7 5.7l-9.6 9.6a2 2 0 0 1-2.8-2.8l8.9-8.9'/%3E%3C/svg%3E");
+}
+
+.rm-product-estimate__form .uploader .filename::after {
+  color: #344b6a;
+  content: "Прикрепить файлы";
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.rm-product-estimate__form form .row[data-SID="FILE"]::after {
+  display: block;
+  margin-top: 8px;
+  color: #7a8798;
+  content: "Чертежи, техническое задание или фотографии";
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.rm-product-estimate__form .form-footer {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.rm-product-estimate__form .form-footer .licence_block {
+  display: block;
+  margin: 0;
+  color: #617086;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.rm-product-estimate__form .form-footer .inner-table-block {
+  display: block;
+  width: 100%;
+}
+
+.rm-product-estimate__form .form-footer .inner-table-block:has(input[type="submit"]) {
+  position: relative;
+}
+
+.rm-product-estimate__form .form-footer .inner-table-block:has(input[type="submit"])::after {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  color: #fff;
+  content: "↗";
+  font-size: 20px;
+  line-height: 20px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.rm-product-estimate__form .form-footer .btn,
+.rm-product-estimate__form input[type="submit"] {
+  width: 100%;
+  min-height: 60px;
+  margin: 0;
+  color: #fff !important;
+  background: var(--rm-primary, #175bef) !important;
+  border-color: var(--rm-primary, #175bef) !important;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 22px;
+  text-transform: none;
+}
+
+.rm-product-production-photo {
+  position: relative;
+  width: 100%;
+  height: 543px;
+  overflow: hidden;
+  background: #dfe5eb;
+}
+
+.rm-product-production-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.rm-product-production-photo > span {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 42px;
+  height: 42px;
+  background: var(--rm-primary, #175bef);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+body:has(.rm-products-catalog) > .style-switcher,
+body:has(.rm-products-catalog) > .ajax_basket > .fixed_wrapper {
+  display: none !important;
+}
+
+body:has(.rm-products-catalog) .main > .container,
+body:has(.rm-products-catalog) .main > .container > .row,
+body:has(.rm-products-catalog) .main > .container > .row > .col-md-12,
+body:has(.rm-products-catalog) .main > .container .right_block,
+body:has(.rm-products-catalog) .main-catalog-wrapper,
+body:has(.rm-products-catalog) .section-content-wrapper,
+body:has(.rm-products-catalog) .text_before_items {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+@media (max-width: 1199px) {
+  .rm-products-container {
+    width: min(100% - 64px, 1080px);
+  }
+
+  .rm-products-intro__layout {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 40px;
+  }
+
+  .rm-product-card--large,
+  .rm-product-card--small {
+    grid-column: span 6;
+    grid-template-rows: 96px 290px 112px;
+  }
+
+  .rm-product-card:last-child {
+    grid-column: 4 / span 6;
+  }
+
+  .rm-products-catalog {
+    min-height: 0;
+  }
+
+  .rm-product-estimate__layout {
+    grid-template-columns: minmax(360px, 0.85fr) minmax(0, 1.15fr);
+    gap: 28px;
+  }
+
+  .rm-product-estimate__visual h2 {
+    font-size: 40px;
+    line-height: 46px;
+  }
+}
+
+@media (max-width: 767px) {
+  .rm-products-container {
+    width: calc(100% - 32px);
+  }
+
+  .rm-products-intro {
+    min-height: 0;
+    padding: 24px 0 32px;
+  }
+
+  .rm-products-breadcrumb {
+    margin-bottom: 22px;
+  }
+
+  .rm-products-intro__layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .rm-products-intro__copy h1 {
+    margin-bottom: 14px;
+    font-size: 40px;
+    line-height: 44px;
+  }
+
+  .rm-products-intro__copy p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .rm-products-button {
+    width: 100%;
+  }
+
+  .rm-products-catalog {
+    padding-bottom: 48px;
+  }
+
+  .rm-product-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .rm-product-card--large,
+  .rm-product-card--small,
+  .rm-product-card:last-child {
+    grid-column: 1;
+    grid-template-rows: auto 252px auto;
+    min-height: 0;
+  }
+
+  .rm-product-card__header,
+  .rm-product-card__description {
+    padding: 20px;
+  }
+
+  .rm-product-card__header strong,
+  .rm-product-card--small .rm-product-card__header strong {
+    font-size: 23px;
+    line-height: 29px;
+  }
+
+  .rm-product-card__description {
+    min-height: 86px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .rm-product-estimate {
+    min-height: 0;
+    padding: 32px 0;
+  }
+
+  .rm-product-estimate__layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .rm-product-estimate__aside {
+    grid-template-rows: 460px auto;
+  }
+
+  .rm-product-estimate__visual {
+    padding: 24px;
+  }
+
+  .rm-product-estimate__visual h2 {
+    font-size: 35px;
+    line-height: 39px;
+  }
+
+  .rm-product-estimate__contacts,
+  .rm-product-estimate__form {
+    padding: 24px;
+  }
+
+  .rm-product-estimate__phone .phone,
+  .rm-product-estimate__phone a {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .rm-product-estimate__email,
+  .rm-product-estimate__email a {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .rm-product-estimate__form form .row[data-SID="NAME"]::after,
+  .rm-product-estimate__form form .row[data-SID="CONTACT"]::after,
+  .rm-product-estimate__form form .row[data-SID="TASK"]::after {
+    display: none;
+  }
+
+  .rm-product-estimate__form .uploader .filename {
+    padding-right: 122px;
+  }
+
+  .rm-product-estimate__form .uploader .action {
+    padding-inline: 10px;
+  }
+
+  .rm-product-estimate__form form > .row > .col-md-8 > .row {
+    grid-template-columns: 1fr;
+  }
+
+  .rm-product-estimate__form form [data-SID="MESSAGE"] {
+    grid-column: auto;
+  }
+
+  .rm-product-production-photo {
+    height: 360px;
+  }
+}

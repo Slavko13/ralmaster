@@ -21,7 +21,7 @@ npm run test:e2e:baseline
 npm run test:e2e:report
 ```
 
-`test:e2e:baseline` запускает безопасные проверки против `BASELINE_URL`, по умолчанию `https://ral-master.ru`. Локальная проверка использует `BASE_URL`, по умолчанию `http://127.0.0.1:8080`.
+`test:e2e:baseline` запускает безопасные проверки против `BASELINE_URL`, по умолчанию `https://ral-master.ru`. Локальная проверка использует `BASE_URL`, по умолчанию `http://127.0.0.1:8084`, то есть адрес development Compose.
 
 ## Покрытие
 
