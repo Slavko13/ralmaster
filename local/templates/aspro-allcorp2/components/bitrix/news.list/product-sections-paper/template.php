@@ -19,7 +19,7 @@ $this->setFrameMode(true);
 					<strong><?=$rmProduct['NAME']?></strong>
 					<span class="rm-product-card__arrow" aria-hidden="true">↗</span>
 				</span>
-				<img class="rm-product-card__image" src="<?=htmlspecialcharsbx($rmProduct['IMAGE'])?>" alt=""<?=$rmIndex > 2 ? ' loading="lazy"' : ''?>>
+				<img class="rm-product-card__image" src="<?=htmlspecialcharsbx($rmProduct['IMAGE'])?>" alt=""<?=$rmIndex === 0 ? ' fetchpriority="high"' : ' loading="lazy"'?>>
 				<span class="rm-product-card__description"><?=$rmProduct['DESCRIPTION']?></span>
 			</a>
 		<?endforeach;?>

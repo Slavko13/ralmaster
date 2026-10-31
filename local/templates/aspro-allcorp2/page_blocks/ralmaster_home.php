@@ -270,8 +270,8 @@ if ($rmOrderFormId <= 0) {
 				<p>Окрашиваем партии металлических изделий. Выполняем подготовку поверхности перед окраской</p>
 			</div>
 			<div class="rm-home-powder-grid">
-				<a class="rm-home-split-card" href="/painting/"><span class="rm-home-split-card__copy"><strong>Окраска плоских изделий</strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span><img src="<?=$rmEscape($rmAsset('powder-flat-panels.webp'))?>" alt="Порошковая окраска плоских изделий"></a>
-				<a class="rm-home-split-card" href="/painting/"><span class="rm-home-split-card__copy"><strong>Окраска профилей</strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span><img src="<?=$rmEscape($rmAsset('powder-profiles.webp'))?>" alt="Порошковая окраска профилей"></a>
+				<a class="rm-home-split-card" href="/painting/"><span class="rm-home-split-card__copy"><strong>Окраска плоских изделий</strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span><img src="<?=$rmEscape($rmAsset('powder-flat-panels.webp'))?>" alt="Порошковая окраска плоских изделий" loading="lazy"></a>
+				<a class="rm-home-split-card" href="/painting/"><span class="rm-home-split-card__copy"><strong>Окраска профилей</strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span><img src="<?=$rmEscape($rmAsset('powder-profiles.webp'))?>" alt="Порошковая окраска профилей" loading="lazy"></a>
 			</div>
 
 			<div class="rm-home-group-heading">
@@ -283,7 +283,7 @@ if ($rmOrderFormId <= 0) {
 				<?foreach ($rmProductCards as $index => $card):?>
 					<a class="rm-home-product-card" href="<?=$rmEscape($card['URL'])?>">
 						<span><strong><?=$rmEscape($card['NAME'])?></strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span>
-						<img src="<?=$rmEscape($rmAsset($productImages[$index]))?>" alt="" aria-hidden="true">
+						<img src="<?=$rmEscape($rmAsset($productImages[$index]))?>" alt="" aria-hidden="true" loading="lazy">
 					</a>
 				<?endforeach;?>
 			</div>
@@ -296,7 +296,7 @@ if ($rmOrderFormId <= 0) {
 				<?$serviceImages = array('hero-laser-cutting.webp', 'metal-bending.webp', 'welding.webp');?>
 				<?foreach ($rmServiceCards as $index => $card):?>
 					<a class="rm-home-service-card" href="<?=$rmEscape($card['URL'])?>">
-						<img src="<?=$rmEscape($rmAsset($serviceImages[$index]))?>" alt="" aria-hidden="true">
+						<img src="<?=$rmEscape($rmAsset($serviceImages[$index]))?>" alt="" aria-hidden="true" loading="lazy">
 						<span><strong><?=$rmEscape($card['NAME'])?></strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span>
 					</a>
 				<?endforeach;?>
@@ -312,7 +312,7 @@ if ($rmOrderFormId <= 0) {
 				<?foreach ($rmProjects as $project):?>
 					<a class="rm-home-project-card" data-rm-card="project" href="<?=$rmEscape($project['URL'])?>">
 						<span class="rm-home-project-card__copy"><small><?=$rmEscape($project['YEAR'])?></small><strong><?=$rmEscape($project['NAME'])?></strong><span><?=$rmEscape($project['TEXT'])?></span><em class="rm-link-arrow">Подробнее о заказе</em></span>
-						<img src="<?=$rmEscape($project['IMAGE'])?>" alt="<?=$rmEscape($project['NAME'])?>">
+						<img src="<?=$rmEscape($project['IMAGE'])?>" alt="<?=$rmEscape($project['NAME'])?>" loading="lazy">
 					</a>
 				<?endforeach;?>
 			</div>
@@ -336,7 +336,7 @@ if ($rmOrderFormId <= 0) {
 		<div class="rm-home-container">
 			<header class="rm-home-section-heading rm-home-section-heading--production"><h2>О производстве</h2><p>Производственная площадка Ралмастера находится в Видном.<br>Работаем с корпоративными заказчиками, выполняем разовые<br>заказы и повторные партии.</p></header>
 			<div class="rm-home-production__main">
-				<img src="<?=$rmEscape($rmAsset('production-laser-floor.webp'))?>" alt="Производственная площадка РАЛМАСТЕР">
+				<img src="<?=$rmEscape($rmAsset('production-laser-floor.webp'))?>" alt="Производственная площадка РАЛМАСТЕР" loading="lazy">
 				<div class="rm-home-production__panel"><span>Производственная площадка</span><strong>Видное</strong><ul><li>Лазерная резка</li><li>Гибка металла</li><li>Сварочные работы</li><li>Порошковая окраска</li><li>Сборка изделий</li></ul><a class="rm-button rm-button--secondary rm-link-arrow" href="/company/">Как устроено производство</a></div>
 			</div>
 			<div class="rm-home-production__gallery"><img src="<?=$rmEscape($rmAsset('production-powder-line.webp'))?>" alt="Участок порошковой окраски" loading="lazy"><img src="<?=$rmEscape($rmAsset('production-worker-bending.webp'))?>" alt="Гибка металла" loading="lazy"><img src="<?=$rmEscape($rmAsset('production-welding.webp'))?>" alt="Сварочные работы" loading="lazy"></div>

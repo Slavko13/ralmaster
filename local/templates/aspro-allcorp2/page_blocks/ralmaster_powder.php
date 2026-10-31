@@ -121,7 +121,7 @@ $rmExamples = array(
 					</button>
 				</div>
 				<div class="rm-powder-hero__image">
-					<img src="<?=htmlspecialcharsbx($rmAssetRoot.'home/powder-flat-panels.webp')?>" alt="Порошковая окраска металлических изделий">
+					<img src="<?=htmlspecialcharsbx($rmAssetRoot.'home/powder-flat-panels.webp')?>" alt="Порошковая окраска металлических изделий" fetchpriority="high">
 					<span aria-hidden="true"></span>
 				</div>
 			</div>
@@ -134,7 +134,7 @@ $rmExamples = array(
 			<div class="rm-powder-accepted__cards">
 				<?foreach ($rmAcceptedItems as $rmItem):?>
 					<article class="rm-powder-accepted__card">
-						<img src="<?=htmlspecialcharsbx($rmAssetRoot.$rmItem['image'])?>" alt="<?=htmlspecialcharsbx($rmItem['alt'])?>" style="object-fit: <?=$rmItem['fit']?>">
+						<img src="<?=htmlspecialcharsbx($rmAssetRoot.$rmItem['image'])?>" alt="<?=htmlspecialcharsbx($rmItem['alt'])?>" style="object-fit: <?=$rmItem['fit']?>" loading="lazy">
 						<div>
 							<h3><?=htmlspecialcharsbx($rmItem['title'])?></h3>
 							<p><?=htmlspecialcharsbx($rmItem['text'])?></p>

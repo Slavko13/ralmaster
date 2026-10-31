@@ -29,7 +29,7 @@ $rmProductionImage = SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powde
 			</div>
 			<?if ($rmProject['HERO_IMAGE']):?>
 				<figure class="rm-project-detail__hero-media">
-					<img src="<?=htmlspecialcharsbx($rmProject['HERO_IMAGE'])?>" alt="<?=htmlspecialcharsbx($rmProject['NAME'])?>">
+					<img src="<?=htmlspecialcharsbx($rmProject['HERO_IMAGE'])?>" alt="<?=htmlspecialcharsbx($rmProject['NAME'])?>" fetchpriority="high">
 					<?if (!$rmProject['IS_SYMBOL']):?><figcaption>Фотография из материалов проекта</figcaption><?endif;?>
 				</figure>
 			<?endif;?>

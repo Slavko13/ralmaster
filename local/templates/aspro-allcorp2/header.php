@@ -25,6 +25,12 @@
 		if (isset($rmMetaDescriptions[$rmRequestPath]) && !$APPLICATION->GetPageProperty('description')) {
 			$APPLICATION->SetPageProperty('description', $rmMetaDescriptions[$rmRequestPath]);
 		}
+		if ($rmRequestPath === '/') {
+			$APPLICATION->AddHeadString(
+				'<link rel="preload" as="image" href="'.SITE_TEMPLATE_PATH.'/images/ralmaster/home/hero-laser-cutting.webp" fetchpriority="high" />',
+				true
+			);
+		}
 
 		$rmNoIndexHosts = array();
 		foreach (array($_SERVER['HTTP_HOST'] ?? '', $_SERVER['HTTP_X_FORWARDED_HOST'] ?? '') as $rmHostValue) {

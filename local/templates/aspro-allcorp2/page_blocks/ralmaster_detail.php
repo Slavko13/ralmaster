@@ -56,7 +56,7 @@ $rmDetailAttribute = preg_replace('/[^a-zA-Z0-9_-]/', '', (string)$rmDetailPage[
 					<button type="button" class="rm-detail-button" data-rm-discuss-open="<?=$rmDetailEscape($rmDetailPage['context'])?>"><?=$rmDetailEscape($rmDetailPage['cta_label'])?><span aria-hidden="true">↗</span></button>
 				</div>
 				<figure class="rm-detail-hero__visual">
-					<img src="<?=$rmDetailEscape($rmDetailPage['image'])?>" alt="<?=$rmDetailEscape($rmDetailPage['image_alt'])?>">
+					<img src="<?=$rmDetailEscape($rmDetailPage['image'])?>" alt="<?=$rmDetailEscape($rmDetailPage['image_alt'])?>" fetchpriority="high">
 					<span aria-hidden="true"></span>
 				</figure>
 			</div>

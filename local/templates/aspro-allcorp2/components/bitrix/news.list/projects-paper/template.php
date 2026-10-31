@@ -18,7 +18,7 @@ $this->setFrameMode(true);
 			<article class="rm-project-card<?=$rmIndex % 2 ? ' rm-project-card--reverse' : ''?>" id="<?=$this->GetEditAreaId($rmProject['ID'])?>" data-project-code="<?=htmlspecialcharsbx((string)$rmProject['CODE'])?>">
 				<a class="rm-project-card__image" href="<?=htmlspecialcharsbx($rmProject['DETAIL_PAGE_URL'])?>" aria-label="Открыть проект <?=htmlspecialcharsbx($rmProject['NAME'])?>">
 					<?if ($rmProjectImage):?>
-						<img src="<?=htmlspecialcharsbx($rmProjectImage)?>" alt="<?=htmlspecialcharsbx($rmProject['NAME'])?>"<?=$rmIndex ? ' loading="lazy"' : ''?>>
+						<img src="<?=htmlspecialcharsbx($rmProjectImage)?>" alt="<?=htmlspecialcharsbx($rmProject['NAME'])?>"<?=$rmIndex ? ' loading="lazy"' : ' fetchpriority="high"'?>>
 					<?else:?>
 						<span class="rm-project-card__placeholder" aria-hidden="true"></span>
 					<?endif;?>
