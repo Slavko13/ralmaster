@@ -1,4 +1,44 @@
 services:
+  lighthouse-source-sync:
+    image: alpine:3.20
+    restart: "no"
+    working_dir: /source
+    command:
+      - sh
+      - -ec
+      - |
+        find /target -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
+        tar \
+          --exclude=.git \
+          --exclude=.env \
+          --exclude=.env.* \
+          --exclude=node_modules \
+          --exclude=artifacts \
+          --exclude=test-results \
+          --exclude=playwright-report \
+          --exclude=upload \
+          --exclude=bitrix/cache \
+          --exclude=bitrix/managed_cache \
+          --exclude=bitrix/stack_cache \
+          --exclude=local/php_interface/logs \
+          -cf - . | tar -xf - -C /target
+        mkdir -p \
+          /target/upload \
+          /target/bitrix/cache \
+          /target/bitrix/managed_cache \
+          /target/bitrix/stack_cache \
+          /target/local/php_interface/logs
+    volumes:
+      - .:/source:ro
+      - lighthouse-source:/target
+
+  web:
+    volumes:
+      - lighthouse-source:/var/www/html:ro
+    depends_on:
+      lighthouse-source-sync:
+        condition: service_completed_successfully
+
   lighthouse:
     image: caddy:2-alpine
     restart: unless-stopped
@@ -13,5 +53,6 @@ services:
         condition: service_healthy
 
 volumes:
+  lighthouse-source:
   lighthouse-data:
   lighthouse-config:

@@ -229,7 +229,7 @@ if ($rmOrderFormId <= 0) {
 }
 ?>
 <div class="rm-home" data-rm-home>
-	<section class="rm-home-hero" data-rm-section="hero" style="--rm-home-hero-image: url('<?=$rmEscape($rmAsset('hero-laser-cutting.webp'))?>')">
+	<section class="rm-home-hero" data-rm-section="hero" style="--rm-home-hero-image: url('<?=$rmEscape($rmAsset('hero-laser-cutting.webp'))?>'); --rm-home-hero-image-mobile: url('<?=$rmEscape($rmAsset('hero-laser-cutting-mobile.webp'))?>')">
 		<div class="rm-home-hero__overlay"></div>
 		<div class="rm-home-hero__inner rm-home-container">
 			<div class="rm-home-hero__content">
@@ -241,7 +241,7 @@ if ($rmOrderFormId <= 0) {
 				</div>
 			</div>
 			<a class="rm-home-hero__feature" href="/product/">
-				<img src="<?=$rmEscape($rmAsset('facade-cassettes.webp'))?>" alt="Фасадные металлокассеты">
+				<img src="<?=$rmEscape($rmAsset('facade-cassettes.webp'))?>" srcset="<?=$rmEscape($rmAsset('facade-cassettes-768.webp'))?> 768w, <?=$rmEscape($rmAsset('facade-cassettes.webp'))?> 1448w" sizes="118px" width="118" height="118" alt="Фасадные металлокассеты">
 				<span class="rm-home-hero__feature-copy"><strong>Фасадные металлокассеты</strong><span class="rm-link-arrow">Вся продукция</span></span>
 			</a>
 		</div>
@@ -270,8 +270,8 @@ if ($rmOrderFormId <= 0) {
 				<p>Окрашиваем партии металлических изделий. Выполняем подготовку поверхности перед окраской</p>
 			</div>
 			<div class="rm-home-powder-grid">
-				<a class="rm-home-split-card" href="/painting/"><span class="rm-home-split-card__copy"><strong>Окраска плоских изделий</strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span><img src="<?=$rmEscape($rmAsset('powder-flat-panels.webp'))?>" alt="Порошковая окраска плоских изделий" loading="lazy"></a>
-				<a class="rm-home-split-card" href="/painting/"><span class="rm-home-split-card__copy"><strong>Окраска профилей</strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span><img src="<?=$rmEscape($rmAsset('powder-profiles.webp'))?>" alt="Порошковая окраска профилей" loading="lazy"></a>
+				<a class="rm-home-split-card" href="/painting/"><span class="rm-home-split-card__copy"><strong>Окраска плоских изделий</strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span><img src="<?=$rmEscape($rmAsset('powder-flat-panels.webp'))?>" srcset="<?=$rmEscape($rmAsset('powder-flat-panels-768.webp'))?> 768w, <?=$rmEscape($rmAsset('powder-flat-panels.webp'))?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) calc(50vw - 32px), 658px" alt="Порошковая окраска плоских изделий" loading="lazy"></a>
+				<a class="rm-home-split-card" href="/painting/"><span class="rm-home-split-card__copy"><strong>Окраска профилей</strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span><img src="<?=$rmEscape($rmAsset('powder-profiles.webp'))?>" srcset="<?=$rmEscape($rmAsset('powder-profiles-768.webp'))?> 768w, <?=$rmEscape($rmAsset('powder-profiles.webp'))?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) calc(50vw - 32px), 658px" alt="Порошковая окраска профилей" loading="lazy"></a>
 			</div>
 
 			<div class="rm-home-group-heading">
@@ -279,11 +279,14 @@ if ($rmOrderFormId <= 0) {
 				<p>Изготавливаем металлические изделия по чертежам<br>и техническому заданию заказчика</p>
 			</div>
 			<div class="rm-home-product-grid">
-				<?$productImages = array('facade-cassettes.webp', 'air-conditioner-baskets.webp', 'custom-metalwork.webp');?>
+				<?
+				$productImages = array('facade-cassettes.webp', 'air-conditioner-baskets.webp', 'custom-metalwork.webp');
+				$productResponsiveImages = array('facade-cassettes-768.webp', 'air-conditioner-baskets-768.webp', 'custom-metalwork-768.webp');
+				?>
 				<?foreach ($rmProductCards as $index => $card):?>
 					<a class="rm-home-product-card" href="<?=$rmEscape($card['URL'])?>">
 						<span><strong><?=$rmEscape($card['NAME'])?></strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span>
-						<img src="<?=$rmEscape($rmAsset($productImages[$index]))?>" alt="" aria-hidden="true" loading="lazy">
+						<img src="<?=$rmEscape($rmAsset($productImages[$index]))?>" srcset="<?=$rmEscape($rmAsset($productResponsiveImages[$index]))?> 768w, <?=$rmEscape($rmAsset($productImages[$index]))?> 1448w" sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) calc(33vw - 24px), 438px" alt="" aria-hidden="true" loading="lazy">
 					</a>
 				<?endforeach;?>
 			</div>
@@ -293,10 +296,14 @@ if ($rmOrderFormId <= 0) {
 				<p>Выполняем резку, гибку и сварку металла отдельно<br>или в составе одного заказа</p>
 			</div>
 			<div class="rm-home-service-grid">
-				<?$serviceImages = array('hero-laser-cutting.webp', 'metal-bending.webp', 'welding.webp');?>
+				<?
+				$serviceImages = array('hero-laser-cutting.webp', 'metal-bending.webp', 'welding.webp');
+				$serviceResponsiveImages = array('hero-laser-cutting-768.webp', 'metal-bending-768.webp', 'welding-768.webp');
+				$serviceImageWidths = array(1672, 1536, 1536);
+				?>
 				<?foreach ($rmServiceCards as $index => $card):?>
 					<a class="rm-home-service-card" href="<?=$rmEscape($card['URL'])?>">
-						<img src="<?=$rmEscape($rmAsset($serviceImages[$index]))?>" alt="" aria-hidden="true" loading="lazy">
+						<img src="<?=$rmEscape($rmAsset($serviceImages[$index]))?>" srcset="<?=$rmEscape($rmAsset($serviceResponsiveImages[$index]))?> 768w, <?=$rmEscape($rmAsset($serviceImages[$index]))?> <?=$serviceImageWidths[$index]?>w" sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) calc(33vw - 24px), 438px" alt="" aria-hidden="true" loading="lazy">
 						<span><strong><?=$rmEscape($card['NAME'])?></strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span>
 					</a>
 				<?endforeach;?>

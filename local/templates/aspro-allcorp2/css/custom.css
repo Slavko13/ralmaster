@@ -2453,6 +2453,12 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   }
 }
 
+@media (max-width: 480px) {
+  .rm-home-hero {
+    background-image: var(--rm-home-hero-image-mobile);
+  }
+}
+
 /* The Paper source contains a 1440px desktop artboard. The rules below are
    deliberately derived for narrower screens while preserving its hierarchy. */
 @media (max-width: 1439px) {

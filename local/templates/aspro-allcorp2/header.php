@@ -1,13 +1,29 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 ?><!DOCTYPE html>
-<?if(CModule::IncludeModule("aspro.allcorp2"))
+<?
+global $USER;
+if (CModule::IncludeModule("aspro.allcorp2")) {
+	// The Aspro theme editor is an administrative tool. Keep it available to
+	// administrators, but do not ship its UI, previews and drag/drop runtime to
+	// public visitors. This is a request-local override; stored options stay intact.
+	if (!$USER || !$USER->IsAdmin()) {
+		$_SESSION['THEME'] = $_SESSION['THEME'] ?? array();
+		$_SESSION['THEME'][SITE_ID] = $_SESSION['THEME'][SITE_ID] ?? array();
+		$_SESSION['THEME'][SITE_ID]['THEME_SWITCHER'] = 'N';
+	}
 	$arThemeValues = CAllcorp2::GetFrontParametrsValues(SITE_ID);
+}
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?=LANGUAGE_ID?>" lang="<?=LANGUAGE_ID?>" class="<?=(isset($_SESSION['SESS_INCLUDE_AREAS']) && $_SESSION['SESS_INCLUDE_AREAS'] ? 'bx_editmode ' : '')?><?=strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE 7.0' ) ? 'ie ie7' : ''?> <?=strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE 8.0' ) ? 'ie ie8' : ''?> <?=strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE 7.0' ) ? 'ie ie9' : ''?>">
 	<head>
 		<?global $APPLICATION;?>
 		<?IncludeTemplateLangFile(__FILE__);?>
 		<?
+		// Use Bitrix's native asset pipeline to keep framework scripts out of the
+		// critical rendering path. The pipeline preserves dependency order and
+		// moves the collected scripts together immediately before </body>.
+		\Bitrix\Main\Page\Asset::getInstance()->setJsToBody(true);
+
 		$rmRequestPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 		$rmMetaDescriptions = array(
 			'/' => 'Производство металлических изделий, металлообработка и порошковая окраска на собственном производстве РАЛМАСТЕР.',
@@ -27,7 +43,11 @@
 		}
 		if ($rmRequestPath === '/') {
 			$APPLICATION->AddHeadString(
-				'<link rel="preload" as="image" href="'.SITE_TEMPLATE_PATH.'/images/ralmaster/home/hero-laser-cutting.webp" fetchpriority="high" />',
+				'<link rel="preload" as="image" href="'.SITE_TEMPLATE_PATH.'/images/ralmaster/home/hero-laser-cutting-mobile.webp" media="(max-width: 480px)" fetchpriority="high" />',
+				true
+			);
+			$APPLICATION->AddHeadString(
+				'<link rel="preload" as="image" href="'.SITE_TEMPLATE_PATH.'/images/ralmaster/home/hero-laser-cutting.webp" media="(min-width: 481px)" fetchpriority="high" />',
 				true
 			);
 		}
