@@ -1,5 +1,15 @@
 <? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die(); ?>
 <? $this->setFrameMode(true); ?>
+<?php
+$rmIsSales = (int)$arParams['IBLOCK_ID'] === 35;
+$rmContentConfig = array(
+	'kind' => $rmIsSales ? 'sales' : 'news',
+	'title' => $rmIsSales ? 'Акции' : 'Новости',
+	'kicker' => $rmIsSales ? 'Специальное предложение' : 'Новости компании',
+);
+require $_SERVER['DOCUMENT_ROOT'].SITE_TEMPLATE_PATH.'/page_blocks/ralmaster_content_detail.php';
+return;
+?>
 <?
 // get element
 $arItemFilter = CAllcorp2::GetCurrentElementFilter($arResult['VARIABLES'], $arParams);

@@ -6,8 +6,10 @@
 
 Полный UI-редизайн по 12 Paper-фреймам реализован и прошёл безопасную
 desktop/mobile приёмку: redesign `61/61`, baseline `22/22`, dev smoke `32/32`.
-После коррекции header завершена итерация производных страниц: три legacy body
-заменены новой системой, targeted `7/7`, связанная regression `29/29`, axe `[]`.
+После коррекции header завершены две итерации производных страниц: product /
+service / partners и семь корпоративных/информационных разделов переведены на
+общие динамические шаблоны. Последний targeted desktop/mobile suite — `15/15`,
+полный axe scope репрезентативных страниц — `[]`.
 Отдельная Web Form SID `ralmaster_estimate_s1` установлена и проверена в dev и
 изолированной production-like БД; legacy Web Form ID 5 не изменялась. Проекты,
 контакты и три modal-варианта завершены в UI/safe-functional scope. Реальная
@@ -15,7 +17,7 @@ desktop/mobile приёмку: redesign `61/61`, baseline `22/22`, dev smoke `32
 
 | Направление | Статус | Результат |
 | --- | --- | --- |
-| Git safety | PASSED | Ветка `feature/full-paper-redesign`, текущий базовый HEAD `08f9756`; `origin` указывает на `Slavko13/ralmaster` |
+| Git safety | PASSED | Ветка `feature/full-paper-redesign`, текущий базовый HEAD `8e0962a`; `origin` указывает на `Slavko13/ralmaster` |
 | Docker-конфигурация | PASSED (syntax) | Dev/prod-like Compose и healthcheck созданы, `config --quiet` проходит |
 | Docker runtime | PASSED | Docker Desktop 4.97, engine 29.9.2; dev build успешен, `db`/`web` healthy |
 | Данные Bitrix | PASSED (local) | Чувствительный backup вне Git импортирован без SQL-ошибок; 422 таблицы |
@@ -35,6 +37,8 @@ desktop/mobile приёмку: redesign `61/61`, baseline `22/22`, dev smoke `32
 | Порошковая окраска | PASSED | Оба маршрута 200; desktop 7/7 + mobile 1/1; exact 1440×6396; form 748×738 unclipped |
 | Производство | PASSED | Dynamic partners IBlock 20; desktop 8/8 + mobile 1/1; exact 1440×7203; `/company/partners/` сохранён |
 | Производные страницы | PASSED | `/product/kapelnik/`, `/services/laser-cutting/`, `/company/partners/`; reusable detail + dynamic partners, regression 29/29, axe `[]` |
+| Корпоративные / info pages | PASSED | 7 list groups + dynamic detail/section; targeted 15/15, visual 1440/390, full axe representative scope `[]` |
+| System pages | IN PROGRESS | Route audit завершён; search/map, login, cart, 404 и legacy-дубликаты выделены в следующую группу |
 | Проекты | PASSED | Listing 1440×4405, общий detail 1440×4833, ЖК «Символ» 1440×3184; IBlock 36/SEF и честные empty/demo states сохранены |
 | Контакты | PASSED (safe UI) | 1440×4120; CMS phone/email/addresses, map и dialog 748×850; реальный submit не выполнялся, `SEC-001` открыт |
 | Modal variants | PASSED (safe UI) | Discuss/bending 748×850, coating 748×898; mobile natural-flow без overlap; keyboard, validation, AJAX redecorate и loading проверены без POST |
@@ -129,6 +133,17 @@ desktop/mobile приёмку: redesign `61/61`, baseline `22/22`, dev smoke `32
 - Общий product/service detail сохраняет bending dialog 748×850 и безопасный
   no-POST flow; targeted suite 7/7, связанная regression 29/29, полный axe для
   трёх новых страниц не содержит нарушений.
+- Создан общий `ralmaster-content` list/detail pattern для IBlock
+  14/15/16/17/34/35/37. Отзывы, сотрудники, вакансии, новости, статьи, FAQ и
+  акции больше не используют старый body; root/section/detail routes сохранены.
+- Составлен фактический `ROUTE_UI_AUDIT.md`: cabinet routes подтверждены как
+  отключённые редиректы на `/`, а search/map/login/cart/404 и legacy-дубликаты
+  выделены в следующую системную итерацию.
+- Targeted content suite прошёл 15/15 за 2.3 min. Desktop/mobile captures news,
+  FAQ и article detail не содержат browser errors или overflow; полный axe
+  репрезентативного scope вернул `[]`.
+- Связанная regression content/derived/header прошла 27/27 за 3.5 min; полный
+  локальный route smoke после изменений — 32/32 за 2.7 min.
 
 ## Hotfix desktop navigation — 2026-10-29
 
@@ -179,9 +194,9 @@ Legacy `header_fixed` теперь не рендерится только при
 - PHP lint: 4/4 PASS; targeted desktop: 4/4 PASS; targeted mobile: 3/3 PASS; home/navigation regression: 14/14 PASS.
 - Visual shell: desktop 1440×106, mobile 390×72, horizontal overflow отсутствует.
 
-1. Выполнить аудит остальных публичных маршрутов на старые Aspro-body и
-   составить точный список оставшихся производных страниц без Paper-фреймов.
-2. После route audit запустить полную functional/visual regression и Lighthouse
+1. Исправить системную группу из route audit: search/map, login, cart и 404;
+   для `/products/`, `/news/`, `/landings/` подтвердить redirect или redesign.
+2. После системной группы запустить полную functional/visual regression и Lighthouse
    на desktop/mobile; результаты фиксировать без искусственного завышения.
 3. Для state-changing gate сначала изолировать mail/CRM; отдельно закрыть
    `SEC-001` с hardcoded map key.

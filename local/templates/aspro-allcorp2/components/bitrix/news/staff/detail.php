@@ -1,5 +1,10 @@
 <?if( !defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true ) die();?>
 <?$this->setFrameMode(true);?>
+<?php
+$rmContentConfig = array('kind' => 'staff', 'title' => 'Сотрудники', 'kicker' => 'Команда');
+require $_SERVER['DOCUMENT_ROOT'].SITE_TEMPLATE_PATH.'/page_blocks/ralmaster_content_detail.php';
+return;
+?>
 <?
 // get element
 $arItemFilter = CAllcorp2::GetCurrentElementFilter($arResult["VARIABLES"], $arParams);

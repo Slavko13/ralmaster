@@ -1,12 +1,7 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Вопросы и ответы");
-?>
-<div>В данном разделе приведены ответа на часто задаваемые вопросы посетителей Вашего будущего сайта. Использование данного раздела позволит сократить нагрузку на операторов и повысить удовлетворенность ваших клиентов. </div>
-<div>
-	<br />
-</div>
-<?$APPLICATION->IncludeComponent(
+?><?$APPLICATION->IncludeComponent(
 	"bitrix:news", 
 	"faq", 
 	array(
@@ -90,7 +85,7 @@ $APPLICATION->SetTitle("Вопросы и ответы");
 		"COUNT_IN_LINE" => "3",
 		"IMAGE_POSITION" => "left",
 		"COMPONENT_TEMPLATE" => "faq",
-		"SECTION_ELEMENTS_TYPE_VIEW" => "list_elements_1",
+		"SECTION_ELEMENTS_TYPE_VIEW" => "list_elements_ralmaster_paper",
 		"SET_LAST_MODIFIED" => "N",
 		"STRICT_SECTION_CHECK" => "N",
 		"SHOW_ASK_QUESTION_BLOCK" => "Y",

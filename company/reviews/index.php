@@ -84,7 +84,7 @@ $APPLICATION->SetTitle("Отзывы");
 		"ADD_ELEMENT_CHAIN" => "N",
 		"SHOW_SECTION_PREVIEW_DESCRIPTION" => "Y",
 		"COMPONENT_TEMPLATE" => "reviews",
-		"SECTION_ELEMENTS_TYPE_VIEW" => "list_elements_1",
+		"SECTION_ELEMENTS_TYPE_VIEW" => "list_elements_ralmaster_paper",
 		"SET_LAST_MODIFIED" => "N",
 		"STRICT_SECTION_CHECK" => "N",
 		"SHOW_FORM" => "Y",

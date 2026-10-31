@@ -5,7 +5,7 @@ $APPLICATION->SetTitle("Статьи");
 ?>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news", 
-	"blog", 
+	"ralmaster-blog",
 	array(
 		"IBLOCK_TYPE" => "aspro_allcorp2_content",
 		"IBLOCK_ID" => "37",
@@ -154,8 +154,8 @@ $APPLICATION->SetTitle("Статьи");
 		"T_GOODS" => "",
 		"T_SERVICES" => "",
 		"T_STUDY" => "",
-		"COMPONENT_TEMPLATE" => "blog",
-		"SECTION_ELEMENTS_TYPE_VIEW" => "FROM_MODULE",
+		"COMPONENT_TEMPLATE" => "ralmaster-blog",
+		"SECTION_ELEMENTS_TYPE_VIEW" => "list_elements_ralmaster_paper",
 		"ELEMENT_TYPE_VIEW" => "element_1",
 		"SET_LAST_MODIFIED" => "Y",
 		"T_VIDEO" => "",

@@ -146,6 +146,21 @@ screenshots и доступные оригинальные images. Content hash 
 - Артефакты: `test-results/derived-after-kapelnik.png`, `derived-after-partners-final.png`, `derived-after-laser-mobile.png`.
 - Итог: visual checkpoint `PASS`; browser diagnostics `[]`; axe после contrast correction `[]` на всех трёх маршрутах.
 
+## Корпоративные и информационные страницы — 2026-10-31
+
+| Экран | Viewport | Результат |
+| --- | --- | --- |
+| Новости | 1440 / 390 | PASS — единый hero, CMS cards, year filter, без overflow |
+| FAQ | 1440 / 390 | PASS — динамический accordion, ровные lanes и доступные controls |
+| Детальная статья | 1440 / 390 | PASS после scoped contrast fix CTA |
+
+Артефакты находятся в `test-results/redesign-pages/`: `info-news-*`,
+`info-faq-*`, `article-detail-*`. Во всех шести capture runs diagnostics `[]`,
+`scrollWidth === clientWidth`. Прямых Paper-фреймов для этих страниц нет,
+поэтому результат проверен на согласованность с общей системой, а не заявлен
+как pixel-perfect. Первый capture detail выявил синий текст CTA на синем фоне;
+после исправления повторный кадр подтверждает белый читаемый label.
+
 1. Снять screenshot реализации на фиксированном viewport.
 2. Сопоставить структуру, bounding boxes, spacing, typography, colors, images и content flow с Paper.
 3. Отдельно проверить responsive и interaction states как производные решения.

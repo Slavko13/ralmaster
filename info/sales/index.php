@@ -1,6 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Новости");
+$APPLICATION->SetTitle("Акции");
 ?>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news", 
@@ -167,7 +167,7 @@ $APPLICATION->SetTitle("Новости");
 		"YANDEX" => "N",
 		"COMPOSITE_FRAME_MODE" => "A",
 		"COMPOSITE_FRAME_TYPE" => "AUTO",
-		"SECTION_ELEMENTS_TYPE_VIEW" => "FROM_MODULE",
+		"SECTION_ELEMENTS_TYPE_VIEW" => "list_elements_ralmaster_sales",
 		"ELEMENT_TYPE_VIEW" => "element_1",
 		"S_ORDER_SERVICE" => "",
 		"T_PROJECTS" => "",

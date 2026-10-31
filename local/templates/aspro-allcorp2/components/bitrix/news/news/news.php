@@ -1,5 +1,11 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <?$this->setFrameMode(true);?>
+<?php
+if (strpos((string)$arParams['SECTION_ELEMENTS_TYPE_VIEW'], 'list_elements_ralmaster_') === 0) {
+	include __DIR__.'/page_blocks/'.$arParams['SECTION_ELEMENTS_TYPE_VIEW'].'.php';
+	return;
+}
+?>
 <?// intro text?>
 <?ob_start();?>
 <?$APPLICATION->IncludeComponent(

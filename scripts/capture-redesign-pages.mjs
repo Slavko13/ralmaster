@@ -15,6 +15,13 @@ const pageCatalog = [
   { name: 'project-generic', path: '/projects/zhk-belyy-grad/' },
   { name: 'project-symbol', path: '/projects/zhk-simvol/' },
   { name: 'contacts', path: '/contacts/' },
+  { name: 'company-staff', path: '/company/staff/' },
+  { name: 'info-news', path: '/info/news/' },
+  { name: 'info-faq', path: '/info/faq/' },
+  {
+    name: 'article-detail',
+    path: '/info/articles/biznes-sovety/preimushchestva-izgotovleniya-metallokonstruktsiy-pod-klyuch/',
+  },
 ];
 const requestedPage = process.argv[2] || process.env.CAPTURE_PAGE;
 const pages = requestedPage

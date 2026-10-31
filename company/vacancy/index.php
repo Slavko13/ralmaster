@@ -96,7 +96,7 @@ $APPLICATION->SetTitle("Вакансии");
 		"SHOW_404" => "N",
 		"MESSAGE_404" => "",
 		"USE_SHARE" => "Y",
-		"SECTION_ELEMENTS_TYPE_VIEW" => "FROM_MODULE",
+		"SECTION_ELEMENTS_TYPE_VIEW" => "list_elements_ralmaster_paper",
 		"ELEMENT_TYPE_VIEW" => "element_1",
 		"STRICT_SECTION_CHECK" => "N",
 		"SEF_URL_TEMPLATES" => array(

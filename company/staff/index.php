@@ -158,7 +158,7 @@ $APPLICATION->SetTitle("Сотрудники");
 		"PAGER_BASE_LINK_ENABLE" => "N",
 		"SHOW_404" => "N",
 		"MESSAGE_404" => "",
-		"SECTION_ELEMENTS_TYPE_VIEW" => "FROM_MODULE",
+		"SECTION_ELEMENTS_TYPE_VIEW" => "list_elements_ralmaster_paper",
 		"ELEMENT_TYPE_VIEW" => "element_1",
 		"STRICT_SECTION_CHECK" => "N",
 		"DETAIL_USE_COMMENTS" => "Y",

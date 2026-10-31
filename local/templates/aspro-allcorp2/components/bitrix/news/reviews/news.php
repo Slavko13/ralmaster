@@ -1,5 +1,11 @@
 <?if( !defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true ) die();?>
 <?$this->setFrameMode(true);?>
+<?php
+if ($arParams['SECTION_ELEMENTS_TYPE_VIEW'] === 'list_elements_ralmaster_paper') {
+	include __DIR__.'/page_blocks/list_elements_ralmaster_paper.php';
+	return;
+}
+?>
 <?// intro text?>
 <div class="block_before_items">
 	<div class="text_before_items">

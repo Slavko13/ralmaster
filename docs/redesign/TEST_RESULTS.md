@@ -366,6 +366,26 @@ Route-specific bending dialog после переноса в общий service-
 контекст `metal-bending`, размер **748×850** и все точные поля/тексты существующего
 Paper regression test. Реальный POST не выполнялся.
 
+## Итерация 17 — корпоративные и информационные страницы (2026-10-31)
+
+| Проверка | Результат |
+| --- | --- |
+| PHP lint всех изменённых/new PHP templates | **PASS** |
+| `content-pages.spec.ts`, desktop + mobile | **15/15 PASS**, 2.3 min |
+| Связанная regression: content + derived + header | **27/27 PASS**, 3.5 min |
+| Local route smoke | **32/32 PASS**, 2.7 min |
+| Seven list routes | HTTP 200, marker/count/h1 PASS |
+| Staff/vacancy/news/sales/article details | HTTP 200, dynamic h1/back link PASS |
+| Article root/section/detail SEF | **3/3 PASS** |
+| FAQ keyboard + Bitrix form hooks | **PASS**, реальные POST не выполнялись |
+| Full axe WCAG scope: news/FAQ/article detail | **0 violations** |
+| Desktop/mobile overflow + diagnostics | **PASS**, console/page errors `[]` |
+| Docker runtime | `db`/`web` healthy, `127.0.0.1:8084` |
+
+Количество элементов подтверждено локальной БД и DOM: reviews 4, staff 6,
+vacancy 5, news 4, articles 5, FAQ 5, sales 9. Тесты не ослаблялись и не
+выполняли state-changing auth/cart/form действия.
+
 Live baseline и финальные local safe suites подтверждают покрытые
 read-only/invalid-input/UI сценарии и воспроизводимость локального runtime.
 Production-like schema verify выполнен; повторный smoke после последней
