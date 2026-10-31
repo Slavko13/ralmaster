@@ -88,7 +88,7 @@
 
 .rm-contacts-summary__label {
   margin-bottom: 5px;
-  color: #647184;
+  color: #5f6f84;
   font-size: 13px;
   line-height: 20px;
 }
@@ -305,9 +305,64 @@
 
 .rm-contacts-route__map .bx-yandex-view-layout,
 .rm-contacts-route__map .bx-yandex-view-map,
-.rm-contacts-route__map [id^="BX_YMAP_"] {
+.rm-contacts-route__map [id^="BX_YMAP_"],
+.rm-contacts-route__map > iframe {
   width: 100% !important;
   height: 100% !important;
+  border: 0;
+}
+
+.rm-contacts-route__map-button {
+  position: absolute;
+  inset: 0 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  color: #18263d;
+  background:
+    linear-gradient(28deg, transparent 46%, rgba(255, 255, 255, 0.95) 47%, rgba(255, 255, 255, 0.95) 52%, transparent 53%),
+    linear-gradient(118deg, transparent 42%, rgba(255, 255, 255, 0.72) 43%, rgba(255, 255, 255, 0.72) 48%, transparent 49%),
+    #dfe5e8;
+  font-family: var(--rm-font-body, Onest, Arial, sans-serif);
+  cursor: pointer;
+}
+
+.rm-contacts-route__map-button::after {
+  position: absolute;
+  inset: 20px;
+  border: 1px solid rgba(74, 91, 112, 0.18);
+  content: "";
+  pointer-events: none;
+}
+
+.rm-contacts-route__map-button svg {
+  position: relative;
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  fill: #175bef;
+  stroke: #fff;
+  stroke-width: 1.5;
+}
+
+.rm-contacts-route__map-button strong,
+.rm-contacts-route__map-button small {
+  position: relative;
+  z-index: 1;
+}
+
+.rm-contacts-route__map-button strong {
+  font-size: 18px;
+  line-height: 26px;
+}
+
+.rm-contacts-route__map-button small {
+  color: #4d5d73;
+  font-size: 13px;
+  line-height: 20px;
 }
 
 .rm-contacts-route__map > span {

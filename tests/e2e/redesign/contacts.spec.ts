@@ -79,6 +79,27 @@ test.describe('P0 redesigned contacts and discuss-order dialog', () => {
     expect(await page.locator('[src*="paper.design"], [style*="paper.design"]').count()).toBe(0);
   });
 
+  test('loads the external route map only after explicit user intent', async ({ page }) => {
+    await page.route('https://yandex.ru/map-widget/**', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'text/html; charset=utf-8',
+        body: '<!doctype html><html lang="ru"><body>Карта проезда</body></html>',
+      });
+    });
+
+    await page.goto('/contacts/', { waitUntil: 'domcontentloaded' });
+    const map = page.locator('[data-rm-lazy-map]');
+    await expect(map.locator('iframe')).toHaveCount(0);
+    await expect(map.locator('[data-rm-load-map]')).toBeVisible();
+
+    await map.locator('[data-rm-load-map]').click();
+    const frame = map.locator('iframe');
+    await expect(frame).toBeVisible();
+    await expect(frame).toHaveAttribute('title', 'Яндекс Карта проезда на производство РАЛМАСТЕР');
+    await expect(frame).toHaveAttribute('src', /https:\/\/yandex\.ru\/map-widget\/v1\//);
+  });
+
   test('opens the reusable 748 × 850 Paper dialog and validates without POST', async ({ page }) => {
     const postRequests: string[] = [];
     page.on('request', (request) => {

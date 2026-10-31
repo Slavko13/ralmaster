@@ -19,4 +19,12 @@ function ralmasterRemoveExternalFontLinks(&$content)
         '',
         $content
     );
+
+    // The legacy Bitrix Yandex map component still emits an HTTP loader.
+    // Keep the existing map and key, but prevent mixed content on HTTPS pages.
+    $content = str_ireplace(
+        'http://api-maps.yandex.ru',
+        'https://api-maps.yandex.ru',
+        $content
+    );
 }

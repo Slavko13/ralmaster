@@ -260,7 +260,7 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 .rm-metal-services__note,
 .rm-metal-examples__note {
   margin-top: 24px !important;
-  color: #8390a0;
+  color: #5f6f84;
   font-size: 12px;
   line-height: 18px;
 }

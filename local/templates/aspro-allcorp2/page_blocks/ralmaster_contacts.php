@@ -116,8 +116,12 @@ $rmContactsBank = array(
 					<a class="rm-contacts-button" href="https://yandex.ru/maps/?rtext=~55.54758061777226,37.77257843324959&amp;rtt=auto" target="_blank" rel="noopener noreferrer">Построить маршрут <span aria-hidden="true">↗</span></a>
 					<div class="rm-contacts-route__notice"><h4>Въезд на территорию</h4><p>Свяжитесь с нами, чтобы уточнить время посещения и порядок прохода на территорию.</p><div><?CAllcorp2::ShowHeaderPhones('', 'Phone_black.svg');?></div></div>
 				</div>
-				<div class="rm-contacts-route__map" aria-label="Карта проезда на производство">
-					<?$APPLICATION->IncludeFile(SITE_DIR.'include/contacts-site-map.php', array(), array('MODE' => 'html', 'TEMPLATE' => 'include_area.php', 'NAME' => 'Карта проезда'));?>
+				<div class="rm-contacts-route__map" data-rm-lazy-map data-map-src="https://yandex.ru/map-widget/v1/?ll=37.772578%2C55.547581&amp;z=15&amp;pt=37.772578%2C55.547581%2Cpm2rdm" aria-label="Карта проезда на производство">
+					<button class="rm-contacts-route__map-button" type="button" data-rm-load-map aria-describedby="rm-contacts-map-description">
+						<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-12A7 7 0 0 0 5 9c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+						<strong>Показать карту проезда</strong>
+						<small id="rm-contacts-map-description">Интерактивная карта загрузится с сервиса Яндекс Карты</small>
+					</button>
 					<span>Карта проезда</span>
 				</div>
 			</div>
@@ -195,6 +199,23 @@ require $_SERVER['DOCUMENT_ROOT'].SITE_TEMPLATE_PATH.'/page_blocks/ralmaster_dis
 				return row.querySelector('span').textContent.trim() + ': ' + row.querySelector('strong').textContent.trim();
 			});
 			copyText(rows.join('\n'), copyAll);
+		});
+	}
+
+	var lazyMap = document.querySelector('[data-rm-lazy-map]');
+	var loadMap = lazyMap ? lazyMap.querySelector('[data-rm-load-map]') : null;
+	if (lazyMap && loadMap) {
+		loadMap.addEventListener('click', function () {
+			var source = lazyMap.getAttribute('data-map-src');
+			if (!source) { return; }
+			var frame = document.createElement('iframe');
+			frame.src = source;
+			frame.title = 'Яндекс Карта проезда на производство РАЛМАСТЕР';
+			frame.loading = 'eager';
+			frame.referrerPolicy = 'no-referrer-when-downgrade';
+			frame.setAttribute('allowfullscreen', '');
+			loadMap.replaceWith(frame);
+			lazyMap.classList.add('rm-contacts-route__map--loaded');
 		});
 	}
 }());
