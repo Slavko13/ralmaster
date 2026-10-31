@@ -8,15 +8,18 @@ test('P1 @mobile mobile header is usable at 390px', async ({ page }) => {
   const mobileHeader = page.locator('#mobileheader:visible');
   await expect(mobileHeader).toBeVisible();
 
-  // The legacy Aspro control has no accessible name; this stable template
-  // class is recorded as baseline debt and will be replaced during redesign.
-  const menuTrigger = mobileHeader.locator('.burger:visible').first();
+  const menuTrigger = mobileHeader.locator('button.burger');
   await expect(menuTrigger).toBeVisible();
+  await expect(menuTrigger).toHaveAttribute('aria-label', 'Открыть меню');
+  await expect(menuTrigger).toHaveAttribute('aria-expanded', 'false');
   await menuTrigger.click();
 
-  await expect(
-    page.locator('#mobilemenu:visible, nav:visible, [role="navigation"]:visible').first(),
-  ).toBeVisible();
+  const mobileMenu = page.locator('#mobilemenu:visible');
+  await expect(mobileMenu).toBeVisible();
+  await expect(menuTrigger).toHaveAttribute('aria-expanded', 'true');
+  await expect(menuTrigger).toHaveAttribute('aria-label', 'Закрыть меню');
+  await expect(mobileMenu.locator('.rm-flat-menu__link')).toHaveCount(6);
+  await expect(mobileMenu.locator('.dropdown, .dropdown-menu, .parent')).toHaveCount(0);
 });
 
 test('P1 @mobile primary request CTA opens the request form without submitting', async ({ page }) => {

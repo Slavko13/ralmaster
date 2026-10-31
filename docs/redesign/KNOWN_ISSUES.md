@@ -1,6 +1,6 @@
 # Известные проблемы и ограничения
 
-Последнее обновление: 2026-10-29.
+Последнее обновление: 2026-10-31.
 
 | ID | Приоритет | Область | Проблема | Статус / действие |
 | --- | --- | --- | --- | --- |
@@ -44,8 +44,9 @@
 | JS-001 | RESOLVED | Mobile Aspro | Ранний resize мог обратиться к `arAllcorp2Options.THEME` до инициализации | Добавлен безопасный ранний stub перед `ShowHead`; mobile diagnostics и тесты проходят |
 | JS-002 | RESOLVED | Dialog AJAX lifecycle | MutationObserver мог зациклить DOM, а AJAX replacement терял namespace/decorations | Observer сделан idempotent/persistent; success/error/loading states и повторная декорация проверены |
 | UI-003 | RESOLVED | Mobile powder dialog | Двухстрочные title/task help/file help/consent перекрывались внутри fixed rows | Mobile CSS переведён на natural-flow heights; pairwise layout test 1/1 PASS, production-like dialogs 3/3 PASS, финальный capture без overlap |
-| UI-004 | RESOLVED | Desktop navigation | Wide product menu схлопывался без `.menu-row`, а 18 px gap закрывал services dropdown до клика по «Гибка металла» | Восстановлен menu context, full-height hover contour, `top: 100%`, `focus-within` и transparent overlay; menu 2/2 + home 6/6 PASS, browser diagnostics `[]` |
+| UI-004 | SUPERSEDED | Desktop navigation | Исторический hotfix поддерживал wide dropdown и hover trajectory | Актуальный Paper требует плоскую навигацию; dropdown полностью удалён в UI-006 |
 | UI-005 | RESOLVED | Desktop sticky header | При прокрутке Aspro рендерил отдельный legacy `#headerfixed` поверх нового `.rm-header` | Новый header выставляет явный server-side флаг; legacy fixed header при нём не рендерится. Desktop 4/4, mobile 2/2, PHP lint 2/2 PASS; browser diagnostics `[]` |
+| UI-006 | RESOLVED | Header navigation | Desktop/mobile содержали dropdown, submenu и mega-menu вопреки актуальному Paper | Добавлен общий flat Bitrix template; ровно 6 direct links, child DOM отсутствует, mobile ARIA исправлен; desktop 4/4 и mobile 3/3 PASS |
 | A11Y-007 | RESOLVED | Dedicated forms | Скрытые Bitrix labels оставляли controls без доступного имени на Services | Общий form JS назначает ARIA-label каждому non-hidden control; targeted Services 5/5 и полный redesign 61/61 PASS |
 | CONTENT-002 | MEDIUM | Social links | Paper показывает Telegram/MAX, но локальная Bitrix-конфигурация не содержит URL | Не выдумывать URL; визуальные controls помечены как ненастроенные до получения фактических ссылок |
 | CONTENT-003 | MEDIUM | Production FAQ | IBlock 17 не содержит вопросы Paper | Accessible FAQ является явно документированным presentation fallback; синхронизировать с CMS после появления утверждённых данных |

@@ -129,6 +129,13 @@ screenshots и доступные оригинальные images. Content hash 
 
 ## Процедура итерации
 
+## Коррекция header — 2026-10-31
+
+- Источник: общий header фреймов Paper `Мария's Team / Ралмастер / Дизайн`.
+- Desktop capture `test-results/redesign-shell/desktop-1440-top.png`: header 1440×106, шесть прямых белых ссылок поверх hero, logo/phone/alignment соответствуют Paper; dropdown-слоёв нет.
+- Mobile capture `test-results/redesign-shell/mobile-390-top.png`: 390×72, контент не выходит за viewport; navigation drawer проверен функционально как плоский список.
+- Вердикт checkpoint: spacing/typography/contrast/alignment/artboard fit — PASS; отдельного mobile Paper-фрейма нет, поэтому mobile остаётся согласованной производной реализацией.
+
 1. Снять screenshot реализации на фиксированном viewport.
 2. Сопоставить структуру, bounding boxes, spacing, typography, colors, images и content flow с Paper.
 3. Отдельно проверить responsive и interaction states как производные решения.

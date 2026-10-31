@@ -395,43 +395,30 @@ textarea.form-control {
   height: 100%;
 }
 
-.rm-header .table-menu,
-.rm-header .table-menu > table,
-.rm-header .table-menu > table > tbody {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.rm-header .table-menu > table > tbody > tr {
+.rm-header .rm-flat-menu {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 25px;
+  width: 100%;
   height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.rm-header .table-menu td.menu-item {
-  display: block;
-  width: auto;
+.rm-header .rm-flat-menu__item {
+  display: flex;
+  align-items: center;
   height: 100%;
+  margin: 0;
   padding: 0;
-  border: 0;
   flex: 0 0 auto;
 }
 
-.rm-header .table-menu td.menu-item > .wrap {
-  position: relative;
-  display: flex;
-  height: 100%;
-  align-items: center;
-  padding: 0;
-}
-
-.rm-header .table-menu td.menu-item > .wrap > a {
+.rm-header .rm-flat-menu__link {
   position: relative;
   display: block;
-  height: auto;
   padding: 8px 0;
   color: var(--rm-text) !important;
   font-family: var(--rm-font-heading);
@@ -442,13 +429,7 @@ textarea.form-control {
   white-space: nowrap;
 }
 
-.rm-header .table-menu td.menu-item > .wrap > a .fa-angle-down,
-.rm-header .table-menu td.menu-item > .wrap > a .line-wrapper,
-.rm-header .table-menu .marker-nav {
-  display: none;
-}
-
-.rm-header .table-menu td.menu-item.active > .wrap > a::after {
+.rm-header .rm-flat-menu__item.active > .rm-flat-menu__link::after {
   position: absolute;
   right: 0;
   bottom: 0;
@@ -458,22 +439,9 @@ textarea.form-control {
   background: var(--rm-primary);
 }
 
-.rm-header .table-menu td.menu-item > .wrap > a:hover,
-.rm-header .table-menu td.menu-item > .wrap > a:focus {
+.rm-header .rm-flat-menu__link:hover,
+.rm-header .rm-flat-menu__link:focus-visible {
   color: var(--rm-primary) !important;
-}
-
-.rm-header .table-menu td.menu-item > .wrap > .dropdown-menu {
-  top: 100%;
-  margin-top: 0;
-  border: 1px solid var(--rm-border-soft);
-  border-radius: var(--rm-radius);
-  box-shadow: 0 12px 32px rgba(17, 30, 53, 0.12);
-}
-
-.rm-header .table-menu td.menu-item:focus-within > .wrap > .dropdown-menu {
-  display: block;
-  opacity: 1;
 }
 
 .rm-header__tools {
@@ -555,11 +523,11 @@ body.front-banners-big-short .rm-header__logo-image--light,
   opacity: 1;
 }
 
-body.front-banners-big-short .rm-header .table-menu td.menu-item > .wrap > a,
+body.front-banners-big-short .rm-header .rm-flat-menu__link,
 body.front-banners-big-short .rm-header__phone,
 body.front-banners-big-short .rm-header__phone a,
 body.front-banners-big-short .rm-header__phone .phone,
-.rm-header--overlay .table-menu td.menu-item > .wrap > a,
+.rm-header--overlay .rm-flat-menu__link,
 .rm-header--overlay .rm-header__phone,
 .rm-header--overlay .rm-header__phone a,
 .rm-header--overlay .rm-header__phone .phone {
@@ -2276,11 +2244,11 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
     height: auto;
   }
 
-  .rm-header .table-menu > table > tbody > tr {
+  .rm-header .rm-flat-menu {
     gap: 14px;
   }
 
-  .rm-header .table-menu td.menu-item > .wrap > a {
+  .rm-header .rm-flat-menu__link {
     font-size: 14px;
   }
 
@@ -2333,7 +2301,10 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
     width: 40px;
     height: 40px;
     margin: 0;
+    padding: 0;
+    border: 0;
     border-radius: var(--rm-radius);
+    background: transparent;
   }
 
   #mobileheader .right-icons {
@@ -2348,6 +2319,38 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
 
   #mobilemenu .mobilemenu-v1 {
     font-family: var(--rm-font-body);
+  }
+
+  #mobilemenu .rm-flat-menu {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 8px 0;
+    list-style: none;
+  }
+
+  #mobilemenu .rm-flat-menu__item {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid var(--rm-border-soft);
+  }
+
+  #mobilemenu .rm-flat-menu__link {
+    display: block;
+    padding: 17px 24px;
+    color: var(--rm-text) !important;
+    font-family: var(--rm-font-heading);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    text-decoration: none;
+  }
+
+  #mobilemenu .rm-flat-menu__item.active > .rm-flat-menu__link,
+  #mobilemenu .rm-flat-menu__link:focus-visible {
+    color: var(--rm-primary) !important;
   }
 
   .maxwidth-theme,

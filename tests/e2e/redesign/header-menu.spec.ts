@@ -1,6 +1,15 @@
 import { expect, test } from '@playwright/test';
 
-test.describe('P0 redesigned desktop header menus', () => {
+const navigation = [
+  ['Продукция', '/product/'],
+  ['Металлообработка', '/services/'],
+  ['Порошковая окраска', '/painting/'],
+  ['О производстве', '/company/'],
+  ['Реализованные проекты', '/projects/'],
+  ['Контакты', '/contacts/'],
+] as const;
+
+test.describe('P0 Paper flat navigation', () => {
   for (const route of ['/', '/painting/poroshkovaya-pokraska-metalla/']) {
     test(`legacy fixed header stays disabled after scrolling ${route}`, async ({ page }) => {
       await page.goto(route, { waitUntil: 'domcontentloaded' });
@@ -13,78 +22,41 @@ test.describe('P0 redesigned desktop header menus', () => {
 
       await expect(page.locator('#headerfixed')).toHaveCount(0);
       await expect(page.locator('#headerfixed.fixed')).toHaveCount(0);
-
-      if (route === '/painting/poroshkovaya-pokraska-metalla/') {
-        await page.screenshot({
-          path: 'test-results/sticky-audit-painting-after-fix-scroll900.png',
-        });
-      }
     });
   }
 
-  test('wide product menu is laid out as a usable panel', async ({ page }) => {
+  test('desktop header exposes exactly six direct links without dropdown markup', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     const header = page.locator('.rm-header');
-    const middle = header.locator('.rm-header__middle');
-    const productLink = header.getByRole('link', { name: 'Продукция', exact: true }).first();
-    const productItem = productLink.locator('xpath=ancestor::td[contains(@class,"menu-item")][1]');
-    const productMenu = productItem.locator(':scope > .wrap > .dropdown-menu');
-
-    await productLink.hover();
-    await expect(productMenu).toBeVisible();
-    await expect(productMenu.locator(':scope > li')).toHaveCount(7);
-    await expect(middle).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
-
-    const geometry = await productMenu.evaluate((node) => {
-      const rect = node.getBoundingClientRect();
-      const firstItem = node.querySelector<HTMLElement>(':scope > li');
-      const firstRect = firstItem?.getBoundingClientRect();
-
-      return {
-        left: Math.round(rect.left),
-        right: Math.round(rect.right),
-        top: Math.round(rect.top),
-        width: Math.round(rect.width),
-        firstItemWidth: firstRect ? Math.round(firstRect.width) : 0,
-        viewportWidth: document.documentElement.clientWidth,
-      };
-    });
-
-    expect(geometry.left).toBeGreaterThanOrEqual(0);
-    expect(geometry.right).toBeLessThanOrEqual(geometry.viewportWidth + 1);
-    expect(geometry.top).toBeGreaterThanOrEqual(100);
-    expect(geometry.width).toBeGreaterThan(700);
-    expect(geometry.firstItemWidth).toBeGreaterThan(150);
-
-    await productLink.focus();
-    await expect(productMenu).toBeVisible();
+    const links = header.locator('.rm-flat-menu__link');
+    await expect(links).toHaveCount(6);
+    await expect(links).toHaveText(navigation.map(([label]) => label));
+    await expect(header.locator('.dropdown-menu, .dropdown-submenu, .table-menu')).toHaveCount(0);
   });
 
-  test('metalworking dropdown remains open while moving to metal bending', async ({ page }) => {
+  test('every desktop navigation item is a direct working link', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    const header = page.locator('.rm-header');
-    const serviceLink = header.getByRole('link', { name: 'Металлообработка', exact: true }).first();
-    const serviceItem = serviceLink.locator('xpath=ancestor::td[contains(@class,"menu-item")][1]');
-    const serviceMenu = serviceItem.locator(':scope > .wrap > .dropdown-menu');
-    const bendingLink = serviceMenu.getByRole('link', { name: /Гибка металла/i }).first();
+    for (const [label, path] of navigation) {
+      await expect(
+        page.locator('.rm-header').getByRole('link', { name: label, exact: true }),
+      ).toHaveAttribute('href', path);
+    }
+  });
 
-    await serviceLink.hover();
-    await expect(serviceMenu).toBeVisible();
-    await expect(bendingLink).toBeVisible();
+  test('P0 @mobile mobile menu remains flat and accessible', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    const target = await bendingLink.boundingBox();
-    expect(target).not.toBeNull();
-    await page.mouse.move(target!.x + target!.width / 2, target!.y + target!.height / 2, {
-      steps: 12,
-    });
+    const trigger = page.locator('#mobileheader button.burger');
+    await expect(trigger).toHaveAttribute('aria-label', 'Открыть меню');
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await trigger.click();
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await expect(trigger).toHaveAttribute('aria-label', 'Закрыть меню');
 
-    await expect(serviceMenu).toBeVisible();
-    await expect(bendingLink).toBeVisible();
-
-    await page.mouse.click(target!.x + target!.width / 2, target!.y + target!.height / 2);
-    await page.waitForURL('**/services/metal-bending/**');
-    await expect(page).toHaveURL(/\/services\/metal-bending\/$/);
+    const menu = page.locator('#mobilemenu');
+    await expect(menu.locator('.rm-flat-menu__link')).toHaveCount(6);
+    await expect(menu.locator('.dropdown, .dropdown-menu, .parent, [class*="submenu"]')).toHaveCount(0);
   });
 });

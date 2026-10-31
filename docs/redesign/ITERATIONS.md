@@ -228,3 +228,18 @@
 - **Исправленные дефекты:** добавлено обязательное восстановление file backup, root-only secrets, безопасный DB gate, managed Caddy block с backup/validate/rollback и LF enforcement для shell scripts.
 - **Оставшиеся ограничения:** фактический remote deploy, DNS/HTTPS и реальный Caddy mode ещё не проверены; перед запуском нужны Git URL/ref, DB backup, file backup и read-only вывод VPS preflight.
 - **Статус:** `PASSED` для подготовки скрипта; remote execution `NOT RUN`.
+
+## Итерация 15 — Коррекция header: плоская навигация (2026-10-31)
+
+- **Цель:** привести desktop/mobile header к актуальному Paper и полностью убрать dropdown, submenu и mega-menu.
+- **Область изменений:** общая навигация всех публичных страниц; sticky-header остаётся отключённым.
+- **Связанные макеты Paper:** общий header файла `Мария's Team / Ралмастер / Дизайн`; шесть прямых ссылок без дочерних панелей.
+- **Затронутые файлы и компоненты:** `include/header/menu.php`, новый `bitrix:menu/ralmaster_flat`, `header_mobile_1.php`, `header_mobile_menu_1.php`, `css/custom.css`, header/mobile Playwright tests.
+- **Функциональные автотесты:** desktop direct links, отсутствие dropdown DOM, отсутствие legacy fixed header после scroll, mobile open/close ARIA и отсутствие nested navigation.
+- **Визуальные проверки:** `test-results/redesign-shell/desktop-1440-top.png`, `mobile-390-top.png`; desktop header 1440×106, horizontal overflow отсутствует.
+- **Критерии приёмки:** ровно шесть прямых ссылок, ни одного submenu/mega-menu, все href сохранены, mobile burger доступен с клавиатуры и сообщает состояние.
+- **Фактический результат:** создан изолированный плоский Bitrix menu template с `MAX_LEVEL=1`/`USE_EXT=N`; desktop и mobile используют один источник `.top.menu.php`; burger преобразован в button с `aria-controls`, динамическими `aria-expanded` и label. PHP lint 4/4; targeted desktop 4/4, mobile 3/3 и дополнительная home/navigation regression 14/14 PASS.
+- **Обнаруженные дефекты:** прежняя hotfix-реализация намеренно поддерживала dropdown, что теперь противоречит актуальному требованию; старый mobile trigger был без доступного имени.
+- **Исправленные дефекты:** весь дочерний DOM исключён на сервере, а не только скрыт CSS; mobile control получил корректную семантику и состояние.
+- **Оставшиеся ограничения:** mobile navigation является производным решением, поскольку отдельного mobile-фрейма в Paper нет.
+- **Статус:** `PASSED`.

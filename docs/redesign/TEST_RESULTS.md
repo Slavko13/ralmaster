@@ -339,6 +339,15 @@ metal-bending **748×850**, powder-coating **748×898**; heading **36/44**, по
 
 ## Интерпретация
 
+## Коррекция header — 2026-10-31
+
+- PHP lint изменённых menu/header templates: **4/4 PASS**.
+- `header-menu.spec.ts`, desktop Chromium: **4/4 PASS**.
+- `header-menu.spec.ts` + `baseline/mobile.spec.ts`, mobile Chromium: **3/3 PASS**.
+- `home.spec.ts` + `baseline/navigation.spec.ts`, desktop Chromium: **14/14 PASS**.
+- Проверено: шесть direct links, отсутствие dropdown/submenu/table-menu DOM, отсутствие `#headerfixed` после scroll, mobile `aria-expanded`/label и отсутствие POST.
+- Visual shell capture завершён без horizontal overflow.
+
 Live baseline и финальные local safe suites подтверждают покрытые
 read-only/invalid-input/UI сценарии и воспроизводимость локального runtime.
 Production-like schema verify выполнен; повторный smoke после последней

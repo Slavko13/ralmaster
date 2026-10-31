@@ -162,6 +162,14 @@ Legacy `header_fixed` теперь не рендерится только при
 
 ## Следующий допустимый шаг
 
+### Коррекция header — 2026-10-31
+
+- Подтверждён актуальный источник: `Мария's Team` → `Ралмастер` → `Дизайн`.
+- Dropdown/mega-menu удалены из desktop и mobile на уровне Bitrix template data (`MAX_LEVEL=1`, `USE_EXT=N`).
+- Общая навигация содержит ровно шесть прямых ссылок Paper; mobile burger имеет корректные ARIA-состояния.
+- PHP lint: 4/4 PASS; targeted desktop: 4/4 PASS; targeted mobile: 3/3 PASS; home/navigation regression: 14/14 PASS.
+- Visual shell: desktop 1440×106, mobile 390×72, horizontal overflow отсутствует.
+
 1. Для полного state-changing gate сначала изолировать mail/CRM, затем проверить
    успешное сохранение результата и уведомление только на локальной БД.
 2. Вынести hardcoded map key из tracked source и рассмотреть его ротацию; после
