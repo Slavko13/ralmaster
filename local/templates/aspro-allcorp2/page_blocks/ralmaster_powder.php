@@ -41,7 +41,7 @@ $rmAcceptedItems = array(
 	array(
 		'title' => 'Изделия и детали',
 		'text' => 'Корзины для кондиционеров и другие изделия по согласованию.',
-		'image' => 'powder/painted-ac-basket.png',
+		'image' => 'powder/painted-ac-basket.webp',
 		'alt' => 'Окрашенная корзина для кондиционера',
 		'fit' => 'contain',
 	),
@@ -84,21 +84,21 @@ $rmExamples = array(
 		'title' => 'Порошковая окраска партии металлических профилей',
 		'text' => 'Подготовка поверхности и окраска готовых профилей заказчика.',
 		'meta' => 'Сталь · 200 шт.<br>RAL 7016 · Матовая поверхность',
-		'image' => 'powder/coated-profiles-batch.png',
+		'image' => 'powder/coated-profiles-batch.webp',
 		'alt' => 'Готовая партия окрашенных металлических профилей',
 	),
 	array(
 		'title' => 'Порошковая окраска плоских панелей',
 		'text' => 'Обезжиривание, промывка, сушка и окраска партии листовых деталей.',
 		'meta' => 'Сталь · 150 шт.<br>RAL 9003 · Гладкая поверхность',
-		'image' => 'powder/powder-coated-panels.png',
+		'image' => 'powder/powder-coated-panels.webp',
 		'alt' => 'Партия окрашенных плоских панелей',
 	),
 	array(
 		'title' => 'Порошковая окраска корзин для кондиционеров',
 		'text' => 'Подготовка и окраска изделий в составе заказа на изготовление.',
 		'meta' => 'Сталь · 60 шт.<br>RAL 7024 · Матовая поверхность',
-		'image' => 'powder/painted-baskets-batch.png',
+		'image' => 'powder/painted-baskets-batch.webp',
 		'alt' => 'Партия корзин для кондиционеров после окраски',
 	),
 );
@@ -171,7 +171,7 @@ $rmExamples = array(
 			</header>
 			<div class="rm-powder-preparation__layout">
 				<div class="rm-powder-cut-image">
-					<img src="<?=htmlspecialcharsbx($rmAssetRoot.'powder/surface-preparation.png')?>" alt="Подготовка металлических изделий перед порошковой окраской" loading="lazy">
+					<img src="<?=htmlspecialcharsbx($rmAssetRoot.'powder/surface-preparation.webp')?>" alt="Подготовка металлических изделий перед порошковой окраской" loading="lazy">
 					<span aria-hidden="true"></span>
 				</div>
 				<ol class="rm-powder-preparation__steps">
@@ -303,7 +303,7 @@ $rmExamples = array(
 	</section>
 
 	<section class="rm-powder-photo" data-rm-powder-section="photo" aria-label="Производственная линия порошковой окраски">
-		<img src="<?=htmlspecialcharsbx($rmAssetRoot.'home/production-powder-line.png')?>" alt="Производственная линия порошковой окраски" loading="lazy">
+		<img src="<?=htmlspecialcharsbx($rmAssetRoot.'home/production-powder-line.webp')?>" alt="Производственная линия порошковой окраски" loading="lazy">
 		<span aria-hidden="true"></span>
 	</section>
 </main>

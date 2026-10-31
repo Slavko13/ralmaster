@@ -27,7 +27,7 @@ RUN apt-get update \
         opcache \
         pdo_mysql \
         zip \
-    && a2enmod expires headers rewrite \
+    && a2enmod deflate expires headers rewrite \
     && rm -rf /var/lib/apt/lists/*
 
 RUN install -d -m 0755 /opt/ralmaster

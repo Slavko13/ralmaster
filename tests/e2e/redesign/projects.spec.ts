@@ -6,21 +6,21 @@ const expectedProjects = [
   {
     code: 'zhk-simvol',
     href: '/projects/zhk-simvol/',
-    image: 'project-symbol.jpg',
+    image: 'project-symbol.webp',
     width: 1920,
     height: 1280,
   },
   {
     code: 'zhk-belyy-grad',
     href: '/projects/zhk-belyy-grad/',
-    image: 'project-white-city.jpg',
+    image: 'project-white-city.webp',
     width: 1920,
     height: 1535,
   },
   {
     code: 'zhk-simvol-2',
     href: '/projects/zhk-simvol-2/',
-    image: 'project-symbol-2.png',
+    image: 'project-symbol-2.webp',
     width: 1536,
     height: 1024,
   },
@@ -148,7 +148,7 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     await expect(detail.locator('h1')).toContainText('ЖК «Символ»');
     await expect(detail.locator('.rm-project-detail__hero-media img')).toHaveAttribute(
       'src',
-      /\/images\/ralmaster\/projects\/project-symbol\.jpg$/,
+      /\/images\/ralmaster\/projects\/project-symbol\.webp$/,
     );
     await expect(detail.locator('[data-rm-project-detail-section="work"]')).toHaveCount(0);
     await expect(detail.locator('[data-rm-project-detail-section="result"]')).toHaveCount(0);
@@ -171,7 +171,7 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     );
     await expect(detail.locator('[data-rm-project-detail-section="work"] img')).toHaveAttribute(
       'src',
-      /\/images\/ralmaster\/projects\/generic-project-work\.png$/,
+      /\/images\/ralmaster\/projects\/generic-project-work\.webp$/,
     );
     await expect(detail.locator('[data-rm-project-detail-section="result"] img')).toHaveCount(2);
   });

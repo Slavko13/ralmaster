@@ -65,7 +65,7 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
   align-items: center;
   min-height: 20px;
   gap: 8px;
-  color: #707b88;
+  color: #5f6875;
   font-size: 14px;
   line-height: 20px;
 }
@@ -195,7 +195,7 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 }
 
 .rm-metal-service-card__heading > span {
-  color: #8390a0;
+  color: #5f6f84;
   font-size: 14px;
   line-height: 20px;
 }
@@ -224,7 +224,7 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 }
 
 .rm-metal-service-card dt {
-  color: #8390a0;
+  color: #5f6f84;
   font-size: 13px;
   font-weight: 400;
   line-height: 18px;

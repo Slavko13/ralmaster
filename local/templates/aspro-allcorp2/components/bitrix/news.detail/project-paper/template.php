@@ -8,7 +8,7 @@ $rmProject = $arResult['RM_PROJECT'];
 $rmProjectButtons = CIBlock::GetPanelButtons($arResult['IBLOCK_ID'], $arResult['ID'], 0, array('SESSID' => false, 'CATALOG' => true));
 $this->AddEditAction($arResult['ID'], $rmProjectButtons['edit']['edit_element']['ACTION_URL'], CIBlock::GetArrayByID($arResult['IBLOCK_ID'], 'ELEMENT_EDIT'));
 $this->AddDeleteAction($arResult['ID'], $rmProjectButtons['edit']['delete_element']['ACTION_URL'], CIBlock::GetArrayByID($arResult['IBLOCK_ID'], 'ELEMENT_DELETE'), array('CONFIRM' => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
-$rmProductionImage = SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powder-line.png';
+$rmProductionImage = SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powder-line.webp';
 ?>
 
 <main class="rm-project-detail<?=$rmProject['IS_SYMBOL'] ? ' rm-project-detail--symbol' : ' rm-project-detail--generic'?>" id="<?=$this->GetEditAreaId($arResult['ID'])?>" data-rm-project-detail data-project-code="<?=htmlspecialcharsbx($rmProject['CODE'])?>">

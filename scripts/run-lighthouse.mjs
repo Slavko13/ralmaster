@@ -29,6 +29,7 @@ const args = Object.fromEntries(
 const baseUrl = String(args['base-url'] ?? process.env.LIGHTHOUSE_BASE_URL ?? 'https://localhost:8443').replace(/\/$/, '');
 const phase = String(args.phase ?? process.env.LIGHTHOUSE_PHASE ?? 'before');
 const runCount = Number(args.runs ?? process.env.LIGHTHOUSE_RUNS ?? 3);
+const attemptCount = Number(args.attempts ?? process.env.LIGHTHOUSE_ATTEMPTS ?? 2);
 const profileArg = String(args.profile ?? process.env.LIGHTHOUSE_PROFILE ?? 'all');
 const profiles = profileArg === 'all' ? ['desktop', 'mobile'] : [profileArg];
 const requestedRoutes = String(args.routes ?? process.env.LIGHTHOUSE_ROUTES ?? '')
@@ -41,6 +42,9 @@ const routes = requestedRoutes.length
 
 if (!Number.isInteger(runCount) || runCount < 1) {
   throw new Error(`Invalid --runs value: ${runCount}`);
+}
+if (!Number.isInteger(attemptCount) || attemptCount < 1) {
+  throw new Error(`Invalid --attempts value: ${attemptCount}`);
 }
 if (profiles.some((profile) => !['desktop', 'mobile'].includes(profile))) {
   throw new Error(`Invalid --profile value: ${profileArg}`);
@@ -158,7 +162,21 @@ for (const profile of profiles) {
       ];
 
       process.stdout.write(`Lighthouse ${phase} ${profile} ${route.name} ${runLabel}/${runCount}\n`);
-      await runCommand(process.execPath, cliArgs, { ...process.env, CHROME_PATH: chromePath });
+      let lastError;
+      for (let attempt = 1; attempt <= attemptCount; attempt += 1) {
+        try {
+          await runCommand(process.execPath, cliArgs, { ...process.env, CHROME_PATH: chromePath });
+          lastError = undefined;
+          break;
+        } catch (error) {
+          lastError = error;
+          if (attempt < attemptCount) {
+            console.warn(`Lighthouse retry ${attempt + 1}/${attemptCount}: ${route.name} ${profile} ${runLabel}`);
+            await new Promise((resolvePromise) => setTimeout(resolvePromise, 2000));
+          }
+        }
+      }
+      if (lastError) throw lastError;
       const reportPath = `${reportBase}.report.json`;
       const lhr = JSON.parse(await readFile(reportPath, 'utf8'));
       runs.push(extractRun(lhr, reportBase, run));
@@ -181,6 +199,7 @@ const summary = {
   baseUrl,
   generatedAt: new Date().toISOString(),
   runCount,
+  attemptCount,
   profiles,
   routes: routes.map(({ name, path }) => ({ name, path })),
   excludedAudits: ['charset'],
@@ -195,7 +214,7 @@ const tableRows = results.map((result) => {
 const markdown = [
   `# Lighthouse ${phase}`,
   '',
-  `Base URL: \`${baseUrl}\`. Runs per route/profile: ${runCount}.`,
+  `Base URL: \`${baseUrl}\`. Runs per route/profile: ${runCount}; attempts per run: ${attemptCount}.`,
   '',
   '| Route | Device | Performance | Accessibility | Best Practices | SEO | FCP ms | LCP ms | Speed Index ms | TBT ms | CLS |',
   '| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |',

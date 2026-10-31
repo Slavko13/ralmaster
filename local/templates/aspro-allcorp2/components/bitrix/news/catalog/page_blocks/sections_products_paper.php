@@ -104,6 +104,6 @@ $rmProductAssetRoot = SITE_TEMPLATE_PATH.'/images/ralmaster/';
 </section>
 
 <section class="rm-product-production-photo" data-rm-products-section="production-photo" aria-label="Производство РАЛМАСТЕР">
-	<img src="<?=htmlspecialcharsbx($rmProductAssetRoot.'home/production-powder-line.png')?>" alt="Производство РАЛМАСТЕР" loading="lazy">
+	<img src="<?=htmlspecialcharsbx($rmProductAssetRoot.'home/production-powder-line.webp')?>" alt="Производство РАЛМАСТЕР" loading="lazy">
 	<span aria-hidden="true"></span>
 </section>

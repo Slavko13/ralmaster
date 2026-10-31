@@ -7,6 +7,37 @@
 	<head>
 		<?global $APPLICATION;?>
 		<?IncludeTemplateLangFile(__FILE__);?>
+		<?
+		$rmRequestPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+		$rmMetaDescriptions = array(
+			'/' => 'Производство металлических изделий, металлообработка и порошковая окраска на собственном производстве РАЛМАСТЕР.',
+			'/product/' => 'Каталог металлических изделий РАЛМАСТЕР: фасадные кассеты, корзины, капельники, отливы, экраны и изделия на заказ.',
+			'/product/kapelnik/' => 'Капельники из металла от РАЛМАСТЕР: изготовление по размерам, гибка, окраска и поставка готовых изделий.',
+			'/services/' => 'Металлообработка в РАЛМАСТЕР: лазерная резка, гибка, сварка и изготовление металлических изделий по чертежам.',
+			'/painting/' => 'Порошковая окраска металлических изделий в РАЛМАСТЕР: подготовка поверхности, окраска и контроль качества.',
+			'/services/laser-cutting/' => 'Лазерная резка металла по чертежам заказчика на производстве РАЛМАСТЕР.',
+			'/company/partners/' => 'Партнёры и заказчики производственной компании РАЛМАСТЕР.',
+			'/contacts/' => 'Контакты РАЛМАСТЕР: телефон, электронная почта, адрес производства и схема проезда.',
+			'/projects/' => 'Реализованные проекты РАЛМАСТЕР: изготовление и поставка металлических изделий для жилых и коммерческих объектов.',
+			'/projects/zhk-simvol/' => 'Проект РАЛМАСТЕР для ЖК «Символ»: изготовленные металлические изделия и результат работ.',
+			'/info/news/' => 'Новости производства, продукции и проектов компании РАЛМАСТЕР.',
+		);
+		if (isset($rmMetaDescriptions[$rmRequestPath]) && !$APPLICATION->GetPageProperty('description')) {
+			$APPLICATION->SetPageProperty('description', $rmMetaDescriptions[$rmRequestPath]);
+		}
+
+		$rmNoIndexHosts = array();
+		foreach (array($_SERVER['HTTP_HOST'] ?? '', $_SERVER['HTTP_X_FORWARDED_HOST'] ?? '') as $rmHostValue) {
+			$rmHostValue = strtolower(trim(explode(',', $rmHostValue)[0]));
+			$rmNoIndexHosts[] = preg_replace('/:\\d+$/', '', $rmHostValue);
+		}
+		foreach (array_unique($rmNoIndexHosts) as $rmHostValue) {
+			if ($rmHostValue === 'localhost' || $rmHostValue === '127.0.0.1' || $rmHostValue === 'test.ral-master.ru' || substr($rmHostValue, -5) === '.test') {
+				$APPLICATION->AddHeadString('<meta name="robots" content="noindex, nofollow" />', true);
+				break;
+			}
+		}
+		?>
 		<title><?$APPLICATION->ShowTitle()?></title>
 		<?$APPLICATION->ShowMeta("viewport");?>
 		<?$APPLICATION->ShowMeta("HandheldFriendly");?>

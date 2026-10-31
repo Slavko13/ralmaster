@@ -14,12 +14,12 @@ $rmProjectProductSpecs = array(
 	'baskets' => array(
 		'NAME' => 'Корзины для кондиционеров',
 		'DESCRIPTION' => 'Декоративные корзины для наружных блоков кондиционеров.',
-		'IMAGE' => 'air-conditioner-baskets.png',
+		'IMAGE' => 'air-conditioner-baskets.webp',
 	),
 	'pannier' => array(
 		'NAME' => 'Короба',
 		'DESCRIPTION' => 'Металлические короба по размерам и техническому заданию.',
-		'IMAGE' => 'metal-boxes.png',
+		'IMAGE' => 'metal-boxes.webp',
 	),
 );
 

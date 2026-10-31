@@ -39,7 +39,7 @@
   align-items: center;
   gap: 8px;
   padding-bottom: 30px;
-  color: #697383;
+  color: #5f6875;
   font-size: 14px;
   line-height: 20px;
 }
@@ -288,7 +288,7 @@
   width: 680px;
   min-height: 40px;
   padding-top: 20px;
-  color: #7d8795;
+  color: #5f6f84;
   font-size: 13px;
   line-height: 20px;
 }
@@ -534,7 +534,7 @@
 
 .rm-powder-example__body small {
   padding-top: 18px;
-  color: #8994a3;
+  color: #5f6f84;
   font-size: 11px;
   font-weight: 400;
   line-height: 17px;

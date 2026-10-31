@@ -43,7 +43,7 @@
   height: 34px;
   align-items: flex-start;
   gap: 8px;
-  color: #667487;
+  color: #5e6b7c;
   font-size: 14px;
   line-height: 20px;
 }
@@ -88,7 +88,7 @@
 
 .rm-contacts-summary__label {
   margin-bottom: 5px;
-  color: #788496;
+  color: #647184;
   font-size: 13px;
   line-height: 20px;
 }
@@ -131,7 +131,7 @@
 
 .rm-contacts-summary__primary > p {
   margin-bottom: 22px;
-  color: #6f7d8e;
+  color: #5f6f84;
   font-size: 13px;
   line-height: 20px;
 }
@@ -199,7 +199,7 @@
   grid-template-columns: 156px 1fr;
   padding-top: 16px;
   border-top: 1px solid #e3e7ec;
-  color: #778394;
+  color: #606d7f;
   font-size: 12px;
   line-height: 18px;
 }
@@ -314,7 +314,7 @@
   position: absolute;
   bottom: 5px;
   left: 0;
-  color: #7a8696;
+  color: #5e6978;
   font-size: 11px;
   line-height: 16px;
 }

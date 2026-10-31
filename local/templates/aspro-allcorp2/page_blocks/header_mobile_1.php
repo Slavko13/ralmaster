@@ -34,6 +34,10 @@
 	function initRalmasterMobileMenuA11y() {
 		var menu = document.getElementById('mobilemenu');
 		var trigger = document.querySelector('#mobileheader .burger');
+		var phoneLinks = document.querySelectorAll('#mobileheader .wrap_phones a[href^="tel:"]');
+		phoneLinks.forEach(function (link) {
+			if (!link.getAttribute('aria-label')) link.setAttribute('aria-label', 'Позвонить в РАЛМАСТЕР');
+		});
 		if (!menu || !trigger || trigger.getAttribute('data-rm-a11y-ready') === 'true') return;
 
 		function syncState() {

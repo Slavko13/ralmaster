@@ -14,12 +14,12 @@ $rmProductSpecs = array(
 	'baskets' => array(
 		'NAME' => 'Корзины для кондиционеров',
 		'DESCRIPTION' => 'Декоративные корзины для наружных блоков кондиционеров.',
-		'IMAGE' => 'air-conditioner-baskets.png',
+		'IMAGE' => 'air-conditioner-baskets.webp',
 	),
 	'pannier' => array(
 		'NAME' => 'Короба',
 		'DESCRIPTION' => 'Металлические короба по размерам и техническому заданию.',
-		'IMAGE' => 'metal-boxes.png',
+		'IMAGE' => 'metal-boxes.webp',
 	),
 	'bracket' => array(
 		'NAME' => 'Кронштейны',
@@ -29,17 +29,17 @@ $rmProductSpecs = array(
 	'lowtide' => array(
 		'NAME' => 'Отливы',
 		'DESCRIPTION' => 'Металлические элементы для отвода воды.',
-		'IMAGE' => 'flashings.png',
+		'IMAGE' => 'flashings.webp',
 	),
 	'kapelnik' => array(
 		'NAME' => 'Капельники',
 		'DESCRIPTION' => 'Доборные элементы для отвода капель воды.',
-		'IMAGE' => 'drip-edges.png',
+		'IMAGE' => 'drip-edges.webp',
 	),
 	'shield' => array(
 		'NAME' => 'Экраны',
 		'DESCRIPTION' => 'Металлические экраны по размерам и требованиям проекта.',
-		'IMAGE' => 'screens.png',
+		'IMAGE' => 'screens.webp',
 	),
 );
 

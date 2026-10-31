@@ -11,11 +11,11 @@ foreach ($arResult['ITEMS'] as &$rmProjectItem) {
 	$rmImageFile = '';
 
 	if (strpos($rmCode, 'simvol-2') !== false || strpos($rmName, 'символ 2') !== false) {
-		$rmImageFile = 'project-symbol-2.png';
+		$rmImageFile = 'project-symbol-2.webp';
 	} elseif (strpos($rmCode, 'bel') !== false || strpos($rmName, 'бел') !== false || strpos($rmName, 'град') !== false) {
-		$rmImageFile = 'project-white-city.jpg';
+		$rmImageFile = 'project-white-city.webp';
 	} elseif (strpos($rmCode, 'simvol') !== false || strpos($rmName, 'символ') !== false) {
-		$rmImageFile = 'project-symbol.jpg';
+		$rmImageFile = 'project-symbol.webp';
 	}
 
 	$rmDynamicImage = '';

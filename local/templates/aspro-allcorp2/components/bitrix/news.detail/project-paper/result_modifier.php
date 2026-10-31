@@ -43,9 +43,9 @@ $rmProjectIsSymbol = $rmProjectCode === 'zhk-simvol';
 $rmProjectAssetRoot = SITE_TEMPLATE_PATH.'/images/ralmaster/projects/';
 
 $rmProjectPresentationMap = array(
-	'zhk-simvol' => 'project-symbol.jpg',
-	'zhk-belyy-grad' => 'project-white-city.jpg',
-	'zhk-simvol-2' => 'project-symbol-2.png',
+	'zhk-simvol' => 'project-symbol.webp',
+	'zhk-belyy-grad' => 'project-white-city.webp',
+	'zhk-simvol-2' => 'project-symbol-2.webp',
 );
 
 $rmProjectDynamicImage = $rmProjectFilePath($arResult['DETAIL_PICTURE'] ?? null);
@@ -118,10 +118,10 @@ $arResult['RM_PROJECT'] = array(
 	'GALLERY' => $rmProjectGallery,
 	'PRODUCT_URL' => $rmProjectProductUrl,
 	'PRESENTATION' => array(
-		'WORK_IMAGE' => $rmProjectAssetRoot.'generic-project-work.png',
+		'WORK_IMAGE' => $rmProjectAssetRoot.'generic-project-work.webp',
 		'RESULT_IMAGES' => array(
-			$rmProjectAssetRoot.'generic-project-result-batch.png',
-			$rmProjectAssetRoot.'generic-project-result-detail.png',
+			$rmProjectAssetRoot.'generic-project-result-batch.webp',
+			$rmProjectAssetRoot.'generic-project-result-detail.webp',
 		),
 	),
 );

@@ -138,7 +138,7 @@ if ($rmProductionEstimateFormId <= 0) {
 		<div class="rm-production-container">
 			<nav class="rm-production-breadcrumb" aria-label="Хлебные крошки"><a href="/">Главная</a><span aria-hidden="true">/</span><span aria-current="page">О производстве</span></nav>
 			<div class="rm-production-hero__heading"><h1>О производстве</h1><p>Производственная площадка Ралмастера находится в Видном. Работаем с заказами компаний, в том числе с повторными партиями металлических изделий.</p></div>
-			<div class="rm-production-hero__image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'production/workshop-panorama.png')?>" alt="Производственный цех РАЛМАСТЕР" fetchpriority="high"><span aria-hidden="true"></span></div>
+			<div class="rm-production-hero__image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'production/workshop-panorama.webp')?>" alt="Производственный цех РАЛМАСТЕР" fetchpriority="high"><span aria-hidden="true"></span></div>
 		</div>
 	</section>
 
@@ -188,7 +188,7 @@ if ($rmProductionEstimateFormId <= 0) {
 
 	<section class="rm-production-repeat" data-rm-production-section="repeat">
 		<div class="rm-production-container rm-production-repeat__layout">
-			<div class="rm-production-repeat__image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'powder/painted-baskets-batch.png')?>" alt="Партия одинаковых окрашенных изделий" loading="lazy"><span aria-hidden="true"></span></div>
+			<div class="rm-production-repeat__image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'powder/painted-baskets-batch.webp')?>" alt="Партия одинаковых окрашенных изделий" loading="lazy"><span aria-hidden="true"></span></div>
 			<div class="rm-production-repeat__copy"><h2>Повторные партии</h2><p>Основные заказчики Ралмастера размещают повторные заказы на порошковую окраску, корзины для кондиционеров и металлокассеты.</p><ul><li>Повтор предыдущего заказа</li><li>Изменения в изделии</li><li>Следующие партии</li></ul></div>
 		</div>
 	</section>
@@ -197,8 +197,8 @@ if ($rmProductionEstimateFormId <= 0) {
 		<div class="rm-production-container">
 			<h2>Проверка и подготовка к отгрузке</h2>
 			<div class="rm-production-shipping__grid">
-				<article><div class="rm-production-card-image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'production/quality-control.png')?>" alt="Проверка готового изделия" loading="lazy"><span aria-hidden="true"></span></div><h3>Соответствие заданию</h3></article>
-				<article><div class="rm-production-card-image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'production/packed-batch.png')?>" alt="Укомплектованная партия перед передачей" loading="lazy"><span aria-hidden="true"></span></div><h3>Комплектация и передача</h3><p>Выполняем доставку изготовленных металлических изделий.</p></article>
+				<article><div class="rm-production-card-image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'production/quality-control.webp')?>" alt="Проверка готового изделия" loading="lazy"><span aria-hidden="true"></span></div><h3>Соответствие заданию</h3></article>
+				<article><div class="rm-production-card-image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'production/packed-batch.webp')?>" alt="Укомплектованная партия перед передачей" loading="lazy"><span aria-hidden="true"></span></div><h3>Комплектация и передача</h3><p>Выполняем доставку изготовленных металлических изделий.</p></article>
 			</div>
 		</div>
 	</section>
@@ -225,7 +225,7 @@ if ($rmProductionEstimateFormId <= 0) {
 		<div class="rm-production-contact__inner"><div><h2>Обсудить заказ или регулярные поставки</h2><p>Расскажите, какие изделия нужны, в каком количестве и планируются ли повторные партии. Прикрепите документацию, если она уже подготовлена.</p></div><div class="rm-production-contact__actions"><div class="rm-production-contact__phone"><?CAllcorp2::ShowHeaderPhones('', 'Phone_black.svg');?></div><?if (CAllcorp2::checkContentBlock(SITE_DIR.'include/footer/site-email.php', 'PROPERTY_EMAIL_VALUE')):?><?CAllcorp2::showEmail('rm-production-contact__email');?><?endif;?><?if ($rmProductionEstimateFormId):?><button type="button" data-rm-discuss-open="production">Обсудить заказ <span aria-hidden="true">↗</span></button><?else:?><a class="rm-production-contact__fallback" href="/contacts/">Обсудить заказ <span aria-hidden="true">↗</span></a><?endif;?></div></div>
 	</section>
 
-	<section class="rm-production-photo" data-rm-production-section="photo" aria-label="Порошковая линия РАЛМАСТЕР"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'home/production-powder-line.png')?>" alt="Порошковая линия на производстве РАЛМАСТЕР" loading="lazy"></section>
+	<section class="rm-production-photo" data-rm-production-section="photo" aria-label="Порошковая линия РАЛМАСТЕР"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'home/production-powder-line.webp')?>" alt="Порошковая линия на производстве РАЛМАСТЕР" loading="lazy"></section>
 </div>
 
 <?php

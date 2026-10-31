@@ -154,7 +154,7 @@ $rmContactsBank = array(
 	</section>
 
 	<section class="rm-contacts-photo" data-rm-contacts-section="photo" aria-label="Порошковая линия РАЛМАСТЕР">
-		<img src="<?=$rmContactsEscape(SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powder-line.png')?>" alt="Порошковая линия РАЛМАСТЕР" loading="lazy">
+		<img src="<?=$rmContactsEscape(SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powder-line.webp')?>" alt="Порошковая линия РАЛМАСТЕР" loading="lazy">
 		<span aria-hidden="true"></span>
 	</section>
 </main>

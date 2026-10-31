@@ -110,19 +110,19 @@ $rmMetalExamples = array(
 		'TITLE' => 'Крепёжные кронштейны по чертежам заказчика',
 		'TEXT' => 'Выполнены лазерная резка заготовок и гибка кронштейнов по заданным размерам.',
 		'META' => 'Сталь 3 мм · Партия 300 шт.',
-		'IMAGE' => $rmMetalAsset('production-chain.png'),
+		'IMAGE' => $rmMetalAsset('production-chain.webp'),
 	),
 	array(
 		'TITLE' => 'Листовые панели для оборудования',
 		'TEXT' => 'Выполнена лазерная резка панелей с монтажными отверстиями по документации заказчика.',
 		'META' => 'Нержавеющая сталь 2 мм · 120 шт.',
-		'IMAGE' => $rmMetalAsset('perforated-sheet-panels.png'),
+		'IMAGE' => $rmMetalAsset('perforated-sheet-panels.webp'),
 	),
 	array(
 		'TITLE' => 'Сварные рамы для оборудования',
 		'TEXT' => 'Выполнена сварка подготовленных деталей и порошковая окраска готовых рам.',
 		'META' => 'Сталь · Партия 20 шт.',
-		'IMAGE' => $rmMetalAsset('welded-frames.png'),
+		'IMAGE' => $rmMetalAsset('welded-frames.webp'),
 	),
 );
 
@@ -187,7 +187,7 @@ $rmMetalHasPhone = $arRegion ? !empty($arRegion['PHONES']) : (bool)(int)$arTheme
 				<h2>Несколько операций в одном заказе</h2>
 				<p>Можем заказать отдельную обработку или изготовить изделие с последующей окраской и сборкой. Состав работ согласуем по вашему чертежу.</p>
 			</div>
-			<img class="rm-metal-operations__image" src="<?=$rmMetalEscape($rmMetalAsset('production-chain.png'))?>" alt="Последовательность изготовления металлического изделия" loading="lazy">
+			<img class="rm-metal-operations__image" src="<?=$rmMetalEscape($rmMetalAsset('production-chain.webp'))?>" alt="Последовательность изготовления металлического изделия" loading="lazy">
 			<ol class="rm-metal-operations__steps">
 				<li><span>01.</span><div><strong>После резки</strong><p>Заготовки с отверстиями и заданным контуром.</p></div><i aria-hidden="true">↗</i></li>
 				<li><span>02.</span><div><strong>После гибки</strong><p>Деталь с формой и углами по чертежу.</p></div><i aria-hidden="true">↗</i></li>
@@ -255,5 +255,5 @@ $rmMetalHasPhone = $arRegion ? !empty($arRegion['PHONES']) : (bool)(int)$arTheme
 		</div>
 	</section>
 
-	<section class="rm-metal-photo" data-rm-section="photo" aria-label="Производство РАЛМАСТЕР"><img src="<?=$rmMetalEscape($rmMetalHomeAsset('production-powder-line.png'))?>" alt="Производственная линия РАЛМАСТЕР" loading="lazy"></section>
+	<section class="rm-metal-photo" data-rm-section="photo" aria-label="Производство РАЛМАСТЕР"><img src="<?=$rmMetalEscape($rmMetalHomeAsset('production-powder-line.webp'))?>" alt="Производственная линия РАЛМАСТЕР" loading="lazy"></section>
 </div>

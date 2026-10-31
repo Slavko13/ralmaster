@@ -279,7 +279,7 @@ if ($rmOrderFormId <= 0) {
 				<p>Изготавливаем металлические изделия по чертежам<br>и техническому заданию заказчика</p>
 			</div>
 			<div class="rm-home-product-grid">
-				<?$productImages = array('facade-cassettes.webp', 'air-conditioner-baskets.png', 'custom-metalwork.webp');?>
+				<?$productImages = array('facade-cassettes.webp', 'air-conditioner-baskets.webp', 'custom-metalwork.webp');?>
 				<?foreach ($rmProductCards as $index => $card):?>
 					<a class="rm-home-product-card" href="<?=$rmEscape($card['URL'])?>">
 						<span><strong><?=$rmEscape($card['NAME'])?></strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span>
@@ -336,10 +336,10 @@ if ($rmOrderFormId <= 0) {
 		<div class="rm-home-container">
 			<header class="rm-home-section-heading rm-home-section-heading--production"><h2>О производстве</h2><p>Производственная площадка Ралмастера находится в Видном.<br>Работаем с корпоративными заказчиками, выполняем разовые<br>заказы и повторные партии.</p></header>
 			<div class="rm-home-production__main">
-				<img src="<?=$rmEscape($rmAsset('production-laser-floor.png'))?>" alt="Производственная площадка РАЛМАСТЕР">
+				<img src="<?=$rmEscape($rmAsset('production-laser-floor.webp'))?>" alt="Производственная площадка РАЛМАСТЕР">
 				<div class="rm-home-production__panel"><span>Производственная площадка</span><strong>Видное</strong><ul><li>Лазерная резка</li><li>Гибка металла</li><li>Сварочные работы</li><li>Порошковая окраска</li><li>Сборка изделий</li></ul><a class="rm-button rm-button--secondary rm-link-arrow" href="/company/">Как устроено производство</a></div>
 			</div>
-			<div class="rm-home-production__gallery"><img src="<?=$rmEscape($rmAsset('production-powder-line.png'))?>" alt="Участок порошковой окраски" loading="lazy"><img src="<?=$rmEscape($rmAsset('production-worker-bending.png'))?>" alt="Гибка металла" loading="lazy"><img src="<?=$rmEscape($rmAsset('production-welding.png'))?>" alt="Сварочные работы" loading="lazy"></div>
+			<div class="rm-home-production__gallery"><img src="<?=$rmEscape($rmAsset('production-powder-line.webp'))?>" alt="Участок порошковой окраски" loading="lazy"><img src="<?=$rmEscape($rmAsset('production-worker-bending.webp'))?>" alt="Гибка металла" loading="lazy"><img src="<?=$rmEscape($rmAsset('production-welding.webp'))?>" alt="Сварочные работы" loading="lazy"></div>
 		</div>
 	</section>
 
@@ -458,7 +458,7 @@ if ($rmOrderFormId <= 0) {
 		</div>
 	</section>
 
-	<section class="rm-home-photo" data-rm-section="photo" aria-label="Производство РАЛМАСТЕР"><img src="<?=$rmEscape($rmAsset('production-powder-line.png'))?>" alt="Производство РАЛМАСТЕР" loading="lazy"></section>
+	<section class="rm-home-photo" data-rm-section="photo" aria-label="Производство РАЛМАСТЕР"><img src="<?=$rmEscape($rmAsset('production-powder-line.webp'))?>" alt="Производство РАЛМАСТЕР" loading="lazy"></section>
 </div>
 
 <?php

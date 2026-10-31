@@ -143,7 +143,7 @@ if (\Bitrix\Main\Loader::includeModule('form')) {
 	</section>
 
 	<section class="rm-projects-production-photo" data-rm-projects-section="production-photo" aria-label="Производство РАЛМАСТЕР">
-		<img src="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/production-powder-line.png')?>" alt="Производство РАЛМАСТЕР" loading="lazy">
+		<img src="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/production-powder-line.webp')?>" alt="Производство РАЛМАСТЕР" loading="lazy">
 		<span aria-hidden="true"></span>
 	</section>
 </main>

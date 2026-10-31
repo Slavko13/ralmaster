@@ -4,13 +4,13 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 }
 
 $rmProductImages = array(
-	'kapelnik' => 'products/drip-edges.png',
-	'korziny' => 'products/air-conditioner-baskets.png',
-	'koroba' => 'products/metal-boxes.png',
+	'kapelnik' => 'products/drip-edges.webp',
+	'korziny' => 'products/air-conditioner-baskets.webp',
+	'koroba' => 'products/metal-boxes.webp',
 	'kronshtejny' => 'products/brackets.webp',
-	'otlivy' => 'products/flashings.png',
+	'otlivy' => 'products/flashings.webp',
 	'fasadnye-kassety' => 'products/facade-cassettes.webp',
-	'ekrany' => 'products/screens.png',
+	'ekrany' => 'products/screens.webp',
 );
 $rmProductCode = (string)($arSection['CODE'] ?? '');
 $rmProductImage = '';
@@ -18,7 +18,7 @@ if (!empty($arSection['DETAIL_PICTURE']) || !empty($arSection['PICTURE'])) {
 	$rmProductImage = (string)CFile::GetPath($arSection['DETAIL_PICTURE'] ?: $arSection['PICTURE']);
 }
 if ($rmProductImage === '') {
-	$rmProductImage = SITE_TEMPLATE_PATH.'/images/ralmaster/'.($rmProductImages[$rmProductCode] ?? 'products/drip-edges.png');
+	$rmProductImage = SITE_TEMPLATE_PATH.'/images/ralmaster/'.($rmProductImages[$rmProductCode] ?? 'products/drip-edges.webp');
 }
 
 $rmDetailPage = array(

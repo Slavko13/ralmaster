@@ -883,6 +883,7 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
 
 .rm-link-arrow {
   display: inline-flex;
+  min-height: 24px;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
@@ -2137,7 +2138,7 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   padding: 0 !important;
   align-items: flex-start;
   gap: 12px;
-  color: #758295;
+  color: #5f6f84;
   font-size: 13px;
   line-height: 20px;
 }
@@ -2149,7 +2150,7 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   flex: 1 1 auto;
   margin: 0 !important;
   padding: 0 !important;
-  color: #758295 !important;
+  color: #5f6f84 !important;
   font-size: 13px !important;
   line-height: 20px !important;
 }

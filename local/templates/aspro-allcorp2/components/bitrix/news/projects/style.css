@@ -71,14 +71,14 @@
   align-items: center;
   gap: 10px;
   overflow: hidden;
-  color: #697383;
+  color: #5f6875;
   font: 400 14px/20px Onest, Arial, sans-serif;
   white-space: nowrap;
 }
 
 .rm-projects-breadcrumbs a,
 .rm-project-detail__breadcrumbs a {
-  color: #697383;
+  color: #5f6875;
 }
 
 .rm-projects-breadcrumbs span:last-child,

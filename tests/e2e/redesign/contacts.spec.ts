@@ -66,7 +66,7 @@ test.describe('P0 redesigned contacts and discuss-order dialog', () => {
     await image.scrollIntoViewIfNeeded();
     await expect(image).toHaveAttribute(
       'src',
-      '/local/templates/aspro-allcorp2/images/ralmaster/home/production-powder-line.png',
+      '/local/templates/aspro-allcorp2/images/ralmaster/home/production-powder-line.webp',
     );
     await expect
       .poll(() =>
