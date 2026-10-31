@@ -18,6 +18,11 @@ const pageCatalog = [
   { name: 'company-staff', path: '/company/staff/' },
   { name: 'info-news', path: '/info/news/' },
   { name: 'info-faq', path: '/info/faq/' },
+  { name: 'system-search', path: '/search/?q=покраска' },
+  { name: 'system-map', path: '/search/map.php' },
+  { name: 'system-cart', path: '/cart/' },
+  { name: 'system-login', path: '/login/' },
+  { name: 'system-404', path: '/__codex_redesign_missing_page__/' },
   {
     name: 'article-detail',
     path: '/info/articles/biznes-sovety/preimushchestva-izgotovleniya-metallokonstruktsiy-pod-klyuch/',

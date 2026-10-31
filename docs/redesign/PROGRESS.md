@@ -6,10 +6,11 @@
 
 Полный UI-редизайн по 12 Paper-фреймам реализован и прошёл безопасную
 desktop/mobile приёмку: redesign `61/61`, baseline `22/22`, dev smoke `32/32`.
-После коррекции header завершены две итерации производных страниц: product /
-service / partners и семь корпоративных/информационных разделов переведены на
-общие динамические шаблоны. Последний targeted desktop/mobile suite — `15/15`,
-полный axe scope репрезентативных страниц — `[]`.
+После коррекции header завершены product/service/partners, семь
+корпоративных/информационных групп и системные страницы. Search/map/cart/login/
+404 переведены на общую систему с сохранением Bitrix-компонентов; три legacy-
+дубля дают постоянные канонические редиректы. Последняя связанная desktop/mobile
+регрессия — `35/35`, route smoke — `32/32`, полный axe scope — `[]`.
 Отдельная Web Form SID `ralmaster_estimate_s1` установлена и проверена в dev и
 изолированной production-like БД; legacy Web Form ID 5 не изменялась. Проекты,
 контакты и три modal-варианта завершены в UI/safe-functional scope. Реальная
@@ -17,7 +18,7 @@ service / partners и семь корпоративных/информацион
 
 | Направление | Статус | Результат |
 | --- | --- | --- |
-| Git safety | PASSED | Ветка `feature/full-paper-redesign`, текущий базовый HEAD `8e0962a`; `origin` указывает на `Slavko13/ralmaster` |
+| Git safety | PASSED | Ветка `feature/full-paper-redesign`, последний опубликованный HEAD перед итерацией 18 — `94ef393`; `origin` указывает на `Slavko13/ralmaster` |
 | Docker-конфигурация | PASSED (syntax) | Dev/prod-like Compose и healthcheck созданы, `config --quiet` проходит |
 | Docker runtime | PASSED | Docker Desktop 4.97, engine 29.9.2; dev build успешен, `db`/`web` healthy |
 | Данные Bitrix | PASSED (local) | Чувствительный backup вне Git импортирован без SQL-ошибок; 422 таблицы |
@@ -38,7 +39,7 @@ service / partners и семь корпоративных/информацион
 | Производство | PASSED | Dynamic partners IBlock 20; desktop 8/8 + mobile 1/1; exact 1440×7203; `/company/partners/` сохранён |
 | Производные страницы | PASSED | `/product/kapelnik/`, `/services/laser-cutting/`, `/company/partners/`; reusable detail + dynamic partners, regression 29/29, axe `[]` |
 | Корпоративные / info pages | PASSED | 7 list groups + dynamic detail/section; targeted 15/15, visual 1440/390, full axe representative scope `[]` |
-| System pages | IN PROGRESS | Route audit завершён; search/map, login, cart, 404 и legacy-дубликаты выделены в следующую группу |
+| System pages | PASSED (safe UI) | Search/map/cart/login/404 используют общий shell; targeted 8/8, related 35/35, axe `[]`; три legacy-дубля отвечают 301 |
 | Проекты | PASSED | Listing 1440×4405, общий detail 1440×4833, ЖК «Символ» 1440×3184; IBlock 36/SEF и честные empty/demo states сохранены |
 | Контакты | PASSED (safe UI) | 1440×4120; CMS phone/email/addresses, map и dialog 748×850; реальный submit не выполнялся, `SEC-001` открыт |
 | Modal variants | PASSED (safe UI) | Discuss/bending 748×850, coating 748×898; mobile natural-flow без overlap; keyboard, validation, AJAX redecorate и loading проверены без POST |
@@ -144,6 +145,13 @@ service / partners и семь корпоративных/информацион
   репрезентативного scope вернул `[]`.
 - Связанная regression content/derived/header прошла 27/27 за 3.5 min; полный
   локальный route smoke после изменений — 32/32 за 2.7 min.
+- Реализован общий системный shell для search/map/cart/login/404 без замены
+  динамических Bitrix-компонентов и без state-changing auth/cart действий.
+- `/products/`, `/news/`, `/landings/` теперь дают 301 на `/product/`,
+  `/info/news/`, `/info/articles/`; старые IBlock-данные не удалялись.
+- System pages suite прошёл 8/8; связанная desktop/mobile regression — 35/35
+  за 3.8 min; полный route smoke — 32/32 за 2.1 min. Axe representative scope
+  пуст, captures 1440/390 не имеют horizontal overflow.
 
 ## Hotfix desktop navigation — 2026-10-29
 
@@ -194,11 +202,9 @@ Legacy `header_fixed` теперь не рендерится только при
 - PHP lint: 4/4 PASS; targeted desktop: 4/4 PASS; targeted mobile: 3/3 PASS; home/navigation regression: 14/14 PASS.
 - Visual shell: desktop 1440×106, mobile 390×72, horizontal overflow отсутствует.
 
-1. Исправить системную группу из route audit: search/map, login, cart и 404;
-   для `/products/`, `/news/`, `/landings/` подтвердить redirect или redesign.
-2. После системной группы запустить полную functional/visual regression и Lighthouse
+1. Запустить полную functional/visual regression и воспроизводимый Lighthouse
    на desktop/mobile; результаты фиксировать без искусственного завышения.
-3. Для state-changing gate сначала изолировать mail/CRM; отдельно закрыть
+2. Для state-changing gate сначала изолировать mail/CRM; отдельно закрыть
    `SEC-001` с hardcoded map key.
 
 ## Правило обновления

@@ -1,6 +1,6 @@
 # Визуальный контроль
 
-Последнее обновление: 2026-10-29. Статус: **ВСЕ 12 PAPER-ФРЕЙМОВ РЕАЛИЗОВАНЫ; SAFE DESKTOP/MOBILE UI GATE PASSED; STATE-CHANGING FORM NOT RUN**.
+Последнее обновление: 2026-10-31. Статус: **ВСЕ 12 PAPER-ФРЕЙМОВ И ПУБЛИЧНЫЕ SYSTEM PAGES РЕАЛИЗОВАНЫ; SAFE DESKTOP/MOBILE UI GATE PASSED; STATE-CHANGING FLOWS NOT RUN**.
 
 ## Источник истины
 
@@ -104,6 +104,7 @@ screenshots и доступные оригинальные images. Content hash 
 | Производство | 1440×7203 PASS | 1024/768 PASS | 390 PASS | table/FAQ/CTA PASS | PASSED |
 | Проекты | 1440×4405 / 4833 / 3184 PASS | derived | 390 PASS | navigation/empty states PASS | PASSED |
 | Контакты | 1440×4120 PASS | derived | 390 PASS | map/dialog UI PASS | PASSED WITH LIMITATIONS |
+| System pages | 1440 PASS | derived | 390 PASS | search/map/cart/auth/404 safe UI PASS | PASSED (SAFE UI) |
 | Формы запроса расчёта | 748×850 / 748×898 PASS | derived | 390 PASS | validation/upload/loading PASS; POST not run | PASSED (SAFE UI) |
 
 ## Hotfix desktop navigation — 2026-10-29
@@ -160,6 +161,23 @@ screenshots и доступные оригинальные images. Content hash 
 поэтому результат проверен на согласованность с общей системой, а не заявлен
 как pixel-perfect. Первый capture detail выявил синий текст CTA на синем фоне;
 после исправления повторный кадр подтверждает белый читаемый label.
+
+## Системные страницы — 2026-10-31
+
+| Экран | Viewport | Результат |
+| --- | --- | --- |
+| Поиск | 1440 / 390 | PASS — живой query flow, новый form/empty state, без overflow |
+| Карта сайта | 1440 / 390 | PASS — динамическое дерево меню, legacy markers устранены |
+| Корзина | 1440 / 390 | PASS — существующий empty basket state в новом shell |
+| Вход | 1440 / 390 | PASS — labels/focus/recovery/social providers сохранены |
+| 404 | 1440 / 390 | PASS — читаемые CTA и реальный HTTP 404 |
+
+Артефакты находятся в `test-results/redesign-pages/` с префиксами
+`system-search`, `system-map`, `system-cart`, `system-login`, `system-404`.
+`scrollWidth === clientWidth` во всех десяти runs. Console resource 404 на
+кадре системной 404 является ожидаемым статусом основного документа, а не
+ошибкой дочернего ресурса. Первый visual checkpoint выявил невидимый label CTA
+404 и старые list markers; повторные captures подтверждают исправление.
 
 1. Снять screenshot реализации на фиксированном viewport.
 2. Сопоставить структуру, bounding boxes, spacing, typography, colors, images и content flow с Paper.

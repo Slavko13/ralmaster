@@ -1,4 +1,7 @@
 <?
+require($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.php');
+LocalRedirect('/info/news/', true, '301 Moved Permanently');
+
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Новости");
 ?><?$APPLICATION->IncludeComponent("bitrix:news", ".default", array(

@@ -1,6 +1,6 @@
 # Результаты тестирования
 
-Последнее обновление: 2026-10-29.
+Последнее обновление: 2026-10-31.
 
 ## Live functional baseline
 
@@ -385,6 +385,28 @@ Paper regression test. Реальный POST не выполнялся.
 Количество элементов подтверждено локальной БД и DOM: reviews 4, staff 6,
 vacancy 5, news 4, articles 5, FAQ 5, sales 9. Тесты не ослаблялись и не
 выполняли state-changing auth/cart/form действия.
+
+## Итерация 18 — системные страницы и redirects (2026-10-31)
+
+| Проверка | Результат |
+| --- | --- |
+| PHP lint 14 изменённых/new PHP files | **PASS** |
+| `system-pages.spec.ts`, desktop + mobile | **8/8 PASS**, 1.0 min |
+| Связанная regression: system/content/derived/header | **35/35 PASS**, 3.8 min |
+| Local route smoke | **32/32 PASS**, 2.1 min |
+| Search query + map + empty cart + auth labels | **PASS**, динамические компоненты сохранены |
+| Unknown URL | **HTTP 404**, новый system body |
+| `/products/`, `/news/`, `/landings/` | **301 PASS** на канонические routes |
+| Full axe WCAG scope representative system pages | **0 violations** |
+| Desktop/mobile overflow | **PASS**, `scrollWidth === clientWidth` |
+| Visual capture | **10 runs PASS** после двух scoped CSS fixes |
+| Docker runtime | `db`/`web` healthy, `127.0.0.1:8084` |
+
+State-changing submit, добавление товара, оформление заказа и успешный login
+не выполнялись. Проверены только safe rendering/navigation/read-only states.
+Chromium сообщает ожидаемый console resource 404 при открытии основного
+неизвестного URL; тест фильтрует только этот известный main-document signal и
+по-прежнему отклоняет прочие `console.error`/`pageerror`.
 
 Live baseline и финальные local safe suites подтверждают покрытые
 read-only/invalid-input/UI сценарии и воспроизводимость локального runtime.

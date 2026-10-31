@@ -28,24 +28,26 @@ Paper-источник: `Мария's Team` → `Ралмастер` → `Диз
 | `/info/articles/`, `/info/articles/*/` | `ralmaster-blog` list/section/detail / IBlock 37 | NEW / PASSED | — | root, section and representative detail |
 | `/info/faq/` | shared accessible FAQ / IBlock 17 | NEW / PASSED | — | 5 dynamic questions, keyboard `<details>` |
 | `/info/sales/`, `/info/sales/*/` | shared list/detail / IBlock 35 | NEW / PASSED | — | 9 items + representative detail |
-| `/search/` | `bitrix:search.page/search` | LEGACY / TODO | Новый shell, поля, results/empty state | HTTP 200; legacy body confirmed |
-| `/search/map.php` | `bitrix:main.map/.default` | LEGACY / TODO | Новый shell и типографика карты сайта | HTTP 200; legacy body confirmed |
-| `/cart/` | `aspro:basket.allcorp2/.default` | LEGACY / TODO | Restyle basket states without changing data/API | HTTP 200; legacy body confirmed |
-| `/cart/order/` | `aspro:basket.allcorp2/order` | REDIRECT / PARTIAL | Validate intended empty-cart redirect; restyle reachable order state | Redirects to `/cart/` locally |
-| `/login/` | Bitrix auth via `NEED_AUTH` | LEGACY / TODO | New auth shell, labels, errors and focus states | HTTP 200; legacy auth body confirmed |
+| `/search/` | `bitrix:search.page/search` + local system template | NEW / PASSED | — | Query/empty states, axe, desktop/mobile PASS |
+| `/search/map.php` | `bitrix:main.map/ralmaster-system` | NEW / PASSED | — | Live menu tree, axe, desktop/mobile PASS |
+| `/cart/` | `aspro:basket.allcorp2/.default` inside system shell | NEW / PASSED SAFE STATE | State-changing cart flow remains separate | Empty basket dynamic state, desktop/mobile PASS |
+| `/cart/order/` | `aspro:basket.allcorp2/order` | REDIRECT / PASSED EMPTY STATE | Validate filled-cart state only after safe fixture | Empty cart correctly redirects to `/cart/` |
+| `/login/` | local `system.auth.authorize/.default` | NEW / PASSED SAFE STATE | Successful auth remains separate | Fields/recovery/register/social providers preserved; no POST |
 | `/cabinet/`, `/cabinet/registration/`, `/cabinet/forgot-password/` | cabinet feature gate | DISABLED / PASSED | Do not create unreachable fake UI | All redirect to `/`; not an independent public body |
-| `/products/` | legacy `bitrix:catalog/.default` | LEGACY / TODO | Confirm canonical redirect to `/product/` | HTTP 200; duplicate legacy catalog |
-| `/news/` | legacy `bitrix:news/.default` | LEGACY / TODO | Confirm canonical redirect to `/info/news/` | HTTP 200; duplicate legacy news |
-| `/landings/` | `bitrix:news/landings`, IBlock 43 | LEGACY / TODO | Confirm business purpose; redesign or redirect | HTTP 200; legacy body confirmed |
-| unknown route | Bitrix 404 | FUNCTIONAL / TODO UI | Align 404 composition with new system | Real unknown URL returns HTTP 404 |
+| `/products/` | legacy IBlock 2 entry point | 301 / PASSED | — | Redirects to `/product/`; old data retained |
+| `/news/` | legacy IBlock 1 entry point | 301 / PASSED | — | Redirects to `/info/news/`; old data retained |
+| `/landings/` | legacy IBlock 43 entry point | 301 / PASSED | — | Redirects to `/info/articles/`; old data retained |
+| unknown route | shared system 404 | NEW / PASSED | — | Real HTTP 404, accessible actions, desktop/mobile PASS |
 
 ## Итог текущего прохода
 
-- Старый body устранён на семи информационных/корпоративных разделах и их
-  доступных detail/section routes через общие Bitrix-шаблоны.
+- Старый body устранён на информационных/корпоративных и системных публичных
+  маршрутах через общие локальные Bitrix-шаблоны.
 - Динамика IBlock, SEF URL, пагинация, фильтр новостей по году и существующие
   hooks форм отзывов/вопросов сохранены.
 - Cabinet-маршруты не являются отдельными публичными страницами при текущей
   конфигурации и корректно перенаправляются на главную.
-- Следующая группа исправлений: search/map, auth, cart, 404 и решение по трём
-  legacy-дубликатам `/products/`, `/news/`, `/landings/`.
+- Search/map/auth/cart/404 прошли targeted 8/8 и связанную regression 35/35;
+  route smoke после 301-редиректов прошёл 32/32.
+- Открыты только намеренно не выполненные state-changing cart/auth/order
+  сценарии и общие контентные/security-ограничения проекта.

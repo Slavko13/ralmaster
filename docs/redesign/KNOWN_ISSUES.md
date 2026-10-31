@@ -27,7 +27,7 @@
 | FORM-004 | RESOLVED | Modal variants | Bending/powder/discuss-order modal UI и lifecycle требовали отдельной интеграции | Реализованы native dialog variants 748×850/850/898; targeted 3/3 и home+dialogs 10/10 PASS, полный redesign 61/61 |
 | SEC-001 | HIGH | Maps | В tracked include обнаружен hardcoded map key | Не раскрывать; вынести в env и рассмотреть ротацию |
 | CONTENT-001 | RESOLVED | Painting | Повторяющийся текст и hardcoded images | Заменено единым reusable Paper page block для обоих painting routes; originals хранятся локально |
-| ROUTE-001 | MEDIUM | Legacy | `/products/`, `/news/`, `/landings/` могут быть устаревшими, но доступны | Не удалять без аналитики/redirect plan |
+| ROUTE-001 | RESOLVED | Legacy | `/products/`, `/news/`, `/landings/` дублировали актуальные разделы и демонстрационные IBlock | Добавлены 301: `/product/`, `/info/news/`, `/info/articles/`; данные не удалялись; redirect tests PASS |
 | ROUTE-002 | MEDIUM | Links | В коде есть абсолютные ссылки на `bavrasem.beget.tech` | Инвентаризировать и заменить безопасно |
 | A11Y-001 | RESOLVED | Home | Baseline `aria-hidden-focus`: 1 узел | Новая главная исправлена; итоговый axe scan = `[]` |
 | A11Y-002 | RESOLVED | Home | Baseline `color-contrast`: 15 узлов | Цвета/состояния новой главной исправлены; итоговый axe scan = `[]` |
@@ -49,7 +49,8 @@
 | UI-006 | RESOLVED | Header navigation | Desktop/mobile содержали dropdown, submenu и mega-menu вопреки актуальному Paper | Добавлен общий flat Bitrix template; ровно 6 direct links, child DOM отсутствует, mobile ARIA исправлен; desktop 4/4 и mobile 3/3 PASS |
 | UI-007 | RESOLVED | Derived pages | Product/service/partners routes содержали legacy sidebar, empty state, fixed contacts и дублирующий bending CTA | Добавлены reusable detail и dynamic partners templates; fixed legacy UI scoped out; targeted 7/7, regression 29/29, axe `[]` |
 | UI-008 | RESOLVED | Company/info pages | Reviews/staff/vacancy/news/articles/FAQ/sales использовали несовместимый legacy body | Общий dynamic list/detail pattern подключён к 7 IBlock; targeted 15/15, captures 1440/390 и axe `[]` |
-| UI-009 | MEDIUM | System pages | Search/map/login/cart/404 всё ещё используют legacy body | Исправить общей системной итерацией по `ROUTE_UI_AUDIT.md`; не менять auth/cart state без изоляции |
+| UI-009 | RESOLVED | System pages | Search/map/login/cart/404 использовали legacy body | Общий system shell внедрён с сохранением dynamic components; targeted 8/8, related 35/35, route smoke 32/32, axe `[]` |
+| UI-010 | RESOLVED | System visual QA | 404 CTA наследовал синий текст, карта — legacy markers, social auth выглядел несгруппированным | Scoped contrast/list rules и social group применены; повторные 1440/390 captures PASS |
 | A11Y-007 | RESOLVED | Dedicated forms | Скрытые Bitrix labels оставляли controls без доступного имени на Services | Общий form JS назначает ARIA-label каждому non-hidden control; targeted Services 5/5 и полный redesign 61/61 PASS |
 | CONTENT-002 | MEDIUM | Social links | Paper показывает Telegram/MAX, но локальная Bitrix-конфигурация не содержит URL | Не выдумывать URL; визуальные controls помечены как ненастроенные до получения фактических ссылок |
 | CONTENT-003 | MEDIUM | Production FAQ | IBlock 17 не содержит вопросы Paper | Accessible FAQ является явно документированным presentation fallback; синхронизировать с CMS после появления утверждённых данных |

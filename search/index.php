@@ -1,6 +1,13 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Поиск");
+$rmSystemConfig = array(
+	'kind' => 'search',
+	'kicker' => 'Навигация по сайту',
+	'title' => 'Поиск',
+	'intro' => 'Найдите продукцию, услугу или полезный материал по ключевым словам.',
+);
+require($_SERVER['DOCUMENT_ROOT'].SITE_TEMPLATE_PATH.'/page_blocks/ralmaster_system_start.php');
 ?>
 <?$APPLICATION->IncludeComponent("bitrix:search.page", "search", array(
 	"RESTART" => "Y",
@@ -42,4 +49,5 @@ $APPLICATION->SetTitle("Поиск");
 	),
 	false
 );?>
+<?php require($_SERVER['DOCUMENT_ROOT'].SITE_TEMPLATE_PATH.'/page_blocks/ralmaster_system_end.php'); ?>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

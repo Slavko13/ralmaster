@@ -1,4 +1,7 @@
 <?
+require($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.php');
+LocalRedirect('/product/', true, '301 Moved Permanently');
+
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Продукция");
 ?><?$APPLICATION->IncludeComponent("bitrix:catalog", ".default", array(
