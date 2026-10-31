@@ -117,7 +117,7 @@ $rmExamples = array(
 					<p>Окрашиваем плоские изделия, металлические профили и партии деталей на собственном производстве в Видном. Принимаем готовые изделия заказчика и выполняем окраску в составе заказа на изготовление.</p>
 					<button class="rm-powder-button rm-powder-button--primary" type="button" data-rm-discuss-open="powder-coating">
 						<span>Рассчитать окраску</span>
-						<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19L19 5M5 5H19V19"/></svg>
+						<span class="rm-powder-button__arrow" aria-hidden="true">↗</span>
 					</button>
 				</div>
 				<div class="rm-powder-hero__image">
@@ -155,7 +155,7 @@ $rmExamples = array(
 					<p>Возможность окраски проверим по размерам, весу и конструкции изделия.</p>
 					<a class="rm-powder-button rm-powder-button--secondary" href="#powder-estimate">
 						<span>Проверить возможность окраски</span>
-						<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19L19 5M5 5H19V19"/></svg>
+						<span class="rm-powder-button__arrow" aria-hidden="true">↗</span>
 					</a>
 				</div>
 			</div>

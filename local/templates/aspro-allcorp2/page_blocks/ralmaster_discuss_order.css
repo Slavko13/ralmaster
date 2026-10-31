@@ -479,12 +479,28 @@ dialog.rm-discuss .rm-discuss__form form .form-footer .licence_block > label {
   opacity: 1;
 }
 
+@media (min-width: 768px) and (max-height: 899px) {
+  .rm-discuss {
+    height: min(var(--rm-discuss-height, 850px), calc(100dvh - 24px));
+    max-height: calc(100dvh - 24px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .rm-discuss__card {
+    height: auto;
+    min-height: 100%;
+  }
+}
+
 @media (max-width: 767px) {
   .rm-discuss {
     width: calc(100% - 16px);
-    height: min(var(--rm-discuss-height, 850px), calc(100% - 16px));
-    max-height: calc(100% - 16px);
+    height: min(var(--rm-discuss-height, 850px), calc(100dvh - 16px));
+    max-height: calc(100dvh - 16px);
     overflow: auto;
+    overscroll-behavior: contain;
   }
 
   .rm-discuss__card {

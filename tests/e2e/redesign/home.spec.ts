@@ -124,6 +124,16 @@ test.describe('P0 redesigned home', () => {
       const response = await request.get(href, { maxRedirects: 5 });
       expect(response.status(), `Broken internal home link: ${href}`).toBeLessThan(500);
     }
+
+    const arrows = await home.locator('.rm-link-arrow').evaluateAll((nodes) =>
+      nodes.map((node) => {
+        const style = getComputedStyle(node, '::after');
+        return { content: style.content, backgroundImage: style.backgroundImage };
+      }),
+    );
+    expect(arrows.length).toBeGreaterThan(0);
+    expect(arrows.every((arrow) => arrow.content === '"↗"')).toBe(true);
+    expect(arrows.every((arrow) => arrow.backgroundImage === 'none')).toBe(true);
   });
 
   test('loads every rendered image asset', async ({ page }) => {

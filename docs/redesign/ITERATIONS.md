@@ -303,3 +303,18 @@
 - **Исправленные дефекты:** все перечисленные дефекты закрыты. PHP lint PASS; `painting.spec.ts` desktop **8/8 PASS**; `services.spec.ts` desktop **7/7 PASS**; mobile powder/services **2/2 PASS**. На 1288 px `scrollWidth === clientWidth`, estimate form полностью внутри viewport; computed background требований — `rgb(239, 241, 244)`.
 - **Оставшиеся ограничения:** полный общий regression и Lighthouse намеренно не запускались/не продолжались по текущему указанию владельца; успешный state-changing submit/mail/CRM не выполнялся.
 - **Статус:** `PASSED`.
+
+## Итерация 20 — Короткий viewport формы и единые CTA-стрелки (2026-11-01)
+
+- **Цель:** сделать request-dialog полностью достижимым на экранах небольшой высоты и унифицировать повреждённые CTA-стрелки по подтверждённому виду `↗`.
+- **Область изменений:** reusable native dialog на desktop/mobile; home/banner/form submit; metalworking/powder CTA; footer messenger controls.
+- **Связанные макеты Paper:** общие формы запроса расчёта и подтверждённый визуальный вариант стрелки на CTA порошковой окраски.
+- **Затронутые файлы и компоненты:** `ralmaster_discuss_order.css`; `custom.css`; `sections_metalworking_paper.css`; `ralmaster_powder.php/.css`; `footer_1.php`; `derived-pages.spec.ts`; `home.spec.ts`; `services.spec.ts`.
+- **Функциональные автотесты:** открытие product dialog при 1280×720; геометрия внутри viewport; внутренний scroll до submit; Escape; computed `content/background-image` всех CTA-стрелок; связанные form/modal flows без POST.
+- **Визуальные проверки:** `test-results/short-dialog-fixed.png`, `short-dialog-submit-fixed.png`, `metal-arrow-fixed.png`, `powder-arrow-fixed.png`; верх и низ формы доступны, кнопки используют одинаковый знак `↗`.
+- **Критерии приёмки:** dialog не выходит за верх/низ viewport; все поля, consent и submit достижимы; на мобильном нет horizontal overflow; стрелки не образуют сломанный угол и совпадают по направлению/виду; browser regression отсутствует.
+- **Фактический результат:** при desktop height ≤899 px dialog получает `height/max-height` от `100dvh`, собственный vertical scroll и natural-height card; mobile также использует dynamic viewport units. Старые SVG data URI и border/gradient arrow primitives в новом интерфейсе заменены единым текстовым `↗` с фиксированной типографикой. Desktop targeted suite — **30/30 PASS** за 2.7 min; mobile dialog suite — **2/2 PASS**; PHP lint — **2/2 PASS**.
+- **Обнаруженные дефекты:** fixed-height dialog 898 px при viewport 794 px имел `top:-52`, `bottom:846` и `overflow-y:hidden`; предыдущая CSS-стрелка могла отображаться как незамкнутый/сломанный угол.
+- **Исправленные дефекты:** dialog ограничен текущей высотой viewport и прокручивается внутри; submit подтверждён отдельным нижним capture; CTA-стрелки home/metalworking/powder/footer и submit унифицированы.
+- **Оставшиеся ограничения:** успешный state-changing submit/mail/CRM не выполнялся; Lighthouse остаётся приостановлен по текущему указанию владельца.
+- **Статус:** `PASSED`.

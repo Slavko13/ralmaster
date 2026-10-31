@@ -164,6 +164,14 @@ desktop/mobile приёмку: redesign `61/61`, baseline `22/22`, dev smoke `32
   `#175bef`.
 - Проверки hotfix: powder desktop **8/8**, services desktop **7/7**, mobile
   powder/services **2/2**; PHP lint PASS, browser overflow на 1288 px отсутствует.
+- Исправлена доступность общей request-form на коротких desktop viewport:
+  dialog ограничивается `100dvh`, прокручивается внутри и сохраняет доступ к
+  consent/submit при 1280×720 и 1824×794.
+- CTA-стрелки home/hero/metalworking/powder/footer и inline submit приведены к
+  единому знаку `↗` без SVG/background и деформируемых CSS-primitives.
+- Проверки viewport/стрелок: desktop targeted regression **30/30**, mobile
+  dialog regression **2/2**, PHP lint **2/2**, визуальные captures подтверждают
+  доступный submit и одинаковую диагональную стрелку.
 
 ## Hotfix desktop navigation — 2026-10-29
 

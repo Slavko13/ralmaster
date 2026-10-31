@@ -144,6 +144,16 @@ test.describe('Redesigned metalworking root', () => {
     await expect(dialog.getByRole('heading', { name: 'Рассчитать металлообработку' })).toBeVisible();
     await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue('metalworking');
     expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
+
+    const arrows = await page.locator('.rm-metal-link-arrow').evaluateAll((nodes) =>
+      nodes.map((node) => {
+        const style = getComputedStyle(node, '::after');
+        return { content: style.content, backgroundImage: style.backgroundImage };
+      }),
+    );
+    expect(arrows.length).toBeGreaterThan(0);
+    expect(arrows.every((arrow) => arrow.content === '"↗"')).toBe(true);
+    expect(arrows.every((arrow) => arrow.backgroundImage === 'none')).toBe(true);
   });
 
   test('keeps metalworking content inside an intermediate desktop viewport', async ({ page }) => {

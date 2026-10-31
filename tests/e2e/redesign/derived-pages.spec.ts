@@ -91,6 +91,37 @@ test.describe('P0 redesigned derived pages', () => {
     }
   });
 
+  test('desktop dialog remains reachable in a short viewport', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await page.goto('/product/facadecassettes/', { waitUntil: 'networkidle' });
+    await page.locator('.rm-detail-hero [data-rm-discuss-open]').click();
+
+    const dialog = page.locator('dialog[data-rm-discuss-dialog]');
+    await expect(dialog).toBeVisible();
+    const geometry = await dialog.evaluate((node) => {
+      const box = node.getBoundingClientRect();
+      return {
+        top: Math.round(box.top),
+        bottom: Math.round(box.bottom),
+        viewportHeight: window.innerHeight,
+        clientHeight: node.clientHeight,
+        scrollHeight: node.scrollHeight,
+        overflowY: getComputedStyle(node).overflowY,
+      };
+    });
+
+    expect(geometry.top).toBeGreaterThanOrEqual(8);
+    expect(geometry.bottom).toBeLessThanOrEqual(geometry.viewportHeight - 8);
+    expect(geometry.scrollHeight).toBeGreaterThan(geometry.clientHeight);
+    expect(geometry.overflowY).toBe('auto');
+
+    const submit = dialog.locator('input[type="submit"]');
+    await submit.scrollIntoViewIfNeeded();
+    await expect(submit).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+  });
+
   test('partners remain dynamic and all available logos load', async ({ page }) => {
     await page.goto('/company/partners/', { waitUntil: 'domcontentloaded' });
     const root = page.locator('[data-rm-partners-page]');

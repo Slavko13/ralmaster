@@ -107,6 +107,18 @@
   stroke-width: 1.5;
 }
 
+.rm-powder-button__arrow {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  place-items: center;
+  font-family: Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
 .rm-powder-button--primary {
   width: 312px;
   color: #fff !important;

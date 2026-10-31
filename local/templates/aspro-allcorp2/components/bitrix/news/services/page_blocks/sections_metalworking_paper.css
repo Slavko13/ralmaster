@@ -124,15 +124,19 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 }
 
 .rm-metal-link-arrow::after {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  flex: 0 0 16px;
+  display: grid;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  place-items: center;
   margin-left: 16px;
-  content: "";
-  border-top: 2px solid currentColor;
-  border-right: 2px solid currentColor;
-  background: linear-gradient(to top right, transparent calc(50% - 1px), currentColor calc(50% - 1px), currentColor calc(50% + 1px), transparent calc(50% + 1px));
+  content: "↗";
+  border: 0;
+  background: none;
+  font-family: Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 20px;
 }
 
 .rm-metal-services {
