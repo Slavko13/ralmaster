@@ -288,3 +288,18 @@
 - **Исправленные дефекты:** каркас проверен до использования; добавлена локальная русская localization; CTA получил scoped white label; старые markers отключены; тесты отличают ожидаемый HTTP 404 основного документа от неожиданных browser errors. Social providers сгруппированы без удаления функций.
 - **Оставшиеся ограничения:** успешные cart/order/auth операции не выполнялись; empty-cart `/cart/order/` штатно возвращает в `/cart/`; disabled cabinet routes по-прежнему ведут на `/`; Paper не содержит отдельных mobile/system artboards; Lighthouse и полный финальный regression остаются следующей итерацией.
 - **Статус:** `PASSED` (safe read-only/UI scope); state-changing auth/cart gate `NOT RUN`.
+
+## Итерация 19 — UI hotfix: powder и metalworking (2026-11-01)
+
+- **Цель:** устранить сообщённые визуальные дефекты порошковой окраски и металлообработки, не продолжая Lighthouse-оптимизацию.
+- **Область изменений:** full-width composition powder page; intermediate desktop responsive; inline metalworking form; calculation CTA/modal; phone/email icons; CTA и scroll-to-top arrows.
+- **Связанные макеты Paper:** `Порошковая окраска` 1440×6396, секции `Подготовка поверхности перед окраской` 1440×777, `Требования к покрытию` с `#EFF1F4`, `Рассчитать порошковую окраску` 1440×850; общая форма расчёта металлообработки.
+- **Затронутые файлы и компоненты:** `ralmaster_powder.css`; `sections_metalworking_paper.php/.css`; `css/custom.css`; `painting.spec.ts`; `services.spec.ts`; журналы итераций.
+- **Функциональные автотесты:** embedded form validation без POST; видимые labels; CTA `Рассчитать резку/гибку/сварку` открывают native dialog с context `metalworking` и не меняют scroll; desktop/mobile overflow.
+- **Визуальные проверки:** 1440 и 1288 px для powder; 1288 и 1506 px для metalworking; локальные captures `ui-fix-powder-preparation.png`, `ui-fix-powder-form-final.png`, `ui-fix-services-card.png`, `ui-fix-services-form.png`, `ui-fix-services-dialog.png`.
+- **Критерии приёмки:** справа не обрезаются текст, секции или форма; серый фон совпадает с Paper; labels читаемы; телефон/конверт отсутствуют; стрелки не повреждены; CTA открывают popup; контроль «наверх» синий; новая критическая regression отсутствует.
+- **Фактический результат:** legacy `.maxwidth-theme/.content-md` нейтрализованы только для powder page, breakpoint промежуточного desktop поднят до 1439 px, сохранены Paper-геометрия 1440 и адаптивные боковые отступы 1288. Label override учитывает legacy `!important`. Все calculation CTA переведены с `href="#rm-metal-estimate"` на button triggers общего dialog. Контактные SVG скрыты глобально по точным классам `.svg-inline-phone/.svg-inline-email`; scroll-to-top использует `#175bef`; CTA arrow рисуется стабильными border/gradient primitives.
+- **Обнаруженные дефекты:** powder root наследовал 1232/1080 px legacy wrapper и скрывал overflow фиксированных 1312 px grids; media rule срабатывал только ниже 1200 px и отдельно растягивал estimate container до 100%; theme CSS скрывал labels через `display:none !important`; расчётные CTA были anchor links; прежний polygon arrow деформировался; phone/email SVG-классы не совпадали со старым `.svg-phone` selector.
+- **Исправленные дефекты:** все перечисленные дефекты закрыты. PHP lint PASS; `painting.spec.ts` desktop **8/8 PASS**; `services.spec.ts` desktop **7/7 PASS**; mobile powder/services **2/2 PASS**. На 1288 px `scrollWidth === clientWidth`, estimate form полностью внутри viewport; computed background требований — `rgb(239, 241, 244)`.
+- **Оставшиеся ограничения:** полный общий regression и Lighthouse намеренно не запускались/не продолжались по текущему указанию владельца; успешный state-changing submit/mail/CRM не выполнялся.
+- **Статус:** `PASSED`.

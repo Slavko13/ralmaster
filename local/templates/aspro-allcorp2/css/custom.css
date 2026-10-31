@@ -496,11 +496,17 @@ textarea.form-control {
   white-space: nowrap;
 }
 
+.svg-inline-phone,
+.svg-inline-email,
 .rm-header__phone .svg-phone,
 .rm-footer__phone .svg-phone,
 .rm-header__phone .more_phone,
 .rm-footer__phone .more_phone {
-  display: none;
+  display: none !important;
+}
+
+a.scroll-to-top {
+  background-color: var(--rm-primary, #175bef) !important;
 }
 
 body.front-banners-big-short .rm-header,

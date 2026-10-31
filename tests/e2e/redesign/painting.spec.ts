@@ -231,6 +231,48 @@ test.describe('P0 redesigned powder coating page', () => {
     expect(diagnostics).toEqual([]);
   });
 
+  test('keeps Paper sections and estimate form inside an intermediate desktop viewport', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1288, height: 1000 });
+    await page.goto('/painting/', { waitUntil: 'networkidle' });
+
+    await expectNoHorizontalOverflow(page);
+    const geometry = await page.evaluate(() => {
+      const viewportWidth = document.documentElement.clientWidth;
+      const selectors = [
+        '[data-rm-powder-page]',
+        '.rm-powder-preparation__layout',
+        '.rm-powder-requirements__layout',
+        '.rm-powder-estimate__layout',
+        '.rm-powder-estimate__form',
+      ];
+
+      return selectors.map((selector) => {
+        const element = document.querySelector<HTMLElement>(selector);
+        const box = element?.getBoundingClientRect();
+        return {
+          selector,
+          left: Math.round(box?.left ?? -1),
+          right: Math.round(box?.right ?? viewportWidth + 1),
+          viewportWidth,
+        };
+      });
+    });
+
+    for (const item of geometry) {
+      expect(item.left, `${item.selector} is clipped on the left`).toBeGreaterThanOrEqual(0);
+      expect(item.right, `${item.selector} is clipped on the right`).toBeLessThanOrEqual(
+        item.viewportWidth,
+      );
+    }
+
+    await expect(page.locator('.rm-powder-requirements')).toHaveCSS(
+      'background-color',
+      'rgb(239, 241, 244)',
+    );
+  });
+
   test('P0 @mobile mobile render has no overflow or browser errors', async ({ page }, testInfo) => {
     const diagnostics = collectBrowserDiagnostics(page);
     await page.goto('/painting/', { waitUntil: 'domcontentloaded' });

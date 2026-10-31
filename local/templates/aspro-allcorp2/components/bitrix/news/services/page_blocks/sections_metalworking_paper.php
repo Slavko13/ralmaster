@@ -149,7 +149,7 @@ $rmMetalHasPhone = $arRegion ? !empty($arRegion['PHONES']) : (bool)(int)$arTheme
 					<h1>Металлообработка на заказ</h1>
 					<p>Выполняем лазерную резку, гибку и сварку металла на собственном производстве в Видном. Принимаем заказы на отдельные операции и комплексное изготовление по чертежам и техническому заданию.</p>
 				</div>
-				<a class="rm-metal-button rm-metal-link-arrow" href="#rm-metal-estimate">Отправить чертёж на расчёт</a>
+				<button class="rm-metal-button rm-metal-link-arrow" type="button" data-rm-discuss-open="metalworking">Отправить чертёж на расчёт</button>
 			</div>
 		</div>
 	</section>
@@ -171,7 +171,7 @@ $rmMetalHasPhone = $arRegion ? !empty($arRegion['PHONES']) : (bool)(int)$arTheme
 									<div><dt><?=$rmMetalEscape($rmMetalDetail[0])?></dt><dd><?=$rmMetalEscape($rmMetalDetail[1])?></dd></div>
 								<?endforeach;?>
 							</dl>
-							<a class="rm-metal-button rm-metal-button--small rm-metal-link-arrow" href="#rm-metal-estimate"><?=$rmMetalEscape($rmMetalService['CTA'])?></a>
+							<button class="rm-metal-button rm-metal-button--small rm-metal-link-arrow" type="button" data-rm-discuss-open="metalworking"><?=$rmMetalEscape($rmMetalService['CTA'])?></button>
 						</div>
 						<a class="rm-metal-service-card__image" href="<?=$rmMetalEscape($rmMetalService['URL'])?>" aria-label="Подробнее: <?=$rmMetalEscape($rmMetalService['NAME'])?>"><img src="<?=$rmMetalEscape($rmMetalService['IMAGE'])?>" alt="" aria-hidden="true" loading="lazy"></a>
 					</article>
@@ -204,7 +204,7 @@ $rmMetalHasPhone = $arRegion ? !empty($arRegion['PHONES']) : (bool)(int)$arTheme
 				<?foreach ($rmMetalExamples as $rmMetalExample):?>
 					<article class="rm-metal-example-card">
 						<img src="<?=$rmMetalEscape($rmMetalExample['IMAGE'])?>" alt="" aria-hidden="true" loading="lazy">
-						<div class="rm-metal-example-card__copy"><h3><?=$rmMetalEscape($rmMetalExample['TITLE'])?></h3><p><?=$rmMetalEscape($rmMetalExample['TEXT'])?></p><strong><?=$rmMetalEscape($rmMetalExample['META'])?></strong><a class="rm-metal-link-arrow" href="#rm-metal-estimate">Подробнее о заказе</a></div>
+						<div class="rm-metal-example-card__copy"><h3><?=$rmMetalEscape($rmMetalExample['TITLE'])?></h3><p><?=$rmMetalEscape($rmMetalExample['TEXT'])?></p><strong><?=$rmMetalEscape($rmMetalExample['META'])?></strong><button class="rm-metal-link-arrow" type="button" data-rm-discuss-open="metalworking">Подробнее о заказе</button></div>
 					</article>
 				<?endforeach;?>
 			</div>
@@ -257,3 +257,22 @@ $rmMetalHasPhone = $arRegion ? !empty($arRegion['PHONES']) : (bool)(int)$arTheme
 
 	<section class="rm-metal-photo" data-rm-section="photo" aria-label="Производство РАЛМАСТЕР"><img src="<?=$rmMetalEscape($rmMetalHomeAsset('production-powder-line.webp'))?>" alt="Производственная линия РАЛМАСТЕР" loading="lazy"></section>
 </div>
+
+<?php
+if ($rmMetalEstimateFormId):
+	$rmDiscussOptions = array(
+		'title' => 'Рассчитать металлообработку',
+		'intro' => 'Пришлите чертёж или техническое задание. Укажите материал, количество деталей и необходимые операции.',
+		'task_label' => 'Описание задачи',
+		'task_placeholder' => 'Например: вырезать и согнуть 300 деталей из стали 3 мм по чертежу. После гибки нужна порошковая окраска.',
+		'task_help' => 'Укажите материал, толщину металла, размеры, количество деталей и желаемый срок готовности.',
+		'upload_label' => 'Прикрепить чертежи или техническое задание',
+		'button' => 'Отправить запрос на расчёт',
+		'note' => 'Проверим задачу и свяжемся с вами для уточнения деталей и согласования стоимости.',
+		'context' => 'metalworking',
+		'form_id' => $rmMetalEstimateFormId,
+		'height' => 898,
+	);
+	require $_SERVER['DOCUMENT_ROOT'].SITE_TEMPLATE_PATH.'/page_blocks/ralmaster_discuss_order.php';
+endif;
+?>

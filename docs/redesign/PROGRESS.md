@@ -152,6 +152,18 @@ desktop/mobile приёмку: redesign `61/61`, baseline `22/22`, dev smoke `32
 - System pages suite прошёл 8/8; связанная desktop/mobile regression — 35/35
   за 3.8 min; полный route smoke — 32/32 за 2.1 min. Axe representative scope
   пуст, captures 1440/390 не имеют horizontal overflow.
+- По запросу владельца Lighthouse-оптимизация приостановлена, приоритет
+  переключён на визуальные дефекты powder/metalworking.
+- Powder page выведена из legacy maxwidth-wrapper; при 1440 px сохранены
+  Paper-сетки 1312 px, а на промежуточной ширине 1288 px секции, серый фон и
+  inline-форма полностью помещаются в viewport с боковыми отступами.
+- На `/services/` восстановлены видимые labels формы; все CTA расчёта теперь
+  открывают modal `Рассчитать металлообработку` без anchor-scroll.
+- Телефонные и email-пиктограммы удалены из нового интерфейса, CSS-стрелка CTA
+  заменена на корректную диагональную, control «наверх» приведён к синему
+  `#175bef`.
+- Проверки hotfix: powder desktop **8/8**, services desktop **7/7**, mobile
+  powder/services **2/2**; PHP lint PASS, browser overflow на 1288 px отсутствует.
 
 ## Hotfix desktop navigation — 2026-10-29
 

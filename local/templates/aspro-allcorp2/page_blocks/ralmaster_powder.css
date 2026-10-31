@@ -1005,8 +1005,7 @@
 }
 
 body:has(.rm-powder-page) .style-switcher,
-body:has(.rm-powder-page) .ajax_basket > .fixed_wrapper,
-body:has(.rm-powder-page) #scrollToTop {
+body:has(.rm-powder-page) .ajax_basket > .fixed_wrapper {
   display: none !important;
 }
 
@@ -1016,7 +1015,8 @@ body:has(.rm-powder-page) .main > .page-top {
 
 body:has(.rm-powder-page) .main > .container,
 body:has(.rm-powder-page) .main > .container > .row,
-body:has(.rm-powder-page) .main > .container > .row > .col-md-12,
+body:has(.rm-powder-page) .main > .container > .row > .maxwidth-theme,
+body:has(.rm-powder-page) .main > .container > .row > .maxwidth-theme > .content-md,
 body:has(.rm-powder-page) .main > .container .right_block {
   width: 100% !important;
   max-width: none !important;
@@ -1024,7 +1024,7 @@ body:has(.rm-powder-page) .main > .container .right_block {
   padding: 0 !important;
 }
 
-@media (max-width: 1199px) {
+@media (max-width: 1439px) {
   .rm-powder-container {
     width: min(100% - 64px, 1080px);
   }
@@ -1044,7 +1044,6 @@ body:has(.rm-powder-page) .main > .container .right_block {
   .rm-powder-preparation__layout,
   .rm-powder-requirements__layout,
   .rm-powder-estimate__layout {
-    width: 100%;
     height: auto;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 32px;

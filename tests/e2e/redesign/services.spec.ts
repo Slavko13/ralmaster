@@ -113,7 +113,7 @@ test.describe('Redesigned metalworking root', () => {
 
     await page.goto('/services/', { waitUntil: 'domcontentloaded' });
     const formRoot = page.locator(
-      '[data-rm-estimate-form][data-rm-estimate-context="metalworking"]',
+      '#rm-metal-estimate [data-rm-estimate-form][data-rm-estimate-context="metalworking"]',
     );
     await expect(formRoot).toBeVisible();
 
@@ -125,6 +125,36 @@ test.describe('Redesigned metalworking root', () => {
     await formRoot.locator('input[type="submit"]').click();
     await expect(formRoot.locator('.rm-estimate-error')).toHaveCount(2);
     expect(postRequests).toEqual([]);
+  });
+
+  test('shows estimate labels and opens calculation buttons in a dialog', async ({ page }) => {
+    await page.goto('/services/', { waitUntil: 'networkidle' });
+
+    const embeddedForm = page.locator('#rm-metal-estimate');
+    await expect(embeddedForm.getByText('Ваше имя:', { exact: true })).toBeVisible();
+    await expect(
+      embeddedForm.getByText(/Телефон или электронная почта:/, { exact: true }),
+    ).toBeVisible();
+    await expect(embeddedForm.getByText('Описание задачи:', { exact: true })).toBeVisible();
+
+    const scrollBefore = await page.evaluate(() => window.scrollY);
+    await page.getByRole('button', { name: 'Рассчитать резку' }).click();
+    const dialog = page.locator('dialog[data-rm-discuss-variant="metalworking"]');
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByRole('heading', { name: 'Рассчитать металлообработку' })).toBeVisible();
+    await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue('metalworking');
+    expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
+  });
+
+  test('keeps metalworking content inside an intermediate desktop viewport', async ({ page }) => {
+    await page.setViewportSize({ width: 1288, height: 1000 });
+    await page.goto('/services/', { waitUntil: 'networkidle' });
+    await expectNoHorizontalOverflow(page);
+
+    const formBox = await page.locator('.rm-metal-estimate__form').boundingBox();
+    expect(formBox).not.toBeNull();
+    expect(formBox!.x).toBeGreaterThanOrEqual(0);
+    expect(formBox!.x + formBox!.width).toBeLessThanOrEqual(1288);
   });
 
   test('desktop geometry follows the 1440 Paper frame without browser errors', async ({
