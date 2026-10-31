@@ -243,3 +243,18 @@
 - **Исправленные дефекты:** весь дочерний DOM исключён на сервере, а не только скрыт CSS; mobile control получил корректную семантику и состояние.
 - **Оставшиеся ограничения:** mobile navigation является производным решением, поскольку отдельного mobile-фрейма в Paper нет.
 - **Статус:** `PASSED`.
+
+## Итерация 16 — Производные страницы: продукт, услуга и партнёры (2026-10-31)
+
+- **Цель:** удалить оставшиеся legacy Aspro-body на `/product/kapelnik/`, `/services/laser-cutting/` и `/company/partners/`, сохранив Bitrix-данные, маршруты и формы.
+- **Область изменений:** общий section-detail pattern для продукции и услуг; динамическая страница партнёров; устранение старого sidebar/empty-state/fixed contacts; интеграция существующих request-dialog flows.
+- **Связанные макеты Paper:** дизайн-система фреймов `Продукция`, `Металлообработка`, `Шаблон подробного проекта` и общие формы файла `Мария's Team / Ралмастер / Дизайн`; отдельных фреймов для этих трёх URL в Paper нет.
+- **Затронутые файлы и компоненты:** `product/index.php`, `services/index.php`, `company/partners/index.php`; section templates `catalog`/`services`; новые `section_product_paper.php`, `section_service_paper.php`, `ralmaster_detail.php/.css`; page block и `news.list/partners-paper`; `tests/e2e/redesign/derived-pages.spec.ts`.
+- **Функциональные автотесты:** HTTP/SEF routes, динамические h1/images/7 партнёров, отсутствие legacy wrappers, dialog open/close без POST, сохранение точной bending form 748×850, browser diagnostics, axe и responsive overflow.
+- **Визуальные проверки:** before/after captures трёх маршрутов; финальные `test-results/derived-after-kapelnik.png`, `derived-after-partners-final.png`, `derived-after-laser-mobile.png`; desktop 1440 и mobile 390 проверены секциями.
+- **Критерии приёмки:** ни одного старого sidebar/alert/дублирующего CTA, CMS-данные не заменены статикой, локальные изображения загружаются, CTA доступен, desktop/mobile без overflow, axe violations отсутствуют.
+- **Фактический результат:** создан единый динамический detail-шаблон для section routes продукции и услуг. Название, описание и section picture читаются из IBlock; локальный asset используется только как fallback. `/company/partners/` выводит 7 актуальных IBlock-записей с логотипами, описаниями и ссылками. HTML entities в названиях корректно декодируются. Старый fixed contacts widget скрыт только на новых страницах. Route-specific bending dialog перенесён в общий service-detail без потери контекста и точной Paper-геометрии. PHP lint 10/10; targeted suite 7/7; связанная regression 29/29; полный axe scope для всех трёх страниц — `[]`.
+- **Обнаруженные дефекты:** legacy empty/sidebar composition, дублирующий bending CTA/dialog, видимый старый fixed contacts widget, literal `&quot;` в именах партнёров и два serious contrast-нарушения в 13 px eyebrow labels.
+- **Исправленные дефекты:** старые wrappers обходятся server-side; bending flow конфигурируется внутри reusable detail; fixed widget скрыт scoped CSS; entities декодируются перед escaping; цвета eyebrow/contact kicker доведены до WCAG, повторный axe — 0 нарушений на всех трёх URL.
+- **Оставшиеся ограничения:** отдельных desktop/mobile Paper-фреймов этих страниц нет, поэтому композиция наследует подтверждённую дизайн-систему; успешный POST/mail/CRM по-прежнему не выполнялся.
+- **Статус:** `PASSED`.

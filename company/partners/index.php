@@ -157,7 +157,7 @@ $APPLICATION->SetTitle("Партнеры");
 		"USE_RSS" => "N",
 		"USE_SEARCH" => "N",
 		"VIEW_TYPE" => "table",
-		"SECTION_ELEMENTS_TYPE_VIEW" => "FROM_MODULE",
+		"SECTION_ELEMENTS_TYPE_VIEW" => "list_elements_partners_paper",
 		"ELEMENT_TYPE_VIEW" => "element_1",
 		"STRICT_SECTION_CHECK" => "N",
 		"T_REVIEWS" => "",

@@ -1,11 +1,13 @@
 # Прогресс редизайна
 
-Последнее обновление: 2026-10-29.
+Последнее обновление: 2026-10-31.
 
 ## Текущее состояние
 
 Полный UI-редизайн по 12 Paper-фреймам реализован и прошёл безопасную
 desktop/mobile приёмку: redesign `61/61`, baseline `22/22`, dev smoke `32/32`.
+После коррекции header завершена итерация производных страниц: три legacy body
+заменены новой системой, targeted `7/7`, связанная regression `29/29`, axe `[]`.
 Отдельная Web Form SID `ralmaster_estimate_s1` установлена и проверена в dev и
 изолированной production-like БД; legacy Web Form ID 5 не изменялась. Проекты,
 контакты и три modal-варианта завершены в UI/safe-functional scope. Реальная
@@ -13,7 +15,7 @@ desktop/mobile приёмку: redesign `61/61`, baseline `22/22`, dev smoke `32
 
 | Направление | Статус | Результат |
 | --- | --- | --- |
-| Git safety | PASSED | Ветка `feature/full-paper-redesign`, рабочий baseline HEAD до исполнения `a43ff3e...`, remote отсутствует |
+| Git safety | PASSED | Ветка `feature/full-paper-redesign`, текущий базовый HEAD `08f9756`; `origin` указывает на `Slavko13/ralmaster` |
 | Docker-конфигурация | PASSED (syntax) | Dev/prod-like Compose и healthcheck созданы, `config --quiet` проходит |
 | Docker runtime | PASSED | Docker Desktop 4.97, engine 29.9.2; dev build успешен, `db`/`web` healthy |
 | Данные Bitrix | PASSED (local) | Чувствительный backup вне Git импортирован без SQL-ошибок; 422 таблицы |
@@ -32,6 +34,7 @@ desktop/mobile приёмку: redesign `61/61`, baseline `22/22`, dev smoke `32
 | Металлообработка | PASSED | Dynamic IBlock 40; desktop 5/5 + mobile 1/1; exact 1440×5741; context `metalworking` |
 | Порошковая окраска | PASSED | Оба маршрута 200; desktop 7/7 + mobile 1/1; exact 1440×6396; form 748×738 unclipped |
 | Производство | PASSED | Dynamic partners IBlock 20; desktop 8/8 + mobile 1/1; exact 1440×7203; `/company/partners/` сохранён |
+| Производные страницы | PASSED | `/product/kapelnik/`, `/services/laser-cutting/`, `/company/partners/`; reusable detail + dynamic partners, regression 29/29, axe `[]` |
 | Проекты | PASSED | Listing 1440×4405, общий detail 1440×4833, ЖК «Символ» 1440×3184; IBlock 36/SEF и честные empty/demo states сохранены |
 | Контакты | PASSED (safe UI) | 1440×4120; CMS phone/email/addresses, map и dialog 748×850; реальный submit не выполнялся, `SEC-001` открыт |
 | Modal variants | PASSED (safe UI) | Discuss/bending 748×850, coating 748×898; mobile natural-flow без overlap; keyboard, validation, AJAX redecorate и loading проверены без POST |
@@ -120,6 +123,12 @@ desktop/mobile приёмку: redesign `61/61`, baseline `22/22`, dev smoke `32
 - Финальный visual capture пересоздан для 20 viewport/page runs: diagnostics
   пусты, horizontal overflow отсутствует; отдельный
   `powder-mobile-390-dialog-bottom.png` подтверждает неперекрывающийся низ формы.
+- Legacy-body на `Капельник`, `Лазерная резка металла` и `Партнёры` заменены
+  новой Paper-системой. Данные остаются CMS-driven; 7 партнёров читаются из
+  IBlock 20, section name/description/picture — из соответствующих IBlock.
+- Общий product/service detail сохраняет bending dialog 748×850 и безопасный
+  no-POST flow; targeted suite 7/7, связанная regression 29/29, полный axe для
+  трёх новых страниц не содержит нарушений.
 
 ## Hotfix desktop navigation — 2026-10-29
 
@@ -170,10 +179,12 @@ Legacy `header_fixed` теперь не рендерится только при
 - PHP lint: 4/4 PASS; targeted desktop: 4/4 PASS; targeted mobile: 3/3 PASS; home/navigation regression: 14/14 PASS.
 - Visual shell: desktop 1440×106, mobile 390×72, horizontal overflow отсутствует.
 
-1. Для полного state-changing gate сначала изолировать mail/CRM, затем проверить
-   успешное сохранение результата и уведомление только на локальной БД.
-2. Вынести hardcoded map key из tracked source и рассмотреть его ротацию; после
-   этого отдельно закрыть `SEC-001`.
+1. Выполнить аудит остальных публичных маршрутов на старые Aspro-body и
+   составить точный список оставшихся производных страниц без Paper-фреймов.
+2. После route audit запустить полную functional/visual regression и Lighthouse
+   на desktop/mobile; результаты фиксировать без искусственного завышения.
+3. Для state-changing gate сначала изолировать mail/CRM; отдельно закрыть
+   `SEC-001` с hardcoded map key.
 
 ## Правило обновления
 

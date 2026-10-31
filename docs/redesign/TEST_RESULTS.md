@@ -348,6 +348,24 @@ metal-bending **748×850**, powder-coating **748×898**; heading **36/44**, по
 - Проверено: шесть direct links, отсутствие dropdown/submenu/table-menu DOM, отсутствие `#headerfixed` после scroll, mobile `aria-expanded`/label и отсутствие POST.
 - Visual shell capture завершён без horizontal overflow.
 
+## Итерация 16 — производные страницы (2026-10-31)
+
+| Проверка | Результат |
+| --- | --- |
+| PHP lint изменённых PHP-файлов | **10/10 PASS** |
+| `derived-pages.spec.ts`, desktop + mobile | **7/7 PASS**, 1.2 min |
+| Связанная regression: derived/dialogs/header/products/services | **29/29 PASS**, 3.5 min |
+| `/product/kapelnik/` | HTTP 200, dynamic section data, no legacy body, dialog без POST |
+| `/services/laser-cutting/` | HTTP 200, dynamic section data, no legacy body, dialog без POST |
+| `/company/partners/` | HTTP 200, 7 dynamic cards, все доступные логотипы загружены |
+| Axe WCAG scope | **0 violations** на всех трёх маршрутах после contrast fix |
+| Desktop/mobile overflow и diagnostics | **PASS**, horizontal overflow отсутствует, console/page errors `[]` |
+| Docker runtime | `db`/`web` healthy, `127.0.0.1:8084` |
+
+Route-specific bending dialog после переноса в общий service-detail сохранил
+контекст `metal-bending`, размер **748×850** и все точные поля/тексты существующего
+Paper regression test. Реальный POST не выполнялся.
+
 Live baseline и финальные local safe suites подтверждают покрытые
 read-only/invalid-input/UI сценарии и воспроизводимость локального runtime.
 Production-like schema verify выполнен; повторный smoke после последней

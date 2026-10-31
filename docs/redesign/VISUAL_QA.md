@@ -136,6 +136,16 @@ screenshots и доступные оригинальные images. Content hash 
 - Mobile capture `test-results/redesign-shell/mobile-390-top.png`: 390×72, контент не выходит за viewport; navigation drawer проверен функционально как плоский список.
 - Вердикт checkpoint: spacing/typography/contrast/alignment/artboard fit — PASS; отдельного mobile Paper-фрейма нет, поэтому mobile остаётся согласованной производной реализацией.
 
+## Производные страницы — 2026-10-31
+
+- Источник системы: Paper `Продукция`, `Металлообработка`, `Шаблон подробного проекта`; отдельных artboards для проверяемых URL нет.
+- `/product/kapelnik/`: desktop hero/detail/process/contact визуально проверены; section image загружен из CMS, legacy empty-state/sidebar отсутствуют.
+- `/services/laser-cutting/`: desktop и full mobile 390 проверены; mobile flow не имеет горизонтального overflow, CTA и изображения не обрезаны.
+- `/company/partners/`: 7 динамических карточек, реальные логотипы, длинные описания и неполный последний ряд проверены; HTML entities в названиях исправлены.
+- Scoped legacy fixed contacts скрыт; header/footer остаются общими Paper-компонентами.
+- Артефакты: `test-results/derived-after-kapelnik.png`, `derived-after-partners-final.png`, `derived-after-laser-mobile.png`.
+- Итог: visual checkpoint `PASS`; browser diagnostics `[]`; axe после contrast correction `[]` на всех трёх маршрутах.
+
 1. Снять screenshot реализации на фиксированном viewport.
 2. Сопоставить структуру, bounding boxes, spacing, typography, colors, images и content flow с Paper.
 3. Отдельно проверить responsive и interaction states как производные решения.

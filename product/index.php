@@ -255,7 +255,7 @@ $rmIsProductRoot = rtrim((string)$rmProductPath, '/') === '/product';
 		"SECTIONS_TYPE_VIEW" => $rmIsProductRoot ? "sections_products_paper" : "FROM_MODULE",
 		"ELEMENT_TYPE_VIEW" => "FROM_MODULE",
 		"SHOW_SECTION_PREVIEW_DESCRIPTION" => "Y",
-		"SECTION_TYPE_VIEW" => "FROM_MODULE",
+		"SECTION_TYPE_VIEW" => "section_product_paper",
 		"LINE_ELEMENT_COUNT" => "3",
 		"DETAIL_STRICT_SECTION_CHECK" => "Y",
 		"SHOW_BRAND_DETAIL" => "Y",

@@ -5,7 +5,7 @@
 $arItemFilter = CAllcorp2::GetCurrentSectionElementFilter($arResult["VARIABLES"], $arParams);
 $arSectionFilter = CAllcorp2::GetCurrentSectionFilter($arResult["VARIABLES"], $arParams);
 $itemsCnt = CCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), $arItemFilter, array());
-$arSection = CCache::CIblockSection_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "N")), $arSectionFilter, false, array('ID', 'DESCRIPTION', 'PICTURE', 'DETAIL_PICTURE', 'IBLOCK_ID', 'UF_TOP_SEO'));
+$arSection = CCache::CIblockSection_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "N")), $arSectionFilter, false, array('ID', 'NAME', 'CODE', 'SECTION_PAGE_URL', 'DESCRIPTION', 'PICTURE', 'DETAIL_PICTURE', 'IBLOCK_ID', 'UF_TOP_SEO'));
 CAllcorp2::AddMeta(
 	array(
 		'og:description' => $arSection['DESCRIPTION'],
@@ -14,6 +14,11 @@ CAllcorp2::AddMeta(
 );
 $arSubSectionFilter = CAllcorp2::GetCurrentSectionSubSectionFilter($arResult["VARIABLES"], $arParams, $arSection['ID']);
 $arSubSections = CCache::CIblockSection_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "Y")), $arSubSectionFilter, false, array("ID", "DEPTH_LEVEL"));
+
+if ($arSection && $arParams['SECTION_TYPE_VIEW'] === 'section_service_paper') {
+	include __DIR__.'/page_blocks/section_service_paper.php';
+	return;
+}
 ?>
 <?if(!$arSection && $arParams['SET_STATUS_404'] !== 'Y'):?>
 <!--<div class="alert alert-warning"><?//=GetMessage("SECTION_NOTFOUND")?></div>-->

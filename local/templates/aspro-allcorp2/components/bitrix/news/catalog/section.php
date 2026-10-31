@@ -18,7 +18,7 @@ if(!$dbProperty->SelectedRowsCount() && $arItemFilter['PROPERTY_LINK_REGION'])
 
 $itemsCnt = CCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), $arItemFilter, array());
 
-$arSection = CCache::CIblockSection_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "N")), $arSectionFilter, false, array('ID', 'IBLOCK_ID', 'DESCRIPTION', 'PICTURE', 'DETAIL_PICTURE',  'UF_VIEWTYPE', 'UF_TOP_SEO'), true);
+$arSection = CCache::CIblockSection_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "N")), $arSectionFilter, false, array('ID', 'IBLOCK_ID', 'NAME', 'CODE', 'SECTION_PAGE_URL', 'DESCRIPTION', 'PICTURE', 'DETAIL_PICTURE',  'UF_VIEWTYPE', 'UF_TOP_SEO'), true);
 CAllcorp2::AddMeta(
 	array(
 		'og:description' => $arSection['DESCRIPTION'],
@@ -27,6 +27,12 @@ CAllcorp2::AddMeta(
 );
 $arSubSectionFilter = CAllcorp2::GetCurrentSectionSubSectionFilter($arResult["VARIABLES"], $arParams, $arSection['ID']);
 $arSubSections = CCache::CIblockSection_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "Y")), $arSubSectionFilter, false, array("ID", "DEPTH_LEVEL"));
+
+if ($arSection && $arParams['SECTION_TYPE_VIEW'] === 'section_product_paper') {
+	include __DIR__.'/page_blocks/section_product_paper.php';
+	CAllcorp2::checkBreadcrumbsChain($arParams, $arSection);
+	return;
+}
 ?>
 
 <?if(!$arSection && $arParams['SET_STATUS_404'] !== 'Y'):?>

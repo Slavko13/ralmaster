@@ -33,10 +33,10 @@
 | A11Y-002 | RESOLVED | Home | Baseline `color-contrast`: 15 узлов | Цвета/состояния новой главной исправлены; итоговый axe scan = `[]` |
 | A11Y-003 | RESOLVED | Home | Baseline `link-name`: 6 узлов | Добавлены доступные имена и устранён redundant linked-image alt; итоговый axe scan = `[]` |
 | A11Y-004 | RESOLVED | Home | Baseline `target-size`: 2 узла | Интерактивные зоны новой главной исправлены; итоговый axe scan = `[]` |
-| A11Y-005 | HIGH | Service detail | `color-contrast`: 6, `link-name`: 1 | Исправить в service iteration |
+| A11Y-005 | RESOLVED | Service detail | Legacy `color-contrast`: 6, `link-name`: 1 | Service section переведён на новый detail pattern; полный повторный axe для `/services/laser-cutting/` = `[]` |
 | A11Y-006 | HIGH | Contacts | `color-contrast`: 10, `link-name`: 1 | Исправить в contacts iteration |
 | ROUTE-003 | INFO | Forms | Direct `/form/` без form ID ожидаемо возвращает 404/not-found без fatal | Сохранить корректное поведение; передавать ID в реальном form flow |
-| GIT-001 | LOW | Delivery | Git remote отсутствует | Локальные коммиты допустимы; push только после явного назначения remote |
+| GIT-001 | RESOLVED | Delivery | Git remote отсутствовал на раннем baseline | `origin` настроен на `https://github.com/Slavko13/ralmaster.git`; изменения отправляются в `feature/full-paper-redesign` |
 | UI-001 | RESOLVED | Home CTA | Две CTA главной отображались полноширинными полосами из-за отсутствующих правил в legacy minified CSS | Исправлено в последнем `custom.css` override; реальный рендер и modal test проходят |
 | UI-002 | RESOLVED | Footer | Subscription band и flex shrink ломали Paper-высоту 430 px, legal row и mobile footer | Subscription исключён из нового footer; desktop/mobile root geometry исправлена |
 | HOME-001 | RESOLVED | Mobile home | Legacy hero на 390 px оставлял большое пустое поле | Новая Paper-композиция внедрена; capture 390 px без horizontal overflow и browser errors |
@@ -47,6 +47,7 @@
 | UI-004 | SUPERSEDED | Desktop navigation | Исторический hotfix поддерживал wide dropdown и hover trajectory | Актуальный Paper требует плоскую навигацию; dropdown полностью удалён в UI-006 |
 | UI-005 | RESOLVED | Desktop sticky header | При прокрутке Aspro рендерил отдельный legacy `#headerfixed` поверх нового `.rm-header` | Новый header выставляет явный server-side флаг; legacy fixed header при нём не рендерится. Desktop 4/4, mobile 2/2, PHP lint 2/2 PASS; browser diagnostics `[]` |
 | UI-006 | RESOLVED | Header navigation | Desktop/mobile содержали dropdown, submenu и mega-menu вопреки актуальному Paper | Добавлен общий flat Bitrix template; ровно 6 direct links, child DOM отсутствует, mobile ARIA исправлен; desktop 4/4 и mobile 3/3 PASS |
+| UI-007 | RESOLVED | Derived pages | Product/service/partners routes содержали legacy sidebar, empty state, fixed contacts и дублирующий bending CTA | Добавлены reusable detail и dynamic partners templates; fixed legacy UI scoped out; targeted 7/7, regression 29/29, axe `[]` |
 | A11Y-007 | RESOLVED | Dedicated forms | Скрытые Bitrix labels оставляли controls без доступного имени на Services | Общий form JS назначает ARIA-label каждому non-hidden control; targeted Services 5/5 и полный redesign 61/61 PASS |
 | CONTENT-002 | MEDIUM | Social links | Paper показывает Telegram/MAX, но локальная Bitrix-конфигурация не содержит URL | Не выдумывать URL; визуальные controls помечены как ненастроенные до получения фактических ссылок |
 | CONTENT-003 | MEDIUM | Production FAQ | IBlock 17 не содержит вопросы Paper | Accessible FAQ является явно документированным presentation fallback; синхронизировать с CMS после появления утверждённых данных |
