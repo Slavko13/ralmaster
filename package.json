@@ -13,13 +13,22 @@
     "test:e2e:baseline": "node tests/run-baseline.mjs",
     "test:e2e:headed": "playwright test --headed --project=desktop-chromium",
     "test:e2e:report": "playwright show-report",
-    "test:e2e:install": "playwright install chromium"
+    "test:e2e:install": "playwright install chromium",
+    "lighthouse:smoke": "node scripts/run-lighthouse.mjs --routes=home --runs=1",
+    "lighthouse:proxy:up": "docker compose -p ralmaster-redesign-production -f compose.production.yml -f compose.lighthouse.yml up -d --wait",
+    "lighthouse:proxy:stop": "docker compose -p ralmaster-redesign-production -f compose.production.yml -f compose.lighthouse.yml stop lighthouse",
+    "lighthouse:desktop": "node scripts/run-lighthouse.mjs --profile=desktop",
+    "lighthouse:mobile": "node scripts/run-lighthouse.mjs --profile=mobile",
+    "lighthouse:key-pages": "node scripts/run-lighthouse.mjs --profile=all",
+    "lighthouse:compare": "node scripts/compare-lighthouse.mjs",
+    "lighthouse:check": "node scripts/check-lighthouse.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
     "@fontsource-variable/inter-tight": "^5.3.0",
     "@fontsource-variable/manrope": "^5.3.0",
     "@fontsource-variable/onest": "^5.3.1",
-    "@playwright/test": "^1.64.1"
+    "@playwright/test": "^1.64.1",
+    "lighthouse": "^13.6.0"
   }
 }

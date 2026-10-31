@@ -32,6 +32,7 @@
 /playwright-report/
 /blob-report/
 /coverage/
+/artifacts/lighthouse/
 
 # Docker runtime data and private database dumps
 /docker/db/data/

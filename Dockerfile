@@ -35,6 +35,10 @@ RUN install -d -m 0755 /opt/ralmaster
 COPY --chmod=0644 docker/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY --chmod=0644 docker/php/bitrix.ini /usr/local/etc/php/conf.d/90-bitrix.ini
 COPY --chmod=0644 docker/healthz.php /opt/ralmaster/healthz.php
+COPY --chmod=0755 docker/entrypoint.sh /usr/local/bin/ralmaster-entrypoint
+
+ENTRYPOINT ["ralmaster-entrypoint"]
+CMD ["apache2-foreground"]
 
 WORKDIR /var/www/html
 

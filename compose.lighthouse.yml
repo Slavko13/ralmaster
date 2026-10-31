@@ -1,0 +1,17 @@
+services:
+  lighthouse:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:${LIGHTHOUSE_HTTPS_PORT:-8443}:443
+    volumes:
+      - ./docker/lighthouse/Caddyfile:/etc/caddy/Caddyfile:ro
+      - lighthouse-data:/data
+      - lighthouse-config:/config
+    depends_on:
+      web:
+        condition: service_healthy
+
+volumes:
+  lighthouse-data:
+  lighthouse-config:

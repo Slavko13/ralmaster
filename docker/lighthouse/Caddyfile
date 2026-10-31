@@ -1,0 +1,12 @@
+{
+	auto_https disable_redirects
+}
+
+https://localhost:443 {
+	tls internal
+	encode zstd gzip
+	header X-Robots-Tag "noindex, nofollow"
+	reverse_proxy web:80 {
+		header_up Host 127.0.0.1:8085
+	}
+}

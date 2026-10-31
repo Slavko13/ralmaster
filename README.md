@@ -139,3 +139,31 @@ The final verified development results are 61/61 redesign tests, 22/22 updated
 baseline tests, and 32/32 route smoke tests. Successful state-changing
 form/mail/CRM scenarios remain intentionally not run. Engineering status and
 remaining blockers are tracked in `docs/redesign/`.
+
+## Lighthouse
+
+Use the isolated production-like stack and its local HTTPS proxy. The proxy is
+bound only to `127.0.0.1:8443`, uses Caddy's local certificate, enables
+compression, and sends `X-Robots-Tag: noindex, nofollow` so the QA endpoint is
+never presented as indexable.
+
+```powershell
+npm run lighthouse:proxy:up
+npm run lighthouse:smoke
+npm run lighthouse:desktop
+npm run lighthouse:mobile
+npm run lighthouse:key-pages
+npm run lighthouse:compare
+npm run lighthouse:check
+```
+
+Reports are written to the ignored `artifacts/lighthouse/<phase>/` directory.
+Set `LIGHTHOUSE_PHASE=before` or `after`, `LIGHTHOUSE_RUNS` (default `3`), and
+`LIGHTHOUSE_BASE_URL` when a different isolated endpoint is required. The
+runner deliberately excludes only Lighthouse's `charset` audit because Chrome
+156 currently fails to return the main-document body to that audit; the actual
+response header is still checked separately and is
+`Content-Type: text/html; charset=UTF-8`. All other category audits and raw
+scores remain unchanged. The SEO score on this local/test endpoint is expected
+to include the intentional noindex penalty; production indexability must be
+verified separately rather than weakening QA protection.

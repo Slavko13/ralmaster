@@ -47,6 +47,8 @@ services:
       - 127.0.0.1:${APP_PROD_PORT:-8081}:80
     volumes:
       - .:/var/www/html:ro
+      - ./docker/bitrix/.settings_extra.php:/var/www/html/bitrix/.settings_extra.php:ro
+      - ./docker/bitrix/dbconn.php:/var/www/html/bitrix/php_interface/dbconn.php:ro
       - ./upload:/var/www/html/upload
       - bitrix-cache:/var/www/html/bitrix/cache
       - bitrix-managed-cache:/var/www/html/bitrix/managed_cache
