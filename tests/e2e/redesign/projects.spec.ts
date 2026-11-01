@@ -154,6 +154,10 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
       ),
     ).toBe(true);
     expect(productGeometry.every(({ descriptionFits }) => descriptionFits)).toBe(true);
+    await expect(page.locator('.rm-projects-product-card img').first()).toHaveCSS(
+      'object-fit',
+      'cover',
+    );
 
     await expect(page.locator('.rm-projects-operation-grid img')).toHaveCount(3);
   });

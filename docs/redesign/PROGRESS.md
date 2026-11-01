@@ -388,6 +388,15 @@ Legacy `header_fixed` теперь не рендерится только при
   **7/7 PASS**; финальный intermediate gate **2/2 PASS**.
 - Visual QA: `artifacts/ui-audit/iteration-31-*.png`.
 
+## Изображения product-карточек Projects без полей — 2026-11-01
+
+- На `/projects/` три фотографии product-карточек переведены с `contain` на
+  центрированный `cover`: image row 421×280 px заполняется полностью.
+- Геометрия заголовков, описаний и высота секции сохранены.
+- Targeted Playwright **3/3 PASS**; полный Projects desktop regression
+  **14/14 PASS**; mobile regression **3/3 PASS**.
+- Visual QA: `artifacts/ui-audit/iteration-32-project-products-cover.png`.
+
 ## Следующий допустимый шаг
 
 ### Коррекция header — 2026-10-31
