@@ -15,20 +15,26 @@ $this->setFrameMode(true);
 			$this->AddDeleteAction($rmProject['ID'], $rmButtons['edit']['delete_element']['ACTION_URL'], CIBlock::GetArrayByID($rmProject['IBLOCK_ID'], 'ELEMENT_DELETE'), array('CONFIRM' => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
 			$rmProjectImage = (string)($rmProject['RM_PROJECT']['IMAGE'] ?? '');
 			?>
-			<article class="rm-project-card<?=$rmIndex % 2 ? ' rm-project-card--reverse' : ''?>" id="<?=$this->GetEditAreaId($rmProject['ID'])?>" data-project-code="<?=htmlspecialcharsbx((string)$rmProject['CODE'])?>">
-				<a class="rm-project-card__image" href="<?=htmlspecialcharsbx($rmProject['DETAIL_PAGE_URL'])?>" aria-label="Открыть проект <?=htmlspecialcharsbx($rmProject['NAME'])?>">
+			<article class="rm-project-card" id="<?=$this->GetEditAreaId($rmProject['ID'])?>" data-project-code="<?=htmlspecialcharsbx((string)$rmProject['CODE'])?>">
+				<div class="rm-project-card__body">
+					<div class="rm-project-card__summary">
+						<h2><a href="<?=htmlspecialcharsbx($rmProject['DETAIL_PAGE_URL'])?>"><?=htmlspecialcharsbx($rmProject['RM_PROJECT']['NAME'])?></a></h2>
+						<p><?=htmlspecialcharsbx($rmProject['RM_PROJECT']['DESCRIPTION'])?></p>
+						<div class="rm-project-card__meta">
+							<?if ($rmProject['RM_PROJECT']['YEAR']):?><span><?=htmlspecialcharsbx($rmProject['RM_PROJECT']['YEAR'])?></span><?endif;?>
+							<?if ($rmProject['RM_PROJECT']['YEAR'] && $rmProject['RM_PROJECT']['TYPE']):?><i aria-hidden="true"></i><?endif;?>
+							<?if ($rmProject['RM_PROJECT']['TYPE']):?><span><?=htmlspecialcharsbx($rmProject['RM_PROJECT']['TYPE'])?></span><?endif;?>
+						</div>
+					</div>
+					<a class="rm-project-card__link" href="<?=htmlspecialcharsbx($rmProject['DETAIL_PAGE_URL'])?>">Подробнее о заказе <span aria-hidden="true">↗</span></a>
+				</div>
+				<a class="rm-project-card__image" href="<?=htmlspecialcharsbx($rmProject['DETAIL_PAGE_URL'])?>" aria-label="Открыть проект <?=htmlspecialcharsbx($rmProject['RM_PROJECT']['NAME'])?>">
 					<?if ($rmProjectImage):?>
-						<img src="<?=htmlspecialcharsbx($rmProjectImage)?>" alt="<?=htmlspecialcharsbx($rmProject['NAME'])?>"<?=$rmIndex ? ' loading="lazy"' : ' fetchpriority="high"'?>>
+						<img src="<?=htmlspecialcharsbx($rmProjectImage)?>" alt="<?=htmlspecialcharsbx($rmProject['RM_PROJECT']['NAME'])?>"<?=$rmIndex ? ' loading="lazy"' : ' fetchpriority="high"'?>>
 					<?else:?>
 						<span class="rm-project-card__placeholder" aria-hidden="true"></span>
 					<?endif;?>
 				</a>
-				<div class="rm-project-card__body">
-					<span class="rm-project-card__number"><?=str_pad((string)($rmIndex + 1), 2, '0', STR_PAD_LEFT)?></span>
-					<h2><a href="<?=htmlspecialcharsbx($rmProject['DETAIL_PAGE_URL'])?>"><?=$rmProject['NAME']?></a></h2>
-					<p><?=htmlspecialcharsbx($rmProject['RM_PROJECT']['DESCRIPTION'])?></p>
-					<a class="rm-project-card__link" href="<?=htmlspecialcharsbx($rmProject['DETAIL_PAGE_URL'])?>">Подробнее о проекте <span aria-hidden="true">↗</span></a>
-				</div>
 			</article>
 		<?endforeach;?>
 	</div>

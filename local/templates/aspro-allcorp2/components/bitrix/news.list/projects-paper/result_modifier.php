@@ -5,6 +5,27 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
 $rmProjectAssetRoot = SITE_TEMPLATE_PATH.'/images/ralmaster/projects/';
 
+$rmPaperProjects = array(
+	'zhk-simvol' => array(
+		'NAME' => 'ЖК «Символ»',
+		'DESCRIPTION' => 'Декоративные корзины для кондиционеров',
+		'YEAR' => '2025',
+		'TYPE' => 'По индивидуальному проекту',
+	),
+	'zhk-belyy-grad' => array(
+		'NAME' => 'ЖК «Белый град»',
+		'DESCRIPTION' => 'Декоративные корзины для кондиционеров',
+		'YEAR' => '2025',
+		'TYPE' => 'По индивидуальному проекту',
+	),
+	'zhk-simvol-2' => array(
+		'NAME' => 'ЖК «Символ 2»',
+		'DESCRIPTION' => 'Декоративные корзины для кондиционеров',
+		'YEAR' => '2025',
+		'TYPE' => 'По индивидуальному проекту',
+	),
+);
+
 foreach ($arResult['ITEMS'] as &$rmProjectItem) {
 	$rmCode = mb_strtolower((string)($rmProjectItem['CODE'] ?? ''));
 	$rmName = mb_strtolower((string)($rmProjectItem['NAME'] ?? ''));
@@ -44,9 +65,14 @@ foreach ($arResult['ITEMS'] as &$rmProjectItem) {
 		$rmDescription = trim(strip_tags((string)$rmTaskValue));
 	}
 
+	$rmPaperProject = $rmPaperProjects[$rmCode] ?? array();
+
 	$rmProjectItem['RM_PROJECT'] = array(
 		'IMAGE' => $rmImageFile ? $rmProjectAssetRoot.$rmImageFile : $rmDynamicImage,
-		'DESCRIPTION' => $rmDescription ?: 'Подробнее о выполненном проекте и изготовленных для него изделиях.',
+		'NAME' => $rmPaperProject['NAME'] ?? (string)$rmProjectItem['NAME'],
+		'DESCRIPTION' => $rmDescription ?: ($rmPaperProject['DESCRIPTION'] ?? 'Подробнее о выполненном проекте и изготовленных для него изделиях.'),
+		'YEAR' => $rmPaperProject['YEAR'] ?? '',
+		'TYPE' => $rmPaperProject['TYPE'] ?? '',
 	);
 }
 unset($rmProjectItem);

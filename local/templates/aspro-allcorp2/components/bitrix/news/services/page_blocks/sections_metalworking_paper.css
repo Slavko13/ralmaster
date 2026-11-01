@@ -274,21 +274,22 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 
 .rm-metal-operations {
   height: 862px;
-  padding: 72px 0 48px;
+  padding: 72px 0 64px;
   background: #fff;
 }
 
 .rm-metal-section-heading {
-  display: grid;
-  align-items: end;
-  grid-template-columns: 1fr 632px;
-  gap: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .rm-metal-section-heading p {
+  width: 840px;
+  max-width: 100%;
   color: #4e5b6a;
-  font-size: 17px;
-  line-height: 26px;
+  font-size: 18px;
+  line-height: 28px;
 }
 
 .rm-metal-operations__image {
@@ -302,49 +303,51 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 
 .rm-metal-operations__steps {
   display: grid;
-  margin-top: 24px !important;
+  margin-top: 28px !important;
+  padding-bottom: 32px !important;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
   list-style: none;
 }
 
 .rm-metal-operations__steps li {
   position: relative;
   display: grid;
-  min-height: 116px;
-  padding-right: 28px;
+  min-height: 95px;
   grid-template-columns: 38px 1fr;
-  gap: 8px;
+  gap: 0;
 }
 
 .rm-metal-operations__steps li + li {
-  padding-left: 24px;
-  border-left: 1px solid #d9dee4;
+  padding-left: 0;
+  border-left: 0;
 }
 
 .rm-metal-operations__steps li > span {
   color: var(--rm-primary, #175bef);
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 22px;
 }
 
 .rm-metal-operations__steps strong {
-  font-size: 20px;
+  font-size: 26px;
   font-weight: 600;
-  line-height: 25px;
+  letter-spacing: -0.02em;
+  line-height: 33px;
 }
 
 .rm-metal-operations__steps p {
   margin-top: 8px;
   color: #697687;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .rm-metal-operations__steps i {
   position: absolute;
   top: 0;
-  right: 24px;
+  right: 0;
   color: var(--rm-primary, #175bef);
   font-size: 18px;
   font-style: normal;
@@ -353,12 +356,13 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 .rm-metal-operations__links {
   display: flex;
   align-items: center;
-  min-height: 54px;
+  min-height: 51px;
+  padding-top: 26px;
   justify-content: space-between;
   border-top: 1px solid #d9dee4;
   color: #697687;
-  font-size: 13px;
-  line-height: 20px;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .rm-metal-operations__links nav {
@@ -368,9 +372,15 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 }
 
 .rm-metal-operations__links a {
+  display: inline-flex;
+  align-items: center;
   color: var(--rm-primary, #175bef);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
+}
+
+.rm-metal-operations__links a::after {
+  margin-left: 12px;
 }
 
 .rm-metal-examples {
@@ -603,14 +613,33 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 
 .rm-metal-estimate__form form > .row > .col-md-8 > .row {
   display: grid !important;
+  height: auto !important;
   grid-template-columns: minmax(0, 1fr) !important;
   gap: 0;
 }
 
+.rm-metal-estimate__form form,
+.rm-metal-estimate__form form > .row,
+.rm-metal-estimate__form form > .row > .col-md-8 {
+  height: auto !important;
+}
+
+.rm-metal-estimate__form form > .row > .col-md-8 > .row > [class*="col-"]:has(.row[data-SID]) {
+  height: auto !important;
+  grid-auto-rows: auto !important;
+  grid-template-rows: none !important;
+  gap: 20px !important;
+}
+
 .rm-metal-estimate__form form [data-SID] {
   width: 100% !important;
+  height: auto !important;
   grid-column: 1 !important;
   grid-row: auto !important;
+}
+
+.rm-metal-estimate__form form .row[data-SID] > [class*="col-"] {
+  height: auto !important;
 }
 
 .rm-metal-estimate__form .form-group.animated-labels > label:not(.error) {
@@ -620,9 +649,15 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
   margin: 0 0 8px !important;
   color: #27374b;
   background: transparent !important;
-  font-size: 14px !important;
-  line-height: 20px !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  line-height: 24px !important;
   transform: none !important;
+}
+
+.rm-metal-estimate__form .form-group.animated-labels {
+  height: auto !important;
+  min-height: 0 !important;
 }
 
 .rm-metal-estimate__form .form-group.animated-labels .input,
@@ -723,10 +758,6 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 
   .rm-metal-services {
     padding-bottom: 64px;
-  }
-
-  .rm-metal-section-heading {
-    grid-template-columns: 1fr 1fr;
   }
 
   .rm-metal-operations {

@@ -165,6 +165,33 @@ test.describe('Redesigned metalworking root', () => {
     expect(formBox).not.toBeNull();
     expect(formBox!.x).toBeGreaterThanOrEqual(0);
     expect(formBox!.x + formBox!.width).toBeLessThanOrEqual(1288);
+
+    const fields = await page
+      .locator('#rm-metal-estimate .form-group.animated-labels')
+      .evaluateAll((groups) =>
+        groups.map((group) => {
+          const label = group.querySelector(':scope > label')?.getBoundingClientRect();
+          const control = group.querySelector('input, textarea')?.getBoundingClientRect();
+          return {
+            labelBottom: label?.bottom ?? 0,
+            controlTop: control?.top ?? 0,
+          };
+        }),
+      );
+    expect(fields.length).toBeGreaterThanOrEqual(3);
+    expect(fields.every((field) => field.labelBottom <= field.controlTop)).toBe(true);
+
+    const groups = await page
+      .locator('#rm-metal-estimate .form-group.animated-labels')
+      .evaluateAll((nodes) =>
+        nodes.map((node) => {
+          const rect = node.getBoundingClientRect();
+          return { top: rect.top, bottom: rect.bottom };
+        }),
+      );
+    for (let index = 1; index < groups.length; index += 1) {
+      expect(groups[index].top).toBeGreaterThanOrEqual(groups[index - 1].bottom);
+    }
   });
 
   test('desktop geometry follows the 1440 Paper frame without browser errors', async ({

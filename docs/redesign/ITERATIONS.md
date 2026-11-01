@@ -333,3 +333,18 @@
 - **Исправленные дефекты:** CTA/dialog lifecycle и scroll закреплены тестом; inline form selector изолирован; desktop typography/layout совпадает с Paper; партнёрский переход стал внутренним; hover не вызывает layout shift и отключает motion при соответствующей системной настройке.
 - **Оставшиеся ограничения:** успешный state-changing submit/mail/CRM не выполнялся; Lighthouse остаётся приостановлен по указанию владельца.
 - **Статус:** `PASSED`.
+
+## Итерация 22 — Повторная коррекция services/projects по Paper (2026-11-01)
+
+- **Цель:** закрыть сообщённые визуальные расхождения секции операций и формы `/services/`, а также listing/product/operations-блоков `/projects/`.
+- **Область изменений:** `/services/` на 1440 и промежуточном desktop; `/projects/` listing, product cards, нижняя секция полного цикла и responsive breakpoint до 1439 px.
+- **Связанные макеты Paper:** `Металлообработка` 1440×5741, узлы `Несколько операций в одном заказе` 1440×862 и `Рассчитать металлообработку` 1440×850; `Реализованные проекты` 1440×4405, узлы project cards 1440×1128, `Продукция` 1440×696 и operations 1440×616.
+- **Затронутые файлы и компоненты:** `sections_metalworking_paper.css`; `projects-paper/template.php` и `result_modifier.php`; `project-products-paper/template.php`; `list_projects_paper.php`; `projects/style.css`; `services.spec.ts`; `projects.spec.ts`; журналы прогресса.
+- **Функциональные автотесты:** динамические SEF-ссылки и локальные изображения; наличие year/type/description; form validation без POST; browser diagnostics; accessibility; desktop/mobile overflow.
+- **Визуальные проверки:** Paper MCP screenshots/JSX для пяти точных секций; локальные captures формы 1288 px, services operations 1440 px, project cards/products/operations 1440 px; computed geometry полей и карточек.
+- **Критерии приёмки:** поля формы не пересекаются; секция services повторяет вертикальную композицию Paper; project cards всегда имеют текст слева и изображение справа; год/подпись видимы; product images начинаются на одной вертикали; operations содержит три фото; новая критическая regression отсутствует.
+- **Фактический результат:** все перечисленные композиции восстановлены. В services fixed-height grid старой формы заменён локальным natural-height layout с 20 px gap. В projects карточки используют 632/680 px, метаданные `2025 / По индивидуальному проекту`, 40 px arrow controls и единый порядок; product cards используют 316/164 px; operations использует сетку 512/368/384 px и локальные изображения. Breakpoint проекта поднят до 1439 px для безопасного промежуточного desktop. PHP lint **4/4 PASS**; desktop suite **18/18 PASS**; дополнительный intermediate gate **2/2 PASS**; mobile suite **4/4 PASS**.
+- **Обнаруженные дефекты:** labels добавлялись поверх старых фиксированных grid rows 56/56/112/92; project template чередовал порядок image/body; IBlock fallback скрывал утверждённые год и подпись; header высота product card зависела от количества строк; нижний блок был текстовым вместо визуального.
+- **Исправленные дефекты:** fixed rows и перекрытия устранены scoped override; порядок карточек унифицирован; Paper metadata/content добавлены как локализованный fallback для трёх утверждённых проектов; product image/body разделены фиксированными высотами; нижний блок повторяет Paper.
+- **Оставшиеся ограничения:** успешный state-changing submit/mail/CRM не выполнялся; проектные metadata остаются presentation fallback до заполнения соответствующих полей IBlock; Lighthouse остаётся приостановлен по указанию владельца.
+- **Статус:** `PASSED`.

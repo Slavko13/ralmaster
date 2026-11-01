@@ -65,10 +65,7 @@ if (\Bitrix\Main\Loader::includeModule('form')) {
 	<section class="rm-projects-products" data-rm-projects-section="products">
 		<div class="rm-projects-container">
 			<div class="rm-projects-heading">
-				<div>
-					<span class="rm-projects-kicker">Продукция</span>
-					<h2>Изделия для строительных объектов</h2>
-				</div>
+				<h2>Продукция</h2>
 				<a class="rm-projects-text-link" href="/product/">Вся продукция <span aria-hidden="true">↗</span></a>
 			</div>
 			<?$APPLICATION->IncludeComponent(
@@ -95,14 +92,19 @@ if (\Bitrix\Main\Loader::includeModule('form')) {
 
 	<section class="rm-projects-operations" data-rm-projects-section="operations">
 		<div class="rm-projects-container">
-			<span class="rm-projects-kicker">Полный цикл</span>
-			<h2>Несколько операций в одном заказе</h2>
-			<p class="rm-projects-operations__lead">Резка, гибка и порошковая окраска на одной производственной площадке.</p>
-			<ol class="rm-projects-operation-grid">
-				<li><span>01</span><strong>Резка</strong><p>Лазерная резка деталей по чертежам и раскрой листового металла.</p></li>
-				<li><span>02</span><strong>Гибка</strong><p>Формовка заготовок с контролем размеров и геометрии изделий.</p></li>
-				<li><span>03</span><strong>Окраска</strong><p>Подготовка поверхности и нанесение стойкого порошкового покрытия.</p></li>
-			</ol>
+			<div class="rm-projects-operations__heading">
+				<h2>Несколько операций<br>в одном заказе</h2>
+				<p>Можно заказать отдельную обработку или изготовление изделия с последующей окраской и сборкой. Состав работ согласуем по вашему чертежу.</p>
+			</div>
+			<div class="rm-projects-operation-grid">
+				<article><img src="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/hero-laser-cutting.webp')?>" alt="" loading="lazy"><strong>Резка</strong></article>
+				<article><img src="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/metal-bending.webp')?>" alt="" loading="lazy"><strong>Гибка</strong></article>
+				<article><img src="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/production-powder-line.webp')?>" alt="" loading="lazy"><strong>Окраска</strong></article>
+			</div>
+			<div class="rm-projects-operations__footer">
+				<p>При необходимости включим в заказ сварку и сборку.</p>
+				<nav aria-label="Связанные услуги"><a href="/product/">Изготовление по чертежам <span aria-hidden="true">↗</span></a><a href="/painting/">Порошковая окраска <span aria-hidden="true">↗</span></a></nav>
+			</div>
 		</div>
 	</section>
 

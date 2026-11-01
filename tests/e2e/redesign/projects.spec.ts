@@ -100,9 +100,45 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
       const card = cards.nth(index);
       await expect(card).toHaveAttribute('data-project-code', project.code);
       await expect(card.locator('.rm-project-card__link')).toHaveAttribute('href', project.href);
+      await expect(card.locator('.rm-project-card__meta')).toContainText('2025');
+      await expect(card.locator('.rm-project-card__meta')).toContainText('По индивидуальному проекту');
+      await expect(card.locator('.rm-project-card__summary > p')).toHaveText(
+        'Декоративные корзины для кондиционеров',
+      );
       const response = await request.get(project.href, { maxRedirects: 5 });
       expect(response.status(), `Broken project route: ${project.href}`).toBeLessThan(400);
     }
+  });
+
+  test('matches the Paper card order and keeps every product image aligned', async ({ page }) => {
+    await page.goto('/projects/', { waitUntil: 'networkidle' });
+
+    const projectGeometry = await page.locator('.rm-project-card').evaluateAll((cards) =>
+      cards.map((card) => {
+        const body = card.querySelector('.rm-project-card__body')!.getBoundingClientRect();
+        const image = card.querySelector('.rm-project-card__image')!.getBoundingClientRect();
+        return { bodyX: Math.round(body.x), imageX: Math.round(image.x) };
+      }),
+    );
+    expect(projectGeometry.every(({ bodyX, imageX }) => bodyX < imageX)).toBe(true);
+
+    const productGeometry = await page
+      .locator('.rm-projects-product-card')
+      .evaluateAll((cards) =>
+        cards.map((card) => {
+          const image = card.querySelector('img')!.getBoundingClientRect();
+          const body = card.querySelector('.rm-projects-product-card__body')!.getBoundingClientRect();
+          return {
+            imageTop: Math.round(image.top),
+            imageBottom: Math.round(image.bottom),
+            bodyTop: Math.round(body.top),
+          };
+        }),
+      );
+    expect(new Set(productGeometry.map(({ imageTop }) => imageTop)).size).toBe(1);
+    expect(productGeometry.every(({ imageBottom, bodyTop }) => imageBottom === bodyTop)).toBe(true);
+
+    await expect(page.locator('.rm-projects-operation-grid img')).toHaveCount(3);
   });
 
   test('loads localized project assets and keeps product category URLs dynamic', async ({ page }) => {
@@ -271,6 +307,25 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     }
     await attachDiagnostics(testInfo, diagnostics);
     expect(diagnostics).toEqual([]);
+  });
+
+  test('keeps listing cards and operation media inside an intermediate desktop viewport', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1288, height: 1000 });
+    await page.goto('/projects/', { waitUntil: 'networkidle' });
+    await expectNoHorizontalOverflow(page);
+
+    for (const selector of ['.rm-project-card', '.rm-projects-operation-grid']) {
+      const boxes = await page.locator(selector).evaluateAll((nodes) =>
+        nodes.map((node) => {
+          const rect = node.getBoundingClientRect();
+          return { left: rect.left, right: rect.right };
+        }),
+      );
+      expect(boxes.length).toBeGreaterThan(0);
+      expect(boxes.every(({ left, right }) => left >= 0 && right <= 1288)).toBe(true);
+    }
   });
 
   test('has no critical axe violations', async ({ page }, testInfo) => {
