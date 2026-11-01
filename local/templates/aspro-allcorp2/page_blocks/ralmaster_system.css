@@ -578,30 +578,57 @@ body .rm-system-page--cart .basket.default .buy_block .counter input {
 
 .rm-system-page--cart .basket.default .foot .remove.all {
   order: 1;
-  min-height: 40px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  min-width: 118px;
+  min-height: 42px;
   float: none !important;
   margin: 0 !important;
-  padding: 9px 14px;
-  border: 1px solid transparent !important;
-  color: #526073 !important;
-  background: transparent !important;
-  font-size: 13px;
-  font-weight: 500;
+  padding: 10px 16px;
+  border: 1px solid #175bef !important;
+  border-radius: 2px;
+  color: #175bef !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  font-size: 14px;
+  font-weight: 600;
   line-height: 20px;
 }
 
 .rm-system-page--cart .basket.default .foot .remove.all:hover,
 .rm-system-page--cart .basket.default .foot .remove.all:focus-visible {
-  border-color: #c9d7eb !important;
-  color: #175bef !important;
-  background: #eef4ff !important;
+  border-color: #175bef !important;
+  color: #fff !important;
+  background: #175bef !important;
+}
+
+.rm-system-page--cart .basket.default .foot .remove.all > span {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 20px;
+  line-height: 20px;
 }
 
 .rm-system-page--cart .basket.default .foot .remove.all > span::before {
+  position: static !important;
+  order: 2;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 16px;
+  width: 16px !important;
+  height: 16px !important;
+  margin: 0 !important;
+  transform: none !important;
   color: currentColor;
   content: "×";
   background: none;
   font-size: 16px;
+  font-weight: 400;
+  line-height: 16px !important;
 }
 
 .rm-system-page--cart .basket.default .foot .total {

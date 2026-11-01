@@ -627,6 +627,16 @@ Legacy `header_fixed` теперь не рендерится только при
   PASS**; breadcrumbs **1/1 PASS**; accessibility/overflow **1/1 PASS**;
   Docker build успешен, оба контейнера healthy, HTTP smoke **3/3 PASS**.
 
+## Фирменная кнопка очистки корзины — 2026-11-01
+
+- «Очистить» оформлена синей outline-кнопкой РАЛМАСТЕР вместо визуально
+  отключённого серого действия; hover использует синий фон и белый текст.
+- Крестик сброшен с legacy absolute positioning и центрирован в одном
+  flex-контейнере с подписью.
+- Playwright desktop **1/1 PASS**, mobile **1/1 PASS**; горизонтального
+  overflow нет. Docker build успешен, оба контейнера healthy, `/cart/` — HTTP
+  **200**.
+
 ## Следующий допустимый шаг
 
 ### Коррекция header — 2026-10-31

@@ -78,6 +78,31 @@ test.describe('redesigned cart and checkout', () => {
     await expect(orderButton).toHaveCSS('background-color', 'rgb(23, 91, 239)');
     await expect(orderButton).toHaveCSS('color', 'rgb(255, 255, 255)');
 
+    const clearButton = root.locator('.basket.default .foot .remove.all');
+    await expect(clearButton).toHaveCSS('display', 'flex');
+    await expect(clearButton).toHaveCSS('color', 'rgb(23, 91, 239)');
+    await expect(clearButton).toHaveCSS('border-color', 'rgb(23, 91, 239)');
+    await expect(clearButton).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+    const clearCross = await clearButton.locator(':scope > span').evaluate((label) => {
+      const style = getComputedStyle(label, '::before');
+      return {
+        position: style.position,
+        order: style.order,
+        width: style.width,
+        height: style.height,
+        lineHeight: style.lineHeight,
+        margin: style.margin,
+      };
+    });
+    expect(clearCross).toEqual({
+      position: 'static',
+      order: '2',
+      width: '16px',
+      height: '16px',
+      lineHeight: '16px',
+      margin: '0px',
+    });
+
     const actionGeometry = await root.locator('.basket.default .foot').evaluate((foot) => {
       const clear = foot.querySelector<HTMLElement>('.remove.all')!.getBoundingClientRect();
       const total = foot.querySelector<HTMLElement>('.total')!.getBoundingClientRect();
