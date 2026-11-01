@@ -136,6 +136,28 @@ test.describe('Redesigned production root', () => {
     expect(hrefs).toEqual(Array(7).fill('/company/partners/'));
   });
 
+  test('uses the three Paper icons for repeat orders without legacy list bullets', async ({ page }) => {
+    await page.goto('/company/', { waitUntil: 'domcontentloaded' });
+
+    const repeatItems = page.locator('.rm-production-repeat__copy li');
+    await expect(repeatItems).toHaveCount(3);
+    await expect(repeatItems.locator(':scope > .rm-production-repeat__icon > svg')).toHaveCount(3);
+
+    const iconPaths = await repeatItems.locator('svg path').evaluateAll((paths) =>
+      paths.map((path) => path.getAttribute('d')),
+    );
+    expect(iconPaths).toEqual([
+      'M4 8H17L14 5M20 16H7L10 19M17 8L14 11M7 16L10 13M20 8V12M4 16V12',
+      'M14 4L20 10M5 15L4 21L10 20L21 9L15 3ZM7 13L13 19',
+      'M4 6H20V21H4ZM8 3V9M16 3V9M4 11H20M8 15H11M14 15H17M8 18H11',
+    ]);
+
+    const legacyBullets = await repeatItems.evaluateAll((items) =>
+      items.map((item) => getComputedStyle(item, '::before').display),
+    );
+    expect(legacyBullets).toEqual(['none', 'none', 'none']);
+  });
+
   test('qualifies draft production limits instead of presenting them as certified values', async ({
     page,
   }) => {

@@ -189,7 +189,24 @@ if ($rmProductionEstimateFormId <= 0) {
 	<section class="rm-production-repeat" data-rm-production-section="repeat">
 		<div class="rm-production-container rm-production-repeat__layout">
 			<div class="rm-production-repeat__image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'powder/painted-baskets-batch.webp')?>" alt="Партия одинаковых окрашенных изделий" loading="lazy"><span aria-hidden="true"></span></div>
-			<div class="rm-production-repeat__copy"><h2>Повторные партии</h2><p>Основные заказчики Ралмастера размещают повторные заказы на порошковую окраску, корзины для кондиционеров и металлокассеты.</p><ul><li>Повтор предыдущего заказа</li><li>Изменения в изделии</li><li>Следующие партии</li></ul></div>
+			<div class="rm-production-repeat__copy">
+				<h2>Повторные партии</h2>
+				<p>Основные заказчики Ралмастера размещают повторные заказы на порошковую окраску, корзины для кондиционеров и металлокассеты.</p>
+				<ul>
+					<li>
+						<span class="rm-production-repeat__icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 8H17L14 5M20 16H7L10 19M17 8L14 11M7 16L10 13M20 8V12M4 16V12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+						<span>Повтор предыдущего заказа</span>
+					</li>
+					<li>
+						<span class="rm-production-repeat__icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 4L20 10M5 15L4 21L10 20L21 9L15 3ZM7 13L13 19" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+						<span>Изменения в изделии</span>
+					</li>
+					<li>
+						<span class="rm-production-repeat__icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6H20V21H4ZM8 3V9M16 3V9M4 11H20M8 15H11M14 15H17M8 18H11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+						<span>Следующие партии</span>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</section>
 
