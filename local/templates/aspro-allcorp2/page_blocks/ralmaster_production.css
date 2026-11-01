@@ -488,10 +488,11 @@
   color: #175bef;
 }
 
-.rm-production-repeat__icon svg {
+.rm-production .rm-production-repeat__icon svg {
   display: block;
   width: 24px;
   height: 24px;
+  overflow: visible;
 }
 
 .rm-production-shipping {
@@ -689,6 +690,7 @@
   display: grid;
   width: 1328px;
   height: 260px;
+  margin-inline: auto;
   grid-template-columns: 768px 400px;
   align-items: center;
   gap: 80px;

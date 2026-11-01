@@ -632,6 +632,10 @@
   display: none !important;
 }
 
+.rm-projects-estimate__form form .row[data-SID="FILE"] {
+  margin-top: 16px !important;
+}
+
 .rm-projects-estimate__form .uploader {
   width: 100% !important;
   height: 56px;

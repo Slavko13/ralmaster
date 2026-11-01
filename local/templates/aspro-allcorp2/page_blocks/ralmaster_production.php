@@ -197,11 +197,11 @@ if ($rmProductionEstimateFormId <= 0) {
 				<p>Основные заказчики Ралмастера размещают повторные заказы на порошковую окраску, корзины для кондиционеров и металлокассеты.</p>
 				<ul>
 					<li>
-						<span class="rm-production-repeat__icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 8H17L14 5M20 16H7L10 19M17 8L14 11M7 16L10 13M20 8V12M4 16V12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+						<span class="rm-production-repeat__icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 6H16C18.21 6 20 7.79 20 10V11M19 18H8C5.79 18 4 16.21 4 14V13M2 9L5 6L8 9M22 15L19 18L16 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
 						<span>Повтор предыдущего заказа</span>
 					</li>
 					<li>
-						<span class="rm-production-repeat__icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 4L20 10M5 15L4 21L10 20L21 9L15 3ZM7 13L13 19" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+						<span class="rm-production-repeat__icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 5L19 9M4 20L7.75 19L19.5 7.25C20.6 6.15 20.6 4.35 19.5 3.25C18.4 2.15 16.6 2.15 15.5 3.25L3.75 15L3 19.75L4 20Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
 						<span>Изменения в изделии</span>
 					</li>
 					<li>

@@ -315,6 +315,19 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     expect(postRequests).toEqual([]);
   });
 
+  test('keeps a clear gap between the project description and file uploader', async ({ page }) => {
+    await page.goto('/projects/', { waitUntil: 'domcontentloaded' });
+
+    const spacing = await page
+      .locator('[data-rm-estimate-form][data-rm-estimate-context="projects"]')
+      .evaluate((form) => {
+        const textarea = form.querySelector('[data-SID="TASK"] textarea')!.getBoundingClientRect();
+        const uploader = form.querySelector('[data-SID="FILE"] .uploader')!.getBoundingClientRect();
+        return uploader.top - textarea.bottom;
+      });
+    expect(spacing).toBeGreaterThanOrEqual(16);
+  });
+
   test('desktop listing and details have no overflow or browser errors', async ({ page }, testInfo) => {
     const diagnostics = collectBrowserDiagnostics(page);
     for (const route of ['/projects/', '/projects/zhk-simvol/', '/projects/zhk-belyy-grad/']) {

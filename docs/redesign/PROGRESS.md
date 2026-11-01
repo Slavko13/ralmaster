@@ -358,6 +358,20 @@ Legacy `header_fixed` теперь не рендерится только при
   последней карточной строки совпадает с границей grid, разница **0 px**.
 - Targeted Playwright regression: **1/1 PASS**.
 
+## Точечная полировка production/projects — 2026-11-01
+
+- В «Повторных партиях» заменены дефектные repeat/pencil paths; все иконки
+  остаются в 24×24 viewBox и больше не обрезаются поздним legacy SVG-правилом.
+- CTA «Обсудить заказ или регулярные поставки» центрирован на экранах шире
+  1440 px без изменения эталонной геометрии 1440 px.
+- На `/projects/` между полем «Описание задачи» и загрузчиком добавлен
+  фактический зазор 16 px вместо прежних 0 px.
+- PHP lint **1/1 PASS**; targeted Playwright **3/3 PASS**; полный
+  production/projects desktop regression **24/24 PASS**. Проверки включают
+  точную геометрию Paper, axe, overflow и browser diagnostics.
+- Visual QA: `artifacts/ui-audit/repeat-icons-fixed.png`,
+  `production-contact-centered.png`, `projects-form-gap.png`.
+
 ## Следующий допустимый шаг
 
 ### Коррекция header — 2026-10-31
