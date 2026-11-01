@@ -210,6 +210,15 @@ test.describe('P0 redesigned derived pages', () => {
       'rgb(23, 91, 239)',
     );
 
+    const statusTitle = root
+      .locator('.bx_filter_parameters_box:not(.title) .bx_filter_parameters_box_title')
+      .first();
+    await statusTitle.hover();
+    await expect(statusTitle).toHaveCSS('color', 'rgb(23, 91, 239)');
+    expect(
+      await statusTitle.evaluate((title) => getComputedStyle(title, '::before').color),
+    ).toBe('rgb(23, 91, 239)');
+
     const filterButtonGeometry = await root.locator('.bx_filter_button_box').evaluate((box) => {
       const buttons = Array.from(box.querySelectorAll<HTMLElement>('.btn'));
       return buttons.map((button) => {
@@ -294,6 +303,19 @@ test.describe('P0 redesigned derived pages', () => {
     const root = page.locator('[data-rm-partners-page]');
     await expect(root).toHaveAttribute('data-rm-partner-count', '7');
     await expect(root.locator('.rm-partner-card')).toHaveCount(7);
+
+    const partnerHeading = await root.locator('.rm-partners-heading').evaluate((heading) => {
+      const kicker = heading.querySelector('.rm-partners-kicker')!.getBoundingClientRect();
+      const title = heading.querySelector('h2')!.getBoundingClientRect();
+      return {
+        kickerLeft: kicker.left,
+        kickerBottom: kicker.bottom,
+        titleLeft: title.left,
+        titleTop: title.top,
+      };
+    });
+    expect(Math.abs(partnerHeading.kickerLeft - partnerHeading.titleLeft)).toBeLessThanOrEqual(1);
+    expect(partnerHeading.titleTop).toBeGreaterThanOrEqual(partnerHeading.kickerBottom);
     expect((await root.locator('.rm-partner-card h3').allTextContents()).join(' ')).not.toContain(
       '&quot;',
     );

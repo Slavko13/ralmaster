@@ -687,3 +687,41 @@
 - **Оставшиеся ограничения:** успешная отправка формы/mail/CRM не выполнялась;
   данные и файлы пользователя не изменялись.
 - **Статус:** `PASSED`.
+
+## Итерация 31 — Структура заголовков, карточек и legacy-hover (2026-11-01)
+
+- **Цель:** закрыть пять визуальных замечаний владельца на страницах партнёров,
+  проектов, производства и товарного каталога.
+- **Область изменений:** heading партнёров; порядок содержимого project product
+  cards; нижняя граница шагов заказа; hover заголовка smart filter; исходные
+  SVG блока повторных партий.
+- **Связанные макеты Paper:** production/projects/partners экраны текущего
+  проекта `Ралмастер` и пять приложенных владельцем контрольных снимков.
+- **Затронутые файлы и компоненты:** `partners-paper/style.css`;
+  `project-products-paper/template.php`; `news/projects/style.css`;
+  `ralmaster_production.php/.css`; `ralmaster_product_catalog.css`;
+  `derived-pages.spec.ts`, `production.spec.ts`, `projects.spec.ts` и журналы.
+- **Функциональные автотесты:** одинаковая левая координата kicker/title;
+  последовательность title → image → description и отсутствие внутреннего
+  overflow; совпадение нижней границы списка с последней строкой; синий
+  computed hover; исходные SVG paths и размер 28 px.
+- **Визуальные проверки:** пять captures `iteration-31-*` и финальный
+  `iteration-31-project-products-final.png` в `artifacts/ui-audit/`.
+- **Критерии приёмки:** heading партнёров начинается слева; заголовок каждой
+  карточки проекта находится над изображением, описание — под ним; нижний
+  divider не пересекает последний шаг; status hover не красный; исходные
+  repeat/pencil/calendar icons сохранены и получили больше места.
+- **Фактический результат:** heading grid удалён; карточки переведены на три
+  явных ряда 96/280/104 px (на intermediate 96/260/104 px); глобальный
+  `ol li margin-bottom: 12px` нейтрализован; legacy theme hover перекрыт синим
+  scoped-правилом; исходные paths восстановлены в SVG 28×28 и контейнере 32 px.
+- **Обнаруженные дефекты:** heading был разорван на две колонки; description
+  находился в одном нижнем body с title; три order rows выходили на 23 px за
+  list border; theme CSS возвращал `#de002b`; после первой перестановки длинное
+  описание на intermediate viewport требовало ещё 20 px высоты.
+- **Исправленные дефекты:** все замечания закрыты. PHP lint **2/2 PASS**;
+  targeted Playwright **5/5 PASS**; desktop regression **35/35 PASS**; mobile
+  regression **7/7 PASS**; дополнительный intermediate gate **2/2 PASS**.
+- **Оставшиеся ограничения:** state-changing отправка форм/mail/CRM не
+  выполнялась; данные IBlock не изменялись.
+- **Статус:** `PASSED`.

@@ -372,6 +372,22 @@ Legacy `header_fixed` теперь не рендерится только при
 - Visual QA: `artifacts/ui-audit/repeat-icons-fixed.png`,
   `production-contact-centered.png`, `projects-form-gap.png`.
 
+## Заголовки, карточки, divider и filter hover — 2026-11-01
+
+- Heading «Компании, с которыми мы работаем» перенесён из второй grid-колонки
+  под kicker и теперь начинается с общей левой границы секции.
+- В product-блоке `/projects/` карточки собраны в порядке заголовок → изображение
+  → описание. На desktop/intermediate/mobile текст полностью помещается; все
+  изображения и описания сохраняют общую вертикаль.
+- На `/company/` убран унаследованный `margin-bottom: 12px` у order steps:
+  третья строка теперь заканчивается ровно на нижнем divider, без пересечения.
+- Hover заголовка «Статус» в smart filter закреплён синим `#175bef` вместо
+  legacy-красного. Исходные repeat/pencil/calendar SVG возвращены и увеличены
+  до 28×28 в контейнере 32 px.
+- PHP lint **2/2 PASS**; targeted **5/5 PASS**; desktop **35/35 PASS**; mobile
+  **7/7 PASS**; финальный intermediate gate **2/2 PASS**.
+- Visual QA: `artifacts/ui-audit/iteration-31-*.png`.
+
 ## Следующий допустимый шаг
 
 ### Коррекция header — 2026-10-31

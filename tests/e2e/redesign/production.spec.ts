@@ -147,8 +147,8 @@ test.describe('Redesigned production root', () => {
       paths.map((path) => path.getAttribute('d')),
     );
     expect(iconPaths).toEqual([
-      'M5 6H16C18.21 6 20 7.79 20 10V11M19 18H8C5.79 18 4 16.21 4 14V13M2 9L5 6L8 9M22 15L19 18L16 15',
-      'M15 5L19 9M4 20L7.75 19L19.5 7.25C20.6 6.15 20.6 4.35 19.5 3.25C18.4 2.15 16.6 2.15 15.5 3.25L3.75 15L3 19.75L4 20Z',
+      'M4 8H17L14 5M20 16H7L10 19M17 8L14 11M7 16L10 13M20 8V12M4 16V12',
+      'M14 4L20 10M5 15L4 21L10 20L21 9L15 3ZM7 13L13 19',
       'M4 6H20V21H4ZM8 3V9M16 3V9M4 11H20M8 15H11M14 15H17M8 18H11',
     ]);
 
@@ -174,6 +174,8 @@ test.describe('Redesigned production root', () => {
       expect(icon.overflow).toBe('visible');
     }
 
+    await expect(repeatItems.locator('svg').first()).toHaveCSS('width', '28px');
+
     const legacyBullets = await repeatItems.evaluateAll((items) =>
       items.map((item) => getComputedStyle(item, '::before').display),
     );
@@ -196,6 +198,31 @@ test.describe('Redesigned production root', () => {
     await expect(capabilityRows.filter({ hasText: 'Порошковая окраска' })).toContainText(
       'требует подтверждения',
     );
+  });
+
+  test('keeps the final order divider below the last row', async ({ page }) => {
+    await page.setViewportSize({ width: 1000, height: 900 });
+    await page.goto('/company/', { waitUntil: 'domcontentloaded' });
+
+    const geometry = await page.locator('.rm-production-order__steps').evaluate((list) => {
+      const listBox = list.getBoundingClientRect();
+      const rows = Array.from(list.querySelectorAll('li')).map((row) => {
+        const box = row.getBoundingClientRect();
+        return {
+          top: box.top,
+          bottom: box.bottom,
+          marginBottom: getComputedStyle(row).marginBottom,
+        };
+      });
+      return { listBottom: listBox.bottom, rows };
+    });
+    expect(geometry.rows.every((row) => row.marginBottom === '0px')).toBe(true);
+    expect(Math.abs(geometry.listBottom - geometry.rows.at(-1)!.bottom)).toBeLessThanOrEqual(1);
+    for (let index = 1; index < geometry.rows.length; index += 1) {
+      expect(
+        Math.abs(geometry.rows[index].top - geometry.rows[index - 1].bottom),
+      ).toBeLessThanOrEqual(1);
+    }
   });
 
   test('shows the Paper FAQ fallback as an accessible one-at-a-time accordion', async ({ page }) => {

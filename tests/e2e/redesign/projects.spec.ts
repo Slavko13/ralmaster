@@ -126,17 +126,34 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
       .locator('.rm-projects-product-card')
       .evaluateAll((cards) =>
         cards.map((card) => {
+          const header = card
+            .querySelector('.rm-projects-product-card__header')!
+            .getBoundingClientRect();
           const image = card.querySelector('img')!.getBoundingClientRect();
-          const body = card.querySelector('.rm-projects-product-card__body')!.getBoundingClientRect();
+          const descriptionElement = card.querySelector(
+            '.rm-projects-product-card__description',
+          ) as HTMLElement;
+          const description = descriptionElement.getBoundingClientRect();
           return {
+            headerTop: Math.round(header.top),
+            headerBottom: Math.round(header.bottom),
             imageTop: Math.round(image.top),
             imageBottom: Math.round(image.bottom),
-            bodyTop: Math.round(body.top),
+            descriptionTop: Math.round(description.top),
+            descriptionFits:
+              descriptionElement.scrollHeight <= descriptionElement.clientHeight,
           };
         }),
       );
+    expect(new Set(productGeometry.map(({ headerTop }) => headerTop)).size).toBe(1);
     expect(new Set(productGeometry.map(({ imageTop }) => imageTop)).size).toBe(1);
-    expect(productGeometry.every(({ imageBottom, bodyTop }) => imageBottom === bodyTop)).toBe(true);
+    expect(
+      productGeometry.every(
+        ({ headerBottom, imageTop, imageBottom, descriptionTop }) =>
+          headerBottom === imageTop && imageBottom === descriptionTop,
+      ),
+    ).toBe(true);
+    expect(productGeometry.every(({ descriptionFits }) => descriptionFits)).toBe(true);
 
     await expect(page.locator('.rm-projects-operation-grid img')).toHaveCount(3);
   });
