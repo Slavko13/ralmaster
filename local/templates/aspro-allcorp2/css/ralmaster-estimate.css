@@ -5,8 +5,15 @@
 }
 
 [data-rm-estimate-form] .rm-estimate-error {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  margin: 8px 0 0;
+  height: var(--rm-estimate-error-space, 26px);
+  margin: 0;
+  padding-top: 8px;
+  overflow: hidden;
   color: #a4251c;
   font-family: var(--rm-font-body, Onest, Arial, sans-serif);
   font-size: 13px;
@@ -30,7 +37,21 @@
   --rm-estimate-placeholder: #8995a5;
   --rm-estimate-border: #ccd6e2;
   --rm-estimate-upload-border: #aab8ca;
+  --rm-estimate-error-space: 26px;
   font-family: var(--rm-font-body, Onest, Arial, sans-serif);
+}
+
+/*
+ * Keep validation messages in a permanent slot.  The repeated root
+ * attribute deliberately outranks late legacy page rules with !important.
+ * Controls and submit therefore stay in exactly the same place before and
+ * after validation, on both page forms and request dialogs.
+ */
+[data-rm-estimate-form][data-rm-estimate-form] form .row[data-SID="CONTACT"],
+[data-rm-estimate-form][data-rm-estimate-form] form .row[data-SID="TASK"],
+[data-rm-estimate-form][data-rm-estimate-form] form .row[data-SID="FILE"] {
+  position: relative !important;
+  padding-bottom: var(--rm-estimate-error-space) !important;
 }
 
 [data-rm-estimate-form] form,

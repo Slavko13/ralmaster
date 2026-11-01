@@ -56,6 +56,25 @@ async function openDialog(page: Page, dialogCase: DialogCase) {
   return dialog;
 }
 
+async function dialogAnchors(dialog: ReturnType<Page['locator']>) {
+  return dialog.evaluate((node) => {
+    const card = node.querySelector<HTMLElement>('.rm-discuss__card')!;
+    const cardBox = card.getBoundingClientRect();
+    const top = (selector: string) => {
+      const element = node.querySelector<HTMLElement>(selector)!;
+      return Math.round(element.getBoundingClientRect().top - cardBox.top);
+    };
+    return {
+      contact: top('[data-SID="CONTACT"] input'),
+      task: top('[data-SID="TASK"] textarea'),
+      file: top('[data-SID="FILE"] .uploader'),
+      consent: top('.licence_block'),
+      submit: top('input[type="submit"]'),
+      note: top('.rm-discuss__note'),
+    };
+  });
+}
+
 for (const dialogCase of cases) {
   test(`${dialogCase.context} reproduces its Paper request dialog without POST`, async ({ page }) => {
     const postRequests: string[] = [];
@@ -161,35 +180,38 @@ for (const dialogCase of cases) {
     );
     await expect(dialog.locator('[data-SID="NAME"] input')).toHaveCSS('outline-style', 'none');
 
+    const anchorsBeforeValidation = await dialogAnchors(dialog);
     await dialog.locator('input[type="submit"]').click();
     await expect(dialog.locator('[data-SID="CONTACT"] .rm-estimate-error')).toBeVisible();
     await expect(dialog.locator('[data-SID="TASK"] .rm-estimate-error')).toBeVisible();
     expect(postRequests).toEqual([]);
+    expect(await dialogAnchors(dialog)).toEqual(anchorsBeforeValidation);
 
     const formViewport = dialog.locator('.rm-discuss__form');
-    await expect(formViewport).toHaveCSS('overflow-y', 'auto');
+    await expect(dialog).toHaveCSS('overflow-y', 'auto');
+    await expect(formViewport).toHaveCSS('overflow-y', 'visible');
     const submit = dialog.locator('input[type="submit"]');
     await submit.scrollIntoViewIfNeeded();
     const validationGeometry = await dialog.evaluate((node) => {
-      const form = node.querySelector<HTMLElement>('.rm-discuss__form')!;
       const submitControl = node.querySelector<HTMLElement>('input[type="submit"]')!;
       const note = node.querySelector<HTMLElement>('.rm-discuss__note')!;
-      const formBox = form.getBoundingClientRect();
+      const dialogBox = node.getBoundingClientRect();
       const submitBox = submitControl.getBoundingClientRect();
       const noteBox = note.getBoundingClientRect();
       return {
-        formBottom: Math.round(formBox.bottom),
+        dialogTop: Math.round(dialogBox.top),
+        dialogBottom: Math.round(dialogBox.bottom),
         submitTop: Math.round(submitBox.top),
         submitBottom: Math.round(submitBox.bottom),
         noteTop: Math.round(noteBox.top),
-        scrollHeight: form.scrollHeight,
-        clientHeight: form.clientHeight,
+        scrollHeight: node.scrollHeight,
+        clientHeight: node.clientHeight,
       };
     });
-    expect(validationGeometry.scrollHeight).toBeGreaterThan(validationGeometry.clientHeight);
-    expect(validationGeometry.submitTop).toBeGreaterThanOrEqual(0);
-    expect(validationGeometry.submitBottom).toBeLessThanOrEqual(validationGeometry.formBottom);
-    expect(validationGeometry.noteTop).toBeGreaterThanOrEqual(validationGeometry.formBottom);
+    expect(validationGeometry.scrollHeight).toBeGreaterThanOrEqual(validationGeometry.clientHeight);
+    expect(validationGeometry.submitTop).toBeGreaterThanOrEqual(validationGeometry.dialogTop);
+    expect(validationGeometry.submitBottom).toBeLessThanOrEqual(validationGeometry.dialogBottom);
+    expect(validationGeometry.noteTop).toBeGreaterThanOrEqual(validationGeometry.submitBottom);
 
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
@@ -245,6 +267,13 @@ test('P0 @mobile calculation dialogs stay inside a 390 px viewport', async ({ pa
     for (let index = 1; index < orderedBoxes.length; index += 1) {
       expect(orderedBoxes[index]!.top).toBeGreaterThanOrEqual(orderedBoxes[index - 1]!.bottom);
     }
+
+    const anchorsBeforeValidation = await dialogAnchors(dialog);
+    await dialog.locator('input[type="submit"]').click();
+    await expect(dialog.locator('.rm-estimate-error')).toHaveCount(2);
+    expect(await dialogAnchors(dialog)).toEqual(anchorsBeforeValidation);
+    await expect(dialog).toHaveCSS('overflow-y', 'auto');
+    await expect(dialog.locator('.rm-discuss__form')).toHaveCSS('overflow-y', 'visible');
     await page.keyboard.press('Escape');
   }
 });
@@ -259,33 +288,35 @@ test('product dialog keeps its submit control reachable after validation at the 
   const dialog = page.locator('dialog[data-rm-discuss-variant="product"]');
   const formViewport = dialog.locator('.rm-discuss__form');
   const submit = dialog.locator('input[type="submit"]');
+  const anchorsBeforeValidation = await dialogAnchors(dialog);
   await submit.click();
   await expect(dialog.locator('.rm-estimate-error')).toHaveCount(2);
-  await expect(formViewport).toHaveCSS('overflow-y', 'auto');
+  expect(await dialogAnchors(dialog)).toEqual(anchorsBeforeValidation);
+  await expect(dialog).toHaveCSS('overflow-y', 'auto');
+  await expect(formViewport).toHaveCSS('overflow-y', 'visible');
 
   await submit.scrollIntoViewIfNeeded();
   const geometry = await dialog.evaluate((node) => {
-    const form = node.querySelector<HTMLElement>('.rm-discuss__form')!;
     const submitControl = node.querySelector<HTMLElement>('input[type="submit"]')!;
     const note = node.querySelector<HTMLElement>('.rm-discuss__note')!;
-    const formBox = form.getBoundingClientRect();
+    const dialogBox = node.getBoundingClientRect();
     const submitBox = submitControl.getBoundingClientRect();
     const noteBox = note.getBoundingClientRect();
     return {
-      formTop: Math.round(formBox.top),
-      formBottom: Math.round(formBox.bottom),
+      dialogTop: Math.round(dialogBox.top),
+      dialogBottom: Math.round(dialogBox.bottom),
       submitTop: Math.round(submitBox.top),
       submitBottom: Math.round(submitBox.bottom),
       noteTop: Math.round(noteBox.top),
-      scrollHeight: form.scrollHeight,
-      clientHeight: form.clientHeight,
+      scrollHeight: node.scrollHeight,
+      clientHeight: node.clientHeight,
     };
   });
 
   expect(geometry.scrollHeight).toBeGreaterThan(geometry.clientHeight);
-  expect(geometry.submitTop).toBeGreaterThanOrEqual(geometry.formTop);
-  expect(geometry.submitBottom).toBeLessThanOrEqual(geometry.formBottom);
-  expect(geometry.noteTop).toBeGreaterThanOrEqual(geometry.formBottom);
+  expect(geometry.submitTop).toBeGreaterThanOrEqual(geometry.dialogTop);
+  expect(geometry.submitBottom).toBeLessThanOrEqual(geometry.dialogBottom);
+  expect(geometry.noteTop).toBeGreaterThanOrEqual(geometry.submitBottom);
 });
 
 test('submits a Telegram request without a name or attachment', async ({ page }) => {

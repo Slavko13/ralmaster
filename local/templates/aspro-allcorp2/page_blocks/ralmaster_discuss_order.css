@@ -14,7 +14,9 @@
   color: #111e35;
   background: #fff;
   font-family: var(--rm-font-body, Onest, Arial, sans-serif);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .rm-discuss::backdrop {
@@ -37,7 +39,8 @@
 
 .rm-discuss__card {
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 100%;
   padding: 40px;
 }
 
@@ -82,8 +85,8 @@
 
 .rm-discuss__form {
   width: 668px;
-  height: var(--rm-discuss-form-height, 590px);
-  overflow: hidden;
+  height: auto;
+  overflow: visible;
 }
 
 .rm-discuss__note {
@@ -104,7 +107,7 @@
 .rm-discuss__form .form.contacts {
   width: 100% !important;
   max-width: none !important;
-  height: 100% !important;
+  height: auto !important;
   min-height: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -130,62 +133,25 @@
 .rm-discuss__form form,
 .rm-discuss__form form > .row,
 .rm-discuss__form form > .row > .col-md-8 {
-  height: var(--rm-discuss-form-height, 590px);
+  height: auto;
   margin: 0 !important;
 }
 
 .rm-discuss__form form > .row > .col-md-8 > .row {
   display: block;
-  height: var(--rm-discuss-fields-height, 470px);
+  height: auto;
   margin: 0 !important;
 }
 
 .rm-discuss__form form > .row > .col-md-8 > .row > [class*="col-"]:has(.row[data-SID]) {
   display: grid;
   width: 100% !important;
-  height: var(--rm-discuss-fields-height, 470px);
+  height: auto;
   grid-template-columns: 1fr;
-  grid-template-rows: 88px var(--rm-discuss-contact-row-height, 160px) var(--rm-discuss-task-row-height, 148px) 86px;
+  grid-template-rows: auto;
+  grid-auto-rows: auto;
   gap: 20px;
   padding: 0 !important;
-}
-
-.rm-discuss__form .form.contacts.error form,
-.rm-discuss__form .form.contacts.error form > .row,
-.rm-discuss__form .form.contacts.error form > .row > .col-md-8,
-.rm-discuss__form .form.contacts.error form > .row > .col-md-8 > .row,
-.rm-discuss__form:has(.rm-estimate-error) > [id^="comp_"],
-.rm-discuss__form:has(.rm-estimate-error) > [id^="comp_"] > [id^="comp_"],
-.rm-discuss__form:has(.rm-estimate-error) .rm-discuss__legacy-contact-form,
-.rm-discuss__form:has(.rm-estimate-error) .rm-discuss__legacy-contact-form > .styled-block1,
-.rm-discuss__form:has(.rm-estimate-error) .rm-discuss__legacy-contact-form > .styled-block1 > .maxwidth-theme,
-.rm-discuss__form:has(.rm-estimate-error) .form.contacts,
-.rm-discuss__form:has(.rm-estimate-error) form,
-.rm-discuss__form:has(.rm-estimate-error) form > .row,
-.rm-discuss__form:has(.rm-estimate-error) form > .row > .col-md-8,
-.rm-discuss__form:has(.rm-estimate-error) form > .row > .col-md-8 > .row {
-  height: auto !important;
-  min-height: 0 !important;
-}
-
-.rm-discuss__form:has(.form.contacts.error),
-.rm-discuss__form:has(.rm-estimate-error) {
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
-.rm-discuss__form:has(.rm-estimate-error) form > .row > .col-md-8 > .row > [class*="col-"]:has(.row[data-SID]) {
-  height: auto !important;
-  grid-template-rows: none;
-  grid-auto-rows: auto;
-}
-
-.rm-discuss__form:has(.rm-estimate-error) form .row[data-SID],
-.rm-discuss__form:has(.rm-estimate-error) form .row[data-SID] > [class*="col-"],
-.rm-discuss__form:has(.rm-estimate-error) .form-group {
-  height: auto !important;
-  min-height: 0 !important;
 }
 
 .rm-discuss__form .form.contacts.error .form-error {
@@ -236,14 +202,21 @@
   width: 100% !important;
   min-width: 0 !important;
   max-width: 100% !important;
-  height: 100%;
+  height: auto;
   margin: 0 !important;
   padding: 0 !important;
 }
 
+.rm-discuss__form form .row[data-SID="CONTACT"],
+.rm-discuss__form form .row[data-SID="TASK"],
+.rm-discuss__form form .row[data-SID="FILE"] {
+  position: relative !important;
+  padding-bottom: var(--rm-estimate-error-space, 26px) !important;
+}
+
 .rm-discuss__form form .row[data-SID] > [class*="col-"] {
   width: 100% !important;
-  height: 100%;
+  height: auto;
   padding: 0 !important;
 }
 
@@ -253,7 +226,7 @@
 
 .rm-discuss__form .form-group {
   width: 100% !important;
-  height: 100%;
+  height: auto;
   margin: 0 !important;
 }
 
@@ -520,7 +493,7 @@ dialog.rm-discuss .rm-discuss__form form .form-footer .licence_block > label {
   opacity: 1;
 }
 
-@media (min-width: 768px) and (max-height: 899px) {
+@media (min-width: 768px) and (max-height: 999px) {
   .rm-discuss {
     height: min(var(--rm-discuss-height, 850px), calc(100dvh - 24px));
     max-height: calc(100dvh - 24px);

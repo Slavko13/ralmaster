@@ -169,6 +169,24 @@ async function expectBlueConsent(root: Locator) {
   await consent.uncheck();
 }
 
+async function formAnchors(root: Locator) {
+  return root.evaluate((node) => {
+    const rootBox = node.getBoundingClientRect();
+    const top = (selector: string) => {
+      const element = node.querySelector<HTMLElement>(selector)!;
+      return Math.round(element.getBoundingClientRect().top - rootBox.top);
+    };
+    return {
+      rootHeight: Math.round(rootBox.height),
+      contact: top('[data-SID="CONTACT"] input'),
+      task: top('[data-SID="TASK"] textarea'),
+      file: top('[data-SID="FILE"] .uploader'),
+      consent: top('.licence_block'),
+      submit: top('input[type="submit"]'),
+    };
+  });
+}
+
 test('all inline estimate forms share one visual contract', async ({ page }) => {
 
   for (const form of inlineForms) {
@@ -183,6 +201,24 @@ test('all inline estimate forms share one visual contract', async ({ page }) => 
     ]);
     expectSharedContract(await formSignature(root));
     await expectBlueConsent(root);
+  }
+});
+
+test('inline validation uses reserved rows without moving controls', async ({ page }) => {
+  for (const form of inlineForms) {
+    await page.goto(form.route, { waitUntil: 'domcontentloaded' });
+    const root = page.locator(`${form.root}[data-rm-estimate-form]`);
+    await expect(root).toBeVisible();
+
+    for (const sid of ['CONTACT', 'TASK', 'FILE']) {
+      await expect(root.locator(`.row[data-SID="${sid}"]`)).toHaveCSS('padding-bottom', '26px');
+    }
+
+    const before = await formAnchors(root);
+    await root.locator('input[type="submit"]').click();
+    await expect(root.locator('[data-SID="CONTACT"] .rm-estimate-error')).toBeVisible();
+    await expect(root.locator('[data-SID="TASK"] .rm-estimate-error')).toBeVisible();
+    expect(await formAnchors(root)).toEqual(before);
   }
 });
 
@@ -208,6 +244,12 @@ test('P0 @mobile unified forms remain usable without horizontal overflow', async
     await expect(root.locator('[data-SID="FILE"] .uploader .action')).toBeHidden();
     await expect(root.locator('input[type="submit"]')).toBeVisible();
     await expectBlueConsent(root);
+
+    const beforeValidation = await formAnchors(root);
+    await root.locator('input[type="submit"]').click();
+    await expect(root.locator('[data-SID="CONTACT"] .rm-estimate-error')).toBeVisible();
+    await expect(root.locator('[data-SID="TASK"] .rm-estimate-error')).toBeVisible();
+    expect(await formAnchors(root)).toEqual(beforeValidation);
 
     const overflow = await page.evaluate(() => ({
       clientWidth: document.documentElement.clientWidth,
