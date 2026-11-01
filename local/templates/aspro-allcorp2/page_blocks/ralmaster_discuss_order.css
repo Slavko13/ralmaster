@@ -315,6 +315,13 @@
   color: #175bef;
 }
 
+.rm-discuss__form .rm-contact-methods__button--telegram .rm-contact-methods__icon,
+.rm-discuss__form .rm-contact-methods__button--max .rm-contact-methods__icon {
+  width: 14px;
+  height: 14px;
+  flex-basis: 14px;
+}
+
 .rm-discuss__form .rm-contact-methods__button[aria-checked="true"] {
   border-color: #175bef;
   color: #175bef;

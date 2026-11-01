@@ -148,10 +148,17 @@ test.describe('P0 redesigned powder coating page', () => {
     });
 
     const card = page.locator('.rm-powder-accepted__card').first();
+    const topBeforeHover = await card.evaluate(
+      (node) => node.getBoundingClientRect().top + window.scrollY,
+    );
     await card.hover();
     await page.waitForTimeout(220);
+    const topAfterHover = await card.evaluate(
+      (node) => node.getBoundingClientRect().top + window.scrollY,
+    );
     await expect(card).toHaveCSS('transform', 'matrix(1.1, 0, 0, 1.1, 0, 0)');
     await expect(card).toHaveCSS('box-shadow', /rgba\(17, 30, 53, 0\.16\).*18px 40px/);
+    expect(Math.abs(topAfterHover - topBeforeHover)).toBeLessThanOrEqual(1);
   });
 
   test('loads all Powder Paper images from local template assets', async ({ page }) => {

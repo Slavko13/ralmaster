@@ -274,17 +274,29 @@ test.describe('Redesigned production root', () => {
     });
 
     await page.goto('/company/', { waitUntil: 'domcontentloaded' });
-    const trigger = page.locator(
+    const capabilitiesTrigger = page.locator(
+      '.rm-production-capabilities__cta [data-rm-discuss-open="production"]',
+    );
+    const contactTrigger = page.locator(
       '.rm-production-contact [data-rm-discuss-open="production"]',
     );
-    await expect(trigger).toBeVisible();
-    await trigger.click();
-
     const dialog = page.locator('dialog[data-rm-discuss-variant="production"]');
+
+    await expect(capabilitiesTrigger).toBeVisible();
+    await capabilitiesTrigger.scrollIntoViewIfNeeded();
+    const scrollBefore = await page.evaluate(() => window.scrollY);
+    await capabilitiesTrigger.click();
     await expect(dialog).toBeVisible();
     await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue(
       'production; contact=telegram',
     );
+    expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+
+    await expect(contactTrigger).toBeVisible();
+    await contactTrigger.click();
+    await expect(dialog).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
     expect(postRequests).toEqual([]);

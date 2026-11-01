@@ -213,6 +213,7 @@
   grid-template-rows: 74px 254px 73px;
   min-width: 0;
   background: #fff;
+  transform-origin: center top;
   transition: box-shadow 180ms ease, transform 180ms ease;
 }
 

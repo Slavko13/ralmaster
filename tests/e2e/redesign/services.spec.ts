@@ -169,6 +169,13 @@ test.describe('Redesigned metalworking root', () => {
     expect(arrows.length).toBeGreaterThan(0);
     expect(arrows.every((arrow) => arrow.content === '"↗"')).toBe(true);
     expect(arrows.every((arrow) => arrow.backgroundImage === 'none')).toBe(true);
+
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+    const relatedLink = page.locator('.rm-metal-operations__links a').first();
+    await relatedLink.hover();
+    await expect(relatedLink).toHaveCSS('color', 'rgb(23, 91, 239)');
+    await expect(relatedLink).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
   });
 
   test('keeps metalworking content inside an intermediate desktop viewport', async ({ page }) => {

@@ -1948,8 +1948,9 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   bottom: 30px;
   left: 32px;
   display: flex;
-  align-items: baseline;
-  gap: 22px;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .rm-home-order__contacts a:first-child {

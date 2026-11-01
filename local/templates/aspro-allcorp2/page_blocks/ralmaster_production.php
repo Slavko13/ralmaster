@@ -175,7 +175,7 @@ if ($rmProductionEstimateFormId <= 0) {
 			</table>
 			<p class="rm-production-capabilities__note">* Примерные данные для согласования. Фактические материалы, размеры и ограничения подтвердим после проверки чертежа или технического задания.</p>
 		</div>
-		<div class="rm-production-capabilities__cta"><div><h3>Проверим ваше изделие по чертежу</h3><p>Пришлите чертёж или техническое задание. Проверим размеры, материал и необходимые операции.</p></div><a href="#rm-production-contact">Отправить чертёж на проверку <span aria-hidden="true">→</span></a></div>
+		<div class="rm-production-capabilities__cta"><div><h3>Проверим ваше изделие по чертежу</h3><p>Пришлите чертёж или техническое задание. Проверим размеры, материал и необходимые операции.</p></div><button type="button" data-rm-discuss-open="production">Отправить чертёж на проверку <span aria-hidden="true">→</span></button></div>
 	</section>
 
 	<section class="rm-production-order" data-rm-production-section="order">

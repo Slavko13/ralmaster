@@ -251,6 +251,21 @@ test.describe('P0 redesigned home', () => {
     expect(geometry.taskError.bottom).toBeLessThanOrEqual(geometry.file.top);
   });
 
+  test('places the email below the phone in the order contact panel', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    const contacts = page.locator('.rm-home-order__contacts');
+    const geometry = await contacts.locator('a').evaluateAll((links) =>
+      links.map((link) => {
+        const rect = link.getBoundingClientRect();
+        return { top: rect.top, bottom: rect.bottom, left: rect.left };
+      }),
+    );
+
+    expect(geometry).toHaveLength(2);
+    expect(geometry[1].top).toBeGreaterThanOrEqual(geometry[0].bottom);
+    expect(Math.abs(geometry[1].left - geometry[0].left)).toBeLessThanOrEqual(1);
+  });
+
   test('desktop render has no overflow or browser errors', async ({ page }, testInfo) => {
     const diagnostics = collectBrowserDiagnostics(page);
 

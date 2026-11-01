@@ -349,7 +349,7 @@
   line-height: 19.2px;
 }
 
-.rm-production-capabilities__cta a {
+.rm-production-capabilities__cta button {
   display: inline-flex;
   width: 292px;
   height: 52px;
@@ -357,12 +357,14 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 23px;
+  border: 0;
   border-radius: 4px;
   color: #111e35 !important;
   background: #fff;
   font-size: 12px;
   font-weight: 500;
   line-height: 17px;
+  cursor: pointer;
 }
 
 .rm-production-order {
@@ -1150,7 +1152,7 @@ body:has(.rm-production) .main > .container .right_block {
     padding: 28px 24px;
   }
 
-  .rm-production-capabilities__cta a {
+  .rm-production-capabilities__cta button {
     width: 100%;
     flex-basis: 52px;
   }

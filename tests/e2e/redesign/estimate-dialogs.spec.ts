@@ -83,6 +83,18 @@ for (const dialogCase of cases) {
     await expect(dialog.getByRole('radio')).toHaveCount(4);
     await expect(dialog.getByRole('radio')).toHaveText(['Telegram', 'MAX', 'Телефон', 'Почта']);
     await expect(dialog.locator('.rm-contact-methods__icon')).toHaveCount(4);
+    await expect(dialog.getByRole('radio', { name: 'Telegram' }).locator('svg')).toHaveCSS(
+      'width',
+      '14px',
+    );
+    await expect(dialog.getByRole('radio', { name: 'MAX' }).locator('svg')).toHaveCSS(
+      'width',
+      '14px',
+    );
+    await expect(dialog.getByRole('radio', { name: 'Телефон' }).locator('svg')).toHaveCSS(
+      'width',
+      '16px',
+    );
     await expect(dialog.getByRole('radio', { name: 'Telegram' })).toHaveAttribute(
       'aria-checked',
       'true',

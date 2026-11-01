@@ -449,6 +449,13 @@
   font: 400 22px/20px Arial, sans-serif;
 }
 
+.rm-projects-operations__footer a:hover,
+.rm-projects-operations__footer a:focus-visible {
+  border-color: #175bef;
+  color: #fff !important;
+  background: #175bef;
+}
+
 .rm-projects-estimate {
   height: 660px;
   padding: 56px 0;

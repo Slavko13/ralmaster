@@ -173,6 +173,11 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     await expect(card).toHaveCSS('transform', 'matrix(1.1, 0, 0, 1.1, 0, 0)');
     await expect(card).toHaveCSS('box-shadow', /rgba\(17, 30, 53, 0\.16\).*18px 40px/);
     await expect(image).toHaveCSS('transform', 'none');
+
+    const operationLink = page.locator('.rm-projects-operations__footer a').first();
+    await operationLink.hover();
+    await expect(operationLink).toHaveCSS('color', 'rgb(255, 255, 255)');
+    await expect(operationLink).toHaveCSS('background-color', 'rgb(23, 91, 239)');
   });
 
   test('loads localized project assets and keeps product category URLs dynamic', async ({ page }) => {

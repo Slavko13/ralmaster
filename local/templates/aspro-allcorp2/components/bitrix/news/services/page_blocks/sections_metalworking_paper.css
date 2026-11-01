@@ -392,6 +392,12 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
   margin-left: 12px;
 }
 
+.rm-metal-operations__links a:hover,
+.rm-metal-operations__links a:focus-visible {
+  color: var(--rm-primary, #175bef) !important;
+  background: transparent !important;
+}
+
 .rm-metal-examples {
   height: 888px;
   padding: 72px 0;
