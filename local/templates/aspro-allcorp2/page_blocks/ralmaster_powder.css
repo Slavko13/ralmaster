@@ -217,9 +217,9 @@
 }
 
 .rm-powder-accepted__card:hover {
-  z-index: 1;
-  box-shadow: 0 8px 22px rgba(17, 30, 53, 0.08);
-  transform: translateY(-2px);
+  z-index: 2;
+  box-shadow: 0 18px 40px rgba(17, 30, 53, 0.16);
+  transform: scale(1.1);
 }
 
 .rm-powder-accepted__card > img {

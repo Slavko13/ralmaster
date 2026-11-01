@@ -81,6 +81,8 @@ for (const dialogCase of cases) {
     );
     await expect(dialog.locator('[data-rm-contact-methods]')).toBeVisible();
     await expect(dialog.getByRole('radio')).toHaveCount(4);
+    await expect(dialog.getByRole('radio')).toHaveText(['Telegram', 'MAX', 'Телефон', 'Почта']);
+    await expect(dialog.locator('.rm-contact-methods__icon')).toHaveCount(4);
     await expect(dialog.getByRole('radio', { name: 'Telegram' })).toHaveAttribute(
       'aria-checked',
       'true',
@@ -139,6 +141,10 @@ for (const dialogCase of cases) {
       submitHeight: 60,
       submitAlign: 'left',
     });
+
+    await dialog.locator('[data-SID="NAME"] input').focus();
+    await expect(dialog.locator('[data-SID="NAME"] input')).toHaveCSS('box-shadow', 'none');
+    await expect(dialog.locator('[data-SID="NAME"] input')).toHaveCSS('outline-style', 'none');
 
     await dialog.locator('input[type="submit"]').click();
     await expect(dialog.locator('[data-SID="CONTACT"] .rm-estimate-error')).toBeVisible();

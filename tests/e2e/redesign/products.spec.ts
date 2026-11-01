@@ -132,7 +132,9 @@ test.describe('P0 redesigned products root', () => {
     const dialog = page.locator('dialog[data-rm-discuss-variant="product"]');
     await expect(dialog).toBeVisible();
     await expect(dialog.getByRole('heading', { name: 'Рассчитать изготовление изделий' })).toBeVisible();
-    await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue('product');
+    await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue(
+      'product; contact=telegram',
+    );
     expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
 
     // The full inline form remains on the page as specified by the Product artboard.

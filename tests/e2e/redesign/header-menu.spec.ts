@@ -45,6 +45,16 @@ test.describe('P0 Paper flat navigation', () => {
     }
   });
 
+  test('partners page does not inherit the production active state', async ({ page }) => {
+    await page.goto('/company/partners/', { waitUntil: 'domcontentloaded' });
+
+    const productionItem = page
+      .locator('.rm-header .rm-flat-menu__item')
+      .filter({ hasText: 'О производстве' });
+    await expect(productionItem).not.toHaveClass(/\bactive\b/);
+    await expect(productionItem.locator('a')).not.toHaveAttribute('aria-current', 'page');
+  });
+
   test('P0 @mobile mobile menu remains flat and accessible', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 

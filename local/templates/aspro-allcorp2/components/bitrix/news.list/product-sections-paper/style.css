@@ -140,10 +140,10 @@
 
 .rm-product-card:hover,
 .rm-product-card:focus-visible {
-  z-index: 1;
+  z-index: 2;
   outline: 0;
-  box-shadow: 0 8px 22px rgba(17, 30, 53, 0.08);
-  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(17, 30, 53, 0.16);
+  transform: scale(1.1);
 }
 
 .rm-product-card--large {

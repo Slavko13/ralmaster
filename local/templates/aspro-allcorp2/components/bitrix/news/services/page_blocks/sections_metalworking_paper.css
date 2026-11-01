@@ -139,6 +139,15 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
   line-height: 20px;
 }
 
+.rm-metal-link-arrow {
+  transition: transform 180ms ease;
+}
+
+.rm-metal-link-arrow:hover,
+.rm-metal-link-arrow:focus-visible {
+  transform: translateY(-4px);
+}
+
 .rm-metal-services {
   height: 1760px;
   background: #f2f4f5;

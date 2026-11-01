@@ -261,10 +261,17 @@
 }
 
 .rm-projects-text-link {
+  display: inline-flex;
   color: #175bef;
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
+  transition: transform 180ms ease;
+}
+
+.rm-projects-text-link:hover,
+.rm-projects-text-link:focus-visible {
+  transform: translateY(-4px);
 }
 
 .rm-projects-product-grid {
@@ -288,10 +295,10 @@
 
 .rm-projects-product-card:hover,
 .rm-projects-product-card:focus-visible {
-  z-index: 1;
+  z-index: 2;
   outline: 0;
-  box-shadow: 0 8px 22px rgba(17, 30, 53, 0.08);
-  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(17, 30, 53, 0.16);
+  transform: scale(1.1);
 }
 
 .rm-projects-product-card__header {

@@ -218,10 +218,37 @@ test.describe('P0 redesigned home', () => {
     const dialog = page.locator('dialog[data-rm-discuss-variant="home"]');
     await expect(dialog).toBeVisible();
     await expect(dialog.locator('h2')).toHaveText('Обсудить заказ');
-    await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue('home');
+    await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue('home; contact=telegram');
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
     expect(postRequests).toEqual([]);
+  });
+
+  test('inline validation messages stay between their own controls and the next field', async ({
+    page,
+  }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    const formRoot = page.locator('.rm-home-order__form[data-rm-estimate-form]');
+    await formRoot.locator('input[type="submit"]').click();
+
+    const geometry = await formRoot.evaluate((root) => {
+      const box = (selector: string) => {
+        const rect = root.querySelector<HTMLElement>(selector)!.getBoundingClientRect();
+        return { top: rect.top, bottom: rect.bottom };
+      };
+      return {
+        contact: box('[data-SID="CONTACT"] input'),
+        contactError: box('[data-SID="CONTACT"] .rm-estimate-error'),
+        task: box('[data-SID="TASK"] textarea'),
+        taskError: box('[data-SID="TASK"] .rm-estimate-error'),
+        file: box('[data-SID="FILE"]'),
+      };
+    });
+
+    expect(geometry.contactError.top).toBeGreaterThanOrEqual(geometry.contact.bottom);
+    expect(geometry.contactError.bottom).toBeLessThanOrEqual(geometry.task.top);
+    expect(geometry.taskError.top).toBeGreaterThanOrEqual(geometry.task.bottom);
+    expect(geometry.taskError.bottom).toBeLessThanOrEqual(geometry.file.top);
   });
 
   test('desktop render has no overflow or browser errors', async ({ page }, testInfo) => {

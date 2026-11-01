@@ -303,6 +303,16 @@ test.describe('P0 redesigned derived pages', () => {
     const root = page.locator('[data-rm-partners-page]');
     await expect(root).toHaveAttribute('data-rm-partner-count', '7');
     await expect(root.locator('.rm-partner-card')).toHaveCount(7);
+    await expect(root.locator('.rm-partners-hero .rm-partners-kicker')).toHaveCount(0);
+    await expect(root.locator('.rm-partners-breadcrumb')).toContainText('Главная/Партнёры');
+
+    const heroFlow = await root.locator('.rm-partners-hero__layout').evaluate((hero) => {
+      const title = hero.querySelector('h1')!.getBoundingClientRect();
+      const copy = hero.querySelector('p')!.getBoundingClientRect();
+      return { titleBottom: title.bottom, copyTop: copy.top, leftDelta: copy.left - title.left };
+    });
+    expect(heroFlow.copyTop).toBeGreaterThan(heroFlow.titleBottom);
+    expect(Math.abs(heroFlow.leftDelta)).toBeLessThanOrEqual(1);
 
     const partnerHeading = await root.locator('.rm-partners-heading').evaluate((heading) => {
       const kicker = heading.querySelector('.rm-partners-kicker')!.getBoundingClientRect();
@@ -347,6 +357,11 @@ test.describe('P0 redesigned derived pages', () => {
         ),
       ),
     ).toBe(true);
+
+    const firstCard = root.locator('.rm-partner-card').first();
+    await firstCard.hover();
+    await page.waitForTimeout(260);
+    await expect(firstCard).toHaveCSS('transform', 'matrix(1.1, 0, 0, 1.1, 0, 0)');
   });
 
   test('desktop routes have no overflow, browser errors, or critical axe violations', async ({

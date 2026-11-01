@@ -794,3 +794,55 @@
   SMTP-реквизиты либо настроенный sendmail; секреты в репозиторий не добавлялись.
 - **Статус:** `PASSED` для UI, валидации и сохранения заявки; SMTP отмечен как
   внешнее инфраструктурное ограничение.
+
+## Итерация 34 — Формы, партнёры и геометрия production (2026-11-01)
+
+- **Цель:** закрыть замечания владельца по ошибкам формы главной, оформлению
+  страницы партнёров, активному меню, микровзаимодействиям и ширине таблицы
+  производственных возможностей.
+- **Область изменений:** inline validation главной; hero и breadcrumb
+  `/company/partners/`; активное состояние header; каналы связи popup;
+  focus-state полей; hover карточек и текстовых ссылок; responsive-геометрия
+  `/company/`.
+- **Связанные макеты Paper:** `Ралмастер` → `Дизайн`; production artboard
+  «О производстве» (`3AF-0`), секция возможностей (`3BN-0`) и таблица
+  (`3BQ-0`, 1344 px с полями по 48 px на холсте 1440 px).
+- **Затронутые файлы и компоненты:** flat menu; `partners-paper` template/CSS;
+  `ralmaster-estimate.js`; `ralmaster_discuss_order.css`; `custom.css`;
+  production, powder, detail, projects, product sections и metalworking CSS;
+  Playwright suites home/header/estimate/derived/production/painting/products/
+  projects; журналы итераций и прогресса.
+- **Функциональные автотесты:** ошибки формы находятся между своим полем и
+  следующим контролом; `/company/partners/` не наследует active production;
+  breadcrumb использует `/`; порядок Telegram / MAX / телефон / почта и
+  корректные SVG; единственная focus-рамка; карточки получают scale 1.1;
+  текст и стрелка поднимаются вместе; таблица остаётся внутри viewport на
+  390/768/1024/1366/1440 px.
+- **Визуальные проверки:** Paper MCP повторно подтверждён без изменения
+  макетов; partners и company проверены в браузере на intermediate viewport;
+  таблица имеет одинаковые боковые поля с основной сеткой, popup использует
+  фирменные иконки Telegram/MAX.
+- **Критерии приёмки:** validation text не перекрывается контролами; hero
+  партнёров имеет структуру заголовок → описание без kicker; меню не содержит
+  ложного active; поля имеют одну синюю focus-рамку; hover заметный, но не
+  ломает сетку; production не создаёт горизонтальный overflow.
+- **Фактический результат:** высота строк формы становится auto при ошибках;
+  partners hero приведён к стилю внутренних страниц; ложный active снят на
+  уровне Bitrix menu template; Telegram/MAX используют точные SVG из footer,
+  телефон расположен перед почтой; глобальный `focus-visible` outline
+  нейтрализован внутри popup; карточки увеличиваются на 10%, а link label и
+  arrow двигаются единым элементом. Production wrappers и таблица получили
+  адаптивную ширину, повторяющую Paper margins.
+- **Обнаруженные дефекты:** фиксированная высота form rows прятала ошибки;
+  дочерняя partners route наследовала selection `/company/`; hero сохранял
+  лишний kicker и стрелку breadcrumb; одновременно применялись border и
+  глобальный outline; fixed production columns выходили из content frame на
+  intermediate viewport.
+- **Исправленные дефекты:** все замечания текущего scope закрыты. PHP lint
+  **2/2 PASS**; связанная desktop regression **37/37 PASS**; mobile regression
+  **5/5 PASS**; Docker `db`/`web` healthy; `/`, `/company/partners/` и
+  `/company/` отвечают HTTP **200**.
+- **Оставшиеся ограничения:** SMTP/sendmail локального окружения по-прежнему
+  не настроен; state-changing отправка в реальный внешний mail/CRM в этой
+  итерации не выполнялась. Paper-макет не изменялся.
+- **Статус:** `PASSED`.

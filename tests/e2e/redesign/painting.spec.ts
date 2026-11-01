@@ -150,8 +150,8 @@ test.describe('P0 redesigned powder coating page', () => {
     const card = page.locator('.rm-powder-accepted__card').first();
     await card.hover();
     await page.waitForTimeout(220);
-    await expect(card).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, -2)');
-    await expect(card).toHaveCSS('box-shadow', /rgba\(17, 30, 53, 0\.08\).*8px 22px/);
+    await expect(card).toHaveCSS('transform', 'matrix(1.1, 0, 0, 1.1, 0, 0)');
+    await expect(card).toHaveCSS('box-shadow', /rgba\(17, 30, 53, 0\.16\).*18px 40px/);
   });
 
   test('loads all Powder Paper images from local template assets', async ({ page }) => {

@@ -907,6 +907,7 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  transition: transform 180ms ease;
 }
 
 .rm-link-arrow::after {
@@ -930,9 +931,9 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   color: var(--rm-white);
 }
 
-.rm-link-arrow:hover::after,
-.rm-link-arrow:focus-visible::after {
-  transform: translate(2px, -2px);
+.rm-link-arrow:hover,
+.rm-link-arrow:focus-visible {
+  transform: translateY(-4px);
 }
 
 .rm-card-arrow {
@@ -1313,10 +1314,10 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
 .rm-home-product-card:focus-visible,
 .rm-home-service-card:hover,
 .rm-home-service-card:focus-visible {
-  z-index: 1;
+  z-index: 2;
   outline: 0;
-  box-shadow: 0 8px 22px rgba(17, 30, 53, 0.08);
-  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(17, 30, 53, 0.16);
+  transform: scale(1.1);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2294,6 +2295,50 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
 .rm-home-order__form input[type="submit"]:hover {
   background-color: var(--rm-primary-hover) !important;
   border-color: var(--rm-primary-hover) !important;
+}
+
+.rm-home-order:has(.rm-estimate-error) {
+  height: auto;
+  min-height: 660px;
+}
+
+.rm-home-order__inner:has(.rm-estimate-error) {
+  height: auto;
+  align-items: stretch;
+}
+
+.rm-home-order__inner:has(.rm-estimate-error) .rm-home-order__intro {
+  height: 100%;
+  min-height: 600px;
+}
+
+.rm-home-order__form:has(.rm-estimate-error) {
+  height: auto;
+  min-height: 600px;
+  overflow: visible;
+}
+
+.rm-home-order__form:has(.rm-estimate-error) form,
+.rm-home-order__form:has(.rm-estimate-error) form > .row,
+.rm-home-order__form:has(.rm-estimate-error) form > .row > .col-md-8,
+.rm-home-order__form:has(.rm-estimate-error) form > .row > .col-md-8 > .row,
+.rm-home-order__form:has(.rm-estimate-error) form > .row > .col-md-8 > .row > [class*="col-"]:has(.row[data-SID]) {
+  height: auto !important;
+}
+
+.rm-home-order__form:has(.rm-estimate-error) form > .row > .col-md-8 > .row > [class*="col-"]:has(.row[data-SID]) {
+  grid-template-rows: minmax(56px, auto) minmax(56px, auto) minmax(112px, auto) minmax(92px, auto);
+}
+
+.rm-home-order__form:has(.rm-estimate-error) form .row[data-SID],
+.rm-home-order__form:has(.rm-estimate-error) form .row[data-SID] > [class*="col-"],
+.rm-home-order__form:has(.rm-estimate-error) .form-group,
+.rm-home-order__form:has(.rm-estimate-error) .form-group > .input {
+  height: auto !important;
+}
+
+.rm-home-order__form:has(.rm-estimate-error) .form-footer {
+  height: auto;
 }
 
 .rm-home-photo {

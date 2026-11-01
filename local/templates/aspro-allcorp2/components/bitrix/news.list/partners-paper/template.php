@@ -11,9 +11,9 @@ $rmPartnerEscape = static function ($value) {
 <main class="rm-partners-page" data-rm-partners-page data-rm-partner-count="<?=count($arResult['ITEMS'])?>">
 	<section class="rm-partners-hero">
 		<div class="rm-partners-container">
-			<nav class="rm-partners-breadcrumb" aria-label="Хлебные крошки"><a href="/">Главная</a><span aria-hidden="true">→</span><span aria-current="page">Партнёры</span></nav>
+			<nav class="rm-partners-breadcrumb" aria-label="Хлебные крошки"><a href="/">Главная</a><span aria-hidden="true">/</span><span aria-current="page">Партнёры</span></nav>
 			<div class="rm-partners-hero__layout">
-				<div><p class="rm-partners-kicker">Сотрудничество</p><h1>Партнёры</h1></div>
+				<h1>Партнёры</h1>
 				<p>Работаем с девелоперами, производственными и строительными компаниями. Ценим долгосрочное сотрудничество, точные договорённости и повторяемое качество партий.</p>
 			</div>
 		</div>

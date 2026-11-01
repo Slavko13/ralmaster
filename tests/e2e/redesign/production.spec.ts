@@ -200,6 +200,31 @@ test.describe('Redesigned production root', () => {
     );
   });
 
+  test('keeps the Paper capabilities table inside the desktop content frame', async ({ page }) => {
+    await page.setViewportSize({ width: 1366, height: 900 });
+    await page.goto('/company/', { waitUntil: 'domcontentloaded' });
+
+    const geometry = await page.locator('.rm-production-capabilities').evaluate((section) => {
+      const box = (selector: string) => {
+        const rect = section.querySelector<HTMLElement>(selector)!.getBoundingClientRect();
+        return { left: Math.round(rect.left), right: Math.round(rect.right), width: Math.round(rect.width) };
+      };
+      return {
+        viewport: document.documentElement.clientWidth,
+        title: box(':scope > h2'),
+        table: box('table'),
+        cta: box('.rm-production-capabilities__cta'),
+      };
+    });
+
+    expect(geometry.title.width).toBe(1270);
+    expect(geometry.table).toEqual(geometry.title);
+    expect(geometry.cta).toEqual(geometry.title);
+    expect(geometry.table.left).toBeGreaterThanOrEqual(0);
+    expect(geometry.table.right).toBeLessThanOrEqual(geometry.viewport);
+    await expectNoHorizontalOverflow(page);
+  });
+
   test('keeps the final order divider below the last row', async ({ page }) => {
     await page.setViewportSize({ width: 1000, height: 900 });
     await page.goto('/company/', { waitUntil: 'domcontentloaded' });
@@ -257,7 +282,9 @@ test.describe('Redesigned production root', () => {
 
     const dialog = page.locator('dialog[data-rm-discuss-variant="production"]');
     await expect(dialog).toBeVisible();
-    await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue('production');
+    await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue(
+      'production; contact=telegram',
+    );
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
     expect(postRequests).toEqual([]);

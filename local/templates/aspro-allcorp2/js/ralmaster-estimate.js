@@ -220,10 +220,22 @@
     if (!input || !formGroup || formGroup.querySelector('[data-rm-contact-methods]')) return;
 
     var methods = [
-      { value: 'telegram', label: 'Telegram', placeholder: 'Имя пользователя или телефон' },
-      { value: 'max', label: 'MAX', placeholder: 'Имя пользователя или телефон' },
-      { value: 'email', label: 'Почта', placeholder: 'Электронная почта' },
-      { value: 'phone', label: 'Телефон', placeholder: 'Номер телефона' }
+      {
+        value: 'telegram', label: 'Telegram', placeholder: 'Имя пользователя или телефон',
+        icon: '<svg class="rm-contact-methods__icon" viewBox="170 285 575 480" aria-hidden="true"><path d="M226.328 494.722C372.089 431.217 469.285 389.35 517.917 369.122C656.773 311.367 685.625 301.335 704.431 301.004C708.568 300.931 717.816 301.956 723.806 306.817C728.865 310.921 730.257 316.466 730.923 320.357C731.589 324.249 732.418 333.114 731.759 340.041C724.234 419.102 691.675 610.965 675.111 699.515C668.102 736.984 654.301 749.548 640.941 750.777C611.905 753.449 589.856 731.588 561.733 713.153C517.727 684.306 492.866 666.349 450.15 638.2C400.784 605.669 432.786 587.789 460.919 558.569C468.282 550.921 596.215 434.556 598.691 424C599.001 422.68 599.288 417.759 596.365 415.16C593.441 412.562 589.126 413.45 586.012 414.157C581.599 415.159 511.298 461.625 375.11 553.556C355.155 567.259 337.081 573.935 320.887 573.585C303.034 573.199 268.693 563.491 243.164 555.192C211.851 545.014 186.964 539.633 189.132 522.346C190.26 513.343 202.659 504.135 226.328 494.722Z" fill="currentColor"/></svg>'
+      },
+      {
+        value: 'max', label: 'MAX', placeholder: 'Имя пользователя или телефон',
+        icon: '<svg class="rm-contact-methods__icon" viewBox="0 0 100 100" aria-hidden="true"><path d="M50.757.262c27.536 0 49.129 22.335 49.129 49.885 0 27.55-22.279 49.343-48.865 49.343-9.435 0-14.007-1.328-21.371-6.543a1.27 1.27 0 0 0-1.629.193c-5.664 6.043-20.171 10.286-20.835 2.036 0-14.386-7.186-23.729-7.186-45.3C0 21.555 23.221.262 50.757.262Zm.772 24.55C38.464 24.126 28.264 33.197 26.014 47.383c-1.864 11.75 1.436 26.072 4.265 26.793 1.2.307 4.078-1.9 6.178-3.879a1.244 1.244 0 0 1 1.45-.15c3.272 2 6.972 3.5 11.05 3.715 13.414.7 25.3-9.8 26.007-23.215.7-13.414-10.021-25.142-23.435-25.842v.007Z" fill="currentColor"/></svg>'
+      },
+      {
+        value: 'phone', label: 'Телефон', placeholder: 'Номер телефона',
+        icon: '<svg class="rm-contact-methods__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 3.8 4.7 5.1c-.9.5-1.2 1.5-.9 2.5 1.8 5.6 6.1 9.9 11.7 11.7 1 .3 2-.1 2.5-.9l1.3-2.5-4.1-2-1.1 1.7a13.1 13.1 0 0 1-5.7-5.7l1.7-1.1-1.9-4.1Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      },
+      {
+        value: 'email', label: 'Почта', placeholder: 'Электронная почта',
+        icon: '<svg class="rm-contact-methods__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      }
     ];
     var chooser = document.createElement('div');
     chooser.className = 'rm-contact-methods';
@@ -251,7 +263,7 @@
       button.setAttribute('role', 'radio');
       button.setAttribute('aria-checked', index === 0 ? 'true' : 'false');
       button.tabIndex = index === 0 ? 0 : -1;
-      button.textContent = method.label;
+      button.innerHTML = method.icon + '<span>' + method.label + '</span>';
       button.addEventListener('click', function () { selectMethod(method, button); });
       chooser.appendChild(button);
     });
