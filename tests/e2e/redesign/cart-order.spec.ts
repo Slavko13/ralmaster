@@ -158,10 +158,22 @@ test.describe('redesigned cart and checkout', () => {
 
     const root = page.locator('[data-rm-system-page="order"]');
     await expect(root).toBeVisible();
+    await expect(root.locator('.rm-system-kicker')).toHaveCount(0);
     await expect(root.locator('.rm-system-breadcrumb > span[aria-hidden="true"]')).toHaveText([
       '/',
       '/',
     ]);
+    const heroFlow = await root.locator('.rm-system-hero__layout').evaluate((hero) => {
+      const title = hero.querySelector('h1')!.getBoundingClientRect();
+      const intro = hero.querySelector(':scope > p')!.getBoundingClientRect();
+      return {
+        introTop: Math.round(intro.top),
+        titleBottom: Math.round(title.bottom),
+        leftDelta: Math.round(intro.left - title.left),
+      };
+    });
+    expect(heroFlow.introTop).toBeGreaterThan(heroFlow.titleBottom);
+    expect(Math.abs(heroFlow.leftDelta)).toBeLessThanOrEqual(1);
     await expect(root.getByText(productName, { exact: false }).first()).toBeVisible();
 
     const form = root.locator('.form.order');

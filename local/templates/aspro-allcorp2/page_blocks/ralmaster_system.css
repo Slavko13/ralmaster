@@ -335,14 +335,16 @@
   background: #f4f6f8;
 }
 
-.rm-system-page--cart .rm-system-hero__layout {
+.rm-system-page--cart .rm-system-hero__layout,
+.rm-system-page--order .rm-system-hero__layout {
   max-width: 720px;
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
   gap: 18px;
 }
 
-.rm-system-page--cart .rm-system-hero__layout > p {
+.rm-system-page--cart .rm-system-hero__layout > p,
+.rm-system-page--order .rm-system-hero__layout > p {
   max-width: 620px;
 }
 
