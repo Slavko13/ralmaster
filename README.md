@@ -28,7 +28,11 @@ The ignored local `.env` currently pins separate
 `DEV_COMPOSE_PROJECT_NAME` / `PROD_COMPOSE_PROJECT_NAME` values together with
 `APP_PORT=8084` and `APP_PROD_PORT=8085`. The development site is therefore exposed at
 `http://127.0.0.1:8084`. PHP files, CSS, and JavaScript are bind-mounted, so
-changes are reflected without a separate hot-reload process.
+changes are reflected without a separate hot-reload process. High-churn
+Bitrix cache/log directories use named Docker volumes instead of the Windows
+bind mount; this keeps source hot reload while avoiding slow filesystem
+metadata operations. Development OPcache checks source timestamps every two
+seconds, so edits remain visible without rebuilding the image.
 
 ## Production-like mode
 

@@ -37,7 +37,7 @@
 - `web`: PHP 8.2 + Apache;
 - `db`: MySQL `8.0.40`.
 
-Для разработки исходники подключаются bind mount. Отдельный hot reload для PHP не требуется: изменения PHP, CSS и JavaScript видны контейнеру сразу. Production-подобный профиль включает production-настройки opcache и монтирует код read-only, оставляя доступными только runtime-каталоги Bitrix.
+Для разработки исходники подключаются bind mount. Отдельный hot reload для PHP не требуется: изменения PHP, CSS и JavaScript видны контейнеру сразу. Каталоги `bitrix/cache`, `bitrix/managed_cache`, `bitrix/stack_cache` и runtime logs подключены отдельными named volumes, чтобы не выполнять высокочастотные cache I/O через медленный Windows bind mount. Development OPcache проверяет timestamps каждые 2 секунды. Production-подобный профиль включает production-настройки opcache и монтирует код read-only, оставляя доступными только runtime-каталоги Bitрикс.
 
 Production-подобный профиль предназначен для локальной приёмки. Он не является автономным immutable deployment image: исходники поступают через read-only bind mount. Production deployment в рамках этой задачи не изменяется.
 

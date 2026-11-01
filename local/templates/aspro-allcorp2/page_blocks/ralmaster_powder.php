@@ -8,6 +8,9 @@ global $APPLICATION, $arTheme;
 $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/page_blocks/ralmaster_powder.css');
 
 $rmAssetRoot = SITE_TEMPLATE_PATH.'/images/ralmaster/';
+$rmSmallAsset = static function ($file) use ($rmAssetRoot) {
+	return $rmAssetRoot.preg_replace('~\.webp$~', '-768.webp', ltrim((string)$file, '/'));
+};
 $rmEstimateFormId = 0;
 $rmEstimateFormSid = 'legacy';
 
@@ -118,7 +121,7 @@ $rmExamples = array(
 					</button>
 				</div>
 				<div class="rm-powder-hero__image">
-					<img src="<?=htmlspecialcharsbx($rmAssetRoot.'home/powder-flat-panels.webp')?>" alt="Порошковая окраска металлических изделий" fetchpriority="high">
+					<img src="<?=htmlspecialcharsbx($rmAssetRoot.'home/powder-flat-panels.webp')?>" srcset="<?=htmlspecialcharsbx($rmSmallAsset('home/powder-flat-panels.webp'))?> 768w, <?=htmlspecialcharsbx($rmAssetRoot.'home/powder-flat-panels.webp')?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 50vw" alt="Порошковая окраска металлических изделий" fetchpriority="high">
 					<span aria-hidden="true"></span>
 				</div>
 			</div>
@@ -134,7 +137,7 @@ $rmExamples = array(
 						<div class="rm-powder-accepted__card-heading">
 							<h3><?=htmlspecialcharsbx($rmItem['title'])?></h3>
 						</div>
-						<img src="<?=htmlspecialcharsbx($rmAssetRoot.$rmItem['image'])?>" alt="<?=htmlspecialcharsbx($rmItem['alt'])?>" loading="lazy">
+						<img src="<?=htmlspecialcharsbx($rmAssetRoot.$rmItem['image'])?>" srcset="<?=htmlspecialcharsbx($rmSmallAsset($rmItem['image']))?> 768w, <?=htmlspecialcharsbx($rmAssetRoot.$rmItem['image'])?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 33vw" alt="<?=htmlspecialcharsbx($rmItem['alt'])?>" loading="lazy">
 						<div class="rm-powder-accepted__card-description">
 							<p><?=htmlspecialcharsbx($rmItem['text'])?></p>
 						</div>
@@ -170,7 +173,7 @@ $rmExamples = array(
 			</header>
 			<div class="rm-powder-preparation__layout">
 				<div class="rm-powder-cut-image">
-					<img src="<?=htmlspecialcharsbx($rmAssetRoot.'powder/surface-preparation.webp')?>" alt="Подготовка металлических изделий перед порошковой окраской" loading="lazy">
+					<img src="<?=htmlspecialcharsbx($rmAssetRoot.'powder/surface-preparation.webp')?>" srcset="<?=htmlspecialcharsbx($rmSmallAsset('powder/surface-preparation.webp'))?> 768w, <?=htmlspecialcharsbx($rmAssetRoot.'powder/surface-preparation.webp')?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 50vw" alt="Подготовка металлических изделий перед порошковой окраской" loading="lazy">
 					<span aria-hidden="true"></span>
 				</div>
 				<ol class="rm-powder-preparation__steps">
@@ -201,7 +204,7 @@ $rmExamples = array(
 					<?endforeach;?>
 				</div>
 				<div class="rm-powder-cut-image rm-powder-cut-image--requirements">
-					<img src="<?=htmlspecialcharsbx($rmAssetRoot.'powder/coated-surface-detail.webp')?>" alt="Крупный план порошкового покрытия" loading="lazy">
+					<img src="<?=htmlspecialcharsbx($rmAssetRoot.'powder/coated-surface-detail.webp')?>" srcset="<?=htmlspecialcharsbx($rmSmallAsset('powder/coated-surface-detail.webp'))?> 768w, <?=htmlspecialcharsbx($rmAssetRoot.'powder/coated-surface-detail.webp')?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 50vw" alt="Крупный план порошкового покрытия" loading="lazy">
 					<span aria-hidden="true"></span>
 				</div>
 			</div>
@@ -215,7 +218,7 @@ $rmExamples = array(
 				<?foreach ($rmExamples as $rmExample):?>
 					<article class="rm-powder-example">
 						<div class="rm-powder-example__image">
-							<img src="<?=htmlspecialcharsbx($rmAssetRoot.$rmExample['image'])?>" alt="<?=htmlspecialcharsbx($rmExample['alt'])?>" loading="lazy">
+							<img src="<?=htmlspecialcharsbx($rmAssetRoot.$rmExample['image'])?>" srcset="<?=htmlspecialcharsbx($rmSmallAsset($rmExample['image']))?> 768w, <?=htmlspecialcharsbx($rmAssetRoot.$rmExample['image'])?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 33vw" alt="<?=htmlspecialcharsbx($rmExample['alt'])?>" loading="lazy">
 							<span aria-hidden="true"></span>
 						</div>
 						<div class="rm-powder-example__body">
@@ -302,7 +305,7 @@ $rmExamples = array(
 	</section>
 
 	<section class="rm-powder-photo" data-rm-powder-section="photo" aria-label="Производственная линия порошковой окраски">
-		<img src="<?=htmlspecialcharsbx($rmAssetRoot.'home/production-powder-line.webp')?>" alt="Производственная линия порошковой окраски" loading="lazy">
+		<img src="<?=htmlspecialcharsbx($rmAssetRoot.'home/production-powder-line.webp')?>" srcset="<?=htmlspecialcharsbx($rmSmallAsset('home/production-powder-line.webp'))?> 768w, <?=htmlspecialcharsbx($rmAssetRoot.'home/production-powder-line.webp')?> 1672w" sizes="100vw" alt="Производственная линия порошковой окраски" loading="lazy">
 		<span aria-hidden="true"></span>
 	</section>
 </main>

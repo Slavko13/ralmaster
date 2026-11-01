@@ -14,6 +14,7 @@ $this->setFrameMode(true);
 			$this->AddEditAction($rmProject['ID'], $rmButtons['edit']['edit_element']['ACTION_URL'], CIBlock::GetArrayByID($rmProject['IBLOCK_ID'], 'ELEMENT_EDIT'));
 			$this->AddDeleteAction($rmProject['ID'], $rmButtons['edit']['delete_element']['ACTION_URL'], CIBlock::GetArrayByID($rmProject['IBLOCK_ID'], 'ELEMENT_DELETE'), array('CONFIRM' => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
 			$rmProjectImage = (string)($rmProject['RM_PROJECT']['IMAGE'] ?? '');
+			$rmProjectImageSmall = (string)($rmProject['RM_PROJECT']['IMAGE_SMALL'] ?? '');
 			?>
 			<article class="rm-project-card" id="<?=$this->GetEditAreaId($rmProject['ID'])?>" data-project-code="<?=htmlspecialcharsbx((string)$rmProject['CODE'])?>">
 				<div class="rm-project-card__body">
@@ -30,7 +31,7 @@ $this->setFrameMode(true);
 				</div>
 				<a class="rm-project-card__image" href="<?=htmlspecialcharsbx($rmProject['DETAIL_PAGE_URL'])?>" aria-label="Открыть проект <?=htmlspecialcharsbx($rmProject['RM_PROJECT']['NAME'])?>">
 					<?if ($rmProjectImage):?>
-						<img src="<?=htmlspecialcharsbx($rmProjectImage)?>" alt="<?=htmlspecialcharsbx($rmProject['RM_PROJECT']['NAME'])?>"<?=$rmIndex ? ' loading="lazy"' : ' fetchpriority="high"'?>>
+						<img src="<?=htmlspecialcharsbx($rmProjectImage)?>"<?if ($rmProjectImageSmall):?> srcset="<?=htmlspecialcharsbx($rmProjectImageSmall)?> 768w, <?=htmlspecialcharsbx($rmProjectImage)?> 1920w" sizes="(max-width: 767px) calc(100vw - 32px), 50vw"<?endif;?> alt="<?=htmlspecialcharsbx($rmProject['RM_PROJECT']['NAME'])?>"<?=$rmIndex ? ' loading="lazy"' : ' fetchpriority="high"'?>>
 					<?else:?>
 						<span class="rm-project-card__placeholder" aria-hidden="true"></span>
 					<?endif;?>

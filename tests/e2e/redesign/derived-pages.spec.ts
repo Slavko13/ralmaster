@@ -180,10 +180,60 @@ test.describe('P0 redesigned derived pages', () => {
     }
   });
 
+  test('catalog controls use the blue system and keep flat product actions', async ({ page }) => {
+    await page.goto('/product/pannier/', { waitUntil: 'networkidle' });
+    const root = page.locator('[data-rm-product-category]');
+    const applyButton = root.locator('.bx_filter_search_button');
+    const resetButton = root.locator('.bx_filter_search_reset');
+
+    await expect(applyButton).toHaveCSS('background-color', 'rgb(23, 91, 239)');
+    await expect(resetButton).toHaveCSS('color', 'rgb(23, 91, 239)');
+    await expect(resetButton).toHaveCSS('border-color', 'rgb(23, 91, 239)');
+    await expect(root.locator('.bx_ui_slider_pricebar_V')).toHaveCSS(
+      'background-color',
+      'rgb(23, 91, 239)',
+    );
+    await expect(root.locator('.bx_ui_slider_handle').first()).toHaveCSS(
+      'border-color',
+      'rgb(23, 91, 239)',
+    );
+
+    const filterButtonGeometry = await root.locator('.bx_filter_button_box').evaluate((box) => {
+      const buttons = Array.from(box.querySelectorAll<HTMLElement>('.btn'));
+      return buttons.map((button) => {
+        const bounds = button.getBoundingClientRect();
+        return { width: Math.round(bounds.width), left: Math.round(bounds.left) };
+      });
+    });
+    expect(filterButtonGeometry).toHaveLength(2);
+    expect(filterButtonGeometry[0].width).toBe(filterButtonGeometry[1].width);
+    expect(filterButtonGeometry[0].left).toBe(filterButtonGeometry[1].left);
+
+    const firstProduct = root.locator('.catalog_table_2 .item').first();
+    await firstProduct.hover();
+    await expect(firstProduct).toHaveCSS('box-shadow', 'none');
+    await expect(firstProduct.locator('.button_block')).toHaveCSS('box-shadow', 'none');
+    await expect(firstProduct.locator('.counter .wrap')).toHaveCSS('box-shadow', 'none');
+    await expect(firstProduct.locator('.to_cart')).toHaveCSS('box-shadow', 'none');
+  });
+
   test('P0 @mobile redesigned product category keeps live products and basket flow', async ({
     page,
   }) => {
     await expectProductBasketFlow(page);
+  });
+
+  test('@mobile catalog view controls are centered', async ({ page }) => {
+    await page.goto('/product/pannier/', { waitUntil: 'networkidle' });
+    const alignment = await page.locator('.display-type').evaluate((controls) => {
+      const container = controls.getBoundingClientRect();
+      const buttons = Array.from(controls.querySelectorAll<HTMLElement>('.view-button'));
+      const first = buttons[0].getBoundingClientRect();
+      const last = buttons[buttons.length - 1].getBoundingClientRect();
+      const buttonsCenter = (first.left + last.right) / 2;
+      return Math.abs(buttonsCenter - (container.left + container.width / 2));
+    });
+    expect(alignment).toBeLessThanOrEqual(1);
   });
 
   test('desktop dialog remains reachable in a short viewport', async ({ page }) => {

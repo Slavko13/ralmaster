@@ -92,12 +92,18 @@ test.describe('P0 redesigned products root', () => {
         .poll(() =>
           image.evaluate((node) => {
             const element = node as HTMLImageElement;
-            return element.complete && element.naturalWidth === 1448 && element.naturalHeight === 1086;
+            return (
+              element.complete &&
+              element.naturalWidth >= element.clientWidth &&
+              element.naturalHeight >= element.clientHeight &&
+              element.currentSrc.includes('/images/ralmaster/products/')
+            );
           }),
         )
         .toBe(true);
 
       await expect(image).toHaveAttribute('src', /\/images\/ralmaster\/products\//);
+      await expect(image).toHaveAttribute('srcset', /\/images\/ralmaster\/products\/.+-768\.webp 768w/);
     }
   });
 

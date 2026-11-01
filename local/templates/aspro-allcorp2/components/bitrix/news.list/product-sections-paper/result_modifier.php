@@ -85,5 +85,6 @@ foreach ($rmProductSpecs as $rmCode => $rmSpec) {
 		'DESCRIPTION' => $rmSpec['DESCRIPTION'],
 		'URL' => (string)($rmSection['SECTION_PAGE_URL'] ?: '/product/'.$rmCode.'/'),
 		'IMAGE' => SITE_TEMPLATE_PATH.'/images/ralmaster/products/'.$rmSpec['IMAGE'],
+		'IMAGE_SMALL' => SITE_TEMPLATE_PATH.'/images/ralmaster/products/'.preg_replace('~\.webp$~', '-768.webp', $rmSpec['IMAGE']),
 	);
 }

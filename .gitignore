@@ -33,6 +33,7 @@
 /blob-report/
 /coverage/
 /artifacts/lighthouse/
+/artifacts/ui-audit/
 
 # Docker runtime data and private database dumps
 /docker/db/data/

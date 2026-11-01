@@ -56,7 +56,7 @@ $rmProductAssetRoot = SITE_TEMPLATE_PATH.'/images/ralmaster/';
 <section class="rm-product-estimate" id="product-estimate" data-rm-products-section="estimate">
 	<div class="rm-products-container rm-product-estimate__layout">
 		<div class="rm-product-estimate__aside">
-			<div class="rm-product-estimate__visual" style="--rm-product-estimate-image: url('<?=htmlspecialcharsbx($rmProductAssetRoot.'home/metal-bending.webp')?>')">
+			<div class="rm-product-estimate__visual" style="--rm-product-estimate-image: url('<?=htmlspecialcharsbx($rmProductAssetRoot.'home/metal-bending-768.webp')?>')">
 				<h2>Рассчитать<br>изготовление изделий</h2>
 				<p>Пришлите чертёж или техническое задание и укажите количество изделий. Если нужной продукции нет в каталоге, опишите задачу: проверим возможность изготовления.</p>
 				<div class="rm-product-estimate__brief">
@@ -104,6 +104,6 @@ $rmProductAssetRoot = SITE_TEMPLATE_PATH.'/images/ralmaster/';
 </section>
 
 <section class="rm-product-production-photo" data-rm-products-section="production-photo" aria-label="Производство РАЛМАСТЕР">
-	<img src="<?=htmlspecialcharsbx($rmProductAssetRoot.'home/production-powder-line.webp')?>" alt="Производство РАЛМАСТЕР" loading="lazy">
+	<img src="<?=htmlspecialcharsbx($rmProductAssetRoot.'home/production-powder-line.webp')?>" srcset="<?=htmlspecialcharsbx($rmProductAssetRoot.'home/production-powder-line-768.webp')?> 768w, <?=htmlspecialcharsbx($rmProductAssetRoot.'home/production-powder-line.webp')?> 1672w" sizes="100vw" alt="Производство РАЛМАСТЕР" loading="lazy">
 	<span aria-hidden="true"></span>
 </section>

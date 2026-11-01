@@ -313,6 +313,30 @@ Legacy `header_fixed` теперь не рендерится только при
   PASS**. Horizontal overflow, browser errors и critical axe violations в
   проверенном scope отсутствуют.
 
+## Каталог и производительность — 2026-11-01
+
+- Smart filter полностью переведён с красного legacy accent на синий
+  `#175bef`; CTA одинаковой ширины, range handles синие, mobile view controls
+  центрированы. У карточек и buy block удалены остаточные тени.
+- Development Bitrix cache/log I/O перенесён в named Docker volumes при
+  сохранённом bind-mounted hot reload; OPcache revalidation — 2 секунды.
+- Для ключевых страниц добавлены 33 responsive WebP 768 px и корректные
+  `srcset`/`sizes`. Изображения главной сократились 1.78→0.58 MB, покраски
+  1.52→0.30 MB, услуг 1.04→0.45 MB.
+- Lighthouse local simulated: desktop Performance **94–99**, mobile **81–93**;
+  service LCP correction подняла mobile score 79→86. Все пять desktop routes
+  имеют Accessibility 96–100 и Best Practices 100.
+- Docker `db`/`web` healthy; Compose config и PHP lint **12/12 PASS**; восемь
+  ключевых routes имеют **0** failed/4xx/5xx resources. Полный Playwright run:
+  **111/113 PASS**, два несовместимых с `srcset` fixed-dimension assertions
+  адаптированы и повторно прошли **2/2**.
+- Отчёты: `artifacts/lighthouse/iteration-27-after/`,
+  `artifacts/lighthouse/iteration-27-metalworking-lcp/`; visual QA:
+  `artifacts/ui-audit/`.
+- До staging deployment внешний сервер продолжит отдавать прежние тяжёлые PNG;
+  после pull/redeploy будут доступны текущие WebP и шаблоны. Следующий отдельный
+  performance step — безопасное разделение общего legacy Aspro CSS.
+
 ## Следующий допустимый шаг
 
 ### Коррекция header — 2026-10-31

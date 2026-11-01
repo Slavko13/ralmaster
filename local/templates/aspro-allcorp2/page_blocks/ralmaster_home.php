@@ -87,6 +87,7 @@ if (Loader::includeModule('iblock')) {
 		$year = $project['ACTIVE_FROM'] ? date('Y', MakeTimeStamp($project['ACTIVE_FROM'])) : '';
 		$rmProjects[] = array(
 			'NAME' => $rmDecode($project['NAME']),
+			'CODE' => (string)$project['CODE'],
 			'URL' => $rmNormalizeUrl($project['DETAIL_PAGE_URL'], '/projects/'),
 			'TEXT' => $rmDecode(trim(strip_tags((string)$project['PREVIEW_TEXT']))),
 			'IMAGE' => $pictureId ? CFile::GetPath($pictureId) : '',
@@ -139,14 +140,26 @@ $rmServiceCards = array(
 );
 
 $projectFallbackImages = array(
-	$rmAsset('project-symbol.webp'),
-	$rmAsset('project-white-city.webp'),
-	$rmAsset('project-symbol-2.webp'),
-	$rmAsset('project-symbol-2.webp'),
+	array($rmAsset('project-symbol.webp'), $rmAsset('project-symbol-768.webp')),
+	array($rmAsset('project-white-city.webp'), $rmAsset('project-white-city-768.webp')),
+	array($rmAsset('project-symbol-2.webp'), $rmAsset('project-symbol-2-768.webp')),
+	array($rmAsset('project-symbol-2.webp'), $rmAsset('project-symbol-2-768.webp')),
 );
 foreach ($rmProjects as $index => &$project) {
-	if (!$project['IMAGE']) {
-		$project['IMAGE'] = $projectFallbackImages[$index] ?? $projectFallbackImages[0];
+	$rmProjectNeedle = mb_strtolower(($project['CODE'] ?? '').' '.($project['NAME'] ?? ''));
+	if (strpos($rmProjectNeedle, 'символ 2') !== false || strpos($rmProjectNeedle, 'simvol-2') !== false) {
+		$project['IMAGE'] = $rmAsset('project-symbol-2.webp');
+		$project['IMAGE_SMALL'] = $rmAsset('project-symbol-2-768.webp');
+	} elseif (strpos($rmProjectNeedle, 'бел') !== false || strpos($rmProjectNeedle, 'град') !== false || strpos($rmProjectNeedle, 'bel') !== false) {
+		$project['IMAGE'] = $rmAsset('project-white-city.webp');
+		$project['IMAGE_SMALL'] = $rmAsset('project-white-city-768.webp');
+	} elseif (strpos($rmProjectNeedle, 'символ') !== false || strpos($rmProjectNeedle, 'simvol') !== false) {
+		$project['IMAGE'] = $rmAsset('project-symbol.webp');
+		$project['IMAGE_SMALL'] = $rmAsset('project-symbol-768.webp');
+	} elseif (!$project['IMAGE']) {
+		$rmFallbackProjectImage = $projectFallbackImages[$index] ?? $projectFallbackImages[0];
+		$project['IMAGE'] = $rmFallbackProjectImage[0];
+		$project['IMAGE_SMALL'] = $rmFallbackProjectImage[1];
 	}
 	if (!$project['YEAR']) {
 		$project['YEAR'] = '2025';
@@ -159,9 +172,9 @@ unset($project);
 
 if (!$rmProjects) {
 	$rmProjects = array(
-		array('NAME' => 'ЖК «Символ»', 'URL' => '/projects/zhk-simvol/', 'TEXT' => 'Декоративные корзины для кондиционеров по индивидуальному проекту', 'IMAGE' => $projectFallbackImages[0], 'YEAR' => '2025'),
-		array('NAME' => 'ЖК «Белый град»', 'URL' => '/projects/', 'TEXT' => 'Декоративные корзины для кондиционеров по индивидуальному проекту', 'IMAGE' => $projectFallbackImages[1], 'YEAR' => '2025'),
-		array('NAME' => 'ЖК «Символ 2»', 'URL' => '/projects/', 'TEXT' => 'Декоративные корзины для кондиционеров по индивидуальному проекту', 'IMAGE' => $projectFallbackImages[2], 'YEAR' => '2025'),
+		array('NAME' => 'ЖК «Символ»', 'URL' => '/projects/zhk-simvol/', 'TEXT' => 'Декоративные корзины для кондиционеров по индивидуальному проекту', 'IMAGE' => $projectFallbackImages[0][0], 'IMAGE_SMALL' => $projectFallbackImages[0][1], 'YEAR' => '2025'),
+		array('NAME' => 'ЖК «Белый град»', 'URL' => '/projects/', 'TEXT' => 'Декоративные корзины для кондиционеров по индивидуальному проекту', 'IMAGE' => $projectFallbackImages[1][0], 'IMAGE_SMALL' => $projectFallbackImages[1][1], 'YEAR' => '2025'),
+		array('NAME' => 'ЖК «Символ 2»', 'URL' => '/projects/', 'TEXT' => 'Декоративные корзины для кондиционеров по индивидуальному проекту', 'IMAGE' => $projectFallbackImages[2][0], 'IMAGE_SMALL' => $projectFallbackImages[2][1], 'YEAR' => '2025'),
 	);
 }
 
@@ -171,7 +184,8 @@ while (count($rmProjects) < 4) {
 		'NAME' => $index === 3 ? 'ЖК «Символ 2»' : 'Выполненный заказ',
 		'URL' => '/projects/',
 		'TEXT' => 'Декоративные корзины для кондиционеров по индивидуальному проекту',
-		'IMAGE' => $projectFallbackImages[$index] ?? $projectFallbackImages[0],
+		'IMAGE' => ($projectFallbackImages[$index] ?? $projectFallbackImages[0])[0],
+		'IMAGE_SMALL' => ($projectFallbackImages[$index] ?? $projectFallbackImages[0])[1],
 		'YEAR' => '2025',
 	);
 }
@@ -319,7 +333,7 @@ if ($rmOrderFormId <= 0) {
 				<?foreach ($rmProjects as $project):?>
 					<a class="rm-home-project-card" data-rm-card="project" href="<?=$rmEscape($project['URL'])?>">
 						<span class="rm-home-project-card__copy"><small><?=$rmEscape($project['YEAR'])?></small><strong><?=$rmEscape($project['NAME'])?></strong><span><?=$rmEscape($project['TEXT'])?></span><em class="rm-link-arrow">Подробнее о заказе</em></span>
-						<img src="<?=$rmEscape($project['IMAGE'])?>" alt="<?=$rmEscape($project['NAME'])?>" loading="lazy">
+						<img src="<?=$rmEscape($project['IMAGE'])?>"<?if (!empty($project['IMAGE_SMALL'])):?> srcset="<?=$rmEscape($project['IMAGE_SMALL'])?> 768w, <?=$rmEscape($project['IMAGE'])?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 344px"<?endif;?> alt="<?=$rmEscape($project['NAME'])?>" loading="lazy">
 					</a>
 				<?endforeach;?>
 			</div>
@@ -343,10 +357,10 @@ if ($rmOrderFormId <= 0) {
 		<div class="rm-home-container">
 			<header class="rm-home-section-heading rm-home-section-heading--production"><h2>О производстве</h2><p>Производственная площадка Ралмастера находится в Видном.<br>Работаем с корпоративными заказчиками, выполняем разовые<br>заказы и повторные партии.</p></header>
 			<div class="rm-home-production__main">
-				<img src="<?=$rmEscape($rmAsset('production-laser-floor.webp'))?>" alt="Производственная площадка РАЛМАСТЕР" loading="lazy">
+				<img src="<?=$rmEscape($rmAsset('production-laser-floor.webp'))?>" srcset="<?=$rmEscape($rmAsset('production-laser-floor-768.webp'))?> 768w, <?=$rmEscape($rmAsset('production-laser-floor.webp'))?> 1672w" sizes="(max-width: 767px) calc(100vw - 32px), 66vw" alt="Производственная площадка РАЛМАСТЕР" loading="lazy">
 				<div class="rm-home-production__panel"><span>Производственная площадка</span><strong>Видное</strong><ul><li>Лазерная резка</li><li>Гибка металла</li><li>Сварочные работы</li><li>Порошковая окраска</li><li>Сборка изделий</li></ul><a class="rm-button rm-button--secondary rm-link-arrow" href="/company/">Как устроено производство</a></div>
 			</div>
-			<div class="rm-home-production__gallery"><img src="<?=$rmEscape($rmAsset('production-powder-line.webp'))?>" alt="Участок порошковой окраски" loading="lazy"><img src="<?=$rmEscape($rmAsset('production-worker-bending.webp'))?>" alt="Гибка металла" loading="lazy"><img src="<?=$rmEscape($rmAsset('production-welding.webp'))?>" alt="Сварочные работы" loading="lazy"></div>
+			<div class="rm-home-production__gallery"><img src="<?=$rmEscape($rmAsset('production-powder-line.webp'))?>" srcset="<?=$rmEscape($rmAsset('production-powder-line-768.webp'))?> 768w, <?=$rmEscape($rmAsset('production-powder-line.webp'))?> 1672w" sizes="(max-width: 767px) calc(100vw - 32px), 33vw" alt="Участок порошковой окраски" loading="lazy"><img src="<?=$rmEscape($rmAsset('production-worker-bending.webp'))?>" srcset="<?=$rmEscape($rmAsset('production-worker-bending-768.webp'))?> 768w, <?=$rmEscape($rmAsset('production-worker-bending.webp'))?> 1672w" sizes="(max-width: 767px) calc(100vw - 32px), 33vw" alt="Гибка металла" loading="lazy"><img src="<?=$rmEscape($rmAsset('production-welding.webp'))?>" srcset="<?=$rmEscape($rmAsset('production-welding-768.webp'))?> 768w, <?=$rmEscape($rmAsset('production-welding.webp'))?> 1448w" sizes="(max-width: 767px) calc(100vw - 32px), 33vw" alt="Сварочные работы" loading="lazy"></div>
 		</div>
 	</section>
 
@@ -465,7 +479,7 @@ if ($rmOrderFormId <= 0) {
 		</div>
 	</section>
 
-	<section class="rm-home-photo" data-rm-section="photo" aria-label="Производство РАЛМАСТЕР"><img src="<?=$rmEscape($rmAsset('production-powder-line.webp'))?>" alt="Производство РАЛМАСТЕР" loading="lazy"></section>
+	<section class="rm-home-photo" data-rm-section="photo" aria-label="Производство РАЛМАСТЕР"><img src="<?=$rmEscape($rmAsset('production-powder-line.webp'))?>" srcset="<?=$rmEscape($rmAsset('production-powder-line-768.webp'))?> 768w, <?=$rmEscape($rmAsset('production-powder-line.webp'))?> 1672w" sizes="100vw" alt="Производство РАЛМАСТЕР" loading="lazy"></section>
 </div>
 
 <?php

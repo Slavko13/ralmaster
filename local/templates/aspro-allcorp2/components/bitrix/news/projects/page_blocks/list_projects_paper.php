@@ -97,9 +97,9 @@ if (\Bitrix\Main\Loader::includeModule('form')) {
 				<p>Можно заказать отдельную обработку или изготовление изделия с последующей окраской и сборкой. Состав работ согласуем по вашему чертежу.</p>
 			</div>
 			<div class="rm-projects-operation-grid">
-				<article><img src="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/hero-laser-cutting.webp')?>" alt="" loading="lazy"><strong>Резка</strong></article>
-				<article><img src="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/metal-bending.webp')?>" alt="" loading="lazy"><strong>Гибка</strong></article>
-				<article><img src="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/production-powder-line.webp')?>" alt="" loading="lazy"><strong>Окраска</strong></article>
+				<article><img src="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/hero-laser-cutting.webp')?>" srcset="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/hero-laser-cutting-768.webp')?> 768w, <?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/hero-laser-cutting.webp')?> 1672w" sizes="(max-width: 767px) calc(100vw - 32px), 33vw" alt="" loading="lazy"><strong>Резка</strong></article>
+				<article><img src="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/metal-bending.webp')?>" srcset="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/metal-bending-768.webp')?> 768w, <?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/metal-bending.webp')?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 33vw" alt="" loading="lazy"><strong>Гибка</strong></article>
+				<article><img src="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/production-powder-line.webp')?>" srcset="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/production-powder-line-768.webp')?> 768w, <?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/production-powder-line.webp')?> 1672w" sizes="(max-width: 767px) calc(100vw - 32px), 33vw" alt="" loading="lazy"><strong>Окраска</strong></article>
 			</div>
 			<div class="rm-projects-operations__footer">
 				<p>При необходимости включим в заказ сварку и сборку.</p>
@@ -145,7 +145,7 @@ if (\Bitrix\Main\Loader::includeModule('form')) {
 	</section>
 
 	<section class="rm-projects-production-photo" data-rm-projects-section="production-photo" aria-label="Производство РАЛМАСТЕР">
-		<img src="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/production-powder-line.webp')?>" alt="Производство РАЛМАСТЕР" loading="lazy">
+		<img src="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/production-powder-line.webp')?>" srcset="<?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/production-powder-line-768.webp')?> 768w, <?=htmlspecialcharsbx($rmProjectsAssetRoot.'home/production-powder-line.webp')?> 1672w" sizes="100vw" alt="Производство РАЛМАСТЕР" loading="lazy">
 		<span aria-hidden="true"></span>
 	</section>
 </main>

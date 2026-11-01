@@ -43,6 +43,12 @@ $rmDetailEscape = static function ($value) {
 $rmDetailDescription = trim((string)$rmDetailPage['description_html']);
 $rmDetailCatalogHtml = trim((string)$rmDetailPage['catalog_html']);
 $rmDetailAttribute = preg_replace('/[^a-zA-Z0-9_-]/', '', (string)$rmDetailPage['attribute']);
+$rmDetailImageSmall = preg_match('~\.webp$~i', (string)$rmDetailPage['image'])
+	? preg_replace('~\.webp$~i', '-768.webp', (string)$rmDetailPage['image'])
+	: '';
+if ($rmDetailImageSmall && !is_file($_SERVER['DOCUMENT_ROOT'].$rmDetailImageSmall)) {
+	$rmDetailImageSmall = '';
+}
 ?>
 <main class="rm-detail-page rm-detail-page--<?=$rmDetailEscape($rmDetailPage['context'])?>" <?=$rmDetailAttribute?>="true">
 	<section class="rm-detail-hero">
@@ -60,7 +66,7 @@ $rmDetailAttribute = preg_replace('/[^a-zA-Z0-9_-]/', '', (string)$rmDetailPage[
 					<button type="button" class="rm-detail-button" data-rm-discuss-open="<?=$rmDetailEscape($rmDetailPage['context'])?>"><?=$rmDetailEscape($rmDetailPage['cta_label'])?><span aria-hidden="true">↗</span></button>
 				</div>
 				<figure class="rm-detail-hero__visual">
-					<img src="<?=$rmDetailEscape($rmDetailPage['image'])?>" alt="<?=$rmDetailEscape($rmDetailPage['image_alt'])?>" fetchpriority="high">
+					<img src="<?=$rmDetailEscape($rmDetailPage['image'])?>"<?if ($rmDetailImageSmall):?> srcset="<?=$rmDetailEscape($rmDetailImageSmall)?> 768w, <?=$rmDetailEscape($rmDetailPage['image'])?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 50vw"<?endif;?> alt="<?=$rmDetailEscape($rmDetailPage['image_alt'])?>" fetchpriority="high">
 					<span aria-hidden="true"></span>
 				</figure>
 			</div>

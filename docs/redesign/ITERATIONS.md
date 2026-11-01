@@ -527,3 +527,62 @@
   корректно показывает итог `0`; успешная отправка форм/mail/CRM не
   выполнялась; Lighthouse остаётся приостановлен по указанию владельца.
 - **Статус:** `PASSED`.
+
+## Итерация 27 — Каталог без legacy-акцентов и сквозная оптимизация загрузки (2026-11-01)
+
+- **Цель:** исправить визуальные дефекты фильтра и controls товарной категории,
+  убрать лишние тени и сократить фактическое время первоначальной загрузки и
+  переходов на локальном стенде и после следующего staging deployment.
+- **Область изменений:** smart filter, range slider, view controls и buy block
+  товарных категорий; development Docker I/O/OPcache; responsive-изображения
+  главной, продукции, услуг, покраски, производства, проектов, контактов и
+  общих detail pages.
+- **Связанные макеты Paper:** текущая дизайн-система `Ралмастер` → `Дизайн`;
+  визуальные corrections владельца для `/product/pannier/` и общие
+  изображения соответствующих страниц.
+- **Затронутые файлы и компоненты:** `compose.yml`;
+  `docker/php/development.ini`; `ralmaster_product_catalog.css`; home/powder/
+  production/detail/contact page blocks; product/project/service component
+  templates; 33 новых `*-768.webp`; `derived-pages.spec.ts`,
+  `products.spec.ts`, `projects.spec.ts`; README/environment/progress docs.
+- **Функциональные автотесты:** точные blue computed styles slider/reset;
+  одинаковая геометрия filter buttons; отсутствие shadow у card/button block;
+  mobile centering; responsive `srcset` и достаточное intrinsic resolution;
+  live basket flow; полный redesign desktop/mobile regression.
+- **Визуальные проверки:** локальные Chrome captures
+  `artifacts/ui-audit/catalog-desktop.png`,
+  `catalog-mobile-controls.png`, `catalog-card-flat-final.png`; desktop 1440 и
+  mobile 390 px.
+- **Критерии приёмки:** filter controls единообразно синие и выровнены; красный
+  legacy accent отсутствует; buy controls не имеют glow/shadow; все ключевые
+  routes возвращают 200 без broken resources; Docker сохраняет hot reload;
+  измеримые TTFB/image-transfer/Lighthouse улучшаются без регрессий.
+- **Фактический результат:** reset/slider/handles используют `#175bef`, две
+  filter CTA занимают одинаковую ширину, mobile view controls центрированы,
+  legacy shadow контейнера `.button_block` нейтрализована. Dev Bitrix caches и
+  logs перенесены с Windows bind mount в named volumes; OPcache настроен на
+  2-second timestamp revalidation. Прогретый curl TTFB снизился с прежнего
+  диапазона примерно 2.66–4.21 s до 0.84–2.38 s; сопоставимый Playwright wall
+  range — с 3.35–4.96 s до 1.51–2.69 s. Image transfer: home 1.78→0.58 MB,
+  services 1.04→0.45 MB, powder 1.52→0.30 MB. Lighthouse desktop Performance
+  **94/97/96/99/97**, mobile **81/93/86/93/92** для home/products/services/
+  powder/projects; Best Practices **100**. PHP lint **12/12 PASS**, Compose
+  config PASS, containers healthy, asset response gate **0 failures**. Полный
+  regression дал **111/113 PASS**; два устаревших assertions на обязательную
+  загрузку original-size image заменены проверкой responsive source и
+  достаточного resolution, после чего targeted repeat **2/2 PASS**.
+- **Обнаруженные дефекты:** Aspro `!important` сохранял красный Reset и slider;
+  legacy margin смещал mobile controls на 2 px; тень находилась на
+  `.button_block`, а не на самой CTA; Bitrix cache I/O шёл через Windows bind
+  mount; страницы передавали original WebP 1.4–2.1K px даже в карточках
+  310–438 px; первый service image был LCP, но оставался lazy.
+- **Исправленные дефекты:** усилены scoped design overrides; сброшены legacy
+  margins/shadows; кеши изолированы в volumes; добавлены responsive WebP/
+  `srcset`/`sizes`; первый service LCP переведён в eager high priority (mobile
+  Performance 79→86, LCP 4.84→3.71 s).
+- **Оставшиеся ограничения:** staging получит новые WebP и template changes
+  только после deploy ветки; объединённый legacy Aspro CSS около 130 KB остаётся
+  render-blocking и ограничивает mobile home LCP — безопасное code splitting
+  требует отдельной итерации. Local/staging `noindex` объясняет Lighthouse SEO
+  66; state-changing mail/CRM submit не выполнялся.
+- **Статус:** `PASSED`.

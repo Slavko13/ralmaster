@@ -158,7 +158,7 @@ $rmContactsBank = array(
 	</section>
 
 	<section class="rm-contacts-photo" data-rm-contacts-section="photo" aria-label="Порошковая линия РАЛМАСТЕР">
-		<img src="<?=$rmContactsEscape(SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powder-line.webp')?>" alt="Порошковая линия РАЛМАСТЕР" loading="lazy">
+		<img src="<?=$rmContactsEscape(SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powder-line.webp')?>" srcset="<?=$rmContactsEscape(SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powder-line-768.webp')?> 768w, <?=$rmContactsEscape(SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powder-line.webp')?> 1672w" sizes="100vw" alt="Порошковая линия РАЛМАСТЕР" loading="lazy">
 		<span aria-hidden="true"></span>
 	</section>
 </main>

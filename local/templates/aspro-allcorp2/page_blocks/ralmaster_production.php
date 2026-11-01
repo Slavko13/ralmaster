@@ -13,6 +13,9 @@ $rmProductionAssetRoot = SITE_TEMPLATE_PATH.'/images/ralmaster/';
 $rmProductionEscape = static function ($value) {
 	return htmlspecialcharsbx((string)$value);
 };
+$rmProductionSmallAsset = static function ($file) use ($rmProductionAssetRoot) {
+	return $rmProductionAssetRoot.preg_replace('~\.webp$~', '-768.webp', ltrim((string)$file, '/'));
+};
 $rmProductionNormalizeUrl = static function ($url) {
 	$url = trim((string)$url);
 	if ($url === '') {
@@ -138,7 +141,7 @@ if ($rmProductionEstimateFormId <= 0) {
 		<div class="rm-production-container">
 			<nav class="rm-production-breadcrumb" aria-label="Хлебные крошки"><a href="/">Главная</a><span aria-hidden="true">/</span><span aria-current="page">О производстве</span></nav>
 			<div class="rm-production-hero__heading"><h1>О производстве</h1><p>Производственная площадка Ралмастера находится в Видном. Работаем с заказами компаний, в том числе с повторными партиями металлических изделий.</p></div>
-			<div class="rm-production-hero__image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'production/workshop-panorama.webp')?>" alt="Производственный цех РАЛМАСТЕР" fetchpriority="high"><span aria-hidden="true"></span></div>
+			<div class="rm-production-hero__image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'production/workshop-panorama.webp')?>" srcset="<?=$rmProductionEscape($rmProductionSmallAsset('production/workshop-panorama.webp'))?> 768w, <?=$rmProductionEscape($rmProductionAssetRoot.'production/workshop-panorama.webp')?> 2172w" sizes="(max-width: 767px) calc(100vw - 32px), 1336px" alt="Производственный цех РАЛМАСТЕР" fetchpriority="high"><span aria-hidden="true"></span></div>
 		</div>
 	</section>
 
@@ -146,9 +149,9 @@ if ($rmProductionEstimateFormId <= 0) {
 		<div class="rm-production-container">
 			<div class="rm-production-heading"><h2>Как устроено производство</h2><p>Резку, гибку, сварку, порошковую окраску и сборку выполняем своими силами. Для комплексного заказа объединяем необходимые операции на собственном производстве.</p></div>
 			<div class="rm-production-how__grid">
-				<article><div class="rm-production-card-image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'home/metal-bending.webp')?>" alt="Оборудование и рабочие места" loading="lazy"><span aria-hidden="true"></span></div><h3>Оборудование и рабочие места</h3></article>
-				<article><div class="rm-production-card-image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'home/welding.webp')?>" alt="Сотрудники во время выполнения заказа" loading="lazy"><span aria-hidden="true"></span></div><h3>Люди, которые работают над изделиями</h3></article>
-				<article><div class="rm-production-card-image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'home/custom-metalwork.webp')?>" alt="Партия деталей в процессе изготовления" loading="lazy"><span aria-hidden="true"></span></div><h3>Изделия в процессе изготовления</h3></article>
+				<article><div class="rm-production-card-image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'home/metal-bending.webp')?>" srcset="<?=$rmProductionEscape($rmProductionSmallAsset('home/metal-bending.webp'))?> 768w, <?=$rmProductionEscape($rmProductionAssetRoot.'home/metal-bending.webp')?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 33vw" alt="Оборудование и рабочие места" loading="lazy"><span aria-hidden="true"></span></div><h3>Оборудование и рабочие места</h3></article>
+				<article><div class="rm-production-card-image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'home/welding.webp')?>" srcset="<?=$rmProductionEscape($rmProductionSmallAsset('home/welding.webp'))?> 768w, <?=$rmProductionEscape($rmProductionAssetRoot.'home/welding.webp')?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 33vw" alt="Сотрудники во время выполнения заказа" loading="lazy"><span aria-hidden="true"></span></div><h3>Люди, которые работают над изделиями</h3></article>
+				<article><div class="rm-production-card-image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'home/custom-metalwork.webp')?>" srcset="<?=$rmProductionEscape($rmProductionSmallAsset('home/custom-metalwork.webp'))?> 768w, <?=$rmProductionEscape($rmProductionAssetRoot.'home/custom-metalwork.webp')?> 1448w" sizes="(max-width: 767px) calc(100vw - 32px), 33vw" alt="Партия деталей в процессе изготовления" loading="lazy"><span aria-hidden="true"></span></div><h3>Изделия в процессе изготовления</h3></article>
 			</div>
 		</div>
 	</section>
@@ -188,7 +191,7 @@ if ($rmProductionEstimateFormId <= 0) {
 
 	<section class="rm-production-repeat" data-rm-production-section="repeat">
 		<div class="rm-production-container rm-production-repeat__layout">
-			<div class="rm-production-repeat__image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'powder/painted-baskets-batch.webp')?>" alt="Партия одинаковых окрашенных изделий" loading="lazy"><span aria-hidden="true"></span></div>
+			<div class="rm-production-repeat__image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'powder/painted-baskets-batch.webp')?>" srcset="<?=$rmProductionEscape($rmProductionSmallAsset('powder/painted-baskets-batch.webp'))?> 768w, <?=$rmProductionEscape($rmProductionAssetRoot.'powder/painted-baskets-batch.webp')?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 50vw" alt="Партия одинаковых окрашенных изделий" loading="lazy"><span aria-hidden="true"></span></div>
 			<div class="rm-production-repeat__copy">
 				<h2>Повторные партии</h2>
 				<p>Основные заказчики Ралмастера размещают повторные заказы на порошковую окраску, корзины для кондиционеров и металлокассеты.</p>
@@ -214,8 +217,8 @@ if ($rmProductionEstimateFormId <= 0) {
 		<div class="rm-production-container">
 			<h2>Проверка и подготовка к отгрузке</h2>
 			<div class="rm-production-shipping__grid">
-				<article><div class="rm-production-card-image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'production/quality-control.webp')?>" alt="Проверка готового изделия" loading="lazy"><span aria-hidden="true"></span></div><h3>Соответствие заданию</h3></article>
-				<article><div class="rm-production-card-image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'production/packed-batch.webp')?>" alt="Укомплектованная партия перед передачей" loading="lazy"><span aria-hidden="true"></span></div><h3>Комплектация и передача</h3><p>Выполняем доставку изготовленных металлических изделий.</p></article>
+				<article><div class="rm-production-card-image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'production/quality-control.webp')?>" srcset="<?=$rmProductionEscape($rmProductionSmallAsset('production/quality-control.webp'))?> 768w, <?=$rmProductionEscape($rmProductionAssetRoot.'production/quality-control.webp')?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 50vw" alt="Проверка готового изделия" loading="lazy"><span aria-hidden="true"></span></div><h3>Соответствие заданию</h3></article>
+				<article><div class="rm-production-card-image"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'production/packed-batch.webp')?>" srcset="<?=$rmProductionEscape($rmProductionSmallAsset('production/packed-batch.webp'))?> 768w, <?=$rmProductionEscape($rmProductionAssetRoot.'production/packed-batch.webp')?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 50vw" alt="Укомплектованная партия перед передачей" loading="lazy"><span aria-hidden="true"></span></div><h3>Комплектация и передача</h3><p>Выполняем доставку изготовленных металлических изделий.</p></article>
 			</div>
 		</div>
 	</section>
@@ -242,7 +245,7 @@ if ($rmProductionEstimateFormId <= 0) {
 		<div class="rm-production-contact__inner"><div><h2>Обсудить заказ или регулярные поставки</h2><p>Расскажите, какие изделия нужны, в каком количестве и планируются ли повторные партии. Прикрепите документацию, если она уже подготовлена.</p></div><div class="rm-production-contact__actions"><div class="rm-production-contact__phone"><?CAllcorp2::ShowHeaderPhones('', 'Phone_black.svg');?></div><?if (CAllcorp2::checkContentBlock(SITE_DIR.'include/footer/site-email.php', 'PROPERTY_EMAIL_VALUE')):?><?CAllcorp2::showEmail('rm-production-contact__email');?><?endif;?><?if ($rmProductionEstimateFormId):?><button type="button" data-rm-discuss-open="production">Обсудить заказ <span aria-hidden="true">↗</span></button><?else:?><a class="rm-production-contact__fallback" href="/contacts/">Обсудить заказ <span aria-hidden="true">↗</span></a><?endif;?></div></div>
 	</section>
 
-	<section class="rm-production-photo" data-rm-production-section="photo" aria-label="Порошковая линия РАЛМАСТЕР"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'home/production-powder-line.webp')?>" alt="Порошковая линия на производстве РАЛМАСТЕР" loading="lazy"></section>
+	<section class="rm-production-photo" data-rm-production-section="photo" aria-label="Порошковая линия РАЛМАСТЕР"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'home/production-powder-line.webp')?>" srcset="<?=$rmProductionEscape($rmProductionSmallAsset('home/production-powder-line.webp'))?> 768w, <?=$rmProductionEscape($rmProductionAssetRoot.'home/production-powder-line.webp')?> 1672w" sizes="100vw" alt="Порошковая линия на производстве РАЛМАСТЕР" loading="lazy"></section>
 </div>
 
 <?php

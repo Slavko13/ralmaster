@@ -102,6 +102,7 @@ $rmMetalServiceSpecs = array(
 foreach ($rmMetalServiceSpecs as &$rmMetalService) {
 	$rmMetalDynamic = $rmMetalSections[$rmMetalService['CODE']] ?? array();
 	$rmMetalService['URL'] = $rmMetalDynamic['URL'] ?? '/services/';
+	$rmMetalService['IMAGE_SMALL'] = preg_replace('~\.webp$~', '-768.webp', $rmMetalService['IMAGE']);
 }
 unset($rmMetalService);
 
@@ -125,6 +126,10 @@ $rmMetalExamples = array(
 		'IMAGE' => $rmMetalAsset('welded-frames.webp'),
 	),
 );
+foreach ($rmMetalExamples as &$rmMetalExample) {
+	$rmMetalExample['IMAGE_SMALL'] = preg_replace('~\.webp$~', '-768.webp', $rmMetalExample['IMAGE']);
+}
+unset($rmMetalExample);
 
 $rmMetalEstimateFormId = 0;
 if (Loader::includeModule('form')) {
@@ -158,7 +163,7 @@ $rmMetalHasPhone = $arRegion ? !empty($arRegion['PHONES']) : (bool)(int)$arTheme
 		<div class="rm-metal-container">
 			<h2>Услуги металлообработки</h2>
 			<div class="rm-metal-services__list">
-				<?foreach ($rmMetalServiceSpecs as $rmMetalService):?>
+				<?foreach ($rmMetalServiceSpecs as $rmMetalServiceIndex => $rmMetalService):?>
 					<article class="rm-metal-service-card" data-rm-service-code="<?=$rmMetalEscape($rmMetalService['CODE'])?>">
 						<div class="rm-metal-service-card__copy">
 							<div class="rm-metal-service-card__heading">
@@ -173,7 +178,7 @@ $rmMetalHasPhone = $arRegion ? !empty($arRegion['PHONES']) : (bool)(int)$arTheme
 							</dl>
 							<button class="rm-metal-button rm-metal-button--small rm-metal-link-arrow" type="button" data-rm-discuss-open="metalworking"><?=$rmMetalEscape($rmMetalService['CTA'])?></button>
 						</div>
-						<a class="rm-metal-service-card__image" href="<?=$rmMetalEscape($rmMetalService['URL'])?>" aria-label="Подробнее: <?=$rmMetalEscape($rmMetalService['NAME'])?>"><img src="<?=$rmMetalEscape($rmMetalService['IMAGE'])?>" alt="" aria-hidden="true" loading="lazy"></a>
+						<a class="rm-metal-service-card__image" href="<?=$rmMetalEscape($rmMetalService['URL'])?>" aria-label="Подробнее: <?=$rmMetalEscape($rmMetalService['NAME'])?>"><img src="<?=$rmMetalEscape($rmMetalService['IMAGE'])?>" srcset="<?=$rmMetalEscape($rmMetalService['IMAGE_SMALL'])?> 768w, <?=$rmMetalEscape($rmMetalService['IMAGE'])?> 1672w" sizes="(max-width: 767px) calc(100vw - 32px), 50vw" alt="" aria-hidden="true"<?=$rmMetalServiceIndex === 0 ? ' fetchpriority="high"' : ' loading="lazy"'?>></a>
 					</article>
 				<?endforeach;?>
 			</div>
@@ -187,7 +192,7 @@ $rmMetalHasPhone = $arRegion ? !empty($arRegion['PHONES']) : (bool)(int)$arTheme
 				<h2>Несколько операций в одном заказе</h2>
 				<p>Можем заказать отдельную обработку или изготовить изделие с последующей окраской и сборкой. Состав работ согласуем по вашему чертежу.</p>
 			</div>
-			<img class="rm-metal-operations__image" src="<?=$rmMetalEscape($rmMetalAsset('production-chain.webp'))?>" alt="Последовательность изготовления металлического изделия" loading="lazy">
+			<img class="rm-metal-operations__image" src="<?=$rmMetalEscape($rmMetalAsset('production-chain.webp'))?>" srcset="<?=$rmMetalEscape($rmMetalAsset('production-chain-768.webp'))?> 768w, <?=$rmMetalEscape($rmMetalAsset('production-chain.webp'))?> 2172w" sizes="(max-width: 767px) calc(100vw - 32px), 1050px" alt="Последовательность изготовления металлического изделия" loading="lazy">
 			<ol class="rm-metal-operations__steps">
 				<li><span>01.</span><div><strong>После резки</strong><p>Заготовки с отверстиями и заданным контуром.</p></div><i aria-hidden="true">↗</i></li>
 				<li><span>02.</span><div><strong>После гибки</strong><p>Деталь с формой и углами по чертежу.</p></div><i aria-hidden="true">↗</i></li>
@@ -203,7 +208,7 @@ $rmMetalHasPhone = $arRegion ? !empty($arRegion['PHONES']) : (bool)(int)$arTheme
 			<div class="rm-metal-examples__grid">
 				<?foreach ($rmMetalExamples as $rmMetalExample):?>
 					<article class="rm-metal-example-card">
-						<img src="<?=$rmMetalEscape($rmMetalExample['IMAGE'])?>" alt="" aria-hidden="true" loading="lazy">
+						<img src="<?=$rmMetalEscape($rmMetalExample['IMAGE'])?>" srcset="<?=$rmMetalEscape($rmMetalExample['IMAGE_SMALL'])?> 768w, <?=$rmMetalEscape($rmMetalExample['IMAGE'])?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 33vw" alt="" aria-hidden="true" loading="lazy">
 						<div class="rm-metal-example-card__copy"><h3><?=$rmMetalEscape($rmMetalExample['TITLE'])?></h3><p><?=$rmMetalEscape($rmMetalExample['TEXT'])?></p><strong><?=$rmMetalEscape($rmMetalExample['META'])?></strong><button class="rm-metal-link-arrow" type="button" data-rm-discuss-open="metalworking">Подробнее о заказе</button><small>Демонстрационный пример. Заменить реальным заказом.</small></div>
 					</article>
 				<?endforeach;?>
@@ -213,7 +218,7 @@ $rmMetalHasPhone = $arRegion ? !empty($arRegion['PHONES']) : (bool)(int)$arTheme
 
 	<section class="rm-metal-estimate" id="rm-metal-estimate" data-rm-section="estimate">
 		<div class="rm-metal-estimate__inner">
-			<div class="rm-metal-estimate__intro" style="--rm-metal-estimate-image: url('<?=$rmMetalEscape($rmMetalHomeAsset('custom-metalwork.webp'))?>')">
+			<div class="rm-metal-estimate__intro" style="--rm-metal-estimate-image: url('<?=$rmMetalEscape($rmMetalHomeAsset('custom-metalwork-768.webp'))?>')">
 				<div class="rm-metal-estimate__lead"><h2>Рассчитать<br>металлообработку</h2><p>Пришлите чертежи или техническое задание. Укажите материал, количество деталей и необходимые операции.</p><p>Если состав работ ещё не определён, опишите, какой результат нужен.</p><strong>Что поможет подготовить расчёт</strong><ul><li>Материал и толщина металла</li><li>Размеры и количество деталей</li><li>Требования к точности и покрытию</li><li>Желаемый срок готовности</li></ul></div>
 				<div class="rm-metal-estimate__contact">
 					<span>Можно связаться напрямую</span>

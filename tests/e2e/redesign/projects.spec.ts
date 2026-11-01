@@ -169,12 +169,16 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
             const element = node as HTMLImageElement;
             return {
               complete: element.complete,
-              width: element.naturalWidth,
-              height: element.naturalHeight,
+              largeEnough: element.naturalWidth >= 600 && element.naturalHeight >= 400,
+              local: element.currentSrc.includes('/images/ralmaster/projects/'),
             };
           }),
         )
-        .toEqual({ complete: true, width: project.width, height: project.height });
+        .toEqual({ complete: true, largeEnough: true, local: true });
+      await expect(image).toHaveAttribute(
+        'srcset',
+        new RegExp(`/images/ralmaster/projects/${project.image.replace('.webp', '-768\\.webp')} 768w`),
+      );
     }
 
     const productHrefs = await page.locator('.rm-projects-product-card').evaluateAll((nodes) =>

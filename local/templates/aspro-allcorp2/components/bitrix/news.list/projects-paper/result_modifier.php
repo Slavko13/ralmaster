@@ -69,6 +69,7 @@ foreach ($arResult['ITEMS'] as &$rmProjectItem) {
 
 	$rmProjectItem['RM_PROJECT'] = array(
 		'IMAGE' => $rmImageFile ? $rmProjectAssetRoot.$rmImageFile : $rmDynamicImage,
+		'IMAGE_SMALL' => $rmImageFile ? $rmProjectAssetRoot.preg_replace('~\.webp$~', '-768.webp', $rmImageFile) : '',
 		'NAME' => $rmPaperProject['NAME'] ?? (string)$rmProjectItem['NAME'],
 		'DESCRIPTION' => $rmDescription ?: ($rmPaperProject['DESCRIPTION'] ?? 'Подробнее о выполненном проекте и изготовленных для него изделиях.'),
 		'YEAR' => $rmPaperProject['YEAR'] ?? '',
