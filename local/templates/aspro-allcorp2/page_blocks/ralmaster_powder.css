@@ -227,6 +227,8 @@
   width: 100%;
   height: 254px;
   background: #fff;
+  object-fit: cover;
+  object-position: center;
 }
 
 .rm-powder-accepted__card-heading {
@@ -545,18 +547,26 @@
   line-height: 22px;
 }
 
-.rm-powder-example__body > a {
+.rm-powder-example__body > a,
+.rm-powder-example__body > button {
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   padding-top: 20px;
+  border: 0;
+  background: transparent;
   color: #111e35 !important;
+  cursor: pointer;
+  font-family: inherit;
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
+  text-align: left;
 }
 
-.rm-powder-example__body > a span:last-child {
+.rm-powder-example__body > a span:last-child,
+.rm-powder-example__body > button span:last-child {
   display: inline-flex;
   width: 40px;
   height: 40px;
@@ -634,15 +644,22 @@
   line-height: 28px;
 }
 
-.rm-powder-orders__grid a {
+.rm-powder-orders__grid a,
+.rm-powder-orders__grid button {
   display: inline-flex;
+  width: fit-content;
   align-items: center;
   gap: 14px;
   padding-top: 26px;
+  border: 0;
+  background: transparent;
   color: #175bef !important;
+  cursor: pointer;
+  font-family: inherit;
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
+  text-align: left;
 }
 
 .rm-powder-estimate {

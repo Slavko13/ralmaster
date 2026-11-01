@@ -28,10 +28,12 @@ CAllcorp2::AddMeta(
 $arSubSectionFilter = CAllcorp2::GetCurrentSectionSubSectionFilter($arResult["VARIABLES"], $arParams, $arSection['ID']);
 $arSubSections = CCache::CIblockSection_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "Y")), $arSubSectionFilter, false, array("ID", "DEPTH_LEVEL"));
 
-if ($arSection && $arParams['SECTION_TYPE_VIEW'] === 'section_product_paper') {
-	include __DIR__.'/page_blocks/section_product_paper.php';
-	CAllcorp2::checkBreadcrumbsChain($arParams, $arSection);
-	return;
+$rmProductCatalogPage = $arSection && ($arParams['RM_PRODUCT_CATALOG_VIEW'] ?? 'N') === 'Y';
+if ($rmProductCatalogPage) {
+	$APPLICATION->SetPageProperty('HIDETITLE', 'Y');
+	$APPLICATION->SetPageProperty('FULLWIDTH', 'Y');
+	$APPLICATION->SetPageProperty('MENU', 'Y');
+	$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/page_blocks/ralmaster_product_catalog.css');
 }
 ?>
 
@@ -40,6 +42,20 @@ if ($arSection && $arParams['SECTION_TYPE_VIEW'] === 'section_product_paper') {
 <?elseif(!$arSection && $arParams['SET_STATUS_404'] === 'Y'):?>
 	<?CAllcorp2::goto404Page();?>
 <?else:?>
+	<?if($rmProductCatalogPage):?>
+		<main class="rm-product-category" data-rm-product-category="<?=htmlspecialcharsbx((string)$arSection['CODE'])?>">
+			<header class="rm-product-category__header">
+				<div class="rm-product-category__container">
+					<nav class="rm-product-category__breadcrumb" aria-label="Хлебные крошки">
+						<a href="/">Главная</a><span aria-hidden="true">→</span>
+						<a href="/product/">Продукция</a><span aria-hidden="true">→</span>
+						<span aria-current="page"><?=htmlspecialcharsbx((string)$arSection['NAME'])?></span>
+					</nav>
+					<p>Каталог продукции</p>
+					<h1><?=htmlspecialcharsbx((string)$arSection['NAME'])?></h1>
+				</div>
+			</header>
+	<?endif;?>
 	<?CAllcorp2::CheckComponentTemplatePageBlocksParams($arParams, __DIR__);?>
 	<?// rss
 	if($arParams['USE_RSS'] !== 'N'){
@@ -96,7 +112,7 @@ if ($arSection && $arParams['SECTION_TYPE_VIEW'] === 'section_product_paper') {
 	$isAjax="Y";
 }?>
 	
-	<div class="main-catalog-wrapper">
+	<div class="main-catalog-wrapper<?=$rmProductCatalogPage ? ' rm-product-category__layout' : ''?>">
 		<div class="section-content-wrapper">
 			<?if(strpos($_SERVER['REQUEST_URI'], 'PAGEN') === false && !$arSeoItem):?>
 				<div><?$APPLICATION->ShowViewContent('sotbit_seometa_top_desc');?></div>
@@ -176,6 +192,9 @@ if ($arSection && $arParams['SECTION_TYPE_VIEW'] === 'section_product_paper') {
 			<?CAllcorp2::ShowPageType('left_block');?>
 		<?endif;?>
 	</div>
+	<?if($rmProductCatalogPage):?>
+		</main>
+	<?endif;?>
 <?endif;?>
 <?if(\Bitrix\Main\Loader::includeModule("sotbit.seometa") && $itemsCnt):?>
 	<?$APPLICATION->IncludeComponent(

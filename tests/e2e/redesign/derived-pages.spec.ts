@@ -3,7 +3,7 @@ import { expect, test, type ConsoleMessage, type Page, type TestInfo } from '@pl
 import { expectHealthyDocument } from '../helpers/site';
 
 const routes = [
-  { path: '/product/kapelnik/', marker: '[data-rm-product-detail]', title: 'Капельник' },
+  { path: '/product/kapelnik/', marker: '[data-rm-product-category]', title: 'Капельник' },
   {
     path: '/services/laser-cutting/',
     marker: '[data-rm-service-detail]',
@@ -48,7 +48,7 @@ async function attachDiagnostics(testInfo: TestInfo, diagnostics: BrowserDiagnos
 async function expectProductBasketFlow(page: Page): Promise<void> {
   await page.goto('/product/pannier/', { waitUntil: 'networkidle' });
 
-  const catalog = page.locator('[data-rm-product-catalog]');
+  const catalog = page.locator('[data-rm-product-category]');
   await expect(catalog).toBeVisible();
   const products = catalog.locator('.catalog_table_2 .item');
   await expect(products).toHaveCount(3);
@@ -58,8 +58,13 @@ async function expectProductBasketFlow(page: Page): Promise<void> {
   const addButton = firstProduct.locator('.to_cart');
   await expect(firstProduct.locator('.footer-button')).toHaveCSS('opacity', '1');
   await expect(addButton).toBeVisible();
+  const basketRequest = page.waitForResponse(
+    (response) =>
+      response.request().method() === 'POST' &&
+      response.url().includes('/include/footer/site-basket.php'),
+  );
   await addButton.click();
-  await expect(firstProduct.locator('.in_cart')).toBeVisible();
+  await basketRequest;
 
   await page.goto('/cart/', { waitUntil: 'networkidle' });
   await expect(page.locator('[data-rm-system-page="cart"]')).toBeVisible();
@@ -76,16 +81,20 @@ test.describe('P0 redesigned derived pages', () => {
       await expectHealthyDocument(page);
       await expect(page.locator(route.marker)).toBeVisible();
       await expect(page.locator(`${route.marker} h1`)).toHaveText(route.title);
-      await expect(
-        page.locator('.main-catalog-wrapper, .main-section-wrapper, .alert-warning'),
-      ).toHaveCount(0);
+      if (route.path.startsWith('/product/')) {
+        await expect(page.locator('.main-catalog-wrapper')).toBeVisible();
+      } else {
+        await expect(
+          page.locator('.main-catalog-wrapper, .main-section-wrapper, .alert-warning'),
+        ).toHaveCount(0);
+      }
       await expect(page.locator('.ajax_basket > .fixed_wrapper')).toBeHidden();
       expect(await page.locator('[src*="paper.design"], [style*="paper.design"]').count()).toBe(0);
     });
   }
 
   test('product and service detail templates keep local imagery and safe estimate dialogs', async ({ page }) => {
-    for (const route of routes.slice(0, 2)) {
+    for (const route of routes.slice(1, 2)) {
       const postRequests: string[] = [];
       page.on('request', (request) => {
         if (request.method() === 'POST') postRequests.push(request.url());
@@ -118,6 +127,59 @@ test.describe('P0 redesigned derived pages', () => {
     await expectProductBasketFlow(page);
   });
 
+  test('product categories preserve the legacy navigation and controls in the new style', async ({
+    page,
+  }) => {
+    for (const category of [
+      { path: '/product/pannier/', title: 'Короба', count: 3 },
+      { path: '/product/bracket/', title: 'Кронштейны', count: 1 },
+    ]) {
+      await page.goto(category.path, { waitUntil: 'networkidle' });
+      const root = page.locator('[data-rm-product-category]');
+      await expect(root.locator('h1')).toHaveText(category.title);
+      await expect(root.locator('.rm-detail-hero')).toHaveCount(0);
+      await expect(root.getByText('Рассчитать изготовление', { exact: false })).toHaveCount(0);
+      await expect(root.locator('.sidebar .side-menu > li')).toHaveCount(7);
+      await expect(root.locator('.sidebar .side-menu > li.active')).toContainText(category.title);
+      await expect(root.locator('.bx_filter')).toBeAttached();
+      await expect(root.locator('select.sort')).toBeVisible();
+      await expect(root.locator('.display-type .view-button')).toHaveCount(3);
+      await expect(root.locator('.catalog_table_2 .item')).toHaveCount(category.count);
+
+      const firstProduct = root.locator('.catalog_table_2 .item').first();
+      await expect(firstProduct.locator('.props_wrapper')).toBeHidden();
+      await firstProduct.hover();
+      await expect(firstProduct.locator('.props_wrapper')).toBeHidden();
+      const productImage = firstProduct.locator('.image img');
+      await productImage.scrollIntoViewIfNeeded();
+      await expect
+        .poll(() =>
+          productImage.evaluate((image) => {
+            const element = image as HTMLImageElement;
+            return element.complete && element.naturalWidth > 0 && element.naturalHeight > 0;
+          }),
+        )
+        .toBe(true);
+      const imageGeometry = await firstProduct.evaluate((card) => {
+        const image = card.querySelector<HTMLImageElement>('.image img')!;
+        const frame = card.querySelector<HTMLElement>('.image')!;
+        const imageBox = image.getBoundingClientRect();
+        const frameBox = frame.getBoundingClientRect();
+        return {
+          imageWidth: Math.round(imageBox.width),
+          imageHeight: Math.round(imageBox.height),
+          frameWidth: Math.round(frameBox.width),
+          centered: Math.abs(imageBox.left + imageBox.width / 2 - (frameBox.left + frameBox.width / 2)),
+        };
+      });
+      expect(imageGeometry.imageWidth).toBeGreaterThan(imageGeometry.frameWidth * 0.75);
+      expect(imageGeometry.imageHeight).toBeGreaterThan(250);
+      expect(imageGeometry.centered).toBeLessThanOrEqual(1);
+      await expect(firstProduct.locator('.counter')).toBeVisible();
+      await expect(firstProduct.locator('.to_cart')).toBeVisible();
+    }
+  });
+
   test('P0 @mobile redesigned product category keeps live products and basket flow', async ({
     page,
   }) => {
@@ -126,7 +188,7 @@ test.describe('P0 redesigned derived pages', () => {
 
   test('desktop dialog remains reachable in a short viewport', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
-    await page.goto('/product/facadecassettes/', { waitUntil: 'networkidle' });
+    await page.goto('/services/laser-cutting/', { waitUntil: 'networkidle' });
     await page.locator('.rm-detail-hero [data-rm-discuss-open]').click();
 
     const dialog = page.locator('dialog[data-rm-discuss-dialog]');

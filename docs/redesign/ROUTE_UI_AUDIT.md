@@ -1,6 +1,6 @@
 # Аудит визуального состояния маршрутов
 
-Последнее обновление: 2026-10-31.
+Последнее обновление: 2026-11-01.
 
 Проверка выполнена по Bitrix SEF-конфигурации, файловым entry point, меню,
 локальной БД и реальному рендеру на `http://127.0.0.1:8084`. Наличие классов
@@ -13,7 +13,7 @@ Paper-источник: `Мария's Team` → `Ралмастер` → `Диз
 | --- | --- | --- | --- | --- |
 | `/` | custom home page block | NEW / PASSED | — | redesign suite, visual capture, axe |
 | `/product/` | `bitrix:news/catalog`, Paper root block | NEW / PASSED | — | product suite, exact geometry |
-| `/product/*/` | shared `section_product_paper` | NEW / PASSED | — | representative dynamic route + dialog |
+| `/product/*/` | штатный catalog section flow + `ralmaster_product_catalog.css` | NEW / PASSED | — | 7-category nav, filter, sort/views, products and basket desktop/mobile |
 | `/services/` | `bitrix:news/services`, Paper root block | NEW / PASSED | — | services suite, exact geometry |
 | `/services/*/` | shared `section_service_paper` | NEW / PASSED | — | representative dynamic routes + dialogs |
 | `/painting/`, `/painting/poroshkovaya-pokraska-metalla/` | shared powder page block | NEW / PASSED | — | desktop/mobile, form geometry |
@@ -30,7 +30,7 @@ Paper-источник: `Мария's Team` → `Ралмастер` → `Диз
 | `/info/sales/`, `/info/sales/*/` | shared list/detail / IBlock 35 | NEW / PASSED | — | 9 items + representative detail |
 | `/search/` | `bitrix:search.page/search` + local system template | NEW / PASSED | — | Query/empty states, axe, desktop/mobile PASS |
 | `/search/map.php` | `bitrix:main.map/ralmaster-system` | NEW / PASSED | — | Live menu tree, axe, desktop/mobile PASS |
-| `/cart/` | `aspro:basket.allcorp2/.default` inside system shell | NEW / PASSED SAFE STATE | State-changing cart flow remains separate | Empty basket dynamic state, desktop/mobile PASS |
+| `/cart/` | `aspro:basket.allcorp2/.default` inside system shell | NEW / PASSED | — | Empty state and real product add-to-cart flow, desktop/mobile PASS |
 | `/cart/order/` | `aspro:basket.allcorp2/order` | REDIRECT / PASSED EMPTY STATE | Validate filled-cart state only after safe fixture | Empty cart correctly redirects to `/cart/` |
 | `/login/` | local `system.auth.authorize/.default` | NEW / PASSED SAFE STATE | Successful auth remains separate | Fields/recovery/register/social providers preserved; no POST |
 | `/cabinet/`, `/cabinet/registration/`, `/cabinet/forgot-password/` | cabinet feature gate | DISABLED / PASSED | Do not create unreachable fake UI | All redirect to `/`; not an independent public body |

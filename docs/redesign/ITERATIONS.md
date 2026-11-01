@@ -476,3 +476,54 @@
   IBlock; успешная отправка форм/mail/CRM не выполнялась; Lighthouse остаётся
   приостановлен по указанию владельца.
 - **Статус:** `PASSED`.
+
+## Итерация 26 — Полный legacy-flow товарных категорий и popup CTA покраски (2026-11-01)
+
+- **Цель:** вернуть товарным категориям структуру и функции старого сайта без
+  возврата legacy-визуала, а все CTA расчёта на странице порошковой окраски
+  перевести с anchor-scroll на общий popup.
+- **Область изменений:** `/product/pannier/`, `/product/bracket/` и остальные
+  разделы `/product/*/`; left navigation, smart filter, сортировка, виды
+  каталога, карточки, количество и корзина; accepted/examples/orders CTA на
+  `/painting/`.
+- **Связанные макеты Paper:** дизайн-система текущих product/powder страниц;
+  функциональная структура проверена по действующим legacy-страницам
+  `ral-master.ru/product/pannier/` и `ral-master.ru/product/bracket/`.
+- **Затронутые файлы и компоненты:** `product/index.php`; общий section template
+  `catalog/section.php`; новый `ralmaster_product_catalog.css`; удалённый
+  `section_product_paper.php`; `ralmaster_powder.php/.css`;
+  `derived-pages.spec.ts`, `painting.spec.ts`; журналы прогресса.
+- **Функциональные автотесты:** семь ссылок категорий и active state; smart
+  filter; sort/view controls; фактические 3/1 товара; add-to-cart POST и товар
+  в `/cart/`; popup CTA без изменения `scrollY`; desktop/mobile overflow и
+  browser diagnostics.
+- **Визуальные проверки:** production reference captures pannier/bracket;
+  локальные desktop/mobile captures 1440×1100 и 390×844; hover/focus state;
+  заполнение accepted images через `object-fit: cover`.
+- **Критерии приёмки:** верхний detail-hero и кнопка расчёта отсутствуют у
+  категории; левое меню возвращено; характеристики не показываются при
+  наведении; изображение остаётся большим и центрированным; `− 1 +` и корзина
+  работают; CTA покраски открывают dialog, а не прокручивают к inline-форме.
+- **Фактический результат:** custom early-return удалён, категории снова идут
+  через штатные `include_filter.php`, `include_sort.php` и
+  `catalog_table_2.php`. Старое меню, фильтр, сортировка и три режима вида
+  сохранены и оформлены в новой системе. Product image занимает 300 px frame,
+  остаётся видимым на hover, `.props_wrapper` всегда скрыт, quantity и basket
+  controls используют исходный Bitrix JS. На mobile категории доступны в
+  горизонтальном scroll, CTA и счётчик остаются видимыми. Все пять внутренних
+  powder CTA открывают общий dialog; accepted images заполняют 254 px блоки.
+- **Обнаруженные дефекты:** прежний custom template отбрасывал меню, фильтр и
+  сортировку; theme hover скрывал `<a>` с изображением ради таблицы
+  характеристик, поэтому после скрытия характеристик карточка становилась
+  пустой; mobile sort select выходил за viewport; CTA оставались ссылками на
+  `#powder-estimate`; `contain` создавал белые поля в двух accepted cards.
+- **Исправленные дефекты:** восстановлен полный динамический catalog flow;
+  image anchor принудительно остаётся видимым на hover/focus; mobile ordering
+  layout переведён в grid; CTA заменены на dialog triggers; изображения
+  используют `cover`. PHP lint **3/3 PASS**; финальный связанный Playwright
+  regression desktop/mobile **22/22 PASS** за 2.4 min; дополнительный targeted
+  hover/image gate **1/1 PASS**.
+- **Оставшиеся ограничения:** цены в текущем IBlock пустые, поэтому корзина
+  корректно показывает итог `0`; успешная отправка форм/mail/CRM не
+  выполнялась; Lighthouse остаётся приостановлен по указанию владельца.
+- **Статус:** `PASSED`.

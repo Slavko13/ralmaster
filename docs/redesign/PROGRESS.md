@@ -293,6 +293,26 @@ Legacy `header_fixed` теперь не рендерится только при
   `pannier-catalog-restored-desktop.png`,
   `pannier-catalog-restored-mobile.png`, `pannier-card-desktop-final.png`.
 
+## Полный товарный flow и popup CTA покраски — 2026-11-01
+
+- По production reference `/product/pannier/` и `/product/bracket/`
+  восстановлены семь категорий слева, smart filter, сортировка и три режима
+  представления, при этом визуальная оболочка остаётся в новой дизайн-системе.
+- Верхний product detail-hero и CTA расчёта больше не подменяют category page;
+  раздел выводит штатные динамические товары Bitrix и существующую корзину.
+- Характеристики на hover отключены; изображение товара увеличено, центрировано
+  и остаётся видимым при hover/focus. Счётчик `− 1 +` и «В корзину» доступны на
+  desktop и mobile, add-to-cart подтверждён реальным POST и товаром в `/cart/`.
+- На powder page accepted images заполняют весь блок без белых боковых полей;
+  CTA габаритов, примеров и производственного заказа открывают общий popup без
+  прокрутки к inline-форме.
+- Добавлены regression assertions на legacy navigation/controls, скрытые
+  характеристики, геометрию product image, popup/scroll behavior и реальный
+  basket flow. PHP lint **3/3 PASS**; финальный связанный Playwright suite
+  desktop/mobile **22/22 PASS** за 2.4 min; targeted hover/image gate **1/1
+  PASS**. Horizontal overflow, browser errors и critical axe violations в
+  проверенном scope отсутствуют.
+
 ## Следующий допустимый шаг
 
 ### Коррекция header — 2026-10-31

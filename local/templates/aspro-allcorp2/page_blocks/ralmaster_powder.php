@@ -29,21 +29,18 @@ $rmAcceptedItems = array(
 		'text' => 'Листовые детали, панели и металлокассеты.',
 		'image' => 'home/facade-cassettes.webp',
 		'alt' => 'Металлические панели и фасадные кассеты',
-		'fit' => 'contain',
 	),
 	array(
 		'title' => 'Металлические профили',
 		'text' => 'Профили и профильные элементы.',
 		'image' => 'home/powder-profiles.webp',
 		'alt' => 'Партия металлических профилей',
-		'fit' => 'cover',
 	),
 	array(
 		'title' => 'Изделия и детали',
 		'text' => 'Корзины для кондиционеров и другие изделия по согласованию.',
 		'image' => 'powder/painted-ac-basket.webp',
 		'alt' => 'Окрашенная корзина для кондиционера',
-		'fit' => 'contain',
 	),
 );
 
@@ -137,7 +134,7 @@ $rmExamples = array(
 						<div class="rm-powder-accepted__card-heading">
 							<h3><?=htmlspecialcharsbx($rmItem['title'])?></h3>
 						</div>
-						<img src="<?=htmlspecialcharsbx($rmAssetRoot.$rmItem['image'])?>" alt="<?=htmlspecialcharsbx($rmItem['alt'])?>" style="object-fit: <?=$rmItem['fit']?>" loading="lazy">
+						<img src="<?=htmlspecialcharsbx($rmAssetRoot.$rmItem['image'])?>" alt="<?=htmlspecialcharsbx($rmItem['alt'])?>" loading="lazy">
 						<div class="rm-powder-accepted__card-description">
 							<p><?=htmlspecialcharsbx($rmItem['text'])?></p>
 						</div>
@@ -155,10 +152,10 @@ $rmExamples = array(
 				</div>
 				<div class="rm-powder-dimensions__action">
 					<p>Возможность окраски проверим по размерам, весу и конструкции изделия.</p>
-					<a class="rm-powder-button rm-powder-button--secondary" href="#powder-estimate">
+					<button class="rm-powder-button rm-powder-button--secondary" type="button" data-rm-discuss-open="powder-coating">
 						<span>Проверить возможность окраски</span>
 						<span class="rm-powder-button__arrow" aria-hidden="true">↗</span>
-					</a>
+					</button>
 				</div>
 			</div>
 			<p class="rm-powder-dimensions__note">Предельные размеры и вес приведены по макету и требуют подтверждения производством. Совместимость максимальных значений уточняется для каждого изделия.</p>
@@ -225,7 +222,7 @@ $rmExamples = array(
 							<h3><?=htmlspecialcharsbx($rmExample['title'])?></h3>
 							<p><?=htmlspecialcharsbx($rmExample['text'])?></p>
 							<div class="rm-powder-example__meta"><?=$rmExample['meta']?></div>
-							<a href="#powder-estimate"><span>Подробнее о заказе</span><span aria-hidden="true">↗</span></a>
+							<button type="button" class="rm-powder-example__action" data-rm-discuss-open="powder-coating"><span>Подробнее о заказе</span><span aria-hidden="true">↗</span></button>
 							<small>Демонстрационный пример. Данные и фотографию необходимо заменить реальным заказом перед публикацией.</small>
 						</div>
 					</article>
@@ -242,7 +239,7 @@ $rmExamples = array(
 					<div class="rm-powder-orders__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7H13V17H4ZM13 10H17L20 13V17H13M7 7V4H16V8M8 17V18M17 17V18"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div>
 					<h3>Передать готовые изделия</h3>
 					<p>Принимаем изделия заказчика на порошковую окраску. Работаем с разовыми и повторными партиями. Постоянные клиенты размещают у нас заказы на окраску металлических изделий.</p>
-					<a href="#powder-estimate">Рассчитать окраску <span aria-hidden="true">↗</span></a>
+					<button type="button" class="rm-powder-orders__action" data-rm-discuss-open="powder-coating">Рассчитать окраску <span aria-hidden="true">↗</span></button>
 				</article>
 				<article>
 					<div class="rm-powder-orders__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3H14L19 8V21H5ZM14 3V8H19M8 12H16M8 16H13"/></svg></div>

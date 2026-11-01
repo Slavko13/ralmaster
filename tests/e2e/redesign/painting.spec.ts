@@ -122,6 +122,7 @@ test.describe('P0 redesigned powder coating page', () => {
         card: measure(card),
         cardHeading: measure(cardHeading),
         image: measure(image),
+        imageFit: getComputedStyle(image).objectFit,
         description: measure(description),
         childOrder: Array.from(card.children).map((child) =>
           child instanceof HTMLImageElement ? child.tagName : child.className,
@@ -137,6 +138,7 @@ test.describe('P0 redesigned powder coating page', () => {
       card: { width: 421, height: 401 },
       cardHeading: { width: 421, height: 74 },
       image: { width: 421, height: 254 },
+      imageFit: 'cover',
       description: { width: 421, height: 73 },
       childOrder: [
         'rm-powder-accepted__card-heading',
@@ -198,6 +200,27 @@ test.describe('P0 redesigned powder coating page', () => {
     await expect(page.locator('.rm-powder-estimate__form form')).toBeVisible();
     await expect(page.locator('.rm-powder-estimate__form input[type="submit"]')).toBeVisible();
     expect(postRequests).toEqual([]);
+  });
+
+  test('opens estimate CTAs in a popup without scrolling to the inline form', async ({ page }) => {
+    await page.goto('/painting/', { waitUntil: 'networkidle' });
+    const dialog = page.locator('dialog[data-rm-discuss-variant="powder-coating"]');
+    const selectors = [
+      '.rm-powder-dimensions__action [data-rm-discuss-open="powder-coating"]',
+      '.rm-powder-example [data-rm-discuss-open="powder-coating"]',
+      '.rm-powder-orders [data-rm-discuss-open="powder-coating"]',
+    ];
+
+    for (const selector of selectors) {
+      const trigger = page.locator(selector).first();
+      await trigger.scrollIntoViewIfNeeded();
+      const scrollBefore = await page.evaluate(() => window.scrollY);
+      await trigger.click();
+      await expect(dialog).toBeVisible();
+      expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
+      await page.keyboard.press('Escape');
+      await expect(dialog).toBeHidden();
+    }
   });
 
   test('keeps every desktop estimate control inside the Paper form panel', async ({ page }) => {
