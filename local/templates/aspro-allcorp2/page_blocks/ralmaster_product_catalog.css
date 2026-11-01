@@ -339,6 +339,7 @@ body .rm-product-category .bx_filter .bx_filter_popup_result a {
 .rm-product-category .catalog.item-views.table .items > [class*="col-"] {
   width: auto !important;
   min-width: 0;
+  margin-bottom: 0 !important;
   padding: 0 !important;
   float: none !important;
 }

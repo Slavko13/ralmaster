@@ -147,6 +147,16 @@ test.describe('P0 redesigned derived pages', () => {
       await expect(root.locator('.ajax_load.table .catalog.item-views.table')).toHaveCount(1);
       await expect(root.locator('.catalog_table_2 .item')).toHaveCount(category.count);
 
+      const gridBottomGap = await root.locator('.catalog.item-views.table .items').evaluate((grid) => {
+        const gridBottom = grid.getBoundingClientRect().bottom;
+        const cards = Array.from(grid.children) as HTMLElement[];
+        const lastRowBottom = Math.max(...cards.map((card) => card.getBoundingClientRect().bottom));
+        const margins = cards.map((card) => getComputedStyle(card).marginBottom);
+        return { gap: Math.round(gridBottom - lastRowBottom), margins };
+      });
+      expect(gridBottomGap.gap).toBeLessThanOrEqual(1);
+      expect(gridBottomGap.margins.every((margin) => margin === '0px')).toBe(true);
+
       const firstProduct = root.locator('.catalog_table_2 .item').first();
       await expect(firstProduct.locator('.props_wrapper')).toBeHidden();
       await firstProduct.hover();
