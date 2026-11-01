@@ -543,6 +543,18 @@ Legacy `header_fixed` теперь не рендерится только при
   **5/5 PASS**; Docker build успешен, `db`/`web` healthy; `/`, `/services/`,
   `/painting/`, `/product/` и `/product/kapelnik/` отвечают HTTP **200**.
 
+## Обновление production OPcache на VPS — 2026-11-01
+
+- Подтверждено, что staging при Git HEAD `f2364a5` отдавал старый HTML даже с
+  cache-busting и `Cache-Control: no-cache`; проблема находилась не в Caddy или
+  браузерном кэше.
+- Причина: production использует `opcache.validate_timestamps=0`, а Compose не
+  пересоздавал web при изменении только bind-mounted исходников.
+- VPS deploy теперь выполняет `up -d --build --wait --force-recreate web`.
+  Перезапускается только Apache/PHP; MySQL и постоянные volumes не затрагиваются.
+- Проверки: Git Bash syntax **PASS**; Compose поддерживает flag; локальный web
+  успешно recreated и healthy, DB осталась healthy; HTTP smoke **200**.
+
 ## Следующий допустимый шаг
 
 ### Коррекция header — 2026-10-31

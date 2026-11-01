@@ -674,8 +674,11 @@ else
   log "Database already contains ${table_count} tables; SQL import skipped"
 fi
 
-log 'Building and starting the production-like web service'
-"${COMPOSE[@]}" up -d --build --wait web
+log 'Building and recreating the production-like web service'
+# Production disables OPcache timestamp validation. Recreating the web
+# container is therefore required after every Git update even when the image
+# and Compose configuration themselves did not change.
+"${COMPOSE[@]}" up -d --build --wait --force-recreate web
 curl --fail --silent --show-error --max-time 15 "http://127.0.0.1:${APP_PORT}/healthz.php" >/dev/null
 log 'Container health endpoint is available'
 
