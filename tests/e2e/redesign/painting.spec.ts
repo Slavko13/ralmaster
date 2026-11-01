@@ -219,6 +219,35 @@ test.describe('P0 redesigned powder coating page', () => {
       estimate: 850,
       photo: 543,
     });
+
+    const preparationBoundary = await page
+      .locator('.rm-powder-preparation__layout')
+      .evaluate((layout) => {
+        const image = layout.querySelector<HTMLElement>('.rm-powder-cut-image')!;
+        const steps = layout.querySelector<HTMLElement>('.rm-powder-preparation__steps')!;
+        const lastStep = steps.querySelector<HTMLElement>('li:last-child')!;
+        const lastDescription = lastStep.querySelector<HTMLElement>('p')!;
+        const imageBox = image.getBoundingClientRect();
+        const stepsBox = steps.getBoundingClientRect();
+        const lastStepBox = lastStep.getBoundingClientRect();
+        const lastDescriptionBox = lastDescription.getBoundingClientRect();
+        return {
+          imageBottom: Math.round(imageBox.bottom),
+          stepsBottom: Math.round(stepsBox.bottom),
+          lastStepBottom: Math.round(lastStepBox.bottom),
+          lastDescriptionBottom: Math.round(lastDescriptionBox.bottom),
+          lastStepMarginBottom: getComputedStyle(lastStep).marginBottom,
+        };
+      });
+
+    expect(preparationBoundary.stepsBottom - preparationBoundary.imageBottom).toBe(1);
+    expect(preparationBoundary.lastStepBottom).toBeLessThanOrEqual(
+      preparationBoundary.stepsBottom,
+    );
+    expect(preparationBoundary.lastDescriptionBottom).toBeLessThan(
+      preparationBoundary.stepsBottom - 20,
+    );
+    expect(preparationBoundary.lastStepMarginBottom).toBe('0px');
   });
 
   test('desktop render has no overflow or browser errors', async ({ page }, testInfo) => {

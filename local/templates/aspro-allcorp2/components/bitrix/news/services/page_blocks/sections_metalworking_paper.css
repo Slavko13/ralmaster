@@ -385,12 +385,12 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 
 .rm-metal-examples {
   height: 888px;
-  padding: 48px 0 54px;
+  padding: 72px 0;
   background: #f2f4f5;
 }
 
 .rm-metal-examples h2 {
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 .rm-metal-examples__grid {
@@ -405,7 +405,6 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
   flex-direction: column;
   overflow: hidden;
   background: #fff;
-  border-radius: 4px;
 }
 
 .rm-metal-example-card > img {
@@ -418,9 +417,9 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 
 .rm-metal-example-card__copy {
   display: flex;
-  min-height: 0;
+  height: 390px;
+  min-height: 390px;
   padding: 28px;
-  flex: 1;
   flex-direction: column;
 }
 
@@ -429,23 +428,26 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 32px;
+  min-height: 64px;
+  margin-bottom: 16px;
 }
 
 .rm-metal-example-card p {
-  margin-top: 14px;
-  color: #697687;
-  font-size: 15px;
-  line-height: 22px;
+  min-height: 96px;
+  margin-bottom: 20px;
+  color: #526073;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .rm-metal-example-card strong {
-  margin-top: auto;
-  padding-top: 18px;
-  border-top: 1px solid #d9dee4;
+  display: block;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dfe5eb;
   font-family: var(--rm-font-body, "Onest", Arial, sans-serif);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
-  line-height: 20px;
+  line-height: 22px;
 }
 
 .rm-metal-example-card .rm-metal-link-arrow {
@@ -453,20 +455,36 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-top: 18px;
+  margin-top: 20px;
   padding: 0;
-  color: #27374b;
+  color: #111e35;
   border: 0;
   background: transparent;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
-  line-height: 20px;
+  line-height: 24px;
   text-align: left;
   cursor: pointer;
 }
 
 .rm-metal-example-card .rm-metal-link-arrow::after {
+  width: 40px;
+  height: 40px;
+  flex-basis: 40px;
+  margin-left: 20px;
   color: var(--rm-primary, #175bef);
+  border: 1px solid #d0d9e5;
+  border-radius: 4px;
+  font-size: 20px;
+}
+
+.rm-metal-example-card small {
+  display: block;
+  margin-top: 18px;
+  color: #8994a3;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 17px;
 }
 
 .rm-metal-estimate {

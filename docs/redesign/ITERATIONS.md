@@ -348,3 +348,50 @@
 - **Исправленные дефекты:** fixed rows и перекрытия устранены scoped override; порядок карточек унифицирован; Paper metadata/content добавлены как локализованный fallback для трёх утверждённых проектов; product image/body разделены фиксированными высотами; нижний блок повторяет Paper.
 - **Оставшиеся ограничения:** успешный state-changing submit/mail/CRM не выполнялся; проектные metadata остаются presentation fallback до заполнения соответствующих полей IBlock; Lighthouse остаётся приостановлен по указанию владельца.
 - **Статус:** `PASSED`.
+
+## Итерация 23 — Мобильная таблица и точность examples/preparation (2026-11-01)
+
+- **Цель:** исправить наложения в мобильной таблице `/company/` и закрыть
+  визуальные расхождения examples `/services/` и нижней границы preparation на
+  странице порошковой окраски.
+- **Область изменений:** production capabilities на 390/768/1024 px; examples
+  section на 1440 и responsive; powder preparation list/grid на desktop и
+  промежуточном desktop.
+- **Связанные макеты Paper:** `О производстве`, секция «Возможности
+  производства» 1440×1094; `Металлообработка`, «Примеры выполненных работ»
+  1440×888; `Порошковая окраска`, «Подготовка поверхности перед окраской»
+  1440×777.
+- **Затронутые файлы и компоненты:** `ralmaster_production.php/.css`;
+  `sections_metalworking_paper.php/.css`; `ralmaster_powder.css`;
+  `production.spec.ts`, `services.spec.ts`, `painting.spec.ts`; журналы
+  прогресса.
+- **Функциональные автотесты:** пять capabilities rows; последовательная
+  геометрия всех mobile cells; локальные images; три per-card demo notes;
+  section heights; last preparation row внутри steps border; desktop/mobile
+  overflow, browser diagnostics и axe в существующем scope.
+- **Визуальные проверки:** Paper MCP screenshots/JSX/computed styles трёх
+  точных секций; локальные Chrome captures 390×900 и 1440×1000 после правок.
+- **Критерии приёмки:** mobile capabilities читаются без overlap; examples
+  совпадает с Paper по изображению, отступам, типографике, размерам и action;
+  последняя строка preparation не выходит ниже 481 px и не пересекает border;
+  новая критическая regression отсутствует.
+- **Фактический результат:** mobile table rows переведены в natural-height card
+  grid с labels и scoped parameter surface. Examples использует точную
+  `custom-metalwork.webp`, 72/32 px rhythm, 656/390 px card geometry, per-card
+  note и 40×40 arrow control. Унаследованный theme margin у preparation `li`
+  обнулён, поэтому нижняя линия вновь совпадает с image bottom с допуском 1 px.
+  PHP lint **2/2 PASS**; desktop suite **23/23 PASS**; mobile targeted **3/3
+  PASS**.
+- **Обнаруженные дефекты:** desktop `height: 126px` выигрывал по specificity у
+  mobile reset; examples сохранял operations image и глобальную подпись вместо
+  структуры Paper; общий Aspro selector добавлял каждому `ol li` 12 px снизу,
+  превращая четыре 120 px grid tracks в 132 px и выталкивая последнюю строку.
+- **Исправленные дефекты:** mobile row height сброшена с корректной
+  специфичностью, cells изолированы и не накладываются; examples markup/styles
+  синхронизированы с Paper; preparation item margins локально обнулены и
+  закреплены geometry assertion.
+- **Оставшиеся ограничения:** отдельного mobile-фрейма company в Paper нет,
+  поэтому карточная версия является производным responsive-решением;
+  state-changing submit/mail/CRM не выполнялся; Lighthouse остаётся
+  приостановлен по указанию владельца.
+- **Статус:** `PASSED`.

@@ -978,6 +978,7 @@ body:has(.rm-production) .main > .container .right_block {
 
   .rm-production-capabilities__table-wrap {
     display: block;
+    overflow: visible;
   }
 
   .rm-production-capabilities table,
@@ -997,6 +998,11 @@ body:has(.rm-production) .main > .container .right_block {
     background: transparent;
   }
 
+  .rm-production-capabilities tbody {
+    display: grid;
+    gap: 16px;
+  }
+
   .rm-production-capabilities thead {
     position: absolute;
     width: 1px !important;
@@ -1006,30 +1012,61 @@ body:has(.rm-production) .main > .container .right_block {
   }
 
   .rm-production-capabilities tbody tr {
-    margin-bottom: 14px;
+    display: grid;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    overflow: hidden;
     border: 1px solid #dbe2e8;
+    border-radius: 4px;
     background: #fff;
   }
 
   .rm-production-capabilities th,
   .rm-production-capabilities td {
+    height: auto;
+    min-height: 0;
     padding: 14px 16px;
     border: 0;
     border-top: 1px solid #e5e9ee;
+    overflow-wrap: anywhere;
   }
 
   .rm-production-capabilities tbody th {
     border-top: 0;
+    padding-block: 17px;
     font-size: 20px;
+    line-height: 26px;
+  }
+
+  .rm-production-capabilities tbody td {
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .rm-production-capabilities tbody td:nth-child(3) {
+    background: #f7faff;
+  }
+
+  .rm-production-capabilities tbody td strong {
+    font-size: 19px;
+    line-height: 27px;
+  }
+
+  .rm-production-capabilities tbody td small {
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 18px;
   }
 
   .rm-production-capabilities td::before {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 7px;
     color: #697689;
     content: attr(data-label);
     font-size: 12px;
     font-weight: 500;
+    line-height: 16px;
   }
 
   .rm-production-capabilities__note {

@@ -243,6 +243,22 @@ Legacy `header_fixed` теперь не рендерится только при
   затем intermediate breakpoint **2/2 PASS**; mobile services/projects **4/4 PASS**; geometry assertions
   проверяют отсутствие overlap и совпадение вертикали трёх product images.
 
+## Коррекция company/services/powder по повторной сверке Paper — 2026-11-01
+
+- Мобильная таблица `/company/` переработана в пять самостоятельных карточек:
+  фиксированная desktop-высота строк больше не наследуется, labels и значения
+  идут последовательно, а параметры получают отдельную светло-синюю поверхность.
+- Секция «Примеры выполненных работ» на `/services/` приведена к точному узлу
+  Paper 1440×888: padding 72 px, heading gap 32 px, cards 421×656, body 390 px,
+  первая фотография заменена на утверждённую, demo-подпись возвращена в каждую
+  карточку, action-arrow оформлена контролом 40×40.
+- В секции подготовки поверхности устранён скрытый legacy `margin-bottom: 12px`
+  у элементов `ol li`: четыре шага теперь укладываются в 481 px, нижняя граница
+  совпадает с изображением и больше не пересекает текст «Сушка».
+- Проверки: PHP lint **2/2 PASS**; desktop company/services/painting **23/23
+  PASS**; mobile targeted **3/3 PASS**; intermediate 768/1024/1288 px вошли в
+  desktop suite; horizontal overflow и browser diagnostics отсутствуют.
+
 ## Следующий допустимый шаг
 
 ### Коррекция header — 2026-10-31

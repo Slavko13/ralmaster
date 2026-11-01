@@ -165,7 +165,7 @@ if ($rmProductionEstimateFormId <= 0) {
 							<th scope="row"><?=$rmProductionEscape($rmProductionCapability['OPERATION'])?></th>
 							<td data-label="Материалы"><?=$rmProductionEscape($rmProductionCapability['MATERIALS'])?></td>
 							<td data-label="Параметры"><strong><?=$rmProductionEscape($rmProductionCapability['PARAMETERS'])?></strong><?if ($rmProductionCapability['PARAMETER_NOTE']):?><small><?=$rmProductionEscape($rmProductionCapability['PARAMETER_NOTE'])?></small><?endif;?></td>
-							<td data-label="Ограничения"><?=$rmProductionEscape($rmProductionCapability['LIMITS'])?></td>
+							<td data-label="Примечания/ограничения"><?=$rmProductionEscape($rmProductionCapability['LIMITS'])?></td>
 						</tr>
 					<?endforeach;?>
 				</tbody>

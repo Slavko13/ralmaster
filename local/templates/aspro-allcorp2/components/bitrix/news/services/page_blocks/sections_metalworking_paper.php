@@ -110,7 +110,7 @@ $rmMetalExamples = array(
 		'TITLE' => 'Крепёжные кронштейны по чертежам заказчика',
 		'TEXT' => 'Выполнены лазерная резка заготовок и гибка кронштейнов по заданным размерам.',
 		'META' => 'Сталь 3 мм · Партия 300 шт.',
-		'IMAGE' => $rmMetalAsset('production-chain.webp'),
+		'IMAGE' => $rmMetalHomeAsset('custom-metalwork.webp'),
 	),
 	array(
 		'TITLE' => 'Листовые панели для оборудования',
@@ -120,7 +120,7 @@ $rmMetalExamples = array(
 	),
 	array(
 		'TITLE' => 'Сварные рамы для оборудования',
-		'TEXT' => 'Выполнена сварка подготовленных деталей и порошковая окраска готовых рам.',
+		'TEXT' => 'Выполнены сварка подготовленных деталей и порошковая окраска готовых рам.',
 		'META' => 'Сталь · Партия 20 шт.',
 		'IMAGE' => $rmMetalAsset('welded-frames.webp'),
 	),
@@ -204,11 +204,10 @@ $rmMetalHasPhone = $arRegion ? !empty($arRegion['PHONES']) : (bool)(int)$arTheme
 				<?foreach ($rmMetalExamples as $rmMetalExample):?>
 					<article class="rm-metal-example-card">
 						<img src="<?=$rmMetalEscape($rmMetalExample['IMAGE'])?>" alt="" aria-hidden="true" loading="lazy">
-						<div class="rm-metal-example-card__copy"><h3><?=$rmMetalEscape($rmMetalExample['TITLE'])?></h3><p><?=$rmMetalEscape($rmMetalExample['TEXT'])?></p><strong><?=$rmMetalEscape($rmMetalExample['META'])?></strong><button class="rm-metal-link-arrow" type="button" data-rm-discuss-open="metalworking">Подробнее о заказе</button></div>
+						<div class="rm-metal-example-card__copy"><h3><?=$rmMetalEscape($rmMetalExample['TITLE'])?></h3><p><?=$rmMetalEscape($rmMetalExample['TEXT'])?></p><strong><?=$rmMetalEscape($rmMetalExample['META'])?></strong><button class="rm-metal-link-arrow" type="button" data-rm-discuss-open="metalworking">Подробнее о заказе</button><small>Демонстрационный пример. Заменить реальным заказом.</small></div>
 					</article>
 				<?endforeach;?>
 			</div>
-			<p class="rm-metal-examples__note">Демонстрационный пример. Закажите расчёт своего изделия.</p>
 		</div>
 	</section>
 

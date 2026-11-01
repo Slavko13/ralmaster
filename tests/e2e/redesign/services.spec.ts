@@ -83,6 +83,19 @@ test.describe('Redesigned metalworking root', () => {
   test('uses local assets and every rendered image loads', async ({ page }) => {
     await page.goto('/services/', { waitUntil: 'networkidle' });
 
+    const exampleCards = page.locator('.rm-metal-example-card');
+    await expect(exampleCards).toHaveCount(3);
+    await expect(exampleCards.locator('small')).toHaveCount(3);
+    await expect(exampleCards.locator('small')).toHaveText([
+      'Демонстрационный пример. Заменить реальным заказом.',
+      'Демонстрационный пример. Заменить реальным заказом.',
+      'Демонстрационный пример. Заменить реальным заказом.',
+    ]);
+    await expect(exampleCards.first().locator('img')).toHaveAttribute(
+      'src',
+      /\/images\/ralmaster\/home\/custom-metalwork\.webp$/,
+    );
+
     const images = page.locator('[data-rm-metalworking] img');
     const count = await images.count();
     expect(count).toBeGreaterThanOrEqual(8);
@@ -219,6 +232,25 @@ test.describe('Redesigned metalworking root', () => {
       };
     });
 
+    const examplesGeometry = await page.locator('.rm-metal-examples').evaluate((section) => {
+      const heading = section.querySelector('h2')!;
+      const card = section.querySelector<HTMLElement>('.rm-metal-example-card')!;
+      const copy = card.querySelector<HTMLElement>('.rm-metal-example-card__copy')!;
+      const action = card.querySelector<HTMLElement>('.rm-metal-link-arrow')!;
+      const sectionStyle = getComputedStyle(section);
+      const headingStyle = getComputedStyle(heading);
+      const arrowStyle = getComputedStyle(action, '::after');
+      return {
+        paddingTop: sectionStyle.paddingTop,
+        paddingBottom: sectionStyle.paddingBottom,
+        headingMarginBottom: headingStyle.marginBottom,
+        cardHeight: Math.round(card.getBoundingClientRect().height),
+        copyHeight: Math.round(copy.getBoundingClientRect().height),
+        arrowWidth: arrowStyle.width,
+        arrowBorder: arrowStyle.borderTopWidth,
+      };
+    });
+
     expect(geometry.width).toBe(1440);
     expect(geometry.rootTop).toBe(106);
     expect(geometry.footerTop).toBe(5311);
@@ -231,6 +263,15 @@ test.describe('Redesigned metalworking root', () => {
       { name: 'estimate', height: 850 },
       { name: 'photo', height: 543 },
     ]);
+    expect(examplesGeometry).toEqual({
+      paddingTop: '72px',
+      paddingBottom: '72px',
+      headingMarginBottom: '32px',
+      cardHeight: 656,
+      copyHeight: 390,
+      arrowWidth: '40px',
+      arrowBorder: '1px',
+    });
 
     await expect(page.locator('#rm-metal-estimate form')).toBeVisible();
     await expectNoHorizontalOverflow(page);

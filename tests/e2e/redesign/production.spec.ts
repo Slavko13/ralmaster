@@ -270,6 +270,32 @@ test.describe('Redesigned production root', () => {
     await expect(page.locator('.rm-production-faq details')).toHaveCount(6);
     await page.waitForTimeout(1_500);
 
+    const capabilityCards = await page
+      .locator('.rm-production-capabilities tbody tr')
+      .evaluateAll((rows) =>
+        rows.map((row) => {
+          const rowBox = row.getBoundingClientRect();
+          const cells = Array.from(row.children).map((cell) => {
+            const box = cell.getBoundingClientRect();
+            return { top: box.top, bottom: box.bottom, height: box.height };
+          });
+          return {
+            height: rowBox.height,
+            rowBottom: rowBox.bottom,
+            cells,
+          };
+        }),
+      );
+
+    for (const card of capabilityCards) {
+      expect(card.height).toBeGreaterThan(200);
+      expect(card.cells.every((cell) => cell.height > 0)).toBe(true);
+      expect(card.cells.at(-1)!.bottom).toBeLessThanOrEqual(card.rowBottom + 1);
+      for (let index = 1; index < card.cells.length; index += 1) {
+        expect(card.cells[index].top).toBeGreaterThanOrEqual(card.cells[index - 1].bottom - 1);
+      }
+    }
+
     await expectNoHorizontalOverflow(page);
     await attachDiagnostics(testInfo, diagnostics);
     expect(diagnostics).toEqual([]);
