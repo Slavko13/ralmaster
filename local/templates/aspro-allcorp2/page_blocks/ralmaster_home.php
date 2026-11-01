@@ -331,9 +331,9 @@ if ($rmOrderFormId <= 0) {
 			<h2>С нами сотрудничают</h2>
 			<div class="rm-home-partner-grid">
 				<?foreach ($rmPartners as $partner):?>
-					<?if ($partner['URL']):?><a class="rm-home-partner" data-rm-card="partner" href="<?=$rmEscape($partner['URL'])?>" rel="noopener noreferrer"><?else:?><div class="rm-home-partner" data-rm-card="partner"><?endif;?>
+					<a class="rm-home-partner" data-rm-card="partner" href="/company/partners/" aria-label="Подробнее о <?=$rmEscape($partner['NAME'])?> на странице партнёров">
 						<img src="<?=$rmEscape($partner['IMAGE'])?>" alt="<?=$rmEscape($partner['NAME'])?>" loading="lazy">
-					<?if ($partner['URL']):?></a><?else:?></div><?endif;?>
+					</a>
 				<?endforeach;?>
 			</div>
 		</div>

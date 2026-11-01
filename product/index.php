@@ -330,4 +330,22 @@ $rmIsProductRoot = rtrim((string)$rmProductPath, '/') === '/product';
 	),
 	false
 );?>
+<?php
+if ($rmIsProductRoot):
+	$rmDiscussOptions = array(
+		'context' => 'product',
+		'title' => 'Рассчитать изготовление изделий',
+		'intro' => 'Пришлите чертёж или техническое задание и укажите количество. Если чертежа пока нет, опишите задачу — менеджер поможет собрать исходные данные.',
+		'task_label' => 'Описание задачи',
+		'task_placeholder' => 'Опишите изделие, материал, размеры и объём партии',
+		'task_help' => 'Укажите материал, размеры и количество, если они уже известны.',
+		'upload_label' => 'Прикрепить чертежи или техническое задание',
+		'button' => 'Отправить чертёж на расчёт',
+		'note' => 'Менеджер свяжется с вами, чтобы уточнить детали и срок.',
+		'height' => 898,
+	);
+	require $_SERVER['DOCUMENT_ROOT'].SITE_TEMPLATE_PATH.'/page_blocks/ralmaster_discuss_order.php';
+	unset($rmDiscussOptions);
+endif;
+?>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

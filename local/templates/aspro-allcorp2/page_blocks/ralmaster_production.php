@@ -206,9 +206,9 @@ if ($rmProductionEstimateFormId <= 0) {
 	<section class="rm-production-partners" data-rm-production-section="partners">
 		<div class="rm-production-container"><h2>С нами сотрудничают</h2><div class="rm-production-partners__grid">
 			<?foreach ($rmProductionPartners as $rmProductionPartner):?>
-				<?if ($rmProductionPartner['URL']):?><a href="<?=$rmProductionEscape($rmProductionPartner['URL'])?>" rel="noopener noreferrer" aria-label="<?=$rmProductionEscape($rmProductionPartner['NAME'])?>"><?else:?><div aria-label="<?=$rmProductionEscape($rmProductionPartner['NAME'])?>"><?endif;?>
+				<a href="/company/partners/" aria-label="Подробнее о <?=$rmProductionEscape($rmProductionPartner['NAME'])?> на странице партнёров">
 					<img src="<?=$rmProductionEscape($rmProductionPartner['IMAGE'])?>" alt="<?=$rmProductionEscape($rmProductionPartner['NAME'])?>" loading="lazy">
-				<?if ($rmProductionPartner['URL']):?></a><?else:?></div><?endif;?>
+				</a>
 			<?endforeach;?>
 		</div></div>
 	</section>

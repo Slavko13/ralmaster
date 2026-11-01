@@ -111,21 +111,67 @@ test.describe('P0 redesigned products root', () => {
     }
   });
 
-  test('anchors the estimate CTA to the existing safe Bitrix form without a POST', async ({ page }) => {
+  test('opens the hero estimate dialog without scrolling or a POST', async ({ page }) => {
     const postRequests: string[] = [];
     page.on('request', (request) => {
       if (request.method() === 'POST') postRequests.push(request.url());
     });
 
     await page.goto('/product/', { waitUntil: 'domcontentloaded' });
-    const cta = page.locator('.rm-products-intro__layout a[href="#product-estimate"]');
+    const cta = page.locator('.rm-products-intro__layout [data-rm-discuss-open="product"]');
     await expect(cta).toBeVisible();
+    const scrollBefore = await page.evaluate(() => window.scrollY);
     await cta.click();
 
-    await expect(page.locator('#product-estimate')).toBeInViewport();
+    const dialog = page.locator('dialog[data-rm-discuss-variant="product"]');
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByRole('heading', { name: 'Рассчитать изготовление изделий' })).toBeVisible();
+    await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue('product');
+    expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
+
+    // The full inline form remains on the page as specified by the Product artboard.
     await expect(page.locator('.rm-product-estimate__form form')).toBeVisible();
     await expect(page.locator('.rm-product-estimate__form input[type="submit"]')).toBeVisible();
     expect(postRequests).toEqual([]);
+
+    const arrows = await page.evaluate(() => {
+      const hero = document.querySelector('.rm-products-button__arrow');
+      const submit = document.querySelector(
+        '.rm-product-estimate__form .inner-table-block:has(input[type="submit"])',
+      );
+      const heroStyle = hero ? getComputedStyle(hero) : null;
+      const submitStyle = submit ? getComputedStyle(submit, '::after') : null;
+      return {
+        hero: hero?.textContent?.trim(),
+        heroSize: heroStyle?.fontSize,
+        submit: submitStyle?.content,
+        submitSize: submitStyle?.fontSize,
+      };
+    });
+    expect(arrows).toEqual({ hero: '↗', heroSize: '22px', submit: '"↗"', submitSize: '22px' });
+
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+  });
+
+  test('uses a restrained hover response on product cards', async ({ page }) => {
+    await page.goto('/product/', { waitUntil: 'domcontentloaded' });
+    const card = page.locator('.rm-product-card').first();
+    const before = await card.evaluate((node) => ({
+      transform: getComputedStyle(node).transform,
+      boxShadow: getComputedStyle(node).boxShadow,
+    }));
+
+    await card.hover();
+    await page.waitForTimeout(220);
+    const after = await card.evaluate((node) => ({
+      transform: getComputedStyle(node).transform,
+      boxShadow: getComputedStyle(node).boxShadow,
+    }));
+
+    expect(before.transform).toBe('none');
+    expect(after.transform).not.toBe('none');
+    expect(after.boxShadow).not.toBe('none');
   });
 
   test('blocks an empty task and file on the shared estimate form without a POST', async ({ page }) => {
@@ -135,7 +181,9 @@ test.describe('P0 redesigned products root', () => {
     });
 
     await page.goto('/product/', { waitUntil: 'domcontentloaded' });
-    const formRoot = page.locator('[data-rm-estimate-form][data-rm-estimate-context="product"]');
+    const formRoot = page.locator(
+      '.rm-product-estimate__form[data-rm-estimate-form][data-rm-estimate-context="product"]',
+    );
     await expect(formRoot).toBeVisible();
 
     await formRoot.locator('[data-SID="CONTACT"] input').fill('qa-product@example.test');
@@ -191,6 +239,19 @@ test.describe('P0 redesigned products root', () => {
     await page.goto('/product/', { waitUntil: 'domcontentloaded' });
     await expectHealthyDocument(page);
     await expect(page.locator('.rm-product-grid')).toBeVisible();
+
+    await page.locator('[data-rm-discuss-open="product"]').click();
+    const dialog = page.locator('dialog[data-rm-discuss-variant="product"]');
+    await expect(dialog).toBeVisible();
+    const dialogGeometry = await dialog.evaluate((node) => {
+      const box = node.getBoundingClientRect();
+      return { left: box.left, right: box.right, viewportWidth: window.innerWidth };
+    });
+    expect(dialogGeometry.left).toBeGreaterThanOrEqual(0);
+    expect(dialogGeometry.right).toBeLessThanOrEqual(dialogGeometry.viewportWidth);
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+
     await page.waitForTimeout(1_500);
     await expectNoHorizontalOverflow(page);
     await attachDiagnostics(testInfo, diagnostics);

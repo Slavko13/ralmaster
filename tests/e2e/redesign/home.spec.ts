@@ -101,6 +101,12 @@ test.describe('P0 redesigned home', () => {
 
     expect(hrefs.length).toBeGreaterThan(0);
     expect(hrefs.join('\n')).not.toMatch(/bavrasem\.beget\.tech/i);
+    await expect(home.locator('.rm-home-partner')).toHaveCount(7);
+    expect(
+      await home.locator('.rm-home-partner').evaluateAll((nodes) =>
+        nodes.every((node) => node.getAttribute('href') === '/company/partners/'),
+      ),
+    ).toBe(true);
 
     const routeHrefs = [
       ...new Set(
@@ -134,6 +140,17 @@ test.describe('P0 redesigned home', () => {
     expect(arrows.length).toBeGreaterThan(0);
     expect(arrows.every((arrow) => arrow.content === '"↗"')).toBe(true);
     expect(arrows.every((arrow) => arrow.backgroundImage === 'none')).toBe(true);
+
+    const productHeading = home
+      .locator('.rm-home-group-heading h3', { hasText: 'Изготовление металлических изделий' })
+      .first();
+    await expect(productHeading).toHaveCSS('white-space', 'nowrap');
+
+    const productCard = home.locator('.rm-home-product-card').first();
+    await productCard.hover();
+    await page.waitForTimeout(220);
+    expect(await productCard.evaluate((node) => getComputedStyle(node).transform)).not.toBe('none');
+    expect(await productCard.evaluate((node) => getComputedStyle(node).boxShadow)).not.toBe('none');
   });
 
   test('loads every rendered image asset', async ({ page }) => {

@@ -10,10 +10,10 @@
 				<h1>Продукция</h1>
 				<p>Изготавливаем металлические изделия по чертежам и техническому заданию. Принимаем разовые заказы компаний и заказы на повторные партии.</p>
 			</div>
-			<a class="rm-products-button rm-products-button--primary" href="#product-estimate">
+			<button class="rm-products-button rm-products-button--primary" type="button" data-rm-discuss-open="product">
 				<span>Отправить чертёж на расчёт</span>
-				<span aria-hidden="true">↗</span>
-			</a>
+				<span class="rm-products-button__arrow" aria-hidden="true">↗</span>
+			</button>
 		</div>
 	</div>
 </section>

@@ -172,6 +172,18 @@ desktop/mobile приёмку: redesign `61/61`, baseline `22/22`, dev smoke `32
 - Проверки viewport/стрелок: desktop targeted regression **30/30**, mobile
   dialog regression **2/2**, PHP lint **2/2**, визуальные captures подтверждают
   доступный submit и одинаковую диагональную стрелку.
+- На `/product/` верхняя CTA больше не прокручивает страницу к inline-форме:
+  она открывает reusable dialog `product`, а полная Paper-форма ниже сохранена.
+- Стрелки двух синих product CTA унифицированы (`↗`, Arial 22 px); desktop
+  группа «Изготовление металлических изделий / Вся продукция» возвращена к
+  однострочной композиции Paper.
+- Логотипы «С нами сотрудничают» на главной и `/company/` теперь сначала ведут
+  на `/company/partners/`; внешние ссылки остаются только в карточках партнёров.
+- Для product/service/powder-карточек добавлен restrained hover: подъём 2 px и
+  тень `0 8px 22px rgba(17,30,53,.08)` с reduced-motion fallback.
+- Проверки итерации: desktop related regression **29/29** после уточнения
+  legacy test selector, product desktop **8/8**, mobile related **4/4** и
+  отдельный product popup **1/1**; PHP lint **4/4**.
 
 ## Hotfix desktop navigation — 2026-10-29
 

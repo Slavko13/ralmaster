@@ -146,6 +146,18 @@ test.describe('P0 redesigned derived pages', () => {
         )
         .toBe(true);
     }
+
+    const externalLinks = root.locator('.rm-partner-card a[href^="http"]');
+    expect(await externalLinks.count()).toBeGreaterThan(0);
+    expect(
+      await externalLinks.evaluateAll((links) =>
+        links.every(
+          (link) =>
+            link.getAttribute('target') === '_blank' &&
+            (link.getAttribute('rel') ?? '').includes('noopener'),
+        ),
+      ),
+    ).toBe(true);
   });
 
   test('desktop routes have no overflow, browser errors, or critical axe violations', async ({

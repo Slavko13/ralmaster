@@ -318,3 +318,18 @@
 - **Исправленные дефекты:** dialog ограничен текущей высотой viewport и прокручивается внутри; submit подтверждён отдельным нижним capture; CTA-стрелки home/metalworking/powder/footer и submit унифицированы.
 - **Оставшиеся ограничения:** успешный state-changing submit/mail/CRM не выполнялся; Lighthouse остаётся приостановлен по текущему указанию владельца.
 - **Статус:** `PASSED`.
+
+## Итерация 21 — Product CTA, партнёрский маршрут и hover карточек (2026-11-01)
+
+- **Цель:** исправить поведение верхней product CTA, точность home product-heading, маршрут партнёрских логотипов и добавить сдержанную hover-обратную связь карточкам.
+- **Область изменений:** `/product/`; product dialog/inline form; home product/service/powder cards; home и production partner grids; `/company/partners/` как промежуточная локальная страница.
+- **Связанные макеты Paper:** `Продукция` 1440×3240 и product-группа главной страницы; точные параметры CTA 336×60 и heading/link group 1312×112 прочитаны через Paper MCP без изменения макета.
+- **Затронутые файлы и компоненты:** `product/index.php`, `product/index_inc.php`; `product-sections-paper/style.css`; `ralmaster_home.php`, `ralmaster_production.php`, `custom.css`; `products.spec.ts`, `home.spec.ts`, `production.spec.ts`, `derived-pages.spec.ts`.
+- **Функциональные автотесты:** product CTA открывает dialog с context `product` без изменения scroll и POST; inline-форма сохраняется; desktop/mobile dialog bounds; локальные partner href; внешние ссылки только на partners page; hover computed transform/shadow; arrow content/font size.
+- **Визуальные проверки:** `test-results/product-hero-popup-cta.png`, `product-dialog-popup.png`, `home-product-heading-paper.png`, `home-product-cards-hover.png`; отдельно сверены Paper screenshot и computed styles заголовка/ссылки/CTA.
+- **Критерии приёмки:** hero CTA открывает popup; обе синие product CTA используют одинаковую `↗`; heading desktop не переносится; «Вся продукция» располагается отдельной строкой; логотипы не уводят сразу наружу; hover заметен, но не меняет сетку; mobile без overflow.
+- **Фактический результат:** anchor `#product-estimate` заменён на native dialog trigger; подключён product-вариант reusable формы 898 px, а inline Paper form оставлена на месте. Hero и submit arrows приведены к Arial 22 px. На desktop ≥1200 px product heading использует одну строку, link row сохраняет 22 px и gap 12 px. Product/home cards получают подъём 2 px и мягкую тень. Все home/production partner logos ведут на `/company/partners/`, где карточки сохраняют внешние ссылки с `target=_blank` и `noopener`. Desktop related suite — **29/29 PASS** после исправления устаревшего strict selector; product desktop — **8/8 PASS**; mobile related — **4/4 PASS** и повторный product mobile — **1/1 PASS**; PHP lint — **4/4 PASS**.
+- **Обнаруженные дефекты:** CTA была anchor-scroll; две product формы после добавления dialog потребовали scope старого теста; desktop title переносился вопреки Paper; home/production partner cards вели прямо на внешние домены; карточки почти не сообщали hover state.
+- **Исправленные дефекты:** CTA/dialog lifecycle и scroll закреплены тестом; inline form selector изолирован; desktop typography/layout совпадает с Paper; партнёрский переход стал внутренним; hover не вызывает layout shift и отключает motion при соответствующей системной настройке.
+- **Оставшиеся ограничения:** успешный state-changing submit/mail/CRM не выполнялся; Lighthouse остаётся приостановлен по указанию владельца.
+- **Статус:** `PASSED`.

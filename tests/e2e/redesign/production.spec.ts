@@ -101,7 +101,7 @@ test.describe('Redesigned production root', () => {
     await expect(page.locator('[data-rm-production]')).toHaveCount(0);
   });
 
-  test('uses local Paper assets and dynamic partner links from IBlock 20', async ({ page }) => {
+  test('uses local Paper assets and routes partner logos through the local partners page', async ({ page }) => {
     await page.goto('/company/', { waitUntil: 'networkidle' });
 
     const images = page.locator('[data-rm-production] img');
@@ -131,9 +131,9 @@ test.describe('Redesigned production root', () => {
     const partnerLinks = page.locator('.rm-production-partners__grid > a[href]');
     await expect(partnerLinks).toHaveCount(7);
     const hrefs = await partnerLinks.evaluateAll((links) =>
-      links.map((link) => (link as HTMLAnchorElement).href),
+      links.map((link) => (link as HTMLAnchorElement).getAttribute('href')),
     );
-    for (const href of hrefs) expect(href).toMatch(/^https?:\/\//);
+    expect(hrefs).toEqual(Array(7).fill('/company/partners/'));
   });
 
   test('qualifies draft production limits instead of presenting them as certified values', async ({
