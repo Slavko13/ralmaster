@@ -37,12 +37,14 @@ final class RalMasterEstimateFormValidator
 
         $inputs = self::getInputsBySid((int) $webFormId, $values);
         $contact = trim((string) ($inputs['CONTACT']['value'] ?? ''));
+        $context = trim((string) ($inputs['CONTEXT']['value'] ?? ''));
         $task = trim((string) ($inputs['TASK']['value'] ?? ''));
         $file = $inputs['FILE']['file'] ?? null;
         $errors = [];
 
-        if (!self::isValidContact($contact)) {
-            $errors[] = 'Укажите корректный телефон или адрес электронной почты.';
+        $contactError = self::getContactError($contact, self::getContactMethod($context));
+        if ($contactError !== null) {
+            $errors[] = $contactError;
         }
 
         $hasFile = self::hasUploadedFile($file);
@@ -123,6 +125,45 @@ final class RalMasterEstimateFormValidator
             return true;
         }
 
+        return self::isValidPhone($contact);
+    }
+
+    private static function getContactMethod(string $context): string
+    {
+        if (preg_match('/(?:^|;\s*)contact=(telegram|max|phone|email)(?:;|$)/iu', $context, $matches) !== 1) {
+            return '';
+        }
+
+        return mb_strtolower((string) $matches[1]);
+    }
+
+    private static function getContactError(string $contact, string $method): ?string
+    {
+        if ($method === 'email') {
+            return filter_var($contact, FILTER_VALIDATE_EMAIL) !== false
+                ? null
+                : 'Укажите корректный адрес электронной почты.';
+        }
+
+        if ($method === 'phone') {
+            return self::isValidPhone($contact)
+                ? null
+                : 'Укажите корректный номер телефона.';
+        }
+
+        if ($method === 'telegram' || $method === 'max') {
+            return mb_strlen($contact) >= 3 && preg_match('/[\r\n]/u', $contact) !== 1
+                ? null
+                : 'Укажите имя пользователя или номер телефона.';
+        }
+
+        return self::isValidContact($contact)
+            ? null
+            : 'Укажите корректный телефон или адрес электронной почты.';
+    }
+
+    private static function isValidPhone(string $contact): bool
+    {
         if (!preg_match('/^\+?[0-9\s().-]+$/u', $contact)) {
             return false;
         }

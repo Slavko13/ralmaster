@@ -21,7 +21,7 @@ $rmPartnerEscape = static function ($value) {
 
 	<section class="rm-partners-list" aria-labelledby="rm-partners-list-title">
 		<div class="rm-partners-container">
-			<div class="rm-partners-heading"><p class="rm-partners-kicker">Нам доверяют</p><h2 id="rm-partners-list-title">Компании, с которыми мы работаем</h2></div>
+			<div class="rm-partners-heading"><h2 id="rm-partners-list-title">Компании, с которыми мы работаем</h2></div>
 			<?if ($arResult['ITEMS']):?>
 				<div class="rm-partners-grid">
 					<?foreach ($arResult['ITEMS'] as $arItem):?>

@@ -221,7 +221,7 @@ test('P0 @mobile calculation dialogs stay inside a 390 px viewport', async ({ pa
   }
 });
 
-test('submits a valid request without an attachment', async ({ page }) => {
+test('submits a Telegram request without a name or attachment', async ({ page }) => {
   await page.goto('/painting/', { waitUntil: 'domcontentloaded' });
   await page
     .locator('[data-rm-discuss-open="powder-coating"]')
@@ -235,19 +235,16 @@ test('submits a valid request without an attachment', async ({ page }) => {
     '',
   );
 
-  await dialog.locator('[data-SID="NAME"] input').fill('Тест формы');
-  await dialog.getByRole('radio', { name: 'Почта' }).click();
-  await dialog.locator('[data-SID="CONTACT"] input').fill('test@example.com');
-  await dialog
-    .locator('[data-SID="TASK"] textarea')
-    .fill('Проверка отправки формы без обязательного файла.');
+  await dialog.getByRole('radio', { name: 'Telegram' }).click();
+  await dialog.locator('[data-SID="CONTACT"] input').fill('3214');
+  await dialog.locator('[data-SID="TASK"] textarea').fill('3214');
   await dialog.locator('.licence_block input[type="checkbox"]').check();
   await dialog.locator('input[type="submit"]').click();
 
   const success = page.locator('dialog[data-rm-estimate-success-dialog]');
   await expect(success).toBeVisible({ timeout: 15_000 });
   await expect(success.getByRole('heading')).toHaveText('Ваша заявка принята');
-  await expect(success.getByText(/Спасибо, Тест формы!/)).toBeVisible();
+  await expect(success.getByText(/^Спасибо! Мы получили ваш запрос/)).toBeVisible();
   await expect(dialog).toBeHidden();
   await expect(dialog.locator('[data-SID="NAME"] input')).toHaveValue('');
   await expect(dialog.locator('[data-SID="CONTACT"] input')).toHaveValue('');

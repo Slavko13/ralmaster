@@ -304,6 +304,7 @@ test.describe('P0 redesigned derived pages', () => {
     await expect(root).toHaveAttribute('data-rm-partner-count', '7');
     await expect(root.locator('.rm-partner-card')).toHaveCount(7);
     await expect(root.locator('.rm-partners-hero .rm-partners-kicker')).toHaveCount(0);
+    await expect(root.locator('.rm-partners-heading .rm-partners-kicker')).toHaveCount(0);
     await expect(root.locator('.rm-partners-breadcrumb')).toContainText('Главная/Партнёры');
 
     const heroFlow = await root.locator('.rm-partners-hero__layout').evaluate((hero) => {
@@ -315,17 +316,13 @@ test.describe('P0 redesigned derived pages', () => {
     expect(Math.abs(heroFlow.leftDelta)).toBeLessThanOrEqual(1);
 
     const partnerHeading = await root.locator('.rm-partners-heading').evaluate((heading) => {
-      const kicker = heading.querySelector('.rm-partners-kicker')!.getBoundingClientRect();
       const title = heading.querySelector('h2')!.getBoundingClientRect();
       return {
-        kickerLeft: kicker.left,
-        kickerBottom: kicker.bottom,
+        headingLeft: heading.getBoundingClientRect().left,
         titleLeft: title.left,
-        titleTop: title.top,
       };
     });
-    expect(Math.abs(partnerHeading.kickerLeft - partnerHeading.titleLeft)).toBeLessThanOrEqual(1);
-    expect(partnerHeading.titleTop).toBeGreaterThanOrEqual(partnerHeading.kickerBottom);
+    expect(Math.abs(partnerHeading.headingLeft - partnerHeading.titleLeft)).toBeLessThanOrEqual(1);
     expect((await root.locator('.rm-partner-card h3').allTextContents()).join(' ')).not.toContain(
       '&quot;',
     );
