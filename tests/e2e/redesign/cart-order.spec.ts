@@ -25,6 +25,37 @@ async function expectNoHorizontalOverflow(page: Page): Promise<void> {
 }
 
 test.describe('redesigned cart and checkout', () => {
+  test('empty cart is a single clean state without an icon or duplicate hero', async ({ page }, testInfo) => {
+    await page.goto('/cart/', { waitUntil: 'networkidle' });
+    await expectHealthyDocument(page);
+
+    const root = page.locator('[data-rm-system-page="cart"]');
+    await expect(root).toHaveCount(1);
+    await expect(root.locator('.rm-system-hero')).toHaveCount(1);
+    await expect(root.locator('.rm-system-kicker')).toHaveCount(0);
+    await expect(root.locator('.rm-system-breadcrumb > span[aria-hidden="true"]')).toHaveText(['/']);
+    await expect(root.locator('.basket_empty')).toBeVisible();
+    expect(
+      await root.locator('.basket_empty > .wrap').evaluate((element) =>
+        getComputedStyle(element, '::before').display,
+      ),
+    ).toBe('none');
+
+    const heroFlow = await root.locator('.rm-system-hero__layout').evaluate((hero) => {
+      const title = hero.querySelector('h1')!.getBoundingClientRect();
+      const intro = hero.querySelector(':scope > p')!.getBoundingClientRect();
+      return {
+        introTop: Math.round(intro.top),
+        titleBottom: Math.round(title.bottom),
+        leftDelta: Math.round(intro.left - title.left),
+      };
+    });
+    expect(heroFlow.introTop).toBeGreaterThan(heroFlow.titleBottom);
+    expect(Math.abs(heroFlow.leftDelta)).toBeLessThanOrEqual(1);
+    await expectNoHorizontalOverflow(page);
+    await page.screenshot({ path: testInfo.outputPath('cart-empty-desktop.png'), fullPage: true });
+  });
+
   test('cart uses the blue RALMASTER system and keeps live basket controls', async ({ page }, testInfo) => {
     const productName = await addProductToBasket(page);
     await page.goto('/cart/', { waitUntil: 'networkidle' });
@@ -47,11 +78,52 @@ test.describe('redesigned cart and checkout', () => {
     await expect(orderButton).toHaveCSS('background-color', 'rgb(23, 91, 239)');
     await expect(orderButton).toHaveCSS('color', 'rgb(255, 255, 255)');
 
+    const actionGeometry = await root.locator('.basket.default .foot').evaluate((foot) => {
+      const clear = foot.querySelector<HTMLElement>('.remove.all')!.getBoundingClientRect();
+      const total = foot.querySelector<HTMLElement>('.total')!.getBoundingClientRect();
+      const bounds = foot.getBoundingClientRect();
+      return {
+        clearLeft: Math.round(clear.left),
+        totalLeft: Math.round(total.left),
+        rightGap: Math.round(bounds.right - total.right),
+      };
+    });
+    expect(actionGeometry.clearLeft).toBeLessThan(actionGeometry.totalLeft);
+    expect(actionGeometry.rightGap).toBeLessThanOrEqual(8);
+
+    const removeAlignment = await root.locator('.basket.default .items .item .remove_bl').first().evaluate((box) => {
+      const control = box.querySelector<HTMLElement>('.remove')!.getBoundingClientRect();
+      const bounds = box.getBoundingClientRect();
+      return {
+        x: Math.abs(control.left + control.width / 2 - (bounds.left + bounds.width / 2)),
+        y: Math.abs(control.top + control.height / 2 - (bounds.top + bounds.height / 2)),
+      };
+    });
+    expect(removeAlignment.x).toBeLessThanOrEqual(1);
+    expect(removeAlignment.y).toBeLessThanOrEqual(1);
+
     const productLink = root.locator('.basket.default .description .name a').first();
     await productLink.hover();
     await expect(productLink).toHaveCSS('color', 'rgb(23, 91, 239)');
     await expectNoHorizontalOverflow(page);
     await page.screenshot({ path: testInfo.outputPath('cart-desktop.png'), fullPage: true });
+  });
+
+  test('clearing the cart keeps one system shell and returns the empty state', async ({ page }) => {
+    await addProductToBasket(page);
+    await page.goto('/cart/', { waitUntil: 'networkidle' });
+    const root = page.locator('[data-rm-system-page="cart"]');
+    const update = page.waitForResponse(
+      (response) =>
+        response.request().method() === 'POST' &&
+        new URL(response.url()).pathname === '/cart/',
+    );
+    await root.locator('.basket.default .remove.all').click();
+    await update;
+    await expect(root.locator('.basket_empty')).toBeVisible();
+    await expect(page.locator('[data-rm-system-page="cart"]')).toHaveCount(1);
+    await expect(page.locator('.rm-system-hero')).toHaveCount(1);
+    await expect(root.locator('.basket.default .basket_wrap')).toHaveCount(0);
   });
 
   test('checkout form matches the common form contract and order summary', async ({ page }, testInfo) => {
@@ -80,6 +152,27 @@ test.describe('redesigned cart and checkout', () => {
     await expect(submit).toHaveCSS('background-color', 'rgb(23, 91, 239)');
     await expect(submit).toHaveCSS('color', 'rgb(255, 255, 255)');
     await expect(root.locator('.basket_order .items')).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+    const summaryImage = root.locator('.basket_order .rm-order-item__image img').first();
+    await expect(summaryImage).toBeVisible();
+    await expect
+      .poll(() =>
+        summaryImage.evaluate((image) => {
+          const node = image as HTMLImageElement;
+          return node.complete && node.naturalWidth > 0 && node.naturalHeight > 0;
+        }),
+      )
+      .toBe(true);
+
+    const licenceAlignment = await form.locator('.licence_block').evaluate((block) => {
+      const input = block.querySelector<HTMLInputElement>('input[type="checkbox"]')!.getBoundingClientRect();
+      const label = block.querySelector<HTMLLabelElement>('label')!.getBoundingClientRect();
+      return {
+        display: getComputedStyle(block).display,
+        centerDelta: Math.abs(input.top + input.height / 2 - (label.top + label.height / 2)),
+      };
+    });
+    expect(licenceAlignment.display).toBe('flex');
+    expect(licenceAlignment.centerDelta).toBeLessThanOrEqual(2);
     await expectNoHorizontalOverflow(page);
     await page.screenshot({ path: testInfo.outputPath('order-desktop.png'), fullPage: true });
   });

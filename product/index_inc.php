@@ -2,7 +2,7 @@
 	<div class="rm-products-container">
 		<nav class="rm-products-breadcrumb" aria-label="Хлебные крошки">
 			<a href="/">Главная</a>
-			<span aria-hidden="true">→</span>
+			<span aria-hidden="true">/</span>
 			<span aria-current="page">Продукция</span>
 		</nav>
 		<div class="rm-products-intro__layout">

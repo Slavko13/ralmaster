@@ -28,7 +28,7 @@ $rmSystemEscape = static function ($value) {
 				<span aria-current="page"><?=$rmSystemEscape($rmSystemConfig['title'])?></span>
 			</nav>
 			<div class="rm-system-hero__layout">
-				<div><p class="rm-system-kicker"><?=$rmSystemEscape($rmSystemConfig['kicker'])?></p><h1><?=$rmSystemEscape($rmSystemConfig['title'])?></h1></div>
+				<div><?if (!empty($rmSystemConfig['kicker'])):?><p class="rm-system-kicker"><?=$rmSystemEscape($rmSystemConfig['kicker'])?></p><?endif;?><h1><?=$rmSystemEscape($rmSystemConfig['title'])?></h1></div>
 				<p><?=$rmSystemEscape($rmSystemConfig['intro'])?></p>
 			</div>
 		</div>

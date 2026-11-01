@@ -335,6 +335,17 @@
   background: #f4f6f8;
 }
 
+.rm-system-page--cart .rm-system-hero__layout {
+  max-width: 720px;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 18px;
+}
+
+.rm-system-page--cart .rm-system-hero__layout > p {
+  max-width: 620px;
+}
+
 .rm-system-page--cart .basket.default {
   margin: 0;
   color: #111e35;
@@ -501,31 +512,50 @@ body .rm-system-page--cart .basket.default .buy_block .counter input {
 }
 
 .rm-system-page--cart .basket.default .items .remove_bl {
-  width: 48px;
+  position: relative;
+  width: 64px !important;
+  height: auto !important;
+  padding: 0 !important;
 }
 
 .rm-system-page--cart .basket.default .items .item .remove_bl > .wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
   float: none;
 }
 
 .rm-system-page--cart .basket.default .items .item .remove {
-  top: -62px;
-  right: 14px;
+  position: relative;
+  top: auto;
+  right: auto;
   display: grid;
   width: 32px;
   height: 32px;
+  margin: 0;
+  padding: 0;
   place-items: center;
   border: 1px solid transparent;
   border-radius: 4px;
   color: #8995a5;
-  background: transparent;
+  background: transparent !important;
 }
 
 .rm-system-page--cart .basket.default .items .item .remove::before {
+  position: static;
+  display: block;
+  width: auto;
+  height: auto;
+  margin: 0;
   color: currentColor;
   content: "×";
   background: none !important;
-  font: 400 22px/1 var(--rm-font-body, Onest, Arial, sans-serif);
+  font: 400 21px/30px var(--rm-font-body, Onest, Arial, sans-serif);
+  transform: none;
 }
 
 .rm-system-page--cart .basket.default .items .item .remove:hover,
@@ -538,7 +568,8 @@ body .rm-system-page--cart .basket.default .buy_block .counter input {
 .rm-system-page--cart .basket.default .foot {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 24px;
   margin: 0;
   padding: 22px 4px;
   border-bottom: 1px solid #d7e0ea;
@@ -546,7 +577,10 @@ body .rm-system-page--cart .basket.default .buy_block .counter input {
 }
 
 .rm-system-page--cart .basket.default .foot .remove.all {
+  order: 1;
   min-height: 40px;
+  float: none !important;
+  margin: 0 !important;
   padding: 9px 14px;
   border: 1px solid transparent !important;
   color: #526073 !important;
@@ -571,7 +605,10 @@ body .rm-system-page--cart .basket.default .buy_block .counter input {
 }
 
 .rm-system-page--cart .basket.default .foot .total {
+  order: 2;
   width: auto;
+  float: none !important;
+  margin: 0 !important;
   color: #111e35;
   font-size: 20px;
   line-height: 28px;
@@ -650,16 +687,25 @@ body .rm-system-page--cart .basket.default .buy_block .counter input {
 }
 
 .rm-system-page--cart .basket.default .basket_empty {
-  min-height: 260px;
-  padding: 54px;
-  border: 1px solid #d7e0ea;
-  border-radius: 4px;
-  background: #fff;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 
 .rm-system-page--cart .basket.default .basket_empty > .wrap {
-  max-width: 620px;
+  max-width: none;
   margin: 0 auto;
+  padding: 56px 48px;
+  background: #fff;
+  border: 1px solid #d7e0ea;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.rm-system-page--cart .basket.default .basket_empty > .wrap::before {
+  display: none !important;
+  content: none !important;
 }
 
 .rm-system-page--cart .basket.default .basket_empty h4 {
@@ -819,8 +865,10 @@ body .rm-system-page--cart .basket.default .buy_block .counter input {
 }
 
 .rm-system-page--order .form.order .licence_block {
-  display: flex;
-  align-items: flex-start;
+  display: flex !important;
+  width: 100%;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
   gap: 12px;
   margin: 0;
   color: #697383;
@@ -851,6 +899,9 @@ body .rm-system-page--cart .basket.default .buy_block .counter input {
 .rm-system-page--order .form.order .licence_block label {
   position: static !important;
   display: block !important;
+  width: auto !important;
+  min-width: 0;
+  flex: 1 1 auto;
   margin: 0 !important;
   padding: 0 !important;
   color: #697383 !important;
@@ -952,11 +1003,57 @@ body .rm-system-page--cart .basket.default .buy_block .counter input {
 }
 
 .rm-system-page--order .basket_order .items .item {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
   margin: 0 22px;
   padding: 20px 0;
   border-color: #e2e7ed;
   font-size: 14px;
   line-height: 21px;
+}
+
+.rm-system-page--order .basket_order .rm-order-item__image {
+  display: flex;
+  width: 64px;
+  height: 64px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #f4f6f8;
+  border: 1px solid #e2e7ed;
+  border-radius: 3px;
+}
+
+.rm-system-page--order .basket_order .rm-order-item__image img {
+  display: block;
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.rm-system-page--order .basket_order .rm-order-item__content {
+  min-width: 0;
+}
+
+.rm-system-page--order .basket_order .items .item .prices {
+  display: flex;
+  margin: 8px 0 0 !important;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rm-system-page--order .basket_order .items .item .prices::before,
+.rm-system-page--order .basket_order .items .item .prices::after {
+  display: none;
+  content: none;
+}
+
+.rm-system-page--order .basket_order .items .item .prices > [class*="col-"] {
+  width: auto;
+  float: none !important;
+  padding: 0;
 }
 
 .rm-system-page--order .basket_order .items .item .name a {
@@ -1396,7 +1493,8 @@ body:has(.rm-auth-shell) .main > .container .left_block {
   }
 
   .rm-system-page--cart .basket.default .foot {
-    align-items: flex-start;
+    align-items: center;
+    justify-content: flex-end;
     gap: 16px;
     padding: 14px 0 22px;
   }
@@ -1435,11 +1533,11 @@ body:has(.rm-auth-shell) .main > .container .left_block {
 
   .rm-system-page--cart .basket.default .basket_empty {
     min-height: 0;
-    padding: 28px 20px;
+    padding: 0;
   }
 
   .rm-system-page--cart .basket.default .basket_empty > .wrap {
-    padding: 112px 0 0;
+    padding: 40px 24px;
   }
 
   .rm-system-page--order .basket_order > .row {
@@ -1474,6 +1572,18 @@ body:has(.rm-auth-shell) .main > .container .left_block {
   }
 
   .rm-system-page--order .basket_order .items .item {
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 12px;
     margin: 0 18px;
+  }
+
+  .rm-system-page--order .basket_order .rm-order-item__image {
+    width: 56px;
+    height: 56px;
+  }
+
+  .rm-system-page--order .basket_order .rm-order-item__image img {
+    width: 48px;
+    height: 48px;
   }
 }

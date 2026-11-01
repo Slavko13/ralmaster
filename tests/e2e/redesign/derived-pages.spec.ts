@@ -72,6 +72,18 @@ async function expectProductBasketFlow(page: Page): Promise<void> {
 }
 
 test.describe('P0 redesigned derived pages', () => {
+  test('product and detail breadcrumbs consistently use slash separators', async ({ page }) => {
+    await page.goto('/product/', { waitUntil: 'domcontentloaded' });
+    await expect(
+      page.locator('.rm-products-breadcrumb > span[aria-hidden="true"]'),
+    ).toHaveText(['/']);
+
+    await page.goto('/services/laser-cutting/', { waitUntil: 'domcontentloaded' });
+    await expect(
+      page.locator('.rm-detail-breadcrumb > span[aria-hidden="true"]'),
+    ).toHaveText(['/', '/']);
+  });
+
   for (const route of routes) {
     test(`${route.path} uses the new Paper system without legacy body`, async ({ page, request }) => {
       const response = await request.get(route.path, { maxRedirects: 5 });

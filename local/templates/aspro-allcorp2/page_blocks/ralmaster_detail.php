@@ -54,8 +54,8 @@ if ($rmDetailImageSmall && !is_file($_SERVER['DOCUMENT_ROOT'].$rmDetailImageSmal
 	<section class="rm-detail-hero">
 		<div class="rm-detail-container">
 			<nav class="rm-detail-breadcrumb" aria-label="Хлебные крошки">
-				<a href="/">Главная</a><span aria-hidden="true">→</span>
-				<a href="<?=$rmDetailEscape($rmDetailPage['root_url'])?>"><?=$rmDetailEscape($rmDetailPage['root_label'])?></a><span aria-hidden="true">→</span>
+				<a href="/">Главная</a><span aria-hidden="true">/</span>
+				<a href="<?=$rmDetailEscape($rmDetailPage['root_url'])?>"><?=$rmDetailEscape($rmDetailPage['root_label'])?></a><span aria-hidden="true">/</span>
 				<span aria-current="page"><?=$rmDetailEscape($rmDetailPage['title'])?></span>
 			</nav>
 			<div class="rm-detail-hero__layout">
