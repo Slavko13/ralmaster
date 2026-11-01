@@ -47,11 +47,10 @@ if ($rmProductCatalogPage) {
 			<header class="rm-product-category__header">
 				<div class="rm-product-category__container">
 					<nav class="rm-product-category__breadcrumb" aria-label="Хлебные крошки">
-						<a href="/">Главная</a><span aria-hidden="true">→</span>
-						<a href="/product/">Продукция</a><span aria-hidden="true">→</span>
+						<a href="/">Главная</a><span aria-hidden="true">/</span>
+						<a href="/product/">Продукция</a><span aria-hidden="true">/</span>
 						<span aria-current="page"><?=htmlspecialcharsbx((string)$arSection['NAME'])?></span>
 					</nav>
-					<p>Каталог продукции</p>
 					<h1><?=htmlspecialcharsbx((string)$arSection['NAME'])?></h1>
 				</div>
 			</header>

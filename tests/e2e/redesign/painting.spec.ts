@@ -245,6 +245,29 @@ test.describe('P0 redesigned powder coating page', () => {
     }
   });
 
+  test('order links lift together with their arrows on hover', async ({ page }) => {
+    await page.goto('/painting/', { waitUntil: 'networkidle' });
+    const actions = page.locator(
+      '.rm-powder-orders__grid a, .rm-powder-orders__grid button',
+    );
+    await expect(actions).toHaveCount(2);
+
+    for (const action of await actions.all()) {
+      const animatedContent = action.locator(':scope > span').first();
+      const initialY = await animatedContent.evaluate(
+        (node) => new DOMMatrixReadOnly(getComputedStyle(node).transform).m42,
+      );
+      await action.hover();
+      await expect
+        .poll(() =>
+          animatedContent.evaluate(
+            (node) => new DOMMatrixReadOnly(getComputedStyle(node).transform).m42,
+          ),
+        )
+        .toBeLessThan(initialY);
+    }
+  });
+
   test('keeps every desktop estimate control inside the Paper form panel', async ({ page }) => {
     await page.goto('/painting/', { waitUntil: 'networkidle' });
 

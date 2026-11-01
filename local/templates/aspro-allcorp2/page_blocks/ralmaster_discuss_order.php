@@ -119,11 +119,18 @@ $rmDiscussTaskRowHeight = 148 + (trim((string)$rmDiscussOptions['task_help']) !=
 		var triggerContext = trigger.getAttribute('data-rm-discuss-open');
 		if (triggerContext && triggerContext !== '<?=CUtil::JSEscape($rmDiscussOptions['context'])?>') { return; }
 		trigger.addEventListener('click', function () {
+			var scrollX = window.scrollX;
+			var scrollY = window.scrollY;
 			if (typeof dialog.showModal === 'function') {
 				dialog.showModal();
 			} else {
 				dialog.setAttribute('open', '');
 			}
+			var closeButton = dialog.querySelector('[data-rm-discuss-close]');
+			if (closeButton && typeof closeButton.focus === 'function') {
+				closeButton.focus({ preventScroll: true });
+			}
+			window.scrollTo(scrollX, scrollY);
 		});
 	});
 	dialog.querySelectorAll('[data-rm-discuss-close]').forEach(function (button) {

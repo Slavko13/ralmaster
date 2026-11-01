@@ -242,13 +242,13 @@ $rmExamples = array(
 					<div class="rm-powder-orders__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7H13V17H4ZM13 10H17L20 13V17H13M7 7V4H16V8M8 17V18M17 17V18"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div>
 					<h3>Передать готовые изделия</h3>
 					<p>Принимаем изделия заказчика на порошковую окраску. Работаем с разовыми и повторными партиями. Постоянные клиенты размещают у нас заказы на окраску металлических изделий.</p>
-					<button type="button" class="rm-powder-orders__action" data-rm-discuss-open="powder-coating">Рассчитать окраску <span aria-hidden="true">↗</span></button>
+					<button type="button" class="rm-powder-orders__action" data-rm-discuss-open="powder-coating"><span>Рассчитать окраску</span><span aria-hidden="true">↗</span></button>
 				</article>
 				<article>
 					<div class="rm-powder-orders__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3H14L19 8V21H5ZM14 3V8H19M8 12H16M8 16H13"/></svg></div>
 					<h3>Заказать изготовление с окраской</h3>
 					<p>Выполняем резку, гибку, сварку, порошковую окраску и сборку на собственном производстве. Можно заказать готовое изделие по чертежу или техническому заданию.</p>
-					<a href="/services/">Услуги металлообработки <span aria-hidden="true">↗</span></a>
+					<a href="/services/"><span>Услуги металлообработки</span><span aria-hidden="true">↗</span></a>
 				</article>
 			</div>
 		</div>

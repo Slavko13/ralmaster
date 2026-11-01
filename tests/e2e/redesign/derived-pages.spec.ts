@@ -137,6 +137,10 @@ test.describe('P0 redesigned derived pages', () => {
       await page.goto(category.path, { waitUntil: 'networkidle' });
       const root = page.locator('[data-rm-product-category]');
       await expect(root.locator('h1')).toHaveText(category.title);
+      await expect(
+        root.locator('.rm-product-category__breadcrumb > span[aria-hidden="true"]'),
+      ).toHaveText(['/', '/']);
+      await expect(root.getByText('Каталог продукции', { exact: true })).toHaveCount(0);
       await expect(root.locator('.rm-detail-hero')).toHaveCount(0);
       await expect(root.getByText('Рассчитать изготовление', { exact: false })).toHaveCount(0);
       await expect(root.locator('.sidebar .side-menu > li')).toHaveCount(7);

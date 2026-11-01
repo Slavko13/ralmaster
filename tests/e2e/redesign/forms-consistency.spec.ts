@@ -49,15 +49,30 @@ async function formSignature(root: Locator) {
       fileContent: (() => {
         const uploader = pick('[data-SID="FILE"] .uploader');
         const filename = pick('[data-SID="FILE"] .uploader .filename');
+        const filenameAfter = filename ? getComputedStyle(filename, '::after') : null;
         return {
           uploaderBefore: uploader ? getComputedStyle(uploader, '::before').content : null,
           uploaderAfter: uploader ? getComputedStyle(uploader, '::after').content : null,
           filenameBefore: filename ? getComputedStyle(filename, '::before').content : null,
-          filenameAfter: filename ? getComputedStyle(filename, '::after').content : null,
+          filenameAfter: filenameAfter?.content ?? null,
+          filenameAfterPosition: filenameAfter?.position ?? null,
         };
       })(),
       consent: styles('.licence_block label'),
       submit: styles('input[type="submit"]'),
+      submitArrow: (() => {
+        const block = pick('.form-footer .inner-table-block:has(input[type="submit"])');
+        const arrow = block ? getComputedStyle(block, '::after') : null;
+        return arrow
+          ? {
+              content: arrow.content,
+              fontSize: arrow.fontSize,
+              lineHeight: arrow.lineHeight,
+              top: arrow.top,
+              transform: arrow.transform,
+            }
+          : null;
+      })(),
     };
   });
 }
@@ -114,6 +129,7 @@ function expectSharedContract(signature: Awaited<ReturnType<typeof formSignature
     uploaderAfter: 'none',
     filenameBefore: '""',
     filenameAfter: '"Прикрепить файлы"',
+    filenameAfterPosition: 'static',
   });
   expect(signature.consent).toMatchObject({
     fontFamily: 'Onest, Arial, sans-serif',
@@ -136,6 +152,12 @@ function expectSharedContract(signature: Awaited<ReturnType<typeof formSignature
     padding: '0px 56px 0px 22px',
     height: 60,
   });
+  expect(signature.submitArrow).toMatchObject({
+    content: '"↗"',
+    fontSize: '26px',
+    lineHeight: '26px',
+  });
+  expect(signature.submitArrow?.transform).not.toBe('none');
 }
 
 async function expectBlueConsent(root: Locator) {

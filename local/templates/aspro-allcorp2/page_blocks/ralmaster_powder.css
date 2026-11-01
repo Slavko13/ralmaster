@@ -663,6 +663,20 @@
   text-align: left;
 }
 
+.rm-powder-orders__grid a > span,
+.rm-powder-orders__grid button > span {
+  display: inline-block;
+  transform: translateY(0);
+  transition: transform .18s ease;
+}
+
+.rm-powder-orders__grid a:hover > span,
+.rm-powder-orders__grid a:focus-visible > span,
+.rm-powder-orders__grid button:hover > span,
+.rm-powder-orders__grid button:focus-visible > span {
+  transform: translateY(-4px);
+}
+
 .rm-powder-estimate {
   height: 850px;
   padding: 56px 0;

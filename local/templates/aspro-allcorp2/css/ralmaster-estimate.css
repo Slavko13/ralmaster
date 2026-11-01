@@ -228,7 +228,11 @@
 }
 
 [data-rm-estimate-form] [data-SID="FILE"] .uploader .filename::after {
+  position: static !important;
+  z-index: auto !important;
+  inset: auto !important;
   display: block !important;
+  flex: 0 0 auto !important;
   color: #344b6a !important;
   content: "Прикрепить файлы" !important;
   font: 500 14px/20px var(--rm-font-body, Onest, Arial, sans-serif) !important;
@@ -281,15 +285,17 @@
   height: 0 !important;
 }
 
-[data-rm-estimate-form] .form-footer .inner-table-block:has(input[type="submit"])::after {
+[data-rm-estimate-form][data-rm-estimate-context] .form-footer .inner-table-block:has(input[type="submit"])::after {
   position: absolute !important;
   z-index: 2 !important;
-  top: 19px !important;
-  right: 20px !important;
+  top: 50% !important;
+  right: 22px !important;
+  bottom: auto !important;
   display: block !important;
   color: #fff !important;
   content: "↗" !important;
-  font: 400 22px/22px Arial, sans-serif !important;
+  font: 400 26px/26px Arial, sans-serif !important;
+  transform: translateY(-50%) !important;
   pointer-events: none !important;
 }
 

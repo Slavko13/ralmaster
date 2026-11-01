@@ -45,16 +45,6 @@
   color: var(--rm-product-blue) !important;
 }
 
-.rm-product-category__header p {
-  margin: 0 0 8px;
-  color: var(--rm-product-blue);
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
 .rm-product-category__header h1 {
   margin: 0;
   color: var(--rm-product-ink);
