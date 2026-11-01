@@ -153,13 +153,39 @@
 .rm-discuss__form .form.contacts.error form,
 .rm-discuss__form .form.contacts.error form > .row,
 .rm-discuss__form .form.contacts.error form > .row > .col-md-8,
-.rm-discuss__form .form.contacts.error form > .row > .col-md-8 > .row {
+.rm-discuss__form .form.contacts.error form > .row > .col-md-8 > .row,
+.rm-discuss__form:has(.rm-estimate-error) > [id^="comp_"],
+.rm-discuss__form:has(.rm-estimate-error) > [id^="comp_"] > [id^="comp_"],
+.rm-discuss__form:has(.rm-estimate-error) .rm-discuss__legacy-contact-form,
+.rm-discuss__form:has(.rm-estimate-error) .rm-discuss__legacy-contact-form > .styled-block1,
+.rm-discuss__form:has(.rm-estimate-error) .rm-discuss__legacy-contact-form > .styled-block1 > .maxwidth-theme,
+.rm-discuss__form:has(.rm-estimate-error) .form.contacts,
+.rm-discuss__form:has(.rm-estimate-error) form,
+.rm-discuss__form:has(.rm-estimate-error) form > .row,
+.rm-discuss__form:has(.rm-estimate-error) form > .row > .col-md-8,
+.rm-discuss__form:has(.rm-estimate-error) form > .row > .col-md-8 > .row {
   height: auto !important;
   min-height: 0 !important;
 }
 
-.rm-discuss__form:has(.form.contacts.error) {
+.rm-discuss__form:has(.form.contacts.error),
+.rm-discuss__form:has(.rm-estimate-error) {
+  overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.rm-discuss__form:has(.rm-estimate-error) form > .row > .col-md-8 > .row > [class*="col-"]:has(.row[data-SID]) {
+  height: auto !important;
+  grid-template-rows: none;
+  grid-auto-rows: auto;
+}
+
+.rm-discuss__form:has(.rm-estimate-error) form .row[data-SID],
+.rm-discuss__form:has(.rm-estimate-error) form .row[data-SID] > [class*="col-"],
+.rm-discuss__form:has(.rm-estimate-error) .form-group {
+  height: auto !important;
+  min-height: 0 !important;
 }
 
 .rm-discuss__form .form.contacts.error .form-error {

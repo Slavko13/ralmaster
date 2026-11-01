@@ -166,6 +166,31 @@ for (const dialogCase of cases) {
     await expect(dialog.locator('[data-SID="TASK"] .rm-estimate-error')).toBeVisible();
     expect(postRequests).toEqual([]);
 
+    const formViewport = dialog.locator('.rm-discuss__form');
+    await expect(formViewport).toHaveCSS('overflow-y', 'auto');
+    const submit = dialog.locator('input[type="submit"]');
+    await submit.scrollIntoViewIfNeeded();
+    const validationGeometry = await dialog.evaluate((node) => {
+      const form = node.querySelector<HTMLElement>('.rm-discuss__form')!;
+      const submitControl = node.querySelector<HTMLElement>('input[type="submit"]')!;
+      const note = node.querySelector<HTMLElement>('.rm-discuss__note')!;
+      const formBox = form.getBoundingClientRect();
+      const submitBox = submitControl.getBoundingClientRect();
+      const noteBox = note.getBoundingClientRect();
+      return {
+        formBottom: Math.round(formBox.bottom),
+        submitTop: Math.round(submitBox.top),
+        submitBottom: Math.round(submitBox.bottom),
+        noteTop: Math.round(noteBox.top),
+        scrollHeight: form.scrollHeight,
+        clientHeight: form.clientHeight,
+      };
+    });
+    expect(validationGeometry.scrollHeight).toBeGreaterThan(validationGeometry.clientHeight);
+    expect(validationGeometry.submitTop).toBeGreaterThanOrEqual(0);
+    expect(validationGeometry.submitBottom).toBeLessThanOrEqual(validationGeometry.formBottom);
+    expect(validationGeometry.noteTop).toBeGreaterThanOrEqual(validationGeometry.formBottom);
+
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
   });
@@ -222,6 +247,45 @@ test('P0 @mobile calculation dialogs stay inside a 390 px viewport', async ({ pa
     }
     await page.keyboard.press('Escape');
   }
+});
+
+test('product dialog keeps its submit control reachable after validation at the desktop breakpoint', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 768, height: 943 });
+  await page.goto('/product/', { waitUntil: 'domcontentloaded' });
+  await page.locator('[data-rm-discuss-open="product"]').first().click();
+
+  const dialog = page.locator('dialog[data-rm-discuss-variant="product"]');
+  const formViewport = dialog.locator('.rm-discuss__form');
+  const submit = dialog.locator('input[type="submit"]');
+  await submit.click();
+  await expect(dialog.locator('.rm-estimate-error')).toHaveCount(2);
+  await expect(formViewport).toHaveCSS('overflow-y', 'auto');
+
+  await submit.scrollIntoViewIfNeeded();
+  const geometry = await dialog.evaluate((node) => {
+    const form = node.querySelector<HTMLElement>('.rm-discuss__form')!;
+    const submitControl = node.querySelector<HTMLElement>('input[type="submit"]')!;
+    const note = node.querySelector<HTMLElement>('.rm-discuss__note')!;
+    const formBox = form.getBoundingClientRect();
+    const submitBox = submitControl.getBoundingClientRect();
+    const noteBox = note.getBoundingClientRect();
+    return {
+      formTop: Math.round(formBox.top),
+      formBottom: Math.round(formBox.bottom),
+      submitTop: Math.round(submitBox.top),
+      submitBottom: Math.round(submitBox.bottom),
+      noteTop: Math.round(noteBox.top),
+      scrollHeight: form.scrollHeight,
+      clientHeight: form.clientHeight,
+    };
+  });
+
+  expect(geometry.scrollHeight).toBeGreaterThan(geometry.clientHeight);
+  expect(geometry.submitTop).toBeGreaterThanOrEqual(geometry.formTop);
+  expect(geometry.submitBottom).toBeLessThanOrEqual(geometry.formBottom);
+  expect(geometry.noteTop).toBeGreaterThanOrEqual(geometry.formBottom);
 });
 
 test('submits a Telegram request without a name or attachment', async ({ page }) => {
