@@ -210,7 +210,7 @@
 
 .rm-powder-accepted__card {
   display: grid;
-  grid-template-rows: 254px 147px;
+  grid-template-rows: 74px 254px 73px;
   min-width: 0;
   background: #fff;
   transition: box-shadow 180ms ease, transform 180ms ease;
@@ -229,20 +229,26 @@
   background: #fff;
 }
 
-.rm-powder-accepted__card > div {
-  padding: 26px 28px 28px;
+.rm-powder-accepted__card-heading {
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
 }
 
 .rm-powder-accepted__card h3 {
-  padding-bottom: 12px;
   font-family: var(--rm-font-heading, "Inter Tight", Arial, sans-serif);
   font-size: 26px;
   font-weight: 600;
   line-height: 33px;
 }
 
+.rm-powder-accepted__card-description {
+  display: flex;
+  align-items: center;
+  padding: 12px 28px 13px;
+}
+
 .rm-powder-accepted__card p {
-  min-height: 48px;
   color: #526073;
   font-size: 16px;
   line-height: 24px;

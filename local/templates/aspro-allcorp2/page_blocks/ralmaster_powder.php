@@ -134,9 +134,11 @@ $rmExamples = array(
 			<div class="rm-powder-accepted__cards">
 				<?foreach ($rmAcceptedItems as $rmItem):?>
 					<article class="rm-powder-accepted__card">
-						<img src="<?=htmlspecialcharsbx($rmAssetRoot.$rmItem['image'])?>" alt="<?=htmlspecialcharsbx($rmItem['alt'])?>" style="object-fit: <?=$rmItem['fit']?>" loading="lazy">
-						<div>
+						<div class="rm-powder-accepted__card-heading">
 							<h3><?=htmlspecialcharsbx($rmItem['title'])?></h3>
+						</div>
+						<img src="<?=htmlspecialcharsbx($rmAssetRoot.$rmItem['image'])?>" alt="<?=htmlspecialcharsbx($rmItem['alt'])?>" style="object-fit: <?=$rmItem['fit']?>" loading="lazy">
+						<div class="rm-powder-accepted__card-description">
 							<p><?=htmlspecialcharsbx($rmItem['text'])?></p>
 						</div>
 					</article>

@@ -427,3 +427,52 @@
 - **Оставшиеся ограничения:** hover не применяется на touch-only устройствах;
   это ожидаемо, а мобильная статическая композиция проверена отдельно.
 - **Статус:** `PASSED`.
+
+## Итерация 25 — Карточки окраски и возврат каталога с корзиной (2026-11-01)
+
+- **Цель:** сделать карточки «Какие изделия принимаем на окраску» визуально
+  завершёнными по прямому запросу владельца и вернуть утраченную после
+  редизайна возможность выбирать готовые изделия и добавлять их в корзину.
+- **Область изменений:** accepted-products на `/painting/` и общем powder
+  detail route; динамическая категория `/product/pannier/`; существующая
+  Bitrix-корзина `/cart/`; desktop/mobile представление каталога.
+- **Связанные макеты Paper:** `Порошковая окраска`, accepted-products; общая
+  структура карточек из фрейма `Продукция`. Порядок title/image/description
+  является явной коррекцией владельца поверх ранее подтверждённого макета.
+- **Затронутые файлы и компоненты:** `ralmaster_powder.php/.css`;
+  `section_product_paper.php`; общий `ralmaster_detail.php/.css`;
+  `painting.spec.ts`; `derived-pages.spec.ts`; журналы прогресса.
+- **Функциональные автотесты:** три динамических товара из IBlock; постоянно
+  видимая desktop/mobile CTA корзины; add-to-cart и переключение на «В
+  корзине»; фактическое наличие выбранного товара на `/cart/`; точный порядок
+  heading/image/description; responsive overflow и browser diagnostics в
+  существующем suite.
+- **Визуальные проверки:** локальные captures
+  `test-results/powder-accepted-title-image-description.png`,
+  `pannier-catalog-restored-desktop.png`,
+  `pannier-catalog-restored-mobile.png` и
+  `pannier-card-desktop-final.png`; проверены 1440 и 390 px.
+- **Критерии приёмки:** у каждой powder-card заголовок расположен над
+  изображением, описание — под ним; redesign category не прерывает штатный
+  Bitrix listing; товары, статус, количество и корзина остаются динамическими;
+  desktop CTA не требует hover; на мобильном нет horizontal overflow.
+- **Фактический результат:** три powder-card используют ряды 74/254/73 px при
+  сохранённой общей высоте 401 px. Ранний возврат custom section template
+  больше не отбрасывает catalog result: штатный `catalog_table_2` встроен в
+  новую дизайн-систему. На `/product/pannier/` доступны КДК 3/2/1, счётчик
+  `− 1 +`, кнопка «В корзину» и переход в существующую `/cart/`. Desktop и
+  mobile end-to-end flow подтверждён реальным товаром. PHP lint **3/3 PASS**;
+  полный связанный suite **20/20 PASS**; финальный targeted повтор **3/3 PASS**.
+- **Обнаруженные дефекты:** custom section template выполнял `return` до
+  стандартного `$itemsCnt` rendering; старый `.footer-button` имел
+  `display:none`/`opacity:0` вне hover; clearfix pseudo-elements ломали grid
+  счётчика; accepted-card показывала объединённый нижний content-block и
+  воспринималась как обрезанная.
+- **Исправленные дефекты:** live Bitrix component подключён без статических
+  копий товара; старые hover-only и clearfix rules локально нейтрализованы;
+  quantity control выровнен и сохраняет исходный JS; powder-card получила
+  явные heading и description rows.
+- **Оставшиеся ограничения:** данные, цены и наличие зависят от наполнения
+  IBlock; успешная отправка форм/mail/CRM не выполнялась; Lighthouse остаётся
+  приостановлен по указанию владельца.
+- **Статус:** `PASSED`.

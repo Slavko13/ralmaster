@@ -21,6 +21,21 @@ if ($rmProductImage === '') {
 	$rmProductImage = SITE_TEMPLATE_PATH.'/images/ralmaster/'.($rmProductImages[$rmProductCode] ?? 'products/drip-edges.webp');
 }
 
+$rmProductCatalogHtml = '';
+if ($itemsCnt) {
+	$display = 'table';
+	$sort = 'SORT';
+	$order = 'ASC';
+	$isAjax = 'N';
+	$arAvailableSort = array(
+		'SORT' => array('SORT' => 'SORT'),
+	);
+
+	ob_start();
+	include __DIR__.'/catalog_table_2.php';
+	$rmProductCatalogHtml = trim((string)ob_get_clean());
+}
+
 $rmDetailPage = array(
 	'context' => 'product-detail',
 	'attribute' => 'data-rm-product-detail',
@@ -49,6 +64,9 @@ $rmDetailPage = array(
 	),
 	'contact_title' => 'Отправьте чертёж на расчёт',
 	'contact_text' => 'Приложите документацию и укажите количество. Если чертежа пока нет, опишите задачу — менеджер поможет собрать исходные данные.',
+	'catalog_html' => $rmProductCatalogHtml,
+	'catalog_title' => 'Готовые изделия',
+	'catalog_text' => 'Выберите готовое изделие, откройте подробные характеристики или добавьте позицию в корзину.',
 );
 
 require $_SERVER['DOCUMENT_ROOT'].SITE_TEMPLATE_PATH.'/page_blocks/ralmaster_detail.php';

@@ -273,6 +273,26 @@ Legacy `header_fixed` теперь не рендерится только при
   PASS**; axe, intermediate breakpoint, browser diagnostics и overflow входят
   в пройденный набор.
 
+## Карточки окраски и возврат товарной корзины — 2026-11-01
+
+- В accepted-products порошковой окраски заголовок каждой карточки перенесён
+  над изображением, а описание оставлено отдельным нижним блоком; общая
+  геометрия карточки 421×401 px и общий hover сохранены.
+- Подтверждена причина потери старой корзины: custom product section делал
+  ранний `return` и не выводил динамический результат `catalog_table_2`.
+- На `/product/pannier/` в новый интерфейс возвращены три реальные позиции
+  IBlock, статусы наличия, ссылки на detail, счётчик количества и штатный
+  add-to-cart. `/cart/` остаётся существующей динамической Bitrix-корзиной.
+- Legacy desktop `display:none`/`opacity:0` устранён локально: `− 1 +` и синяя
+  кнопка «В корзину» видны постоянно, а не только при наведении; mobile
+  использует компактную полноширинную кнопку.
+- Проверки: PHP lint **3/3 PASS**; связанная regression painting/derived pages
+  **20/20 PASS**; повторный desktop/mobile product flow и geometry gate
+  **3/3 PASS**; horizontal overflow и browser errors отсутствуют.
+- Visual QA: `test-results/powder-accepted-title-image-description.png`,
+  `pannier-catalog-restored-desktop.png`,
+  `pannier-catalog-restored-mobile.png`, `pannier-card-desktop-final.png`.
+
 ## Следующий допустимый шаг
 
 ### Коррекция header — 2026-10-31

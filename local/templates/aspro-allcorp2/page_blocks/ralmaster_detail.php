@@ -25,6 +25,9 @@ $rmDetailPage += array(
 	'process' => array(),
 	'contact_title' => 'Обсудить задачу',
 	'contact_text' => '',
+	'catalog_html' => '',
+	'catalog_title' => 'Готовые изделия',
+	'catalog_text' => '',
 	'dialog' => array(),
 );
 
@@ -38,6 +41,7 @@ $rmDetailEscape = static function ($value) {
 	return htmlspecialcharsbx((string)$value);
 };
 $rmDetailDescription = trim((string)$rmDetailPage['description_html']);
+$rmDetailCatalogHtml = trim((string)$rmDetailPage['catalog_html']);
 $rmDetailAttribute = preg_replace('/[^a-zA-Z0-9_-]/', '', (string)$rmDetailPage['attribute']);
 ?>
 <main class="rm-detail-page rm-detail-page--<?=$rmDetailEscape($rmDetailPage['context'])?>" <?=$rmDetailAttribute?>="true">
@@ -62,6 +66,21 @@ $rmDetailAttribute = preg_replace('/[^a-zA-Z0-9_-]/', '', (string)$rmDetailPage[
 			</div>
 		</div>
 	</section>
+
+	<?if ($rmDetailCatalogHtml !== ''):?>
+		<section class="rm-detail-catalog" data-rm-product-catalog aria-labelledby="rm-detail-catalog-title">
+			<div class="rm-detail-container">
+				<header class="rm-detail-catalog__heading">
+					<div>
+						<p class="rm-detail-kicker">Каталог</p>
+						<h2 id="rm-detail-catalog-title"><?=$rmDetailEscape($rmDetailPage['catalog_title'])?></h2>
+					</div>
+					<p><?=$rmDetailEscape($rmDetailPage['catalog_text'])?></p>
+				</header>
+				<div class="rm-detail-catalog__body"><?=$rmDetailCatalogHtml?></div>
+			</div>
+		</section>
+	<?endif;?>
 
 	<section class="rm-detail-about" aria-labelledby="rm-detail-about-title">
 		<div class="rm-detail-container rm-detail-about__layout">

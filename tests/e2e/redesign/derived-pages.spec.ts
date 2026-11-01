@@ -45,6 +45,27 @@ async function attachDiagnostics(testInfo: TestInfo, diagnostics: BrowserDiagnos
   });
 }
 
+async function expectProductBasketFlow(page: Page): Promise<void> {
+  await page.goto('/product/pannier/', { waitUntil: 'networkidle' });
+
+  const catalog = page.locator('[data-rm-product-catalog]');
+  await expect(catalog).toBeVisible();
+  const products = catalog.locator('.catalog_table_2 .item');
+  await expect(products).toHaveCount(3);
+
+  const firstProduct = products.first();
+  const productName = (await firstProduct.locator('.title').innerText()).trim();
+  const addButton = firstProduct.locator('.to_cart');
+  await expect(firstProduct.locator('.footer-button')).toHaveCSS('opacity', '1');
+  await expect(addButton).toBeVisible();
+  await addButton.click();
+  await expect(firstProduct.locator('.in_cart')).toBeVisible();
+
+  await page.goto('/cart/', { waitUntil: 'networkidle' });
+  await expect(page.locator('[data-rm-system-page="cart"]')).toBeVisible();
+  await expect(page.getByText(productName, { exact: false }).first()).toBeVisible();
+}
+
 test.describe('P0 redesigned derived pages', () => {
   for (const route of routes) {
     test(`${route.path} uses the new Paper system without legacy body`, async ({ page, request }) => {
@@ -89,6 +110,18 @@ test.describe('P0 redesigned derived pages', () => {
       expect(postRequests).toEqual([]);
       await dialog.locator('[data-rm-discuss-close]').click();
     }
+  });
+
+  test('redesigned product category keeps live Bitrix products and basket flow', async ({
+    page,
+  }) => {
+    await expectProductBasketFlow(page);
+  });
+
+  test('P0 @mobile redesigned product category keeps live products and basket flow', async ({
+    page,
+  }) => {
+    await expectProductBasketFlow(page);
   });
 
   test('desktop dialog remains reachable in a short viewport', async ({ page }) => {

@@ -96,7 +96,7 @@ test.describe('P0 redesigned powder coating page', () => {
     );
   });
 
-  test('matches the Paper accepted-products cards and uses the shared hover motion', async ({
+  test('places accepted-product titles above images and descriptions below', async ({
     page,
   }) => {
     await page.goto('/painting/', { waitUntil: 'networkidle' });
@@ -105,8 +105,11 @@ test.describe('P0 redesigned powder coating page', () => {
       const heading = section.querySelector<HTMLElement>('h2')!;
       const grid = section.querySelector<HTMLElement>('.rm-powder-accepted__cards')!;
       const card = grid.querySelector<HTMLElement>('.rm-powder-accepted__card')!;
+      const cardHeading = card.querySelector<HTMLElement>('.rm-powder-accepted__card-heading')!;
       const image = card.querySelector<HTMLElement>('img')!;
-      const body = card.querySelector<HTMLElement>(':scope > div')!;
+      const description = card.querySelector<HTMLElement>(
+        '.rm-powder-accepted__card-description',
+      )!;
       const measure = (element: HTMLElement) => {
         const box = element.getBoundingClientRect();
         return { width: Math.round(box.width), height: Math.round(box.height) };
@@ -117,8 +120,12 @@ test.describe('P0 redesigned powder coating page', () => {
         headingPaddingBottom: getComputedStyle(heading).paddingBottom,
         grid: measure(grid),
         card: measure(card),
+        cardHeading: measure(cardHeading),
         image: measure(image),
-        body: measure(body),
+        description: measure(description),
+        childOrder: Array.from(card.children).map((child) =>
+          child instanceof HTMLImageElement ? child.tagName : child.className,
+        ),
       };
     });
 
@@ -128,8 +135,14 @@ test.describe('P0 redesigned powder coating page', () => {
       headingPaddingBottom: '32px',
       grid: { width: 1312, height: 401 },
       card: { width: 421, height: 401 },
+      cardHeading: { width: 421, height: 74 },
       image: { width: 421, height: 254 },
-      body: { width: 421, height: 147 },
+      description: { width: 421, height: 73 },
+      childOrder: [
+        'rm-powder-accepted__card-heading',
+        'IMG',
+        'rm-powder-accepted__card-description',
+      ],
     });
 
     const card = page.locator('.rm-powder-accepted__card').first();
