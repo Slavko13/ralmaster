@@ -287,6 +287,14 @@ test.describe('P0 redesigned home', () => {
     await expect(success.getByRole('heading')).toHaveText('Ваша заявка принята');
     await expect(success.getByText(/Спасибо, Мария!/)).toBeVisible();
     await expect(formRoot.locator('form')).toBeVisible();
+    await expect(formRoot.locator('[data-SID="NAME"] input')).toHaveValue('');
+    await expect(formRoot.locator('[data-SID="CONTACT"] input')).toHaveValue('');
+    await expect(formRoot.locator('[data-SID="TASK"] textarea')).toHaveValue('');
+    await expect(formRoot.locator('.licence_block input[type="checkbox"]')).not.toBeChecked();
+    await expect(formRoot.getByRole('radio', { name: 'Telegram' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
     await expect(formRoot.locator('.form.contacts.success')).toHaveCount(0);
     await success.getByRole('button', { name: 'ОК' }).click();
     await expect(success).toBeHidden();

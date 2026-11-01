@@ -204,6 +204,30 @@
     dialog.querySelector('[data-rm-estimate-success-close]').focus();
   }
 
+  function resetEstimateForm(root, form) {
+    form.reset();
+    root.querySelectorAll('[data-SID]').forEach(clearError);
+
+    var status = form.querySelector('[data-rm-submit-status]');
+    if (status) status.remove();
+
+    var chooser = root.querySelector('[data-rm-contact-methods]');
+    var defaultMethod = chooser
+      ? chooser.querySelector('[data-rm-contact-method="telegram"]') || chooser.querySelector('[role="radio"]')
+      : null;
+    if (defaultMethod) defaultMethod.click();
+
+    setContext(root);
+  }
+
+  function closeEstimateDialog(root) {
+    var dialog = root.closest('dialog[data-rm-discuss-dialog]');
+    if (!dialog || !dialog.hasAttribute('open')) return;
+
+    if (typeof dialog.close === 'function') dialog.close();
+    else dialog.removeAttribute('open');
+  }
+
   function showSubmitError(form, message) {
     var status = form.querySelector('[data-rm-submit-status]');
     if (!status) {
@@ -254,6 +278,8 @@
       var success = /(?:[?&])formresult=addok(?:&|$)/.test(result.url) ||
         Boolean(responseDocument.querySelector('.form.contacts.success'));
       if (!result.ok || !success) throw new Error('server-validation');
+      resetEstimateForm(root, form);
+      closeEstimateDialog(root);
       showSuccessDialog(customerName);
     }).catch(function (error) {
       var message = error && error.name === 'AbortError'
@@ -379,6 +405,7 @@
       var button = document.createElement('button');
       button.type = 'button';
       button.className = 'rm-contact-methods__button rm-contact-methods__button--' + method.value;
+      button.setAttribute('data-rm-contact-method', method.value);
       button.setAttribute('role', 'radio');
       button.setAttribute('aria-checked', index === 0 ? 'true' : 'false');
       button.tabIndex = index === 0 ? 0 : -1;

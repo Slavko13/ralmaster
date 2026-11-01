@@ -248,9 +248,13 @@ test('submits a valid request without an attachment', async ({ page }) => {
   await expect(success).toBeVisible({ timeout: 15_000 });
   await expect(success.getByRole('heading')).toHaveText('Ваша заявка принята');
   await expect(success.getByText(/Спасибо, Тест формы!/)).toBeVisible();
-  await expect(dialog.locator('form')).toBeVisible();
+  await expect(dialog).toBeHidden();
+  await expect(dialog.locator('[data-SID="NAME"] input')).toHaveValue('');
+  await expect(dialog.locator('[data-SID="CONTACT"] input')).toHaveValue('');
+  await expect(dialog.locator('[data-SID="TASK"] textarea')).toHaveValue('');
+  await expect(dialog.locator('.licence_block input[type="checkbox"]')).not.toBeChecked();
   await expect(dialog.locator('.form.contacts.success')).toHaveCount(0);
   await success.getByRole('button', { name: 'ОК' }).click();
   await expect(success).toBeHidden();
-  await expect(dialog).toBeVisible();
+  await expect(dialog).toBeHidden();
 });

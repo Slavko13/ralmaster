@@ -265,6 +265,19 @@ test.describe('Redesigned production root', () => {
     await details.nth(1).locator('summary').click();
     await expect(details.nth(1)).toHaveAttribute('open', '');
     await expect(details.nth(0)).not.toHaveAttribute('open', '');
+
+    const geometry = await faq.evaluate((section) => {
+      const sectionBox = section.getBoundingClientRect();
+      const listBox = section.querySelector('.rm-production-faq__list')!.getBoundingClientRect();
+      const lastItemBox = section.querySelector('details:last-child')!.getBoundingClientRect();
+      return {
+        sectionBottom: sectionBox.bottom,
+        listBottom: listBox.bottom,
+        lastItemBottom: lastItemBox.bottom,
+      };
+    });
+    expect(geometry.sectionBottom).toBeGreaterThanOrEqual(geometry.listBottom);
+    expect(geometry.listBottom).toBeGreaterThanOrEqual(geometry.lastItemBottom);
   });
 
   test('opens the shared production estimate form without submitting', async ({ page }) => {

@@ -605,7 +605,7 @@
 }
 
 .rm-production-faq {
-  height: 810px;
+  min-height: 810px;
   padding: 72px 0;
   color: #f4f7fc;
   background: #111e35;
@@ -618,7 +618,7 @@
 }
 
 .rm-production-faq__list {
-  height: 578px;
+  min-height: 578px;
   border: 1px solid #3a4a63;
 }
 
