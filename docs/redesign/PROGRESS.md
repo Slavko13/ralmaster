@@ -259,6 +259,20 @@ Legacy `header_fixed` теперь не рендерится только при
   PASS**; mobile targeted **3/3 PASS**; intermediate 768/1024/1288 px вошли в
   desktop suite; horizontal overflow и browser diagnostics отсутствуют.
 
+## Единый hover карточек окраски и продукции проектов — 2026-11-01
+
+- Блок «Какие изделия принимаем на окраску» повторно сверен с Paper и закреплён
+  geometry-тестом: секция 1440×878, grid 1312×401, карточки 421×401,
+  изображения 421×254 и content 421×147.
+- Три карточки окраски получили общий hover сайта: подъём 2 px и тень
+  `0 8px 22px rgba(17,30,53,.08)` без изменения размеров и положения соседей.
+- В product-блоке `/projects/` удалено отличавшееся увеличение только картинки;
+  теперь hover/focus применяется ко всей карточке тем же эффектом. Добавлен
+  `prefers-reduced-motion` fallback для обеих групп.
+- Проверки: desktop painting/projects **22/22 PASS**; mobile targeted **4/4
+  PASS**; axe, intermediate breakpoint, browser diagnostics и overflow входят
+  в пройденный набор.
+
 ## Следующий допустимый шаг
 
 ### Коррекция header — 2026-10-31

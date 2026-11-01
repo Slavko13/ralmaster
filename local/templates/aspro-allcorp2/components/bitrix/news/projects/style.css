@@ -283,6 +283,15 @@
   flex-direction: column;
   background: #fff;
   color: #111e35;
+  transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.rm-projects-product-card:hover,
+.rm-projects-product-card:focus-visible {
+  z-index: 1;
+  outline: 0;
+  box-shadow: 0 8px 22px rgba(17, 30, 53, 0.08);
+  transform: translateY(-2px);
 }
 
 .rm-projects-product-card__header {
@@ -317,11 +326,17 @@
   height: 316px;
   flex: 0 0 316px;
   object-fit: contain;
-  transition: transform 240ms ease;
 }
 
-.rm-projects-product-card:hover img {
-  transform: scale(1.015);
+@media (prefers-reduced-motion: reduce) {
+  .rm-projects-product-card {
+    transition: none;
+  }
+
+  .rm-projects-product-card:hover,
+  .rm-projects-product-card:focus-visible {
+    transform: none;
+  }
 }
 
 .rm-projects-product-card__body {

@@ -395,3 +395,35 @@
   state-changing submit/mail/CRM не выполнялся; Lighthouse остаётся
   приостановлен по указанию владельца.
 - **Статус:** `PASSED`.
+
+## Итерация 24 — Единая hover-модель карточек (2026-11-01)
+
+- **Цель:** сохранить точную композицию accepted-products из Paper и
+  унифицировать hover этой группы и product cards на `/projects/`.
+- **Область изменений:** три карточки «Какие изделия принимаем на окраску»;
+  три карточки «Продукция» в listing реализованных проектов; reduced-motion.
+- **Связанные макеты Paper:** `Порошковая окраска`, accepted-products 1440×878;
+  `Реализованные проекты`, product section 1440×696.
+- **Затронутые файлы и компоненты:** `ralmaster_powder.css`;
+  `projects/style.css`; `painting.spec.ts`; `projects.spec.ts`; журналы
+  прогресса.
+- **Функциональные автотесты:** точные размеры accepted section/grid/card/image/
+  body; computed hover transform/shadow; отсутствие image-only transform;
+  desktop/mobile overflow, browser diagnostics и axe в существующем scope.
+- **Визуальные проверки:** Paper MCP screenshot/JSX/computed styles accepted
+  section; локальные Chrome captures hovered accepted-card и project product-card
+  при 1440 px.
+- **Критерии приёмки:** статическое состояние accepted cards совпадает с Paper;
+  обе группы используют один эффект без layout shift; старый image zoom projects
+  отсутствует; reduced-motion отключает перемещение.
+- **Фактический результат:** точная Paper-геометрия accepted section подтверждена
+  и закреплена тестом. Обе группы используют `translateY(-2px)` и мягкую тень с
+  transition 180 ms; product image больше не масштабируется отдельно. Desktop
+  suite **22/22 PASS**, mobile targeted **4/4 PASS**.
+- **Обнаруженные дефекты:** accepted cards не имели hover feedback; product cards
+  проектов использовали отличный от сайта `scale(1.015)` только на изображении.
+- **Исправленные дефекты:** добавлена общая card-level animation и
+  `prefers-reduced-motion`; разнородный zoom удалён; geometry Paper не изменена.
+- **Оставшиеся ограничения:** hover не применяется на touch-only устройствах;
+  это ожидаемо, а мобильная статическая композиция проверена отдельно.
+- **Статус:** `PASSED`.

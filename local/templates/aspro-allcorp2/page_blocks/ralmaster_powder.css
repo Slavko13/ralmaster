@@ -213,6 +213,13 @@
   grid-template-rows: 254px 147px;
   min-width: 0;
   background: #fff;
+  transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.rm-powder-accepted__card:hover {
+  z-index: 1;
+  box-shadow: 0 8px 22px rgba(17, 30, 53, 0.08);
+  transform: translateY(-2px);
 }
 
 .rm-powder-accepted__card > img {
@@ -239,6 +246,16 @@
   color: #526073;
   font-size: 16px;
   line-height: 24px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rm-powder-accepted__card {
+    transition: none;
+  }
+
+  .rm-powder-accepted__card:hover {
+    transform: none;
+  }
 }
 
 .rm-powder-dimensions {

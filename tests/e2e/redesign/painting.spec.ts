@@ -96,6 +96,49 @@ test.describe('P0 redesigned powder coating page', () => {
     );
   });
 
+  test('matches the Paper accepted-products cards and uses the shared hover motion', async ({
+    page,
+  }) => {
+    await page.goto('/painting/', { waitUntil: 'networkidle' });
+
+    const geometry = await page.locator('.rm-powder-accepted').evaluate((section) => {
+      const heading = section.querySelector<HTMLElement>('h2')!;
+      const grid = section.querySelector<HTMLElement>('.rm-powder-accepted__cards')!;
+      const card = grid.querySelector<HTMLElement>('.rm-powder-accepted__card')!;
+      const image = card.querySelector<HTMLElement>('img')!;
+      const body = card.querySelector<HTMLElement>(':scope > div')!;
+      const measure = (element: HTMLElement) => {
+        const box = element.getBoundingClientRect();
+        return { width: Math.round(box.width), height: Math.round(box.height) };
+      };
+      return {
+        section: measure(section as HTMLElement),
+        heading: measure(heading),
+        headingPaddingBottom: getComputedStyle(heading).paddingBottom,
+        grid: measure(grid),
+        card: measure(card),
+        image: measure(image),
+        body: measure(body),
+      };
+    });
+
+    expect(geometry).toEqual({
+      section: { width: 1440, height: 878 },
+      heading: { width: 1312, height: 88 },
+      headingPaddingBottom: '32px',
+      grid: { width: 1312, height: 401 },
+      card: { width: 421, height: 401 },
+      image: { width: 421, height: 254 },
+      body: { width: 421, height: 147 },
+    });
+
+    const card = page.locator('.rm-powder-accepted__card').first();
+    await card.hover();
+    await page.waitForTimeout(220);
+    await expect(card).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, -2)');
+    await expect(card).toHaveCSS('box-shadow', /rgba\(17, 30, 53, 0\.08\).*8px 22px/);
+  });
+
   test('loads all Powder Paper images from local template assets', async ({ page }) => {
     await page.goto('/painting/', { waitUntil: 'networkidle' });
     const images = page.locator('[data-rm-powder-page] img');

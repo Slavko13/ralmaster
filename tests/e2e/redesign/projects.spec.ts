@@ -141,6 +141,19 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     await expect(page.locator('.rm-projects-operation-grid img')).toHaveCount(3);
   });
 
+  test('uses the shared card hover instead of a product-image zoom', async ({ page }) => {
+    await page.goto('/projects/', { waitUntil: 'networkidle' });
+
+    const card = page.locator('.rm-projects-product-card').first();
+    const image = card.locator('img');
+    await card.hover();
+    await page.waitForTimeout(220);
+
+    await expect(card).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, -2)');
+    await expect(card).toHaveCSS('box-shadow', /rgba\(17, 30, 53, 0\.08\).*8px 22px/);
+    await expect(image).toHaveCSS('transform', 'none');
+  });
+
   test('loads localized project assets and keeps product category URLs dynamic', async ({ page }) => {
     await page.goto('/projects/', { waitUntil: 'networkidle' });
 
