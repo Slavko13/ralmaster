@@ -40,19 +40,20 @@ if ($rmDiscussEstimateFormId <= 0 && \Bitrix\Main\Loader::includeModule('form'))
 		$rmDiscussEstimateFormId = (int)$rmDiscussForm['ID'];
 	}
 }
-$rmDiscussHeight = max(640, min(1000, (int)$rmDiscussOptions['height']));
+$rmDiscussHeight = max(712, min(1000, (int)$rmDiscussOptions['height'] + 72));
 $rmDiscussFormHeight = $rmDiscussHeight - 260;
 $rmDiscussFieldsHeight = $rmDiscussFormHeight - 120;
+$rmDiscussContactRowHeight = 160;
 $rmDiscussTaskRowHeight = 148 + (trim((string)$rmDiscussOptions['task_help']) !== '' ? 48 : 0);
 ?>
-<dialog class="rm-discuss" data-rm-discuss-dialog data-rm-discuss-variant="<?=$rmDiscussEscape($rmDiscussOptions['context'])?>" aria-labelledby="<?=$rmDiscussEscape($rmDiscussId)?>-title" style="--rm-discuss-height: <?=$rmDiscussHeight?>px; --rm-discuss-form-height: <?=$rmDiscussFormHeight?>px; --rm-discuss-fields-height: <?=$rmDiscussFieldsHeight?>px; --rm-discuss-task-row-height: <?=$rmDiscussTaskRowHeight?>px;">
+<dialog class="rm-discuss" data-rm-discuss-dialog data-rm-discuss-variant="<?=$rmDiscussEscape($rmDiscussOptions['context'])?>" aria-labelledby="<?=$rmDiscussEscape($rmDiscussId)?>-title" style="--rm-discuss-height: <?=$rmDiscussHeight?>px; --rm-discuss-form-height: <?=$rmDiscussFormHeight?>px; --rm-discuss-fields-height: <?=$rmDiscussFieldsHeight?>px; --rm-discuss-contact-row-height: <?=$rmDiscussContactRowHeight?>px; --rm-discuss-task-row-height: <?=$rmDiscussTaskRowHeight?>px;">
 	<div class="rm-discuss__card">
 		<header class="rm-discuss__header">
 			<h2 id="<?=$rmDiscussEscape($rmDiscussId)?>-title"><?=$rmDiscussEscape($rmDiscussOptions['title'])?></h2>
 			<button type="button" data-rm-discuss-close aria-label="Закрыть форму">×</button>
 		</header>
 		<div class="rm-discuss__intro"><?=$rmDiscussEscape($rmDiscussOptions['intro'])?></div>
-		<div class="rm-discuss__form" data-rm-estimate-form data-rm-estimate-context="<?=$rmDiscussEscape($rmDiscussOptions['context'])?>" aria-label="<?=$rmDiscussEscape($rmDiscussOptions['title'])?>">
+		<div class="rm-discuss__form" data-rm-estimate-form data-rm-communication-selector="true" data-rm-estimate-context="<?=$rmDiscussEscape($rmDiscussOptions['context'])?>" aria-label="<?=$rmDiscussEscape($rmDiscussOptions['title'])?>">
 			<?if ($rmDiscussEstimateFormId > 0):?>
 				<?$APPLICATION->IncludeComponent(
 					'aspro:form.allcorp2',
@@ -166,8 +167,10 @@ $rmDiscussTaskRowHeight = 148 + (trim((string)$rmDiscussOptions['task_help']) !=
 		decorateLabel(name, 'Ваше имя');
 		decoratePlaceholder(name, namePlaceholder);
 		var contact = dialog.querySelector('[data-SID="CONTACT"]');
-		decorateLabel(contact, 'Телефон или электронная почта');
-		decoratePlaceholder(contact, contactPlaceholder);
+		decorateLabel(contact, 'Как вам удобно получить расчёт?');
+		if (contact && !contact.querySelector('[data-rm-contact-methods]')) {
+			decoratePlaceholder(contact, contactPlaceholder);
+		}
 		var task = dialog.querySelector('[data-SID="TASK"]');
 		if (task) {
 			decorateLabel(task, taskLabelText);
@@ -198,6 +201,82 @@ $rmDiscussTaskRowHeight = 148 + (trim((string)$rmDiscussOptions['task_help']) !=
 			consent.setAttribute('data-rm-consent-decorated', 'true');
 		}
 	}
+	function renderSuccess() {
+		var host = dialog.querySelector('.rm-discuss__form');
+		if (!host) { return; }
+		host.innerHTML = '<div class="form contacts success" role="status" aria-live="polite">' +
+			'<div class="form-header"><div class="title">Спасибо! Ваш запрос отправлен.</div>' +
+			'<div class="text_msg">Менеджер свяжется с вами, чтобы уточнить детали.</div></div></div>';
+	}
+	function showSubmitError(form, message) {
+		var status = form.querySelector('[data-rm-submit-status]');
+		if (!status) {
+			status = document.createElement('p');
+			status.className = 'rm-discuss__submit-status';
+			status.setAttribute('data-rm-submit-status', '');
+			status.setAttribute('role', 'alert');
+			form.appendChild(status);
+		}
+		status.textContent = message;
+	}
+	dialog.addEventListener('submit', function (event) {
+		var form = event.target;
+		if (!(form instanceof HTMLFormElement) || !form.closest('.rm-discuss__form')) { return; }
+		if (typeof window.fetch !== 'function' || typeof window.FormData !== 'function') { return; }
+
+		event.preventDefault();
+		event.stopImmediatePropagation();
+
+		var submit = event.submitter || form.querySelector('input[type="submit"], button[type="submit"]');
+		if (!submit || submit.disabled) { return; }
+		var originalText = submit.value || submit.textContent || buttonText;
+		var formData = new FormData(form);
+		if (submit.name && !formData.has(submit.name)) {
+			formData.append(submit.name, submit.value || buttonText);
+		}
+		var previousStatus = form.querySelector('[data-rm-submit-status]');
+		if (previousStatus) { previousStatus.remove(); }
+		submit.disabled = true;
+		submit.setAttribute('aria-busy', 'true');
+		if ('value' in submit) { submit.value = 'Отправляем…'; }
+		else { submit.textContent = 'Отправляем…'; }
+
+		var controller = typeof window.AbortController === 'function' ? new AbortController() : null;
+		var timeout = window.setTimeout(function () {
+			if (controller) { controller.abort(); }
+		}, 20000);
+		window.fetch(form.action || window.location.href, {
+			method: (form.method || 'POST').toUpperCase(),
+			body: formData,
+			credentials: 'same-origin',
+			redirect: 'follow',
+			signal: controller ? controller.signal : undefined
+		}).then(function (response) {
+			return response.text().then(function (html) {
+				return { ok: response.ok, url: response.url, html: html };
+			});
+		}).then(function (result) {
+			var responseDocument = new DOMParser().parseFromString(result.html, 'text/html');
+			var success = /(?:[?&])formresult=addok(?:&|$)/.test(result.url) ||
+				Boolean(responseDocument.querySelector('.form.contacts.success'));
+			if (!result.ok || !success) {
+				throw new Error('server-validation');
+			}
+			renderSuccess();
+		}).catch(function (error) {
+			var message = error && error.name === 'AbortError'
+				? 'Сервер отвечает слишком долго. Проверьте соединение и попробуйте ещё раз.'
+				: 'Не удалось отправить запрос. Проверьте заполненные поля и попробуйте ещё раз.';
+			showSubmitError(form, message);
+		}).finally(function () {
+			window.clearTimeout(timeout);
+			if (!submit.isConnected) { return; }
+			submit.disabled = false;
+			submit.removeAttribute('aria-busy');
+			if ('value' in submit) { submit.value = originalText; }
+			else { submit.textContent = originalText; }
+		});
+	}, true);
 	function refreshDialog() {
 		namespaceDialogIds();
 		decorateForm();
@@ -215,19 +294,6 @@ $rmDiscussTaskRowHeight = 148 + (trim((string)$rmDiscussOptions['task_help']) !=
 		});
 		lifecycleObserver.observe(dialog, { childList: true, subtree: true });
 	}
-	dialog.addEventListener('submit', function () {
-		var submit = dialog.querySelector('input[type="submit"]');
-		if (!submit || submit.disabled) { return; }
-		submit.disabled = true;
-		submit.setAttribute('aria-busy', 'true');
-		submit.value = 'Отправляем…';
-		window.setTimeout(function () {
-			if (!submit.isConnected || dialog.querySelector('.form.contacts.success')) { return; }
-			submit.disabled = false;
-			submit.removeAttribute('aria-busy');
-			submit.value = buttonText;
-		}, 20000);
-	}, true);
 	window.setTimeout(refreshDialog, 250);
 }());
 </script>

@@ -61,6 +61,38 @@
     return digits.length >= 10 && digits.length <= 15;
   }
 
+  function isValidPhone(value) {
+    var trimmed = value.trim();
+    if (!/^\+?[0-9\s().-]+$/.test(trimmed)) return false;
+    var digits = trimmed.replace(/\D/g, '');
+    return digits.length >= 10 && digits.length <= 15;
+  }
+
+  function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+  }
+
+  function contactMethod(root) {
+    return root.getAttribute('data-rm-contact-method') || '';
+  }
+
+  function contactError(root, value) {
+    var method = contactMethod(root);
+    if (method === 'email') {
+      return isValidEmail(value) ? '' : 'Укажите корректный адрес электронной почты.';
+    }
+    if (method === 'phone') {
+      return isValidPhone(value) ? '' : 'Укажите корректный номер телефона.';
+    }
+    if (method === 'telegram' || method === 'max') {
+      var trimmed = value.trim();
+      return trimmed.length >= 3 && !/[\r\n]/.test(trimmed)
+        ? ''
+        : 'Укажите имя пользователя или номер телефона.';
+    }
+    return isValidContact(value) ? '' : 'Укажите корректный телефон или адрес электронной почты.';
+  }
+
   function fileError(fileInput) {
     if (!fileInput || !fileInput.files || !fileInput.files.length) return '';
     if (fileInput.files.length > 1) return 'Прикрепите один файл за одну отправку формы.';
@@ -81,7 +113,9 @@
     var contextGroup = field(root, 'CONTEXT');
     var contextInput = control(contextGroup);
     if (contextInput) {
-      contextInput.value = root.getAttribute('data-rm-estimate-context') || window.location.pathname;
+      var value = root.getAttribute('data-rm-estimate-context') || window.location.pathname;
+      var method = contactMethod(root);
+      contextInput.value = method ? value + '; contact=' + method : value;
     }
   }
 
@@ -115,8 +149,9 @@
     [contactGroup, taskGroup, fileGroup].forEach(clearError);
     setContext(root);
 
-    if (!contactInput || !isValidContact(contactInput.value || '')) {
-      firstInvalid = setError(contactGroup, 'Укажите корректный телефон или адрес электронной почты.');
+    var invalidContactMessage = contactInput ? contactError(root, contactInput.value || '') : 'Укажите контакт для связи.';
+    if (invalidContactMessage) {
+      firstInvalid = setError(contactGroup, invalidContactMessage);
     }
 
     var hasTask = Boolean(taskInput && taskInput.value.trim());
@@ -171,9 +206,59 @@
 
   function initializeContexts(scope) {
     scope.querySelectorAll(rootSelector).forEach(function (root) {
+      initializeCommunicationSelector(root);
       setContext(root);
       labelControls(root);
     });
+  }
+
+  function initializeCommunicationSelector(root) {
+    if (root.getAttribute('data-rm-communication-selector') !== 'true') return;
+    var contactGroup = field(root, 'CONTACT');
+    var input = control(contactGroup);
+    var formGroup = contactGroup ? contactGroup.querySelector('.form-group') : null;
+    if (!input || !formGroup || formGroup.querySelector('[data-rm-contact-methods]')) return;
+
+    var methods = [
+      { value: 'telegram', label: 'Telegram', placeholder: 'Имя пользователя или телефон' },
+      { value: 'max', label: 'MAX', placeholder: 'Имя пользователя или телефон' },
+      { value: 'email', label: 'Почта', placeholder: 'Электронная почта' },
+      { value: 'phone', label: 'Телефон', placeholder: 'Номер телефона' }
+    ];
+    var chooser = document.createElement('div');
+    chooser.className = 'rm-contact-methods';
+    chooser.setAttribute('data-rm-contact-methods', '');
+    chooser.setAttribute('role', 'radiogroup');
+    chooser.setAttribute('aria-label', 'Удобный способ связи');
+
+    function selectMethod(method, button) {
+      root.setAttribute('data-rm-contact-method', method.value);
+      chooser.querySelectorAll('[role="radio"]').forEach(function (item) {
+        var selected = item === button;
+        item.setAttribute('aria-checked', selected ? 'true' : 'false');
+        item.tabIndex = selected ? 0 : -1;
+      });
+      input.placeholder = method.placeholder;
+      input.setAttribute('inputmode', method.value === 'phone' ? 'tel' : (method.value === 'email' ? 'email' : 'text'));
+      clearError(contactGroup);
+      setContext(root);
+    }
+
+    methods.forEach(function (method, index) {
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'rm-contact-methods__button rm-contact-methods__button--' + method.value;
+      button.setAttribute('role', 'radio');
+      button.setAttribute('aria-checked', index === 0 ? 'true' : 'false');
+      button.tabIndex = index === 0 ? 0 : -1;
+      button.textContent = method.label;
+      button.addEventListener('click', function () { selectMethod(method, button); });
+      chooser.appendChild(button);
+    });
+
+    var inputWrapper = formGroup.querySelector('.input');
+    formGroup.insertBefore(chooser, inputWrapper || null);
+    selectMethod(methods[0], chooser.firstElementChild);
   }
 
   if (document.readyState === 'loading') {

@@ -1,5 +1,6 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();?>
-<div class="row" id="contacs_form">
+<?$rmFormInstanceId = 'rm-form-'.$this->randString();?>
+<div class="row" id="contacs_form" data-rm-form-instance="<?=htmlspecialcharsbx($rmFormInstanceId)?>">
 	<hr>
 	<div class="styled-block1">
 		<div class="maxwidth-theme">
@@ -119,7 +120,12 @@
 					<!--/noindex-->
 					<script type="text/javascript">
 					$(document).ready(function(){
-						$('form[name="<?=$arResult["arForm"]["VARNAME"]?>"]').validate({
+						var formRoot = document.querySelector('[data-rm-form-instance="<?=CUtil::JSEscape($rmFormInstanceId)?>"]');
+						var $form = formRoot ? $(formRoot).find('form[name="<?=$arResult["arForm"]["VARNAME"]?>"]').first() : $();
+						if (!$form.length) {
+							return;
+						}
+						$form.validate({
 							highlight: function( element ){
 								$(element).parent().addClass('error');
 							},
@@ -127,7 +133,7 @@
 								$(element).parent().removeClass('error');
 							},
 							submitHandler: function( form ){
-								if( $('form[name="<?=$arResult["arForm"]["VARNAME"]?>"]').valid() ){
+								if( $form.valid() ){
 									setTimeout(function() {
 										$(form).find('button[type="submit"]').attr("disabled", "disabled");
 									}, 300);
@@ -148,8 +154,8 @@
 						
 						if(arAllcorp2Options['THEME']['PHONE_MASK'].length){
 							var base_mask = arAllcorp2Options['THEME']['PHONE_MASK'].replace( /(\d)/g, '_' );
-							$('form[name="<?=$arResult["arForm"]["VARNAME"]?>"] input.phone').inputmask('mask', {'mask': arAllcorp2Options['THEME']['PHONE_MASK'], 'showMaskOnHover': false });
-							$('form[name="<?=$arResult["arForm"]["VARNAME"]?>"] input.phone').blur(function(){
+							$form.find('input.phone').inputmask('mask', {'mask': arAllcorp2Options['THEME']['PHONE_MASK'], 'showMaskOnHover': false });
+							$form.find('input.phone').blur(function(){
 								if( $(this).val() == base_mask || $(this).val() == '' ){
 									if( $(this).hasClass('required') ){
 										$(this).parent().find('div.error').html(BX.message('JS_REQUIRED'));

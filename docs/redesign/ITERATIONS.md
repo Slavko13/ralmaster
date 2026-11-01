@@ -752,3 +752,45 @@
 - **Оставшиеся ограничения:** исходные файлы изображений и данные IBlock не
   изменялись.
 - **Статус:** `PASSED`.
+
+## Итерация 33 — Канал связи и надёжная отправка формы заказа (2026-11-01)
+
+- **Цель:** устранить зависание popup-формы на «Отправляем…», сделать файл
+  необязательным и привести загрузчик в порядок на мобильных экранах.
+- **Область изменений:** общий popup «Обсудить заказ»; выбор способа связи;
+  Bitrix form instance; mobile-формы `/painting/` и `/services/`.
+- **Связанные макеты Paper:** `Ралмастер` → `Дизайн` → «РАЛМАСТЕР — Обсудить
+  заказ» (`3U0-0`, 748×850) и предоставленный владельцем пример выбора канала.
+- **Затронутые файлы и компоненты:** `ralmaster_discuss_order.php/.css`;
+  `ralmaster-estimate.js`; form template `contacts/template.php`;
+  `ralmaster_powder.css`; `sections_metalworking_paper.css`; тесты popup,
+  painting и services; журналы итераций и прогресса.
+- **Функциональные автотесты:** четыре канала Telegram/MAX/почта/телефон;
+  method-specific validation; отсутствие `required` у FILE; реальный POST без
+  файла; успешный результат popup; отсутствие POST при ошибках; независимая
+  валидация нескольких одноимённых Bitrix-форм.
+- **Визуальные проверки:** desktop popup 748 px; mobile popup 390 px; полная
+  синяя focus-рамка имени; отсутствие пересечения filename/action; порядок
+  FILE → согласие → submit на `/services/`.
+- **Критерии приёмки:** файл не обязателен; канал сохраняется в CONTEXT;
+  отправка завершается success state; поля и uploader не пересекаются; dialog
+  остаётся внутри viewport.
+- **Фактический результат:** добавлен доступный radiogroup каналов и
+  контекстные placeholder/валидация; popup отправляет FormData асинхронно,
+  обрабатывает timeout/error и показывает подтверждение; тестовая заявка без
+  файла сохранена в Bitrix (последний проверенный result ID 29). Local Docker
+  `db`/`web` healthy, HTTP 200.
+- **Обнаруженные дефекты:** старый Bitrix iframe-AJAX сохранял результат, но
+  не обновлял DOM popup; глобальный jQuery validator захватывал все формы с
+  одинаковым name; mobile services footer перекрывал FILE на 111 px; inline
+  powder uploader сталкивал label с кнопкой выбора.
+- **Исправленные дефекты:** submit изолирован на текущей форме; success/error
+  rendering не зависит от iframe; uploader action скрыт на узком экране;
+  mobile flow переведён на auto-height. PHP lint **2/2 PASS**; связанный
+  Playwright desktop **20/20 PASS**, mobile **3/3 PASS**.
+- **Оставшиеся ограничения:** в локальном Docker отсутствует почтовый
+  транспорт: Bitrix сохраняет заявку, но `FORM_FILLING_ralmaster_estimate_s1`
+  имеет `SUCCESS_EXEC=F`. Для доставки уведомлений на staging/production нужны
+  SMTP-реквизиты либо настроенный sendmail; секреты в репозиторий не добавлялись.
+- **Статус:** `PASSED` для UI, валидации и сохранения заявки; SMTP отмечен как
+  внешнее инфраструктурное ограничение.

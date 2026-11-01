@@ -999,6 +999,42 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
     overflow: visible;
   }
 
+  .rm-metal-estimate__form.rm-home-order__form form > .row > .col-md-8 > .row,
+  .rm-metal-estimate__form.rm-home-order__form form > .row > .col-md-8 > .row > [class*="col-"]:has(.row[data-SID]) {
+    display: flex !important;
+    height: auto !important;
+    min-height: 0 !important;
+    flex-direction: column;
+    gap: 20px !important;
+  }
+
+  .rm-metal-estimate__form.rm-home-order__form form .row[data-SID],
+  .rm-metal-estimate__form.rm-home-order__form form .row[data-SID] > [class*="col-"],
+  .rm-metal-estimate__form.rm-home-order__form form .row[data-SID] .form-group,
+  .rm-metal-estimate__form.rm-home-order__form form .row[data-SID] .input {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  .rm-metal-estimate__form [data-SID="FILE"] {
+    position: relative !important;
+    z-index: auto !important;
+    min-height: 90px;
+  }
+
+  .rm-metal-estimate__form [data-SID="FILE"] .uploader {
+    position: relative !important;
+    inset: auto !important;
+    transform: none !important;
+  }
+
+  .rm-metal-estimate__form .form-footer {
+    position: static !important;
+    z-index: auto !important;
+    clear: both;
+    margin-top: 16px !important;
+  }
+
   .rm-metal-photo,
   .rm-metal-photo img {
     height: 320px;

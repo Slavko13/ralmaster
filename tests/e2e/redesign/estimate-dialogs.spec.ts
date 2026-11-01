@@ -77,7 +77,13 @@ for (const dialogCase of cases) {
     );
     await expect(dialog.locator('[data-SID="CONTACT"] input')).toHaveAttribute(
       'placeholder',
-      'Укажите удобный способ связи',
+      'Имя пользователя или телефон',
+    );
+    await expect(dialog.locator('[data-rm-contact-methods]')).toBeVisible();
+    await expect(dialog.getByRole('radio')).toHaveCount(4);
+    await expect(dialog.getByRole('radio', { name: 'Telegram' })).toHaveAttribute(
+      'aria-checked',
+      'true',
     );
     await expect(dialog.locator('.uploader .filename')).toHaveAttribute(
       'data-rm-upload-label',
@@ -97,13 +103,15 @@ for (const dialogCase of cases) {
       'Даю согласие на обработку персональных данных на условиях политики конфиденциальности.',
     );
     await expect(dialog.locator('.rm-discuss__note')).toHaveText(dialogCase.note);
-    await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue(dialogCase.context);
+    await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue(
+      `${dialogCase.context}; contact=telegram`,
+    );
 
     const size = await dialog.evaluate((node) => {
       const rect = node.getBoundingClientRect();
       return { width: Math.round(rect.width), height: Math.round(rect.height) };
     });
-    expect(size).toEqual({ width: 748, height: dialogCase.height });
+    expect(size).toEqual({ width: 748, height: dialogCase.height + 72 });
 
     const paperControls = await dialog.evaluate((node) => {
       const rect = (selector: string) => {
@@ -193,4 +201,31 @@ test('P0 @mobile calculation dialogs stay inside a 390 px viewport', async ({ pa
     }
     await page.keyboard.press('Escape');
   }
+});
+
+test('submits a valid request without an attachment', async ({ page }) => {
+  await page.goto('/painting/', { waitUntil: 'domcontentloaded' });
+  await page
+    .locator('[data-rm-discuss-open="powder-coating"]')
+    .first()
+    .click();
+
+  const dialog = page.locator('dialog[data-rm-discuss-variant="powder-coating"]');
+  await expect(dialog).toBeVisible();
+  await expect(dialog.locator('[data-SID="FILE"] input[type="file"]')).not.toHaveAttribute(
+    'required',
+    '',
+  );
+
+  await dialog.locator('[data-SID="NAME"] input').fill('Тест формы');
+  await dialog.getByRole('radio', { name: 'Почта' }).click();
+  await dialog.locator('[data-SID="CONTACT"] input').fill('test@example.com');
+  await dialog
+    .locator('[data-SID="TASK"] textarea')
+    .fill('Проверка отправки формы без обязательного файла.');
+  await dialog.locator('.licence_block input[type="checkbox"]').check();
+  await dialog.locator('input[type="submit"]').click();
+
+  await expect(dialog.locator('.form.contacts.success')).toBeVisible({ timeout: 15_000 });
+  await expect(dialog.getByText('Спасибо! Ваш запрос отправлен.')).toBeVisible();
 });

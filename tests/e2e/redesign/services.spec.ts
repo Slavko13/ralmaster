@@ -155,7 +155,9 @@ test.describe('Redesigned metalworking root', () => {
     const dialog = page.locator('dialog[data-rm-discuss-variant="metalworking"]');
     await expect(dialog).toBeVisible();
     await expect(dialog.getByRole('heading', { name: 'Рассчитать металлообработку' })).toBeVisible();
-    await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue('metalworking');
+    await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue(
+      'metalworking; contact=telegram',
+    );
     expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
 
     const arrows = await page.locator('.rm-metal-link-arrow').evaluateAll((nodes) =>
@@ -305,6 +307,21 @@ test.describe('Redesigned metalworking root', () => {
     await expect(page.locator('[data-rm-metalworking]')).toBeVisible();
     await expect(page.locator('[data-rm-service-code]')).toHaveCount(3);
     await page.waitForTimeout(2_000);
+
+    const mobileFormOrder = await page.locator('.rm-metal-estimate__form').evaluate((form) => {
+      const box = (selector: string) => {
+        const node = form.querySelector<HTMLElement>(selector)!;
+        const rect = node.getBoundingClientRect();
+        return { top: Math.round(rect.top), bottom: Math.round(rect.bottom) };
+      };
+      return {
+        file: box('[data-SID="FILE"]'),
+        consent: box('.licence_block'),
+        submit: box('input[type="submit"]'),
+      };
+    });
+    expect(mobileFormOrder.consent.top).toBeGreaterThanOrEqual(mobileFormOrder.file.bottom);
+    expect(mobileFormOrder.submit.top).toBeGreaterThanOrEqual(mobileFormOrder.consent.bottom);
 
     await expectNoHorizontalOverflow(page);
     await attachDiagnostics(testInfo, diagnostics);

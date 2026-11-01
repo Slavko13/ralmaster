@@ -397,6 +397,28 @@ Legacy `header_fixed` теперь не рендерится только при
   **14/14 PASS**; mobile regression **3/3 PASS**.
 - Visual QA: `artifacts/ui-audit/iteration-32-project-products-cover.png`.
 
+## Popup обсуждения заказа и mobile upload — 2026-11-01
+
+- Paper MCP подтверждён: файл `Ралмастер`, страница `Дизайн`, artboard
+  «РАЛМАСТЕР — Обсудить заказ» (`3U0-0`) доступен для чтения структуры,
+  стилей и размеров; макет не изменялся.
+- В popup добавлен выбор Telegram / MAX / почта / телефон с доступным
+  radiogroup, отдельными placeholder и проверкой формата. Выбранный канал
+  сохраняется вместе с контекстом заявки.
+- FILE остаётся необязательным. Исправлены полная focus-рамка имени,
+  пересечение mobile uploader на `/painting/` и порядок FILE → согласие → CTA
+  на `/services/`.
+- Устранено зависание на «Отправляем…»: popup использует контролируемый
+  асинхронный POST с timeout/error/success states, а validator привязан только
+  к текущему экземпляру Bitrix-формы.
+- Реальный POST без файла создал локальную запись Bitrix (последний
+  проверенный result ID 29). PHP lint
+  **2/2 PASS**; связанный Playwright desktop **20/20 PASS**, mobile **3/3
+  PASS**; Docker `db`/`web` healthy, главная отвечает HTTP 200.
+- Отдельное ограничение: локальный mail event создаётся со
+  `SUCCESS_EXEC=F`, потому что SMTP/sendmail в Docker не настроен. Сама заявка
+  сохранена; для реальной почтовой доставки нужны серверные SMTP-реквизиты.
+
 ## Следующий допустимый шаг
 
 ### Коррекция header — 2026-10-31

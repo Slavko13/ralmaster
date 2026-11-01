@@ -190,7 +190,9 @@ test.describe('P0 redesigned powder coating page', () => {
     const dialog = page.locator('dialog[data-rm-discuss-variant="powder-coating"]');
     await expect(dialog).toBeVisible();
     await expect(dialog.locator('h2')).toHaveText('Расчёт порошковой окраски');
-    await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue('powder-coating');
+    await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue(
+      'powder-coating; contact=telegram',
+    );
     await dialog.locator('input[type="submit"]').click();
     await expect(dialog.locator('[data-SID="CONTACT"] .rm-estimate-error')).toBeVisible();
     await expect(dialog.locator('[data-SID="TASK"] .rm-estimate-error')).toBeVisible();
@@ -387,6 +389,21 @@ test.describe('P0 redesigned powder coating page', () => {
     await expectHealthyDocument(page);
     await expect(page.locator('[data-rm-powder-page]')).toBeVisible();
     await page.waitForTimeout(1_500);
+    const mobileUploader = page.locator('.rm-powder-estimate__form .uploader');
+    await expect(mobileUploader).toBeVisible();
+    await expect(mobileUploader.locator('.action')).toBeHidden();
+    const uploaderGeometry = await mobileUploader.evaluate((node) => {
+      const frame = node.getBoundingClientRect();
+      const filename = node.querySelector<HTMLElement>('.filename')!.getBoundingClientRect();
+      return {
+        filenameLeft: Math.round(filename.left),
+        filenameRight: Math.round(filename.right),
+        frameLeft: Math.round(frame.left),
+        frameRight: Math.round(frame.right),
+      };
+    });
+    expect(uploaderGeometry.filenameLeft).toBeGreaterThanOrEqual(uploaderGeometry.frameLeft);
+    expect(uploaderGeometry.filenameRight).toBeLessThanOrEqual(uploaderGeometry.frameRight);
     await expectNoHorizontalOverflow(page);
     await attachDiagnostics(testInfo, diagnostics);
     expect(diagnostics).toEqual([]);
