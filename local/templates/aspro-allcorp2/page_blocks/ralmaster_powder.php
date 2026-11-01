@@ -271,7 +271,7 @@ $rmExamples = array(
 				</div>
 			</div>
 
-			<div class="rm-powder-estimate__form" data-rm-estimate-form data-rm-estimate-context="powder-coating" aria-label="Форма запроса расчёта порошковой окраски">
+			<div class="rm-powder-estimate__form" data-rm-estimate-form data-rm-communication-selector="true" data-rm-estimate-context="powder-coating" aria-label="Форма запроса расчёта порошковой окраски">
 				<?if ($rmEstimateFormId > 0):?>
 					<?$APPLICATION->IncludeComponent(
 						'aspro:form.allcorp2',

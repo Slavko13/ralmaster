@@ -193,6 +193,15 @@ test.describe('P0 redesigned products root', () => {
       '.rm-product-estimate__form[data-rm-estimate-form][data-rm-estimate-context="product"]',
     );
     await expect(formRoot).toBeVisible();
+    await expect(formRoot.getByRole('radio')).toHaveText([
+      'Telegram',
+      'MAX',
+      'Телефон',
+      'Почта',
+    ]);
+    await expect(formRoot.locator('[data-SID="CONTEXT"]')).toHaveValue(
+      'product; contact=telegram',
+    );
 
     await formRoot.locator('[data-SID="CONTACT"] input').fill('qa-product@example.test');
     await formRoot.locator('[data-SID="TASK"] textarea').fill('');
@@ -205,6 +214,7 @@ test.describe('P0 redesigned products root', () => {
         input.dispatchEvent(new Event('change', { bubbles: true }));
       });
     }
+    await expect(consent).toHaveCSS('background-color', 'rgb(23, 91, 239)');
 
     await formRoot.locator('input[type="submit"]').click();
     const error = formRoot.locator('[data-SID="TASK"] .rm-estimate-error');
@@ -228,7 +238,7 @@ test.describe('P0 redesigned products root', () => {
 
     expect(heights.intro).toBe(274);
     expect(heights.catalog).toBe(1083);
-    expect(heights.estimate).toBe(804);
+    expect(heights.estimate).toBe(850);
     expect(heights.photo).toBe(543);
   });
 

@@ -115,7 +115,7 @@ if (\Bitrix\Main\Loader::includeModule('form')) {
 				<h2>Рассчитать проект</h2>
 				<p>Пришлите чертёж или техническое задание и укажите количество изделий. Подготовим расчёт и предложим технологию изготовления.</p>
 			</div>
-			<div class="rm-projects-estimate__form" data-rm-estimate-form data-rm-estimate-context="projects" aria-label="Форма запроса расчёта проекта">
+			<div class="rm-projects-estimate__form" data-rm-estimate-form data-rm-communication-selector="true" data-rm-estimate-context="projects" aria-label="Форма запроса расчёта проекта">
 				<?$APPLICATION->IncludeComponent(
 					'aspro:form.allcorp2',
 					'contacts',

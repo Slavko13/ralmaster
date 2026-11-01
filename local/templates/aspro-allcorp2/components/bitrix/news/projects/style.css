@@ -457,7 +457,7 @@
 }
 
 .rm-projects-estimate {
-  height: 660px;
+  height: 850px;
   padding: 56px 0;
   background: #eff1f4;
 }
@@ -465,7 +465,7 @@
 .rm-projects-estimate__layout {
   display: grid;
   width: min(1328px, calc(100% - 112px));
-  height: 548px;
+  height: 738px;
   margin-inline: auto;
   grid-template-columns: 540px minmax(0, 748px);
   gap: 40px;
@@ -474,7 +474,7 @@
 .rm-projects-estimate__aside {
   display: flex;
   min-width: 0;
-  height: 548px;
+  height: 738px;
   padding: 48px;
   overflow: hidden;
   flex-direction: column;
@@ -506,7 +506,7 @@
 
 .rm-projects-estimate__form {
   min-width: 0;
-  height: 548px;
+  height: 738px;
   padding: 32px;
   overflow: hidden;
   border-radius: 4px;
@@ -548,7 +548,13 @@
 }
 
 .rm-projects-estimate__form form > .row > .col-md-8 > .row {
-  display: block;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.rm-projects-estimate__form form > .row > .col-md-8 > .row > [class*="col-"] {
+  display: contents;
 }
 
 .rm-projects-estimate__form form .row[data-SID],
@@ -1226,7 +1232,7 @@ body:has(.rm-project-detail) .main > .container .right_block {
 
   .rm-projects-estimate__aside,
   .rm-projects-estimate__form {
-    height: 548px;
+    height: 738px;
   }
 
   .rm-project-detail--generic .rm-project-detail__hero,
@@ -1427,7 +1433,7 @@ body:has(.rm-project-detail) .main > .container .right_block {
 
   .rm-projects-estimate__form {
     height: auto;
-    min-height: 548px;
+    min-height: 0;
     padding: 24px;
   }
 

@@ -271,7 +271,7 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
       projects: 1128,
       products: 696,
       operations: 616,
-      estimate: 660,
+      estimate: 850,
       'production-photo': 543,
     });
   });
@@ -320,7 +320,15 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
       '[data-rm-estimate-form][data-rm-estimate-context="projects"]',
     );
     await expect(formRoot).toBeVisible();
-    await expect(formRoot.locator('[data-SID="CONTEXT"]')).toHaveValue('projects');
+    await expect(formRoot.getByRole('radio')).toHaveText([
+      'Telegram',
+      'MAX',
+      'Телефон',
+      'Почта',
+    ]);
+    await expect(formRoot.locator('[data-SID="CONTEXT"]')).toHaveValue(
+      'projects; contact=telegram',
+    );
 
     await formRoot.locator('[data-SID="CONTACT"] input').fill('qa-projects@example.test');
     await formRoot.locator('[data-SID="TASK"] textarea').fill('');
@@ -333,6 +341,7 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
         input.dispatchEvent(new Event('change', { bubbles: true }));
       });
     }
+    await expect(consent).toHaveCSS('background-color', 'rgb(23, 91, 239)');
 
     await formRoot.locator('input[type="submit"]').click();
     await expect(formRoot.locator('[data-SID="TASK"] .rm-estimate-error')).toHaveText(
@@ -344,14 +353,21 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
   test('keeps a clear gap between the project description and file uploader', async ({ page }) => {
     await page.goto('/projects/', { waitUntil: 'domcontentloaded' });
 
-    const spacing = await page
+    const geometry = await page
       .locator('[data-rm-estimate-form][data-rm-estimate-context="projects"]')
       .evaluate((form) => {
+        const formBox = form.getBoundingClientRect();
         const textarea = form.querySelector('[data-SID="TASK"] textarea')!.getBoundingClientRect();
         const uploader = form.querySelector('[data-SID="FILE"] .uploader')!.getBoundingClientRect();
-        return uploader.top - textarea.bottom;
+        const submit = form.querySelector('input[type="submit"]')!.getBoundingClientRect();
+        return {
+          spacing: uploader.top - textarea.bottom,
+          submitBottom: submit.bottom,
+          formBottom: formBox.bottom,
+        };
       });
-    expect(spacing).toBeGreaterThanOrEqual(16);
+    expect(geometry.spacing).toBeGreaterThanOrEqual(16);
+    expect(geometry.submitBottom).toBeLessThanOrEqual(geometry.formBottom);
   });
 
   test('desktop listing and details have no overflow or browser errors', async ({ page }, testInfo) => {

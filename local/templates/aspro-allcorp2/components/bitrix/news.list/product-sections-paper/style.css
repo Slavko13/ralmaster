@@ -229,7 +229,7 @@
 }
 
 .rm-product-estimate {
-  min-height: 804px;
+  min-height: 850px;
   padding: 56px 0;
   background: #eff1f4;
   font-family: var(--rm-font-body, Onest, Arial, sans-serif);
@@ -243,7 +243,7 @@
 
 .rm-product-estimate__aside {
   display: grid;
-  grid-template-rows: 504px 188px;
+  grid-template-rows: 548px 190px;
   min-width: 0;
 }
 
@@ -365,7 +365,7 @@
 
 .rm-product-estimate__form {
   min-width: 0;
-  min-height: 692px;
+  min-height: 738px;
   padding: 32px;
   background: #fff;
 }
@@ -516,6 +516,10 @@
 
 .rm-product-estimate__form form .row[data-SID="CONTACT"] label > span::before {
   content: "Телефон или электронная почта";
+}
+
+.rm-product-estimate__form[data-rm-communication-selector="true"] form .row[data-SID="CONTACT"] label > span::before {
+  content: "Как вам удобно получить расчёт?";
 }
 
 .rm-product-estimate__form form .row[data-SID="TASK"] label > span::before {
@@ -879,6 +883,10 @@ body:has(.rm-products-catalog) .text_before_items {
   .rm-product-estimate__contacts,
   .rm-product-estimate__form {
     padding: 24px;
+  }
+
+  .rm-product-estimate__form {
+    min-height: 0;
   }
 
   .rm-product-estimate__phone .phone,

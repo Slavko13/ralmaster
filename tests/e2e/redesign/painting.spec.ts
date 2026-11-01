@@ -206,8 +206,21 @@ test.describe('P0 redesigned powder coating page', () => {
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
 
-    await expect(page.locator('.rm-powder-estimate__form form')).toBeVisible();
-    await expect(page.locator('.rm-powder-estimate__form input[type="submit"]')).toBeVisible();
+    const inlineForm = page.locator('.rm-powder-estimate__form');
+    await expect(inlineForm.locator('form')).toBeVisible();
+    await expect(inlineForm.locator('input[type="submit"]')).toBeVisible();
+    await expect(inlineForm.getByRole('radio')).toHaveText([
+      'Telegram',
+      'MAX',
+      'Телефон',
+      'Почта',
+    ]);
+    await expect(inlineForm.locator('[data-SID="CONTEXT"]')).toHaveValue(
+      'powder-coating; contact=telegram',
+    );
+    const inlineConsent = inlineForm.locator('.licence_block input[type="checkbox"]');
+    await inlineConsent.check();
+    await expect(inlineConsent).toHaveCSS('background-color', 'rgb(23, 91, 239)');
     expect(postRequests).toEqual([]);
   });
 

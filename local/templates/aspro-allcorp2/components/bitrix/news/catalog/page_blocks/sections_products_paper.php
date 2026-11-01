@@ -74,7 +74,7 @@ $rmProductAssetRoot = SITE_TEMPLATE_PATH.'/images/ralmaster/';
 			</div>
 		</div>
 
-		<div class="rm-product-estimate__form" data-rm-estimate-form data-rm-estimate-context="product" aria-label="Форма запроса расчёта">
+		<div class="rm-product-estimate__form" data-rm-estimate-form data-rm-communication-selector="true" data-rm-estimate-context="product" aria-label="Форма запроса расчёта">
 			<?$APPLICATION->IncludeComponent(
 				'aspro:form.allcorp2',
 				'contacts',
