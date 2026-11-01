@@ -244,6 +244,13 @@ test('submits a valid request without an attachment', async ({ page }) => {
   await dialog.locator('.licence_block input[type="checkbox"]').check();
   await dialog.locator('input[type="submit"]').click();
 
-  await expect(dialog.locator('.form.contacts.success')).toBeVisible({ timeout: 15_000 });
-  await expect(dialog.getByText('Спасибо! Ваш запрос отправлен.')).toBeVisible();
+  const success = page.locator('dialog[data-rm-estimate-success-dialog]');
+  await expect(success).toBeVisible({ timeout: 15_000 });
+  await expect(success.getByRole('heading')).toHaveText('Ваша заявка принята');
+  await expect(success.getByText(/Спасибо, Тест формы!/)).toBeVisible();
+  await expect(dialog.locator('form')).toBeVisible();
+  await expect(dialog.locator('.form.contacts.success')).toHaveCount(0);
+  await success.getByRole('button', { name: 'ОК' }).click();
+  await expect(success).toBeHidden();
+  await expect(dialog).toBeVisible();
 });

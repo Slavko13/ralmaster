@@ -138,6 +138,10 @@ $rmServiceCards = array(
 	$rmTakeMatching($servicePool, '~гибк|bending~iu', array('NAME' => 'Гибка металла', 'URL' => '/services/metal-bending/', 'IMAGE' => '')),
 	$rmTakeMatching($servicePool, '~свар|weld~iu', array('NAME' => 'Сварочные работы', 'URL' => '/services/', 'IMAGE' => '')),
 );
+foreach ($rmServiceCards as &$rmServiceCard) {
+	$rmServiceCard['URL'] = '/services/';
+}
+unset($rmServiceCard);
 
 $projectFallbackImages = array(
 	array($rmAsset('project-symbol.webp'), $rmAsset('project-symbol-768.webp')),
@@ -254,7 +258,7 @@ if ($rmOrderFormId <= 0) {
 					<a class="rm-button rm-button--secondary rm-link-arrow" href="/services/">Услуги металлообработки</a>
 				</div>
 			</div>
-			<a class="rm-home-hero__feature" href="/product/">
+			<a class="rm-home-hero__feature" href="/product/facadecassettes/">
 				<img src="<?=$rmEscape($rmAsset('facade-cassettes.webp'))?>" srcset="<?=$rmEscape($rmAsset('facade-cassettes-768.webp'))?> 768w, <?=$rmEscape($rmAsset('facade-cassettes.webp'))?> 1448w" sizes="118px" width="118" height="118" alt="Фасадные металлокассеты">
 				<span class="rm-home-hero__feature-copy"><strong>Фасадные металлокассеты</strong><span class="rm-link-arrow">Вся продукция</span></span>
 			</a>
@@ -412,7 +416,7 @@ if ($rmOrderFormId <= 0) {
 		<div class="rm-home-container">
 			<div class="rm-home-order__inner">
 				<div class="rm-home-order__intro" style="--rm-home-order-image: url('<?=$rmEscape($rmAsset('hero-laser-cutting.webp'))?>')"><h2>Рассчитать заказ</h2><p>Расскажите, что нужно изготовить или обработать. Приложите чертёж или техническое задание, если они есть. Мы изучим запрос и свяжемся с вами для уточнения деталей</p><span>Удобнее обсудить задачу напрямую?</span><div class="rm-home-order__contacts"><a href="tel:+79919472000">+7 (991) 947-20-00</a><a href="mailto:ralmaster@inbox.ru">ralmaster@inbox.ru</a></div></div>
-				<div class="rm-home-order__form" data-rm-estimate-form data-rm-estimate-context="home" aria-label="Форма запроса расчёта">
+				<div class="rm-home-order__form" data-rm-estimate-form data-rm-communication-selector="true" data-rm-estimate-context="home" aria-label="Форма запроса расчёта">
 					<?$APPLICATION->IncludeComponent(
 						'aspro:form.allcorp2',
 						'contacts',
@@ -452,7 +456,9 @@ if ($rmOrderFormId <= 0) {
 					}
 					function decorateForm() {
 						decorateControl('NAME', 'Ваше имя');
-						decorateControl('CONTACT', 'Телефон или электронная почта *');
+						if (!root.querySelector('[data-rm-contact-methods]')) {
+							decorateControl('CONTACT', 'Телефон или электронная почта *');
+						}
 						decorateControl('TASK', 'Описание задачи');
 						var file = root.querySelector('[data-SID="FILE"] input[type="file"]');
 						if (file && file.getAttribute('aria-label') !== 'Прикрепить файлы') {

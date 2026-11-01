@@ -171,6 +171,105 @@
     return !firstInvalid;
   }
 
+  function ensureSuccessDialog() {
+    var existing = document.querySelector('[data-rm-estimate-success-dialog]');
+    if (existing) return existing;
+
+    var dialog = document.createElement('dialog');
+    dialog.className = 'rm-estimate-success-dialog';
+    dialog.setAttribute('data-rm-estimate-success-dialog', '');
+    dialog.setAttribute('aria-labelledby', 'rm-estimate-success-title');
+    dialog.innerHTML =
+      '<div class="rm-estimate-success-dialog__inner">' +
+        '<span class="rm-estimate-success-dialog__mark" aria-hidden="true">✓</span>' +
+        '<h2 id="rm-estimate-success-title">Ваша заявка принята</h2>' +
+        '<p data-rm-estimate-success-message></p>' +
+        '<button type="button" data-rm-estimate-success-close>ОК</button>' +
+      '</div>';
+    dialog.querySelector('[data-rm-estimate-success-close]').addEventListener('click', function () {
+      dialog.close();
+    });
+    document.body.appendChild(dialog);
+    return dialog;
+  }
+
+  function showSuccessDialog(name) {
+    var dialog = ensureSuccessDialog();
+    var message = dialog.querySelector('[data-rm-estimate-success-message]');
+    var normalizedName = (name || '').trim();
+    message.textContent = normalizedName
+      ? 'Спасибо, ' + normalizedName + '! Мы получили ваш запрос и свяжемся с вами для уточнения деталей.'
+      : 'Спасибо! Мы получили ваш запрос и свяжемся с вами для уточнения деталей.';
+    if (!dialog.open) dialog.showModal();
+    dialog.querySelector('[data-rm-estimate-success-close]').focus();
+  }
+
+  function showSubmitError(form, message) {
+    var status = form.querySelector('[data-rm-submit-status]');
+    if (!status) {
+      status = document.createElement('p');
+      status.className = 'rm-estimate-submit-status';
+      status.setAttribute('data-rm-submit-status', '');
+      status.setAttribute('role', 'alert');
+      form.appendChild(status);
+    }
+    status.textContent = message;
+  }
+
+  function submitEstimate(root, form, submit) {
+    if (!submit || submit.disabled) return;
+
+    var nameInput = control(field(root, 'NAME'));
+    var customerName = nameInput ? nameInput.value : '';
+    var originalText = submit.value || submit.textContent || 'Отправить запрос';
+    var formData = new FormData(form);
+    if (submit.name && !formData.has(submit.name)) {
+      formData.append(submit.name, submit.value || originalText);
+    }
+
+    var previousStatus = form.querySelector('[data-rm-submit-status]');
+    if (previousStatus) previousStatus.remove();
+    submit.disabled = true;
+    submit.setAttribute('aria-busy', 'true');
+    if ('value' in submit) submit.value = 'Отправляем…';
+    else submit.textContent = 'Отправляем…';
+
+    var controller = typeof window.AbortController === 'function' ? new AbortController() : null;
+    var timeout = window.setTimeout(function () {
+      if (controller) controller.abort();
+    }, 20000);
+
+    window.fetch(form.action || window.location.href, {
+      method: (form.method || 'POST').toUpperCase(),
+      body: formData,
+      credentials: 'same-origin',
+      redirect: 'follow',
+      signal: controller ? controller.signal : undefined
+    }).then(function (response) {
+      return response.text().then(function (html) {
+        return { ok: response.ok, url: response.url, html: html };
+      });
+    }).then(function (result) {
+      var responseDocument = new DOMParser().parseFromString(result.html, 'text/html');
+      var success = /(?:[?&])formresult=addok(?:&|$)/.test(result.url) ||
+        Boolean(responseDocument.querySelector('.form.contacts.success'));
+      if (!result.ok || !success) throw new Error('server-validation');
+      showSuccessDialog(customerName);
+    }).catch(function (error) {
+      var message = error && error.name === 'AbortError'
+        ? 'Сервер отвечает слишком долго. Проверьте соединение и попробуйте ещё раз.'
+        : 'Не удалось отправить запрос. Проверьте заполненные поля и попробуйте ещё раз.';
+      showSubmitError(form, message);
+    }).finally(function () {
+      window.clearTimeout(timeout);
+      if (!submit.isConnected) return;
+      submit.disabled = false;
+      submit.removeAttribute('aria-busy');
+      if ('value' in submit) submit.value = originalText;
+      else submit.textContent = originalText;
+    });
+  }
+
   document.addEventListener('submit', function (event) {
     var form = event.target;
     if (!(form instanceof HTMLFormElement)) return;
@@ -180,7 +279,17 @@
     if (!validate(root)) {
       event.preventDefault();
       event.stopImmediatePropagation();
+      return;
     }
+
+    if (typeof window.fetch !== 'function' || typeof window.FormData !== 'function') return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    submitEstimate(
+      root,
+      form,
+      event.submitter || form.querySelector('input[type="submit"], button[type="submit"]')
+    );
   }, true);
 
   document.addEventListener('input', function (event) {
@@ -218,6 +327,16 @@
     var input = control(contactGroup);
     var formGroup = contactGroup ? contactGroup.querySelector('.form-group') : null;
     if (!input || !formGroup || formGroup.querySelector('[data-rm-contact-methods]')) return;
+
+    var label = contactGroup.querySelector('label span');
+    if (label) {
+      var required = label.querySelector('.required-star');
+      label.textContent = 'Как вам удобно получить расчёт?';
+      if (required) {
+        label.appendChild(document.createTextNode(' '));
+        label.appendChild(required);
+      }
+    }
 
     var methods = [
       {

@@ -92,6 +92,16 @@ test.describe('P0 redesigned home', () => {
 
     await expect(home.locator('[data-rm-card="project"]').first()).toBeVisible();
     await expect(home.locator('[data-rm-card="partner"]').first()).toBeVisible();
+    await expect(home.locator('.rm-home-hero__feature')).toHaveAttribute(
+      'href',
+      '/product/facadecassettes/',
+    );
+    await expect(home.locator('.rm-home-service-card')).toHaveCount(3);
+    expect(
+      await home.locator('.rm-home-service-card').evaluateAll((cards) =>
+        cards.every((card) => card.getAttribute('href') === '/services/'),
+      ),
+    ).toBe(true);
 
     const hrefs = await home.locator('a[href]').evaluateAll((links) =>
       links
@@ -229,6 +239,15 @@ test.describe('P0 redesigned home', () => {
   }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     const formRoot = page.locator('.rm-home-order__form[data-rm-estimate-form]');
+    await expect(formRoot.getByRole('radio')).toHaveText([
+      'Telegram',
+      'MAX',
+      'Телефон',
+      'Почта',
+    ]);
+    await expect(formRoot.locator('[data-SID="CONTEXT"]')).toHaveValue(
+      'home; contact=telegram',
+    );
     await formRoot.locator('input[type="submit"]').click();
 
     const geometry = await formRoot.evaluate((root) => {
@@ -249,6 +268,29 @@ test.describe('P0 redesigned home', () => {
     expect(geometry.contactError.bottom).toBeLessThanOrEqual(geometry.task.top);
     expect(geometry.taskError.top).toBeGreaterThanOrEqual(geometry.task.bottom);
     expect(geometry.taskError.bottom).toBeLessThanOrEqual(geometry.file.top);
+  });
+
+  test('keeps the inline form visible and confirms a successful request by name', async ({
+    page,
+  }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    const formRoot = page.locator('.rm-home-order__form[data-rm-estimate-form]');
+    await formRoot.locator('[data-SID="NAME"] input').fill('Мария');
+    await formRoot.getByRole('radio', { name: 'Почта' }).click();
+    await formRoot.locator('[data-SID="CONTACT"] input').fill('maria@example.com');
+    await formRoot.locator('[data-SID="TASK"] textarea').fill('Тест заявки с главной страницы.');
+    await formRoot.locator('.licence_block input[type="checkbox"]').check();
+    await formRoot.locator('input[type="submit"]').click();
+
+    const success = page.locator('dialog[data-rm-estimate-success-dialog]');
+    await expect(success).toBeVisible({ timeout: 15_000 });
+    await expect(success.getByRole('heading')).toHaveText('Ваша заявка принята');
+    await expect(success.getByText(/Спасибо, Мария!/)).toBeVisible();
+    await expect(formRoot.locator('form')).toBeVisible();
+    await expect(formRoot.locator('.form.contacts.success')).toHaveCount(0);
+    await success.getByRole('button', { name: 'ОК' }).click();
+    await expect(success).toBeHidden();
+    await expect(formRoot.locator('form')).toBeVisible();
   });
 
   test('places the email below the phone in the order contact panel', async ({ page }) => {

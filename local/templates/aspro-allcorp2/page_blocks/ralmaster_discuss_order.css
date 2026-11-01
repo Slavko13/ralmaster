@@ -283,7 +283,7 @@
   box-shadow: none !important;
 }
 
-.rm-discuss__form .rm-contact-methods {
+[data-rm-estimate-form] .rm-contact-methods {
   display: flex;
   width: 100%;
   min-width: 0;
@@ -292,7 +292,7 @@
   margin: 0 0 8px;
 }
 
-.rm-discuss__form .rm-contact-methods__button {
+[data-rm-estimate-form] .rm-contact-methods__button {
   position: relative;
   min-height: 36px;
   display: inline-flex;
@@ -307,7 +307,7 @@
   cursor: pointer;
 }
 
-.rm-discuss__form .rm-contact-methods__icon {
+[data-rm-estimate-form] .rm-contact-methods__icon {
   display: block;
   width: 16px;
   height: 16px;
@@ -315,14 +315,14 @@
   color: #175bef;
 }
 
-.rm-discuss__form .rm-contact-methods__button--telegram .rm-contact-methods__icon,
-.rm-discuss__form .rm-contact-methods__button--max .rm-contact-methods__icon {
+[data-rm-estimate-form] .rm-contact-methods__button--telegram .rm-contact-methods__icon,
+[data-rm-estimate-form] .rm-contact-methods__button--max .rm-contact-methods__icon {
   width: 14px;
   height: 14px;
   flex-basis: 14px;
 }
 
-.rm-discuss__form .rm-contact-methods__button[aria-checked="true"] {
+[data-rm-estimate-form] .rm-contact-methods__button[aria-checked="true"] {
   border-color: #175bef;
   color: #175bef;
   background: #eef4ff;

@@ -133,11 +133,32 @@ test.describe('Redesigned metalworking root', () => {
     await expect(formRoot.locator('[data-SID="CONTACT"] input')).toHaveCount(1);
     await expect(formRoot.locator('[data-SID="TASK"] textarea')).toHaveCount(1);
     await expect(formRoot.locator('[data-SID="FILE"] input[type="file"]')).toHaveCount(1);
-    await expect(formRoot.locator('input[data-sid="CONTEXT"]')).toHaveValue('metalworking');
+    await expect(formRoot.locator('input[data-sid="CONTEXT"]')).toHaveValue(
+      'metalworking; contact=telegram',
+    );
+    await expect(formRoot.getByRole('radio')).toHaveText([
+      'Telegram',
+      'MAX',
+      'Телефон',
+      'Почта',
+    ]);
+    await expect(formRoot.locator('[data-SID="CONTACT"] label')).toContainText(
+      'Как вам удобно получить расчёт?',
+    );
 
     await formRoot.locator('input[type="submit"]').click();
     await expect(formRoot.locator('.rm-estimate-error')).toHaveCount(2);
     expect(postRequests).toEqual([]);
+  });
+
+  test('shows a larger arrow for every production step', async ({ page }) => {
+    await page.goto('/services/', { waitUntil: 'domcontentloaded' });
+    const arrows = page.locator('.rm-metal-operations__steps li > i');
+    await expect(arrows).toHaveCount(3);
+    for (let index = 0; index < 3; index += 1) {
+      await expect(arrows.nth(index)).toHaveText('↗');
+      await expect(arrows.nth(index)).toHaveCSS('font-size', '26px');
+    }
   });
 
   test('shows estimate labels and opens calculation buttons in a dialog', async ({ page }) => {
@@ -146,7 +167,7 @@ test.describe('Redesigned metalworking root', () => {
     const embeddedForm = page.locator('#rm-metal-estimate');
     await expect(embeddedForm.getByText('Ваше имя:', { exact: true })).toBeVisible();
     await expect(
-      embeddedForm.getByText(/Телефон или электронная почта:/, { exact: true }),
+      embeddedForm.getByText(/Как вам удобно получить расчёт\?/, { exact: true }),
     ).toBeVisible();
     await expect(embeddedForm.getByText('Описание задачи:', { exact: true })).toBeVisible();
 

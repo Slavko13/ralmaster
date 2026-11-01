@@ -358,7 +358,7 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
   top: 0;
   right: 0;
   color: var(--rm-primary, #175bef);
-  font-size: 18px;
+  font-size: 26px;
   font-style: normal;
 }
 

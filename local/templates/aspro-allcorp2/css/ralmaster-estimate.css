@@ -16,3 +16,86 @@
 [data-rm-estimate-form] [data-SID="CONTEXT"] {
   display: none !important;
 }
+
+.rm-estimate-submit-status {
+  margin: 12px 0 0;
+  color: #a4251c;
+  font: 400 13px/18px var(--rm-font-body, Onest, Arial, sans-serif);
+}
+
+.rm-estimate-success-dialog {
+  width: min(440px, calc(100% - 32px));
+  max-width: none;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 8px;
+  color: #111e35;
+  background: #fff;
+  box-shadow: 0 24px 64px rgba(8, 22, 42, 0.24);
+}
+
+.rm-estimate-success-dialog::backdrop {
+  background: rgba(8, 22, 42, 0.68);
+}
+
+.rm-estimate-success-dialog__inner {
+  display: flex;
+  padding: 40px;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.rm-estimate-success-dialog__mark {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 20px;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: #175bef;
+  font: 600 26px/1 Arial, sans-serif;
+}
+
+.rm-estimate-success-dialog h2 {
+  margin: 0;
+  color: #111e35;
+  font: 600 30px/36px var(--rm-font-heading, "Inter Tight", Arial, sans-serif);
+}
+
+.rm-estimate-success-dialog p {
+  margin: 16px 0 28px;
+  color: #526073;
+  font: 400 16px/24px var(--rm-font-body, Onest, Arial, sans-serif);
+}
+
+.rm-estimate-success-dialog button {
+  width: 100%;
+  min-height: 52px;
+  border: 1px solid #175bef;
+  border-radius: 4px;
+  color: #fff;
+  background: #175bef;
+  font: 600 16px/24px var(--rm-font-body, Onest, Arial, sans-serif);
+  cursor: pointer;
+}
+
+.rm-estimate-success-dialog button:hover,
+.rm-estimate-success-dialog button:focus-visible {
+  border-color: #0e49c8;
+  background: #0e49c8;
+}
+
+@media (max-width: 767px) {
+  .rm-estimate-success-dialog__inner {
+    padding: 32px 24px 24px;
+  }
+
+  .rm-estimate-success-dialog h2 {
+    font-size: 26px;
+    line-height: 32px;
+  }
+}
