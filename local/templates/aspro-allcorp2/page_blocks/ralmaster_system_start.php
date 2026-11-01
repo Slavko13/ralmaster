@@ -20,7 +20,13 @@ $rmSystemEscape = static function ($value) {
 <div class="rm-system-page rm-system-page--<?=$rmSystemEscape($rmSystemConfig['kind'])?>" data-rm-system-page="<?=$rmSystemEscape($rmSystemConfig['kind'])?>">
 	<section class="rm-system-hero">
 		<div class="rm-system-container">
-			<nav class="rm-system-breadcrumb" aria-label="Хлебные крошки"><a href="/">Главная</a><span aria-hidden="true">→</span><span aria-current="page"><?=$rmSystemEscape($rmSystemConfig['title'])?></span></nav>
+			<nav class="rm-system-breadcrumb" aria-label="Хлебные крошки">
+				<a href="/">Главная</a><span aria-hidden="true">/</span>
+				<?if (!empty($rmSystemConfig['parent_title']) && !empty($rmSystemConfig['parent_url'])):?>
+					<a href="<?=$rmSystemEscape($rmSystemConfig['parent_url'])?>"><?=$rmSystemEscape($rmSystemConfig['parent_title'])?></a><span aria-hidden="true">/</span>
+				<?endif;?>
+				<span aria-current="page"><?=$rmSystemEscape($rmSystemConfig['title'])?></span>
+			</nav>
 			<div class="rm-system-hero__layout">
 				<div><p class="rm-system-kicker"><?=$rmSystemEscape($rmSystemConfig['kicker'])?></p><h1><?=$rmSystemEscape($rmSystemConfig['title'])?></h1></div>
 				<p><?=$rmSystemEscape($rmSystemConfig['intro'])?></p>
