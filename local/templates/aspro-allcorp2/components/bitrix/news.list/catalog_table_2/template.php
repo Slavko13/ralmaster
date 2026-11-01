@@ -143,9 +143,11 @@ if($bHasSection)
 								</div>
 
 								<div class="row foot">
-									<div class="col-md-12 col-sm-12 col-xs-12 clearfix slice_price">
-										<?=\Aspro\Functions\CAsproAllcorp2::showPrice($arItem, $arParams, $bOrderViewBasket, false, true);?>
-									</div>
+									<?if($arParams['HIDE_LIST_PRICE'] !== 'Y'):?>
+										<div class="col-md-12 col-sm-12 col-xs-12 clearfix slice_price">
+											<?=\Aspro\Functions\CAsproAllcorp2::showPrice($arItem, $arParams, $bOrderViewBasket, false, true);?>
+										</div>
+									<?endif;?>
 									
 									<div class="col-md-12 col-sm-12 col-xs-12 button_block">
 										<?=\Aspro\Functions\CAsproAllcorp2::showBasketButton($arItem, $arParams, $bOrderButton, $bOrderViewBasket, $basketURL, false, true);?>

@@ -2,14 +2,6 @@
 	<!-- noindex -->
 	<div class="row filters-wrap">
 		<?
-		if($_SESSION['UF_VIEWTYPE_'.$arParams['IBLOCK_ID']] === NULL){
-			$arUserFieldViewType = CUserTypeEntity::GetList(array(), array('ENTITY_ID' => 'IBLOCK_'.$arParams['IBLOCK_ID'].'_SECTION', 'FIELD_NAME' => 'UF_VIEWTYPE'))->Fetch();
-			$resUserFieldViewTypeEnum = CUserFieldEnum::GetList(array(), array('USER_FIELD_ID' => $arUserFieldViewType['ID']));
-			while($arUserFieldViewTypeEnum = $resUserFieldViewTypeEnum->GetNext()){
-				$_SESSION['UF_VIEWTYPE_'.$arParams['IBLOCK_ID']][$arUserFieldViewTypeEnum['ID']] = $arUserFieldViewTypeEnum['XML_ID'];
-			}
-		}
-		
 		$sort_default = $arParams['SORT_PROP_DEFAULT'] ? $arParams['SORT_PROP_DEFAULT'] : 'name';
 		$order_default = $arParams['SORT_DIRECTION'] ? $arParams['SORT_DIRECTION'] : 'asc';
 		$arPropertySortDefault = array('name', 'sort');
@@ -69,10 +61,6 @@
 			}
 		}
 
-		if(array_key_exists('display', $_REQUEST) && !empty($_REQUEST['display'])){
-			setcookie('catalogViewMode', $_REQUEST['display'], 0, SITE_DIR);
-			$_COOKIE['catalogViewMode'] = $_REQUEST['display'];
-		}
 		if(array_key_exists('sort', $_REQUEST) && !empty($_REQUEST['sort'])){
 			setcookie('catalogSort', $_REQUEST['sort'], 0, SITE_DIR);
 			$_COOKIE['catalogSort'] = $_REQUEST['sort'];
@@ -86,23 +74,14 @@
 			$_COOKIE['catalogPageElementCount'] = $_REQUEST['show'];
 		}
 
-		if(isset($_COOKIE['catalogViewMode']) && $_COOKIE['catalogViewMode'])
-		{
-			$display = $_COOKIE['catalogViewMode'];
-		}
-		else
-		{
-			if($arSection['UF_VIEWTYPE'] && isset($_SESSION['UF_VIEWTYPE_'.$arParams['IBLOCK_ID']][$arSection['UF_VIEWTYPE']]))
-				$display = $_SESSION['UF_VIEWTYPE_'.$arParams['IBLOCK_ID']][$arSection['UF_VIEWTYPE']];
-			else
-				$display = $arParams['VIEW_TYPE'];
-		}
+		// Редизайн использует один предсказуемый плиточный вид на всех устройствах.
+		$display = 'table';
 		
 		$show = !empty($_COOKIE['catalogPageElementCount']) ? $_COOKIE['catalogPageElementCount'] : $arParams['PAGE_ELEMENT_COUNT'];
 		$sort = !empty($_COOKIE['catalogSort']) ? $_COOKIE['catalogSort'] : $sort_default;
 		$order = !empty($_COOKIE['catalogOrder']) ? $_COOKIE['catalogOrder'] : $order_default;
 		?>
-		<div class="col-md-7 col-sm-5 ordering-wrap">
+		<div class="col-md-12 col-sm-12 ordering-wrap">
 			<?if($GLOBALS['SHOW_SMART_FILTER']):?>
 				<div class="filter-action"><span class=""><?=CAllcorp2::showIconSvg('filter', SITE_TEMPLATE_PATH.'/images/svg/Filter_black.svg');?></span></div>
 			<?endif;?>
@@ -119,17 +98,6 @@
 				</select>
 				<i class="fa fa-angle-down"></i>
 			</div>
-		</div>
-		<div class="col-md-5 col-sm-7 display-type pull-right text-right">
-			<a rel="nofollow" href="<?=$APPLICATION->GetCurPageParam('display=table', array('display'))?>" class="view-button view-tiles <?=$display == 'table' ? 'cur' : '';?>" title="<?=GetMessage('T_LIST_VIEW');?>">
-				<?=CAllcorp2::showIconSvg('tiles', SITE_TEMPLATE_PATH.'/images/svg/View_tiles.svg');?>
-			</a>
-			<a rel="nofollow" href="<?=$APPLICATION->GetCurPageParam('display=list', array('display'))?>" class="view-button view-list <?=$display == 'list' ? 'cur' : '';?>" title="<?=GetMessage('T_TABLE_VIEW');?>">
-				<?=CAllcorp2::showIconSvg('list', SITE_TEMPLATE_PATH.'/images/svg/View_list.svg');?>
-			</a>
-			<a rel="nofollow" href="<?=$APPLICATION->GetCurPageParam('display=price', array('display'))?>" class="view-button view-price <?=$display == 'price' ? 'cur' : '';?>" title="<?=GetMessage('T_PRICE_VIEW');?>">
-				<?=CAllcorp2::showIconSvg('price', SITE_TEMPLATE_PATH.'/images/svg/View_price.svg');?>
-			</a>
 		</div>
 	</div>
 	<!-- /noindex -->

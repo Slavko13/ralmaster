@@ -143,7 +143,8 @@ test.describe('P0 redesigned derived pages', () => {
       await expect(root.locator('.sidebar .side-menu > li.active')).toContainText(category.title);
       await expect(root.locator('.bx_filter')).toBeAttached();
       await expect(root.locator('select.sort')).toBeVisible();
-      await expect(root.locator('.display-type .view-button')).toHaveCount(3);
+      await expect(root.locator('.display-type, .view-button')).toHaveCount(0);
+      await expect(root.locator('.ajax_load.table .catalog.item-views.table')).toHaveCount(1);
       await expect(root.locator('.catalog_table_2 .item')).toHaveCount(category.count);
 
       const firstProduct = root.locator('.catalog_table_2 .item').first();
@@ -177,6 +178,7 @@ test.describe('P0 redesigned derived pages', () => {
       expect(imageGeometry.centered).toBeLessThanOrEqual(1);
       await expect(firstProduct.locator('.counter')).toBeVisible();
       await expect(firstProduct.locator('.to_cart')).toBeVisible();
+      await expect(firstProduct.locator('.slice_price, .price_val')).toHaveCount(0);
     }
   });
 
@@ -202,12 +204,28 @@ test.describe('P0 redesigned derived pages', () => {
       const buttons = Array.from(box.querySelectorAll<HTMLElement>('.btn'));
       return buttons.map((button) => {
         const bounds = button.getBoundingClientRect();
-        return { width: Math.round(bounds.width), left: Math.round(bounds.left) };
+        return {
+          width: Math.round(bounds.width),
+          top: Math.round(bounds.top),
+          height: Math.round(bounds.height),
+        };
       });
     });
     expect(filterButtonGeometry).toHaveLength(2);
     expect(filterButtonGeometry[0].width).toBe(filterButtonGeometry[1].width);
-    expect(filterButtonGeometry[0].left).toBe(filterButtonGeometry[1].left);
+    expect(filterButtonGeometry[0].top).toBe(filterButtonGeometry[1].top);
+    expect(filterButtonGeometry[0].height).toBeLessThanOrEqual(42);
+
+    const statusCheckbox = root.locator('.bx_filter input[type="checkbox"]').first();
+    const statusLabel = root.locator(`label[for="${await statusCheckbox.getAttribute('id')}"]`);
+    await statusLabel.click();
+    await expect(statusCheckbox).toBeChecked();
+    await expect(root.locator('#modef')).toBeVisible();
+    await expect(root.locator('#modef')).toHaveCSS('background-color', 'rgb(23, 91, 239)');
+    const checkedColor = await statusLabel.evaluate((label) =>
+      getComputedStyle(label, '::after').backgroundColor,
+    );
+    expect(checkedColor).toBe('rgb(23, 91, 239)');
 
     const firstProduct = root.locator('.catalog_table_2 .item').first();
     await firstProduct.hover();
@@ -223,17 +241,11 @@ test.describe('P0 redesigned derived pages', () => {
     await expectProductBasketFlow(page);
   });
 
-  test('@mobile catalog view controls are centered', async ({ page }) => {
-    await page.goto('/product/pannier/', { waitUntil: 'networkidle' });
-    const alignment = await page.locator('.display-type').evaluate((controls) => {
-      const container = controls.getBoundingClientRect();
-      const buttons = Array.from(controls.querySelectorAll<HTMLElement>('.view-button'));
-      const first = buttons[0].getBoundingClientRect();
-      const last = buttons[buttons.length - 1].getBoundingClientRect();
-      const buttonsCenter = (first.left + last.right) / 2;
-      return Math.abs(buttonsCenter - (container.left + container.width / 2));
-    });
-    expect(alignment).toBeLessThanOrEqual(1);
+  test('@mobile catalog remains a single tile view without view controls', async ({ page }) => {
+    await page.goto('/product/pannier/?display=list', { waitUntil: 'networkidle' });
+    const root = page.locator('[data-rm-product-category]');
+    await expect(root.locator('.display-type, .view-button')).toHaveCount(0);
+    await expect(root.locator('.ajax_load.table .catalog.item-views.table')).toHaveCount(1);
   });
 
   test('desktop dialog remains reachable in a short viewport', async ({ page }) => {

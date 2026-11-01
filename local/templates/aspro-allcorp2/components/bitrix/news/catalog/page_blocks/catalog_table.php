@@ -64,6 +64,7 @@
 		"IBLOCK_URL"	=>	$arResult["FOLDER"].$arResult["URL_TEMPLATES"]["news"],
 		"INCLUDE_SUBSECTIONS" => "N",
 		"SHOW_DETAIL_LINK" => $arParams["SHOW_DETAIL_LINK"],
+		"HIDE_LIST_PRICE" => "Y",
 		"ORDER_VIEW" => $bOrderViewBasket,
 	),
 	$component, array('HIDE_ICONS' => $isAjax)

@@ -185,24 +185,33 @@
 }
 
 .rm-product-category .bx_filter .bx_filter_button_box .bx_filter_block {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  padding-top: 18px;
+  display: block;
+  padding: 18px;
+}
+
+.rm-product-category .bx_filter .bx_filter_button_box .bx_filter_parameters_box_container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
 }
 
 .rm-product-category .bx_filter .btn {
-  display: inline-flex;
-  width: 100%;
-  min-height: 44px;
+  display: inline-flex !important;
+  width: auto;
+  height: 40px !important;
+  min-width: 0;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  flex: 1 1 0;
   align-items: center;
   justify-content: center;
   margin: 0 !important;
-  padding: 11px 16px;
+  padding: 9px 12px !important;
   border-color: var(--rm-product-blue);
   border-radius: 4px;
   font-family: var(--rm-font-body, Onest, Arial, sans-serif);
-  line-height: 20px;
+  line-height: 20px !important;
   text-align: center;
   box-shadow: none !important;
 }
@@ -228,8 +237,30 @@ body .rm-product-category .bx_filter .bx_filter_search_reset.btn.btn-default {
 body .rm-product-category .bx_filter .bx_filter_search_reset.btn.btn-default:hover,
 body .rm-product-category .bx_filter .bx_filter_search_reset.btn.btn-default:focus-visible {
   border-color: #0f4fd1 !important;
+  color: #0f4fd1 !important;
+  background: #f4f7ff !important;
+}
+
+body .rm-product-category .bx_filter input[type="checkbox"] + label::before {
+  background-color: var(--rm-product-blue) !important;
+}
+
+body .rm-product-category .bx_filter input[type="checkbox"]:checked + label::after {
+  border-color: var(--rm-product-blue) !important;
+  background-color: var(--rm-product-blue) !important;
+}
+
+body .rm-product-category .bx_filter.bx_filter_vertical .bx_filter_popup_result,
+body .rm-product-category .bx_filter .bx_filter_popup_result {
+  border-radius: 4px;
   color: #fff !important;
-  background: #0f4fd1 !important;
+  background-color: var(--rm-product-blue) !important;
+}
+
+body .rm-product-category .bx_filter .bx_filter_popup_result a {
+  border: 1px solid #fff !important;
+  color: var(--rm-product-blue) !important;
+  background: #fff !important;
 }
 
 .rm-product-category .bx_filter .bx_ui_slider_pricebar,
@@ -285,30 +316,6 @@ body .rm-product-category .bx_filter .bx_filter_search_reset.btn.btn-default:foc
   font-size: 14px;
 }
 
-.rm-product-category .display-type {
-  display: flex;
-  gap: 8px;
-}
-
-.rm-product-category .display-type .view-button {
-  display: inline-flex;
-  width: 44px;
-  height: 44px;
-  align-items: center;
-  justify-content: center;
-  margin: 0 !important;
-  border: 1px solid #cbd6e5;
-  border-radius: 4px;
-  background: #fff;
-}
-
-.rm-product-category .display-type .view-button.cur,
-.rm-product-category .display-type .view-button:hover,
-.rm-product-category .display-type .view-button:focus-visible {
-  border-color: var(--rm-product-blue);
-  background: #eaf0ff;
-}
-
 .rm-product-category .ajax_load,
 .rm-product-category .ajax_load > .section,
 .rm-product-category .catalog.item-views.table {
@@ -319,6 +326,7 @@ body .rm-product-category .bx_filter .bx_filter_search_reset.btn.btn-default:foc
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
+  align-items: start;
   margin: 0;
 }
 
@@ -406,11 +414,11 @@ body .rm-product-category .bx_filter .bx_filter_search_reset.btn.btn-default:foc
   display: flex;
   width: 100%;
   height: auto;
-  min-height: 238px;
+  min-height: 0;
   flex: 1;
   flex-direction: column;
   overflow: visible;
-  padding: 22px 24px 24px;
+  padding: 22px 24px 20px;
   border-top: 1px solid #edf0f4;
 }
 
@@ -452,11 +460,11 @@ body .rm-product-category .bx_filter .bx_filter_search_reset.btn.btn-default:foc
   display: block;
   width: 100%;
   height: auto;
-  margin: 20px 0 0;
+  margin: 16px 0 0;
 }
 
-.rm-product-category .catalog.item-views.table .item .slice_price:empty {
-  display: none;
+.rm-product-category .catalog.item-views.table .item .slice_price {
+  display: none !important;
 }
 
 .rm-product-category .catalog.item-views.table .item .button_block {
@@ -752,10 +760,6 @@ body:has(.rm-product-category) .main > .container .right_block {
 
   .rm-product-category .filters-wrap .select-outer {
     display: block;
-  }
-
-  .rm-product-category .display-type {
-    justify-content: center;
   }
 
   .rm-product-category .catalog.item-views.table .items {

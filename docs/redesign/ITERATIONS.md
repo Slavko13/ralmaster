@@ -586,3 +586,43 @@
   требует отдельной итерации. Local/staging `noindex` объясняет Lighthouse SEO
   66; state-changing mail/CRM submit не выполнялся.
 - **Статус:** `PASSED`.
+
+## Итерация 28 — Единая плитка каталога и состояния фильтра (2026-11-01)
+
+- **Цель:** убрать остаточные legacy-состояния товарных категорий и сделать
+  страницу предсказуемой при любом количестве товаров.
+- **Область изменений:** sort bar, серверный выбор представления, smart filter,
+  однотоварная карточка, list price и basket controls.
+- **Связанные макеты Paper:** текущая дизайн-система `Ралмастер` → `Дизайн` и
+  visual corrections владельца для `/product/bracket/`.
+- **Затронутые файлы и компоненты:** `news/catalog/include_sort.php`;
+  `catalog_table.php`, `catalog_table_2.php`; соответствующие два
+  `news.list` templates; `ralmaster_product_catalog.css`;
+  `derived-pages.spec.ts`; журналы итераций и прогресса.
+- **Функциональные автотесты:** категории pannier/bracket и фактические товары;
+  отсутствие view controls и сохранение `table` даже с `?display=list`;
+  отсутствие list price `1`; синий checked checkbox и popup result; компактная
+  однострочная геометрия Apply/Reset; сохранение quantity и basket flow.
+- **Визуальные проверки:** desktop 1440 px captures однотоварного каталога до
+  и после выбора статуса; ручная проверка карточки, filter CTA и footer flow.
+- **Критерии приёмки:** каталог всегда плиточный; лишняя цена `1` отсутствует;
+  кнопки фильтра находятся в одной строке; Reset остаётся белым с синим
+  текстом; checkbox и popup не используют красный accent; карточка не имеет
+  искусственного нижнего min-height.
+- **Фактический результат:** переключатели table/list/price удалены из HTML,
+  `$display` зафиксирован как `table` независимо от query/cookie. List price
+  отключён параметром компонента в обоих table templates, поэтому quantity
+  `− 1 +` является единственным числом управления. Text/card padding сокращён,
+  filter CTA имеют высоту 40 px и стоят в одной строке. Checkbox, popup result,
+  slider и Reset используют `#175bef`.
+- **Обнаруженные дефекты:** IBlock price со значением `1` выводился отдельной
+  строкой; фактически активен `catalog_table_2`, поэтому исправление только
+  резервного `catalog_table` не меняло страницу; legacy `min-height: 60px
+  !important` растягивал CTA; theme color продолжал красить checked checkbox и
+  popup результата.
+- **Исправленные дефекты:** синхронно обновлены оба table templates; добавлен
+  scoped override legacy min-height; удалена серверная логика смены вида;
+  PHP lint **5/5 PASS**, targeted Playwright desktop/mobile **3/3 PASS**.
+- **Оставшиеся ограничения:** цены каталога намеренно не показываются в
+  плитке — стоимость формируется по запросу; сами данные IBlock не изменялись.
+- **Статус:** `PASSED`.
