@@ -48,10 +48,36 @@
  * after validation, on both page forms and request dialogs.
  */
 [data-rm-estimate-form][data-rm-estimate-form] form .row[data-SID="CONTACT"],
-[data-rm-estimate-form][data-rm-estimate-form] form .row[data-SID="TASK"],
-[data-rm-estimate-form][data-rm-estimate-form] form .row[data-SID="FILE"] {
+[data-rm-estimate-form][data-rm-estimate-form] form .row[data-SID="TASK"] {
   position: relative !important;
   padding-bottom: var(--rm-estimate-error-space) !important;
+}
+
+[data-rm-estimate-form][data-rm-estimate-form] form .row[data-SID="FILE"] {
+  position: relative !important;
+  padding-bottom: 0 !important;
+}
+
+/* The permanent file hint doubles as the reserved validation row. */
+[data-rm-estimate-form] form .row[data-SID="FILE"]:has(.rm-estimate-error)::after {
+  visibility: hidden !important;
+}
+
+/*
+ * All page-level estimate panels use one compact 738 px track.  Moving 16 px
+ * from the top and reducing only inter-field gaps balances the submit button
+ * against the panel edges without stealing the validation slots.
+ */
+[data-rm-estimate-form][data-rm-estimate-form]:not(.rm-discuss__form) {
+  height: 738px !important;
+  min-height: 738px !important;
+  padding-top: 16px !important;
+  padding-bottom: 32px !important;
+  overflow: hidden !important;
+}
+
+[data-rm-estimate-form][data-rm-estimate-form]:not(.rm-discuss__form) form .row[data-SID="FILE"] {
+  margin-top: -8px !important;
 }
 
 [data-rm-estimate-form] form,
@@ -558,7 +584,33 @@
   background: #0e49c8;
 }
 
+@media (min-width: 768px) {
+  [data-rm-estimate-form][data-rm-estimate-form]:not(.rm-discuss__form) form .row[data-SID="NAME"] {
+    height: 84px !important;
+  }
+
+  [data-rm-estimate-form][data-rm-estimate-form]:not(.rm-discuss__form) form .row[data-SID="CONTACT"] {
+    height: 155px !important;
+  }
+
+  [data-rm-estimate-form][data-rm-estimate-form]:not(.rm-discuss__form) form .row[data-SID="TASK"] {
+    height: 166px !important;
+  }
+
+  [data-rm-estimate-form][data-rm-estimate-form]:not(.rm-discuss__form) form .row[data-SID="FILE"] {
+    height: 82px !important;
+  }
+}
+
 @media (max-width: 767px) {
+  [data-rm-estimate-form][data-rm-estimate-form]:not(.rm-discuss__form) {
+    height: auto !important;
+    min-height: 0 !important;
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+    overflow: visible !important;
+  }
+
   [data-rm-estimate-form] [data-SID="FILE"] .uploader .action {
     display: none !important;
   }

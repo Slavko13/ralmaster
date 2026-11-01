@@ -210,15 +210,90 @@ test('inline validation uses reserved rows without moving controls', async ({ pa
     const root = page.locator(`${form.root}[data-rm-estimate-form]`);
     await expect(root).toBeVisible();
 
-    for (const sid of ['CONTACT', 'TASK', 'FILE']) {
+    for (const sid of ['CONTACT', 'TASK']) {
       await expect(root.locator(`.row[data-SID="${sid}"]`)).toHaveCSS('padding-bottom', '26px');
     }
+    await expect(root.locator('.row[data-SID="FILE"]')).toHaveCSS('padding-bottom', '0px');
 
     const before = await formAnchors(root);
     await root.locator('input[type="submit"]').click();
     await expect(root.locator('[data-SID="CONTACT"] .rm-estimate-error')).toBeVisible();
     await expect(root.locator('[data-SID="TASK"] .rm-estimate-error')).toBeVisible();
     expect(await formAnchors(root)).toEqual(before);
+
+    await root.locator('[data-SID="CONTACT"] input').fill('3214');
+    await root.locator('[data-SID="TASK"] textarea').fill('Тестовая задача');
+    await root.locator('[data-SID="FILE"] input[type="file"]').setInputFiles({
+      name: 'invalid.exe',
+      mimeType: 'application/octet-stream',
+      buffer: Buffer.from('invalid'),
+    });
+    const beforeFileError = await formAnchors(root);
+    await root.locator('input[type="submit"]').click();
+    await expect(root.locator('[data-SID="FILE"] .rm-estimate-error')).toBeVisible();
+    expect(await formAnchors(root)).toEqual(beforeFileError);
+  }
+});
+
+test('all desktop estimate columns have equal height and balanced spacing', async ({ page }) => {
+  const layouts = [
+    { route: '/', left: '.rm-home-order__intro', right: '.rm-home-order__form' },
+    { route: '/product/', left: '.rm-product-estimate__aside', right: '.rm-product-estimate__form' },
+    { route: '/painting/', left: '.rm-powder-estimate__aside', right: '.rm-powder-estimate__form' },
+    { route: '/services/', left: '.rm-metal-estimate__intro', right: '.rm-metal-estimate__form' },
+    { route: '/projects/', left: '.rm-projects-estimate__aside', right: '.rm-projects-estimate__form' },
+  ];
+  for (const item of layouts) {
+    await page.goto(item.route, { waitUntil: 'domcontentloaded' });
+    const geometry = await page.locator(item.right).evaluate((right, selectors) => {
+      const left = document.querySelector<HTMLElement>(selectors.left)!;
+      const rightBox = right.getBoundingClientRect();
+      const leftBox = left.getBoundingClientRect();
+      const name = right.querySelector<HTMLElement>('[data-SID="NAME"] label')!.getBoundingClientRect();
+      const nameInput = right.querySelector<HTMLElement>('[data-SID="NAME"] input')!.getBoundingClientRect();
+      const contact = right.querySelector<HTMLElement>('[data-SID="CONTACT"] input')!.getBoundingClientRect();
+      const submit = right.querySelector<HTMLElement>('input[type="submit"]')!.getBoundingClientRect();
+      const task = right.querySelector<HTMLElement>('[data-SID="TASK"] textarea')!.getBoundingClientRect();
+      const uploader = right.querySelector<HTMLElement>('[data-SID="FILE"] .uploader')!.getBoundingClientRect();
+      const consent = right.querySelector<HTMLElement>('.licence_block')!.getBoundingClientRect();
+      const rowHeight = (sid: string) => Math.round(right.querySelector<HTMLElement>(`.row[data-SID="${sid}"]`)!.getBoundingClientRect().height);
+      return {
+        route: selectors.route,
+        leftHeight: Math.round(leftBox.height),
+        rightHeight: Math.round(rightBox.height),
+        top: Math.round(name.top - rightBox.top),
+        bottom: Math.round(rightBox.bottom - submit.bottom),
+        nameToContact: Math.round(contact.top - nameInput.bottom),
+        contactToTask: Math.round(task.top - contact.bottom),
+        taskToFile: Math.round(uploader.top - task.bottom),
+        fileToConsent: Math.round(consent.top - uploader.bottom),
+        consentToSubmit: Math.round(submit.top - consent.bottom),
+        consentHeight: Math.round(consent.height),
+        rows: {
+          name: rowHeight('NAME'),
+          contact: rowHeight('CONTACT'),
+          task: rowHeight('TASK'),
+          file: rowHeight('FILE'),
+        },
+      };
+    }, item);
+    expect(geometry).toMatchObject({
+      route: item.route,
+      leftHeight: 738,
+      rightHeight: 738,
+      top: 32,
+      bottom: 51,
+      fileToConsent: 58,
+      consentToSubmit: 16,
+      consentHeight: 20,
+      rows: { name: 84, contact: 155, task: 166, file: 82 },
+    });
+    expect(geometry.nameToContact).toBeGreaterThanOrEqual(88);
+    expect(geometry.nameToContact).toBeLessThanOrEqual(89);
+    expect(geometry.contactToTask).toBeGreaterThanOrEqual(70);
+    expect(geometry.contactToTask).toBeLessThanOrEqual(71);
+    expect(geometry.taskToFile).toBeGreaterThanOrEqual(29);
+    expect(geometry.taskToFile).toBeLessThanOrEqual(34);
   }
 });
 

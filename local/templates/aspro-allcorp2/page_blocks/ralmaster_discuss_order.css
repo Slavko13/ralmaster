@@ -208,10 +208,18 @@
 }
 
 .rm-discuss__form form .row[data-SID="CONTACT"],
-.rm-discuss__form form .row[data-SID="TASK"],
-.rm-discuss__form form .row[data-SID="FILE"] {
+.rm-discuss__form form .row[data-SID="TASK"] {
   position: relative !important;
   padding-bottom: var(--rm-estimate-error-space, 26px) !important;
+}
+
+.rm-discuss__form form .row[data-SID="FILE"] {
+  position: relative !important;
+  padding-bottom: 0 !important;
+}
+
+.rm-discuss__form form .row[data-SID="FILE"]:has(.rm-estimate-error) .form-group[data-rm-file-help]::after {
+  visibility: hidden;
 }
 
 .rm-discuss__form form .row[data-SID] > [class*="col-"] {
