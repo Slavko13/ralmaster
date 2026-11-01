@@ -148,14 +148,17 @@ for (const dialogCase of cases) {
       headingFontSize: '36px',
       headingLineHeight: '44px',
       nameHeight: 56,
-      taskHeight: 116,
+      taskHeight: 112,
       uploadHeight: 56,
       submitHeight: 60,
       submitAlign: 'left',
     });
 
     await dialog.locator('[data-SID="NAME"] input').focus();
-    await expect(dialog.locator('[data-SID="NAME"] input')).toHaveCSS('box-shadow', 'none');
+    await expect(dialog.locator('[data-SID="NAME"] input')).toHaveCSS(
+      'box-shadow',
+      'rgb(23, 91, 239) 0px 0px 0px 1px',
+    );
     await expect(dialog.locator('[data-SID="NAME"] input')).toHaveCSS('outline-style', 'none');
 
     await dialog.locator('input[type="submit"]').click();

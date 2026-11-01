@@ -17,6 +17,348 @@
   display: none !important;
 }
 
+/*
+ * One shared visual contract for every estimate form.  Page blocks still own
+ * their surrounding artwork and columns, while the actual controls remain
+ * identical on home, products, painting, services, projects and dialogs.
+ */
+[data-rm-estimate-form] {
+  --rm-estimate-blue: #175bef;
+  --rm-estimate-blue-hover: #0f4fde;
+  --rm-estimate-text: #111e35;
+  --rm-estimate-muted: #5f6f84;
+  --rm-estimate-placeholder: #8995a5;
+  --rm-estimate-border: #ccd6e2;
+  --rm-estimate-upload-border: #aab8ca;
+  font-family: var(--rm-font-body, Onest, Arial, sans-serif);
+}
+
+[data-rm-estimate-form] form,
+[data-rm-estimate-form] form > .row,
+[data-rm-estimate-form] form > .row > .col-md-8,
+[data-rm-estimate-form] form > .row > .col-md-8 > .row,
+[data-rm-estimate-form] form > .row > .col-md-8 > .row > [class*="col-"]:has(.row[data-SID]) {
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+[data-rm-estimate-form] form > .row,
+[data-rm-estimate-form] form > .row > .col-md-8 > .row {
+  margin: 0 !important;
+}
+
+[data-rm-estimate-form] form > .row > .col-md-8 > .row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 16px !important;
+}
+
+[data-rm-estimate-form] form > .row > .col-md-8 > .row > [class*="col-"]:has(.row[data-SID]) {
+  display: contents !important;
+}
+
+[data-rm-estimate-form] form .row[data-SID],
+[data-rm-estimate-form] form .row[data-SID] > [class*="col-"],
+[data-rm-estimate-form] form .row[data-sid],
+[data-rm-estimate-form] form .row[data-sid] > [class*="col-"] {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  float: none !important;
+}
+
+[data-rm-estimate-form] .form-group {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+}
+
+[data-rm-estimate-form] form .form-group.animated-labels > label:not(.error),
+[data-rm-estimate-form] form .form-group.animated-labels.input-filed > label:not(.error) {
+  position: static !important;
+  display: block !important;
+  width: auto !important;
+  max-width: 100% !important;
+  margin: 0 0 8px !important;
+  padding: 0 !important;
+  transform: none !important;
+  color: var(--rm-estimate-text) !important;
+  background: transparent !important;
+  font: 500 14px/20px var(--rm-font-body, Onest, Arial, sans-serif) !important;
+  white-space: normal !important;
+}
+
+[data-rm-estimate-form] .form-group > .input {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: auto !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+[data-rm-estimate-form] .form-group > .input > br {
+  display: none !important;
+}
+
+[data-rm-estimate-form] input.form-control,
+[data-rm-estimate-form] textarea.form-control {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 15px 16px !important;
+  border: 1px solid var(--rm-estimate-border) !important;
+  border-radius: 4px !important;
+  outline: 0 !important;
+  color: var(--rm-estimate-text) !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  font: 400 16px/24px var(--rm-font-body, Onest, Arial, sans-serif) !important;
+}
+
+[data-rm-estimate-form] input.form-control {
+  height: 56px !important;
+}
+
+[data-rm-estimate-form] textarea.form-control,
+[data-rm-estimate-form] [data-SID="TASK"] textarea,
+[data-rm-estimate-form] [data-SID="MESSAGE"] textarea {
+  height: 112px !important;
+  min-height: 112px !important;
+  max-height: 112px !important;
+  resize: none !important;
+}
+
+[data-rm-estimate-form] input.form-control::placeholder,
+[data-rm-estimate-form] textarea.form-control::placeholder {
+  color: var(--rm-estimate-placeholder) !important;
+  opacity: 1 !important;
+}
+
+[data-rm-estimate-form] input.form-control:focus,
+[data-rm-estimate-form] textarea.form-control:focus {
+  border-color: var(--rm-estimate-blue) !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 1px var(--rm-estimate-blue) !important;
+}
+
+[data-rm-estimate-form] form .row[data-SID="FILE"] .form-group > label,
+[data-rm-estimate-form] .bx-input-file-desc {
+  display: none !important;
+}
+
+[data-rm-estimate-form] [data-SID="FILE"] .uploader {
+  position: relative !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: 56px !important;
+  min-height: 56px !important;
+  margin: 0 !important;
+  padding: 8px !important;
+  overflow: hidden !important;
+  border: 1px dashed var(--rm-estimate-upload-border) !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  transform: none !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+[data-rm-estimate-form] [data-SID="FILE"] .uploader::before,
+[data-rm-estimate-form] [data-SID="FILE"] .uploader::after {
+  display: none !important;
+  content: none !important;
+}
+
+[data-rm-estimate-form] [data-SID="FILE"] .uploader .action {
+  position: absolute !important;
+  z-index: 1 !important;
+  top: 7px !important;
+  right: 8px !important;
+  bottom: auto !important;
+  left: auto !important;
+  display: block !important;
+  width: auto !important;
+  height: 40px !important;
+  margin: 0 !important;
+  padding: 10px 16px !important;
+  border: 1px solid #d8e0e8 !important;
+  border-radius: 3px !important;
+  color: #344b6a !important;
+  background: #fff !important;
+  font: 400 12px/18px var(--rm-font-body, Onest, Arial, sans-serif) !important;
+}
+
+[data-rm-estimate-form] [data-SID="FILE"] .uploader .filename {
+  position: relative !important;
+  top: 0 !important;
+  display: flex !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 38px !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 150px 0 36px !important;
+  overflow: hidden !important;
+  color: transparent !important;
+  background: transparent !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  text-overflow: ellipsis !important;
+}
+
+[data-rm-estimate-form] [data-SID="FILE"] .uploader .filename::before {
+  position: absolute !important;
+  top: 11px !important;
+  left: 12px !important;
+  display: block !important;
+  width: 16px !important;
+  height: 16px !important;
+  content: "" !important;
+  background: no-repeat center / 16px 16px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23175BEF' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.4 11.6-8.9 8.9a6 6 0 0 1-8.5-8.5l9.6-9.6a4 4 0 0 1 5.7 5.7l-9.6 9.6a2 2 0 0 1-2.8-2.8l8.9-8.9'/%3E%3C/svg%3E") !important;
+}
+
+[data-rm-estimate-form] [data-SID="FILE"] .uploader .filename::after {
+  display: block !important;
+  color: #344b6a !important;
+  content: "Прикрепить файлы" !important;
+  font: 500 14px/20px var(--rm-font-body, Onest, Arial, sans-serif) !important;
+  white-space: nowrap !important;
+}
+
+[data-rm-estimate-form] [data-SID="FILE"] .uploader.files_add .filename {
+  color: #344b6a !important;
+  font: 400 13px/20px var(--rm-font-body, Onest, Arial, sans-serif) !important;
+  white-space: nowrap !important;
+}
+
+[data-rm-estimate-form] [data-SID="FILE"] .uploader.files_add .filename::after {
+  display: none !important;
+}
+
+[data-rm-estimate-form] form .row[data-SID="FILE"]::after {
+  display: block !important;
+  margin: 8px 0 0 !important;
+  color: #7a8798 !important;
+  content: "Чертежи, техническое задание или фотографии" !important;
+  font: 400 13px/18px var(--rm-font-body, Onest, Arial, sans-serif) !important;
+}
+
+[data-rm-estimate-form] [data-SID="FILE"] .form-group[data-rm-file-help]::after {
+  display: none !important;
+  content: none !important;
+}
+
+[data-rm-estimate-form] .form-footer {
+  display: grid !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  grid-template-rows: auto 60px !important;
+  gap: 16px !important;
+  margin: 16px 0 0 !important;
+  padding: 0 !important;
+}
+
+[data-rm-estimate-form][data-rm-estimate-context] .form-footer .inner-table-block {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  height: 60px !important;
+}
+
+[data-rm-estimate-form][data-rm-estimate-context] .form-footer .inner-table-block:not(:has(input[type="submit"])) {
+  display: none !important;
+  height: 0 !important;
+}
+
+[data-rm-estimate-form] .form-footer .inner-table-block:has(input[type="submit"])::after {
+  position: absolute !important;
+  z-index: 2 !important;
+  top: 19px !important;
+  right: 20px !important;
+  display: block !important;
+  color: #fff !important;
+  content: "↗" !important;
+  font: 400 22px/22px Arial, sans-serif !important;
+  pointer-events: none !important;
+}
+
+[data-rm-estimate-form] .form-footer .btn,
+[data-rm-estimate-form] input[type="submit"] {
+  width: 100% !important;
+  height: 60px !important;
+  min-height: 60px !important;
+  margin: 0 !important;
+  padding: 0 56px 0 22px !important;
+  border: 1px solid var(--rm-estimate-blue) !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+  background: var(--rm-estimate-blue) !important;
+  box-shadow: none !important;
+  font: 500 16px/24px var(--rm-font-body, Onest, Arial, sans-serif) !important;
+  text-align: left !important;
+  text-transform: none !important;
+}
+
+[data-rm-estimate-form] .form-footer .btn:hover,
+[data-rm-estimate-form] .form-footer .btn:focus-visible,
+[data-rm-estimate-form] input[type="submit"]:hover,
+[data-rm-estimate-form] input[type="submit"]:focus-visible {
+  border-color: var(--rm-estimate-blue-hover) !important;
+  background: var(--rm-estimate-blue-hover) !important;
+}
+
+/* The dialog stylesheet is component-scoped and loads later than this file. */
+[data-rm-estimate-form].rm-discuss__form form .form-group.animated-labels > label:not(.error),
+[data-rm-estimate-form].rm-discuss__form form .form-group.animated-labels.input-filed > label:not(.error) {
+  margin-bottom: 8px !important;
+  color: var(--rm-estimate-text) !important;
+  font: 500 14px/20px var(--rm-font-body, Onest, Arial, sans-serif) !important;
+}
+
+[data-rm-estimate-form].rm-discuss__form input.form-control,
+[data-rm-estimate-form].rm-discuss__form textarea.form-control {
+  padding: 15px 16px !important;
+  font: 400 16px/24px var(--rm-font-body, Onest, Arial, sans-serif) !important;
+}
+
+[data-rm-estimate-form].rm-discuss__form textarea.form-control,
+[data-rm-estimate-form].rm-discuss__form [data-SID="TASK"] textarea,
+[data-rm-estimate-form].rm-discuss__form [data-SID="MESSAGE"] textarea {
+  height: 112px !important;
+  min-height: 112px !important;
+  max-height: 112px !important;
+}
+
+[data-rm-estimate-form].rm-discuss__form .form-footer .licence_block,
+[data-rm-estimate-form].rm-discuss__form .form-footer .licence_block > label {
+  color: var(--rm-estimate-muted) !important;
+  font: 500 13px/20px var(--rm-font-body, Onest, Arial, sans-serif) !important;
+}
+
+[data-rm-estimate-form][data-rm-estimate-context] .form-footer .licence_block > input[type="checkbox"] {
+  width: 20px !important;
+  height: 20px !important;
+  flex: 0 0 20px !important;
+  border-color: var(--rm-estimate-border) !important;
+  background-color: #fff !important;
+}
+
+[data-rm-estimate-form][data-rm-estimate-context] .form-footer .licence_block > input[type="checkbox"]:checked {
+  border-color: var(--rm-estimate-blue) !important;
+  background-color: var(--rm-estimate-blue) !important;
+}
+
 [data-rm-estimate-form] .rm-contact-methods {
   display: flex;
   width: 100%;
@@ -63,12 +405,16 @@
   box-shadow: 0 0 0 1px #175bef;
 }
 
-[data-rm-estimate-form] .form-footer .licence_block {
+[data-rm-estimate-form][data-rm-estimate-context] .form-footer .licence_block {
   display: flex !important;
   width: 100% !important;
   min-height: 20px !important;
   align-items: flex-start;
   gap: 12px;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: var(--rm-estimate-muted) !important;
+  font: 500 13px/20px var(--rm-font-body, Onest, Arial, sans-serif) !important;
 }
 
 [data-rm-estimate-form] .form-footer .licence_block input[type="checkbox"] {
@@ -99,6 +445,13 @@
   flex: 1 1 auto;
   margin: 0 !important;
   padding: 0 !important;
+  color: var(--rm-estimate-muted) !important;
+  font: 500 13px/20px var(--rm-font-body, Onest, Arial, sans-serif) !important;
+}
+
+[data-rm-estimate-form] .form-footer .licence_block a {
+  color: inherit !important;
+  text-decoration: underline !important;
 }
 
 [data-rm-estimate-form] .form-footer .licence_block > label::before,
@@ -179,6 +532,19 @@
 }
 
 @media (max-width: 767px) {
+  [data-rm-estimate-form] [data-SID="FILE"] .uploader .action {
+    display: none !important;
+  }
+
+  [data-rm-estimate-form] [data-SID="FILE"] .uploader .filename {
+    padding-right: 16px !important;
+  }
+
+  [data-rm-estimate-form] .rm-contact-methods__button {
+    flex: 1 1 calc(50% - 4px);
+    justify-content: flex-start;
+  }
+
   .rm-estimate-success-dialog__inner {
     padding: 32px 24px 24px;
   }

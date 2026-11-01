@@ -100,7 +100,7 @@ test.describe('P0 redesigned contacts and discuss-order dialog', () => {
     await expect(frame).toHaveAttribute('src', /https:\/\/yandex\.ru\/map-widget\/v1\//);
   });
 
-  test('opens the reusable 748 × 850 Paper dialog and validates without POST', async ({ page }) => {
+  test('opens the reusable 748 × 922 dialog and validates without POST', async ({ page }) => {
     const postRequests: string[] = [];
     page.on('request', (request) => {
       if (request.method() === 'POST') postRequests.push(request.url());
@@ -112,7 +112,9 @@ test.describe('P0 redesigned contacts and discuss-order dialog', () => {
 
     const dialog = page.locator('[data-rm-discuss-dialog]');
     await expect(dialog).toBeVisible();
-    await expect(dialog.locator('input[data-sid="CONTEXT"]')).toHaveValue('contacts');
+    await expect(dialog.locator('input[data-sid="CONTEXT"]')).toHaveValue(
+      'contacts; contact=telegram',
+    );
     await expect(dialog.locator('[data-SID="TASK"] textarea')).toHaveAttribute(
       'placeholder',
       /нужны корзины для кондиционеров/,
@@ -160,14 +162,14 @@ test.describe('P0 redesigned contacts and discuss-order dialog', () => {
       };
     });
 
-    expect(geometry.dialog).toEqual({ width: 748, height: 850 });
+    expect(geometry.dialog).toEqual({ width: 748, height: 922 });
     expect(geometry.header).toEqual({ width: 668, height: 64, clipped: false });
     expect(geometry.intro).toEqual({ width: 668, height: 76, clipped: false });
-    expect(geometry.form).toEqual({ width: 668, height: 590, clipped: false });
+    expect(geometry.form).toEqual({ width: 668, height: 662, clipped: false });
     expect(geometry.name?.height).toBe(88);
-    expect(geometry.contact?.height).toBe(88);
-    expect(geometry.task?.height).toBe(148);
-    expect(geometry.file?.height).toBe(86);
+    expect(geometry.contact?.height).toBe(132);
+    expect(geometry.task?.height).toBe(144);
+    expect(geometry.file?.height).toBe(82);
     expect(geometry.consent?.height).toBe(20);
     expect(geometry.submit?.height).toBe(60);
     expect(geometry.note).toEqual({ width: 668, height: 40, clipped: false });
