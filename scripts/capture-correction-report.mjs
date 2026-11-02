@@ -89,6 +89,10 @@ try {
 
   await open('/painting/');
   await captureElement(page.locator('.rm-powder-accepted'), '10-powder-products-layout.png');
+  const powderCard = page.locator('.rm-powder-accepted__card').first();
+  await powderCard.hover();
+  await page.waitForTimeout(550);
+  await captureElement(powderCard, '19-powder-card-hover.png');
 
   await open('/projects/');
   await captureElement(page.locator('.rm-projects-products'), '11-project-products-layout.png');

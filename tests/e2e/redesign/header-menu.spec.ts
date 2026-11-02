@@ -123,10 +123,22 @@ test.describe('P0 Paper flat navigation', () => {
     await expect(basket).toBeVisible();
     await expect(basket.locator('.basket-link')).toHaveAttribute('href', '/cart/');
     await expect(basket.locator('.count')).not.toHaveText('0');
+    const catalogBasketAppearance = await basket.locator('.basket-link').evaluate((node) => {
+      const style = getComputedStyle(node);
+      return { color: style.color, background: style.backgroundColor };
+    });
 
     await basket.locator('.basket-link').click();
     await expect(page).toHaveURL(/\/cart\/$/);
     await expect(page.getByText(productName, { exact: false }).first()).toBeVisible();
+    const cartBasket = page.locator('.rm-header .rm-header__basket');
+    const cartBasketAppearance = await cartBasket.locator('.basket-link').evaluate((node) => {
+      const style = getComputedStyle(node);
+      return { color: style.color, background: style.backgroundColor };
+    });
+    expect(cartBasketAppearance).toEqual(catalogBasketAppearance);
+    await expect(cartBasket.locator('.count')).toHaveCSS('background-color', 'rgb(23, 91, 239)');
+    await expect(cartBasket.locator('.count')).toHaveCSS('color', 'rgb(255, 255, 255)');
   });
 
   test('keeps the cart icon visible while hiding a zero badge', async ({ page }) => {

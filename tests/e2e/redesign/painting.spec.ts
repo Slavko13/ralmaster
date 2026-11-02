@@ -148,6 +148,7 @@ test.describe('P0 redesigned powder coating page', () => {
     });
 
     const card = page.locator('.rm-powder-accepted__card').first();
+    const image = card.locator(':scope > img');
     const topBeforeHover = await card.evaluate(
       (node) => node.getBoundingClientRect().top + window.scrollY,
     );
@@ -156,8 +157,9 @@ test.describe('P0 redesigned powder coating page', () => {
     const topAfterHover = await card.evaluate(
       (node) => node.getBoundingClientRect().top + window.scrollY,
     );
-    await expect(card).toHaveCSS('transform', 'matrix(1.1, 0, 0, 1.1, 0, 0)');
-    await expect(card).toHaveCSS('box-shadow', /rgba\(17, 30, 53, 0\.16\).*18px 40px/);
+    await expect(card).toHaveCSS('transform', 'none');
+    await expect(card).toHaveCSS('box-shadow', /rgba\(17, 30, 53, 0\.12\).*12px 30px/);
+    await expect(image).toHaveCSS('transform', 'matrix(1.015, 0, 0, 1.015, 0, 0)');
     expect(Math.abs(topAfterHover - topBeforeHover)).toBeLessThanOrEqual(1);
   });
 

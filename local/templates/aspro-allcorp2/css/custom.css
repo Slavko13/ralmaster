@@ -3487,9 +3487,18 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   fill: currentColor !important;
 }
 
-.rm-header__basket.is-active .basket-link,
 .rm-header__basket .basket-link:hover,
 .rm-header__basket .basket-link:focus-visible {
+  background: #eaf0ff !important;
+}
+
+.rm-header__tool.rm-header__basket.is-active,
+.rm-header__basket.is-active .basket-link {
+  background: transparent !important;
+}
+
+.rm-header__basket.is-active .basket-link:hover,
+.rm-header__basket.is-active .basket-link:focus-visible {
   background: #eaf0ff !important;
 }
 
