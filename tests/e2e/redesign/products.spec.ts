@@ -165,21 +165,24 @@ test.describe('P0 redesigned products root', () => {
   test('uses a restrained hover response on product cards', async ({ page }) => {
     await page.goto('/product/', { waitUntil: 'domcontentloaded' });
     const card = page.locator('.rm-product-card').first();
+    const image = card.locator('.rm-product-card__image');
     const before = await card.evaluate((node) => ({
       transform: getComputedStyle(node).transform,
       boxShadow: getComputedStyle(node).boxShadow,
     }));
 
     await card.hover();
-    await page.waitForTimeout(220);
+    await page.waitForTimeout(550);
     const after = await card.evaluate((node) => ({
       transform: getComputedStyle(node).transform,
       boxShadow: getComputedStyle(node).boxShadow,
     }));
+    const imageTransform = await image.evaluate((node) => getComputedStyle(node).transform);
 
     expect(before.transform).toBe('none');
-    expect(after.transform).not.toBe('none');
+    expect(after.transform).toBe('none');
     expect(after.boxShadow).not.toBe('none');
+    expect(imageTransform).not.toBe('none');
   });
 
   test('blocks an empty task and file on the shared estimate form without a POST', async ({ page }) => {

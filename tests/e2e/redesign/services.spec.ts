@@ -159,6 +159,28 @@ test.describe('Redesigned metalworking root', () => {
       await expect(arrows.nth(index)).toHaveText('↗');
       await expect(arrows.nth(index)).toHaveCSS('font-size', '26px');
     }
+
+    const numberAlignment = await page.locator('.rm-metal-operations__steps li').evaluateAll((items) =>
+      items.map((item) => {
+        const number = item.querySelector(':scope > span')!.getBoundingClientRect();
+        const heading = item.querySelector('strong')!.getBoundingClientRect();
+        return Math.abs(number.top - heading.top);
+      }),
+    );
+    expect(numberAlignment.every((offset) => offset <= 6)).toBe(true);
+  });
+
+  test('uses the Paper check icons in the estimate checklist', async ({ page }) => {
+    await page.goto('/services/', { waitUntil: 'domcontentloaded' });
+    const item = page.locator('.rm-metal-estimate__lead li').first();
+    await expect(item).toHaveCSS('font-size', '15px');
+    const marker = await item.evaluate((node) => {
+      const style = getComputedStyle(node, '::before');
+      return { width: style.width, height: style.height, image: style.backgroundImage };
+    });
+    expect(marker.width).toBe('18px');
+    expect(marker.height).toBe('18px');
+    expect(marker.image).toContain('data:image/svg+xml');
   });
 
   test('shows estimate labels and opens calculation buttons in a dialog', async ({ page }) => {

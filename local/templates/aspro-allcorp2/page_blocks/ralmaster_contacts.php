@@ -83,7 +83,7 @@ $rmContactsBank = array(
 				<div class="rm-contacts-summary__label">Электронная почта</div>
 				<div class="rm-contacts-summary__email-row">
 					<div class="rm-contacts-summary__email"><?CAllcorp2::showEmail('rm-contacts-summary__email-value');?></div>
-					<button type="button" class="rm-contacts-summary__copy-email" data-rm-copy-email="ralmaster@inbox.ru" aria-live="polite">Скопировать</button>
+					<button type="button" class="rm-contacts-summary__copy-email" data-rm-copy-email="ralmaster@inbox.ru" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 8H20V21H8V8ZM4 16H3V3H16V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Скопировать</span></button>
 				</div>
 				<p>Для запросов, чертежей и технических заданий</p>
 				<?if ($rmContactsEstimateFormId > 0):?>

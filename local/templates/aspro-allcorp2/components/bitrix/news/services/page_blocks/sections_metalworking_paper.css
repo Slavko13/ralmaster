@@ -333,10 +333,12 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 }
 
 .rm-metal-operations__steps li > span {
+  align-self: start;
+  margin-top: 5px;
   color: var(--rm-primary, #175bef);
   font-size: 16px;
   font-weight: 500;
-  line-height: 22px;
+  line-height: 24px;
 }
 
 .rm-metal-operations__steps strong {
@@ -355,7 +357,7 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 
 .rm-metal-operations__steps i {
   position: absolute;
-  top: 0;
+  top: 4px;
   right: 0;
   color: var(--rm-primary, #175bef);
   font-size: 26px;
@@ -575,26 +577,30 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 }
 
 .rm-metal-estimate__lead ul {
-  margin-top: 10px;
+  margin-top: 14px;
   list-style: none;
 }
 
 .rm-metal-estimate__lead li {
   position: relative;
-  padding-left: 18px;
+  padding-left: 30px;
   color: #fff;
-  font-size: 13px;
-  line-height: 22px;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.rm-metal-estimate__lead li + li {
+  margin-top: 9px;
 }
 
 .rm-metal-estimate__lead li::before {
   position: absolute;
-  top: 9px;
-  left: 0;
-  width: 6px;
-  height: 6px;
+  top: 3px !important;
+  left: 0 !important;
+  width: 18px !important;
+  height: 18px !important;
   content: "";
-  background: var(--rm-primary, #175bef);
+  background: center / 18px 18px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M4 10L8 14L16 6' stroke='%2378A3FF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
 }
 
 .rm-metal-estimate__contact {

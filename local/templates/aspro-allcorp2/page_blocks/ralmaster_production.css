@@ -367,6 +367,15 @@
   cursor: pointer;
 }
 
+.rm-production-capabilities__cta button span {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  place-items: center;
+  font: 400 22px/20px Arial, sans-serif;
+}
+
 .rm-production-order {
   height: 600px;
   padding: 72px 0;

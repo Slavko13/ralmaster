@@ -1030,6 +1030,48 @@
   object-fit: cover;
 }
 
+.rm-project-detail--brackets .rm-project-detail__breadcrumbs {
+  margin-top: 0;
+}
+
+.rm-project-detail--brackets .rm-project-detail__project-copy > p + p {
+  margin-top: 18px;
+}
+
+.rm-project-detail__steps {
+  margin: 30px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rm-project-detail__steps li {
+  display: grid;
+  min-height: 116px;
+  padding: 20px 0;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 16px;
+  border-top: 1px solid #ccd6e2;
+}
+
+.rm-project-detail__steps li > span {
+  color: #175bef;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.rm-project-detail__steps strong {
+  display: block;
+  color: #111e35;
+  font: 600 22px/28px "Inter Tight", Arial, sans-serif;
+}
+
+.rm-project-detail__steps p {
+  margin-top: 6px;
+  color: #526073;
+  font-size: 15px;
+  line-height: 22px;
+}
+
 .rm-project-detail__result {
   height: 766px;
   padding: 58px 0;
@@ -1496,6 +1538,10 @@ body:has(.rm-project-detail) .main > .container .right_block {
   .rm-project-detail__work figure,
   .rm-project-detail__work figure img {
     height: 300px;
+  }
+
+  .rm-project-detail__steps li {
+    grid-template-columns: 36px minmax(0, 1fr);
   }
 
   .rm-project-detail__result-heading {

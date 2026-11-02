@@ -37,12 +37,17 @@ async function captureElement(locator, name) {
 try {
   await open('/');
   await capturePage('01-home-hero-and-header.png');
+  await captureElement(page.locator('.rm-home-product-grid'), '13-home-drawings-route.png');
 
   await open('/contacts/');
   await page.locator('.rm-header .rm-flat-menu__item--services').hover();
   await page.waitForTimeout(220);
   await capturePage('02-white-header-and-services-menu.png');
   await captureElement(page.locator('.rm-contacts-summary'), '03-contacts-alignment.png');
+  await captureElement(
+    page.locator('.rm-contacts-summary__email-row'),
+    '14-contacts-copy-control.png',
+  );
 
   await open('/company/');
   await captureElement(page.locator('.rm-production-capabilities'), '04-production-table.png');
@@ -67,10 +72,20 @@ try {
   await basketResponse;
   await open('/cart/');
   await capturePage('06-live-catalog-cart.png');
+  await captureElement(page.locator('.rm-header__basket'), '17-cart-header-count.png');
   await page.locator('.basket.default .buttons .to-order').click();
   await page.waitForLoadState('domcontentloaded');
   await page.waitForTimeout(500);
   await capturePage('07-checkout-form.png');
+
+  await open('/product/');
+  const productCard = page.locator('.rm-product-card').first();
+  await productCard.hover();
+  await page.waitForTimeout(550);
+  await captureElement(productCard, '15-product-card-hover.png');
+
+  await open('/projects/krepezhnye-kronshteyny/');
+  await capturePage('18-brackets-project-page.png');
 
   await open('/painting/');
   await captureElement(page.locator('.rm-powder-accepted'), '10-powder-products-layout.png');
@@ -80,6 +95,10 @@ try {
 
   await open('/services/');
   await captureElement(page.locator('.rm-metal-operations'), '12-metalworking-operations.png');
+  await captureElement(
+    page.locator('.rm-metal-estimate__intro'),
+    '16-metalworking-estimate-checks.png',
+  );
 
   await page.setViewportSize({ width: 390, height: 844 });
   await open('/');

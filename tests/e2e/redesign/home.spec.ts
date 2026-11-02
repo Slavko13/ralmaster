@@ -96,6 +96,10 @@ test.describe('P0 redesigned home', () => {
       'href',
       '/product/facadecassettes/',
     );
+    await expect(home.locator('.rm-home-hero')).toHaveCSS('height', '579px');
+    await expect(
+      home.locator('.rm-home-product-card').filter({ hasText: 'Изготовление по чертежам' }),
+    ).toHaveAttribute('href', '/projects/krepezhnye-kronshteyny/');
     await expect(home.locator('.rm-home-service-card')).toHaveCount(3);
     expect(
       await home.locator('.rm-home-service-card').evaluateAll((cards) =>

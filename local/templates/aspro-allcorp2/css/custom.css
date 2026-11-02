@@ -3341,7 +3341,7 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   width: 248px;
   gap: 0;
   margin: 0;
-  padding: 12px;
+  padding: 12px 0;
   visibility: hidden;
   opacity: 0;
   background: var(--rm-white);
@@ -3361,8 +3361,14 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   margin: 0;
 }
 
+.rm-flat-menu__submenu li {
+  padding: 0 !important;
+}
+
 .rm-flat-menu__submenu a {
-  padding: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 24px;
   color: var(--rm-text) !important;
   font-family: var(--rm-font-heading);
   font-size: 15px;
@@ -3439,13 +3445,14 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   height: 38px;
   place-items: center;
   border-radius: 2px;
+  color: var(--rm-primary) !important;
   transition: background-color var(--motion-ui) var(--ease-ui);
 }
 
 .rm-header__basket .count {
   position: absolute;
-  top: 1px;
-  right: 0;
+  top: -5px;
+  right: -5px;
   display: grid;
   min-width: 16px;
   height: 16px;
@@ -3453,15 +3460,37 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   place-items: center;
   color: var(--rm-white);
   background: var(--rm-primary);
+  border: 2px solid var(--rm-white);
   border-radius: 999px;
+  background: var(--rm-primary) !important;
+  color: var(--rm-white) !important;
   font-size: 10px;
   line-height: 16px;
+}
+
+.rm-header__basket .count[hidden] {
+  display: none !important;
+}
+
+.rm-header__basket-icon {
+  display: block;
+  width: 22px;
+  height: 22px;
+  color: currentColor;
+}
+
+.rm-header__basket-icon path {
+  stroke: currentColor !important;
+}
+
+.rm-header__basket-icon circle {
+  fill: currentColor !important;
 }
 
 .rm-header__basket.is-active .basket-link,
 .rm-header__basket .basket-link:hover,
 .rm-header__basket .basket-link:focus-visible {
-  background: var(--rm-surface-alt);
+  background: #eaf0ff !important;
 }
 
 .rm-header--overlay .rm-header__email,
@@ -3472,14 +3501,18 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   color: var(--rm-white) !important;
 }
 
+.rm-header--overlay .rm-header__basket .basket-link {
+  color: var(--rm-white) !important;
+}
+
 .rm-header--overlay .rm-header__basket .basket-link:hover,
 .rm-header--overlay .rm-header__basket .basket-link:focus-visible {
   background: rgba(255, 255, 255, .12);
 }
 
 .rm-home-hero {
-  height: 100svh;
-  min-height: 650px;
+  height: 579px;
+  min-height: 0;
 }
 
 .rm-home-hero__feature {

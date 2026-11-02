@@ -255,6 +255,23 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     await expect(detail.locator('[data-rm-project-detail-section="result"] img')).toHaveCount(2);
   });
 
+  test('renders the brackets project linked from the home drawings card', async ({ page }) => {
+    await page.goto('/projects/krepezhnye-kronshteyny/', { waitUntil: 'networkidle' });
+    await expectHealthyDocument(page);
+
+    const detail = page.locator('[data-rm-project-detail]');
+    await expect(detail).toHaveAttribute('data-project-code', 'krepezhnye-kronshteyny');
+    await expect(detail.locator('h1')).toContainText('Крепёжные кронштейны');
+    await expect(detail.locator('h1')).toContainText('по чертежам заказчика');
+    await expect(detail.locator('.rm-project-detail__hero-media img')).toHaveAttribute(
+      'src',
+      /\/images\/ralmaster\/projects\/generic-project-hero\.webp$/,
+    );
+    await expect(detail.locator('.rm-project-detail__passport dl > div')).toHaveCount(6);
+    await expect(detail.locator('.rm-project-detail__steps > li')).toHaveCount(3);
+    await expect(detail.locator('.rm-project-detail__result-grid img')).toHaveCount(2);
+  });
+
   test('matches the desktop Paper section heights for the listing', async ({ page }) => {
     await page.goto('/projects/', { waitUntil: 'networkidle' });
     expect(
@@ -418,6 +435,7 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     { label: 'listing', href: '/projects/' },
     { label: 'Symbol detail', href: '/projects/zhk-simvol/' },
     { label: 'generic detail', href: '/projects/zhk-belyy-grad/' },
+    { label: 'brackets detail', href: '/projects/krepezhnye-kronshteyny/' },
   ] as const) {
     test(`P0 @mobile ${mobileRoute.label} has no horizontal overflow or browser errors`, async ({ page }, testInfo) => {
       const diagnostics = collectBrowserDiagnostics(page);

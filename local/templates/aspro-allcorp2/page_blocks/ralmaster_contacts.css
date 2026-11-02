@@ -135,21 +135,31 @@
 }
 
 .rm-contacts-summary__copy-email {
-  min-width: 40px;
-  height: 40px;
-  padding: 0 12px;
-  border: 1px solid #bfd0ea;
-  border-radius: 3px;
+  display: inline-flex;
+  min-width: 0;
+  height: auto;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
   color: #175bef;
   background: transparent;
-  font: 500 13px/1 var(--rm-font-body, Onest, Arial, sans-serif);
+  font: 500 14px/22px var(--rm-font-body, Onest, Arial, sans-serif);
   cursor: pointer;
 }
 
 .rm-contacts-summary__copy-email:hover,
 .rm-contacts-summary__copy-email:focus-visible {
-  border-color: #175bef;
-  background: #eaf0ff;
+  color: #0f4ed7;
+  background: transparent;
+}
+
+.rm-contacts-summary__copy-email svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
 }
 
 .rm-contacts-summary__primary > p {

@@ -57,6 +57,11 @@ test.describe('P0 redesigned contacts and discuss-order dialog', () => {
     await expect(page.locator('.rm-contacts-summary__email a[href^="mailto:"]').first()).toBeVisible();
     await expect(page.locator('.rm-contacts-route__map')).toBeVisible();
     await expect(page.locator('.rm-contacts-requisites__row')).toHaveCount(9);
+
+    const copyButton = page.locator('.rm-contacts-summary__copy-email');
+    await expect(copyButton).toHaveCSS('border-top-width', '0px');
+    await expect(copyButton.locator('svg')).toHaveCSS('width', '18px');
+    await expect(copyButton.locator('svg')).toHaveCSS('height', '18px');
   });
 
   test('uses a local Paper image and no runtime design hotlinks', async ({ page }) => {

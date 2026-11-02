@@ -17,6 +17,12 @@ else
 $logoPath = SITE_TEMPLATE_PATH.'/images/ralmaster/';
 $bRalHome = CSite::InDir(SITE_DIR.'index.php');
 $bRalCart = CSite::InDir(SITE_DIR.'cart/');
+$rmBasketCount = 0;
+if ($bRalCart && class_exists('CAllcorp2')) {
+	foreach ((array)CAllcorp2::getBasketItems() as $rmBasketItem) {
+		$rmBasketCount += max(1, (int)($rmBasketItem['QUANTITY'] ?? 1));
+	}
+}
 ?>
 <header class="<?=basename(__FILE__, '.php')?> long rm-header<?=$bRalHome ? ' rm-header--overlay' : ''?>" data-rm-shell="header">
 	<div class="rm-header__inner">
@@ -62,7 +68,14 @@ $bRalCart = CSite::InDir(SITE_DIR.'cart/');
 
 		<?if($bOrder):?>
 			<div class="rm-header__tool rm-header__basket<?=$bRalCart ? ' is-active' : ''?>" role="group" aria-label="Корзина">
-				<?=CAllcorp2::showBasketLink('', '', '');?>
+				<?if($bRalCart):?>
+					<a rel="nofollow" href="<?=SITE_DIR?>cart/" class="basket-link" aria-label="Корзина" aria-current="page">
+						<svg class="rm-header__basket-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 4h2l2.1 9.8a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="20" r="1.2" fill="currentColor"/><circle cx="18" cy="20" r="1.2" fill="currentColor"/></svg>
+						<span class="count"<?=$rmBasketCount > 0 ? '' : ' hidden'?>><?=$rmBasketCount?></span>
+					</a>
+				<?else:?>
+					<?=CAllcorp2::showBasketLink('', '', '');?>
+				<?endif;?>
 			</div>
 		<?endif;?>
 	</div>

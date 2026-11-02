@@ -129,8 +129,9 @@ $catalogPool = $rmCatalogSections;
 $rmProductCards = array(
 	$rmTakeMatching($catalogPool, '~фасад|кассет|facad~iu', array('NAME' => 'Фасадные металлокассеты', 'URL' => '/product/', 'IMAGE' => '')),
 	$rmTakeMatching($catalogPool, '~корзин|condition|basket~iu', array('NAME' => 'Корзины для кондиционеров', 'URL' => '/product/', 'IMAGE' => '')),
-	$rmTakeMatching($catalogPool, '~чертеж|заказ|custom|изготов~iu', array('NAME' => 'Изготовление по чертежам', 'URL' => '/product/', 'IMAGE' => '')),
+	$rmTakeMatching($catalogPool, '~чертеж|заказ|custom|изготов~iu', array('NAME' => 'Изготовление по чертежам', 'URL' => '/projects/krepezhnye-kronshteyny/', 'IMAGE' => '')),
 );
+$rmProductCards[2]['URL'] = '/projects/krepezhnye-kronshteyny/';
 
 $servicePool = $rmServices;
 $rmServiceCards = array(

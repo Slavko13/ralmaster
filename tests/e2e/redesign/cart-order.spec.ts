@@ -63,6 +63,13 @@ test.describe('redesigned cart and checkout', () => {
 
     const root = page.locator('[data-rm-system-page="cart"]');
     await expect(root).toBeVisible();
+    const headerBasket = page.locator('.rm-header__basket');
+    await expect(headerBasket.locator('.basket-link')).toBeVisible();
+    await expect(headerBasket.locator('.count')).toBeVisible();
+    await expect(headerBasket.locator('.count')).toHaveText(/^[1-9]\d*$/);
+    await expect(headerBasket.locator('.basket-link')).toHaveCSS('color', 'rgb(23, 91, 239)');
+    await expect(headerBasket.locator('.count')).toHaveCSS('background-color', 'rgb(23, 91, 239)');
+    await expect(headerBasket.locator('.count')).toHaveCSS('color', 'rgb(255, 255, 255)');
     await expect(root.locator('.rm-system-breadcrumb > span[aria-hidden="true"]')).toHaveText(['/']);
     await expect(root.getByText(productName, { exact: false }).first()).toBeVisible();
     await expect(root.locator('.basket.default .counter')).toBeVisible();

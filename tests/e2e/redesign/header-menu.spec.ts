@@ -45,6 +45,26 @@ test.describe('P0 Paper flat navigation', () => {
       'href',
       '/painting/',
     );
+
+    await services.hover();
+    const submenuRows = services.locator('.rm-flat-menu__submenu a');
+    const geometry = await services.locator('.rm-flat-menu__submenu').evaluate((menu) => {
+      const menuBox = menu.getBoundingClientRect();
+      const rows = Array.from(menu.querySelectorAll('a')).map((row) => {
+        const box = row.getBoundingClientRect();
+        return { left: box.left, right: box.right };
+      });
+      return { left: menuBox.left, right: menuBox.right, rows };
+    });
+    expect(geometry.rows.every((row) => Math.abs(row.left - geometry.left) <= 1)).toBe(true);
+    expect(geometry.rows.every((row) => Math.abs(row.right - geometry.right) <= 1)).toBe(true);
+
+    await submenuRows.first().hover();
+    await page.waitForTimeout(220);
+    const backgrounds = await submenuRows.evaluateAll((rows) =>
+      rows.map((row) => getComputedStyle(row).backgroundColor),
+    );
+    expect(backgrounds[0]).not.toBe(backgrounds[1]);
   });
 
   test('every desktop navigation item is a direct working link', async ({ page }) => {
@@ -107,5 +127,18 @@ test.describe('P0 Paper flat navigation', () => {
     await basket.locator('.basket-link').click();
     await expect(page).toHaveURL(/\/cart\/$/);
     await expect(page.getByText(productName, { exact: false }).first()).toBeVisible();
+  });
+
+  test('keeps the cart icon visible while hiding a zero badge', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    const homeBasket = page.locator('.rm-header .rm-header__basket');
+    await expect(homeBasket.locator('.basket-link')).toBeVisible();
+    await expect(homeBasket.locator('.count')).toBeHidden();
+
+    await page.goto('/cart/', { waitUntil: 'domcontentloaded' });
+    const cartBasket = page.locator('.rm-header .rm-header__basket');
+    await expect(cartBasket.locator('.basket-link')).toBeVisible();
+    await expect(cartBasket.locator('.rm-header__basket-icon')).toBeVisible();
+    await expect(cartBasket.locator('.count')).toBeHidden();
   });
 });

@@ -4,7 +4,24 @@ document.addEventListener('DOMContentLoaded', function () {
   preserveDialogTriggerScroll();
   labelLegacyControls();
   initLegacyBannerScaler();
+  initHeaderBasketCount();
 });
+
+function initHeaderBasketCount() {
+  const syncCounts = function () {
+    document.querySelectorAll('.rm-header__basket .count, #mobileheader .count').forEach(function (count) {
+      const value = Number.parseInt(count.textContent.trim(), 10);
+      count.hidden = !Number.isFinite(value) || value <= 0;
+    });
+  };
+
+  syncCounts();
+
+  const observer = new MutationObserver(syncCounts);
+  document.querySelectorAll('.rm-header__basket, #mobileheader').forEach(function (basket) {
+    observer.observe(basket, { childList: true, characterData: true, subtree: true });
+  });
+}
 
 function preserveDialogTriggerScroll() {
   let pendingScroll = null;
