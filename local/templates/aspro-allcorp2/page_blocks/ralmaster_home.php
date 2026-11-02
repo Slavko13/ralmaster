@@ -260,7 +260,7 @@ if ($rmOrderFormId <= 0) {
 			</div>
 			<a class="rm-home-hero__feature" href="/product/facadecassettes/">
 				<img src="<?=$rmEscape($rmAsset('facade-cassettes.webp'))?>" srcset="<?=$rmEscape($rmAsset('facade-cassettes-768.webp'))?> 768w, <?=$rmEscape($rmAsset('facade-cassettes.webp'))?> 1448w" sizes="118px" width="118" height="118" alt="Фасадные металлокассеты">
-				<span class="rm-home-hero__feature-copy"><strong>Фасадные металлокассеты</strong><span class="rm-link-arrow">Вся продукция</span></span>
+				<span class="rm-home-hero__feature-copy"><strong>Фасадные металлокассеты</strong><span class="rm-link-arrow">Подробнее об изделии</span></span>
 			</a>
 		</div>
 		<div class="rm-home-hero__cut" aria-hidden="true"></div>
@@ -332,7 +332,6 @@ if ($rmOrderFormId <= 0) {
 	<section class="rm-home-projects" data-rm-section="projects">
 		<div class="rm-home-container">
 			<header class="rm-home-section-heading"><h2>Выполненные заказы</h2><a class="rm-link-arrow" href="/projects/">Все выполненные заказы</a></header>
-			<div class="rm-home-projects__filters" aria-label="Категории проектов"><span class="is-active">Все работы</span><span>Изготовление изделий</span><span>Металлообработка</span><span>Порошковая окраска</span></div>
 			<div class="rm-home-project-grid">
 				<?foreach ($rmProjects as $project):?>
 					<a class="rm-home-project-card" data-rm-card="project" href="<?=$rmEscape($project['URL'])?>">

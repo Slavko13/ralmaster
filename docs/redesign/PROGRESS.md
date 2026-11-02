@@ -646,6 +646,26 @@ Legacy `header_fixed` теперь не рендерится только при
   горизонтального overflow нет. Docker build успешен, оба контейнера healthy;
   checkout без товаров возвращает штатный HTTP **302** в корзину.
 
+## Финальный correction pass и фотоотчёт — 2026-11-02
+
+- Header приведён к двум контекстам: прозрачный/тёмный поверх главного hero и
+  белый на внутренних страницах. Высота 72 px, контент совпадает с основными
+  направляющими; меню содержит пять прямых пунктов и компактное подменю услуг.
+- Главный экран занимает 100svh вместе с header. CTA используют общий принцип:
+  текст слева, стрелка справа.
+- Введён единый motion contract: 160/220/500/560 ms, restrained scale только
+  изображений, reveal ниже первого экрана и `prefers-reduced-motion`.
+- Email, телефон и живой Bitrix-счётчик корзины сохранены в desktop header;
+  реальное добавление товара из `/product/pannier/` подтверждено до `/cart/`
+  и `/cart/order/`.
+- Полная redesign-регрессия **137/137 PASS**, smoke **32/32 PASS**. Проверены
+  390/768/1024/1440/wide desktop, axe, browser errors и overflow.
+- Фотоотчёт «до/после» создан в
+  `J:\ralmaster\redesign-report\2026-11-02`; повторная съёмка выполняется
+  командой `npm run visual:correction-report`.
+- Paper использовался только как источник; макет не изменялся. Настоящие
+  формы не отправлялись.
+
 ## Следующий допустимый шаг
 
 ### Коррекция header — 2026-10-31
@@ -656,8 +676,8 @@ Legacy `header_fixed` теперь не рендерится только при
 - PHP lint: 4/4 PASS; targeted desktop: 4/4 PASS; targeted mobile: 3/3 PASS; home/navigation regression: 14/14 PASS.
 - Visual shell: desktop 1440×106, mobile 390×72, horizontal overflow отсутствует.
 
-1. Запустить полную functional/visual regression и воспроизводимый Lighthouse
-   на desktop/mobile; результаты фиксировать без искусственного завышения.
+1. Развернуть подтверждённый commit на тестовом VPS и провести приёмку по
+   фотоотчёту на реальном домене/IP.
 2. Для state-changing gate сначала изолировать mail/CRM; отдельно закрыть
    `SEC-001` с hardcoded map key.
 

@@ -18,7 +18,11 @@ test('P1 @mobile mobile header is usable at 390px', async ({ page }) => {
   await expect(mobileMenu).toBeVisible();
   await expect(menuTrigger).toHaveAttribute('aria-expanded', 'true');
   await expect(menuTrigger).toHaveAttribute('aria-label', 'Закрыть меню');
-  await expect(mobileMenu.locator('.rm-flat-menu__link')).toHaveCount(6);
+  await expect(mobileMenu.locator('.rm-flat-menu__link')).toHaveCount(5);
+  await expect(mobileMenu.locator('.rm-flat-menu__submenu a')).toHaveText([
+    'Металлообработка',
+    'Порошковая окраска',
+  ]);
   await expect(mobileMenu.locator('.dropdown, .dropdown-menu, .parent')).toHaveCount(0);
 });
 

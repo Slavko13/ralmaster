@@ -17,10 +17,38 @@
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
+  opacity: 0;
+  transition:
+    opacity 200ms cubic-bezier(0.2, 0, 0.2, 1),
+    overlay 200ms allow-discrete,
+    display 200ms allow-discrete;
+}
+
+.rm-discuss[open] {
+  opacity: 1;
 }
 
 .rm-discuss::backdrop {
   background: rgba(9, 20, 38, 0.68);
+  opacity: 0;
+  transition:
+    opacity 260ms cubic-bezier(0.2, 0, 0.2, 1),
+    overlay 260ms allow-discrete,
+    display 260ms allow-discrete;
+}
+
+.rm-discuss[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .rm-discuss[open] {
+    opacity: 0;
+  }
+
+  .rm-discuss[open]::backdrop {
+    opacity: 0;
+  }
 }
 
 .rm-discuss-route-cta {
@@ -619,6 +647,11 @@ dialog.rm-discuss .rm-discuss__form form .form-footer .licence_block > label {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .rm-discuss,
+  .rm-discuss::backdrop {
+    transition: none !important;
+  }
+
   .rm-discuss * {
     scroll-behavior: auto !important;
   }

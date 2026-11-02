@@ -7,6 +7,7 @@
     "visual:home": "node scripts/capture-redesign-home.mjs",
     "visual:pages": "node scripts/capture-redesign-pages.mjs",
     "visual:shell": "node scripts/capture-redesign-shell.mjs",
+    "visual:correction-report": "node scripts/capture-correction-report.mjs",
     "test:e2e": "playwright test",
     "test:e2e:redesign": "playwright test tests/e2e/redesign",
     "test:e2e:smoke": "playwright test tests/e2e/smoke --project=desktop-chromium",

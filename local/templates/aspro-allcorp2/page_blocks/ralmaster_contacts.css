@@ -34,7 +34,7 @@
 
 .rm-contacts-title {
   height: 190px;
-  padding-top: 38px;
+  padding-top: 40px;
   background: #f2f4f6;
 }
 
@@ -57,7 +57,7 @@
   font-family: var(--rm-font-heading, "Inter Tight", Arial, sans-serif);
   font-size: 55px;
   font-weight: 600;
-  line-height: 64px;
+  line-height: 60px;
   letter-spacing: -0.025em;
 }
 
@@ -68,9 +68,8 @@
 
 .rm-contacts-summary__layout {
   display: grid;
-  grid-template-columns: 604px 628px;
-  justify-content: space-between;
-  gap: 80px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+  gap: 48px;
   padding-top: 2px;
 }
 
@@ -102,9 +101,9 @@
 .rm-contacts-summary__phone a {
   color: #111e35 !important;
   font-family: var(--rm-font-heading, "Inter Tight", Arial, sans-serif);
-  font-size: 42px !important;
+  font-size: 48px !important;
   font-weight: 500;
-  line-height: 50px !important;
+  line-height: 58px !important;
 }
 
 .rm-contacts-summary__phone .svg,
@@ -124,9 +123,33 @@
 .rm-contacts-summary__email,
 .rm-contacts-summary__email a {
   color: #111e35 !important;
-  font-size: 22px !important;
+  font-size: 30px !important;
   font-weight: 500;
-  line-height: 30px !important;
+  line-height: 38px !important;
+}
+
+.rm-contacts-summary__email-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rm-contacts-summary__copy-email {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #bfd0ea;
+  border-radius: 3px;
+  color: #175bef;
+  background: transparent;
+  font: 500 13px/1 var(--rm-font-body, Onest, Arial, sans-serif);
+  cursor: pointer;
+}
+
+.rm-contacts-summary__copy-email:hover,
+.rm-contacts-summary__copy-email:focus-visible {
+  border-color: #175bef;
+  background: #eaf0ff;
 }
 
 .rm-contacts-summary__primary > p {

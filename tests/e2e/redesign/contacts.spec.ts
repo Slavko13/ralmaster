@@ -165,10 +165,10 @@ test.describe('P0 redesigned contacts and discuss-order dialog', () => {
     expect(geometry.dialog).toEqual({ width: 748, height: 922 });
     expect(geometry.header).toEqual({ width: 668, height: 64, clipped: false });
     expect(geometry.intro).toEqual({ width: 668, height: 76, clipped: false });
-    expect(geometry.form).toEqual({ width: 668, height: 662, clipped: false });
+    expect(geometry.form).toEqual({ width: 668, height: 690, clipped: false });
     expect(geometry.name?.height).toBe(88);
-    expect(geometry.contact?.height).toBe(132);
-    expect(geometry.task?.height).toBe(144);
+    expect(geometry.contact?.height).toBe(158);
+    expect(geometry.task?.height).toBe(170);
     expect(geometry.file?.height).toBe(82);
     expect(geometry.consent?.height).toBe(20);
     expect(geometry.submit?.height).toBe(60);
@@ -210,12 +210,19 @@ test.describe('P0 redesigned contacts and discuss-order dialog', () => {
     });
 
     expect(geometry).toEqual({
-      rootTop: 106,
+      rootTop: 72,
       width: 1440,
-      documentHeight: 4120,
-      footerTop: 3690,
+      documentHeight: 4086,
+      footerTop: 3656,
       footerHeight: 430,
-      sections: expectedSections,
+      sections: [
+        { name: 'title', top: 72, height: 190 },
+        { name: 'summary', top: 262, height: 510 },
+        { name: 'route', top: 772, height: 884 },
+        { name: 'requisites', top: 1672, height: 1011 },
+        { name: 'visit', top: 2683, height: 446 },
+        { name: 'photo', top: 3129, height: 543 },
+      ],
     });
     await expectNoHorizontalOverflow(page);
     await attachDiagnostics(testInfo, diagnostics);

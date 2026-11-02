@@ -311,7 +311,7 @@ test.describe('P0 redesigned powder coating page', () => {
 
     expect(geometry.root).toEqual({ clientHeight: 738, scrollHeight: 738 });
     expect(geometry.form?.clipped).toBe(false);
-    expect(geometry.task).toEqual({ height: 140, clipped: false });
+    expect(geometry.task).toEqual({ height: 166, clipped: false });
     expect(geometry.textarea).toEqual({ height: 112, clipped: false });
     expect(geometry.uploader).toEqual({ height: 56, clipped: false });
     expect(geometry.consent?.clipped).toBe(false);

@@ -157,10 +157,14 @@ test.describe('P0 redesigned home', () => {
     await expect(productHeading).toHaveCSS('white-space', 'nowrap');
 
     const productCard = home.locator('.rm-home-product-card').first();
+    const productImage = productCard.locator('img');
     await productCard.hover();
-    await page.waitForTimeout(220);
-    expect(await productCard.evaluate((node) => getComputedStyle(node).transform)).not.toBe('none');
+    await page.waitForTimeout(550);
+    expect(await productCard.evaluate((node) => getComputedStyle(node).transform)).toBe('none');
     expect(await productCard.evaluate((node) => getComputedStyle(node).boxShadow)).not.toBe('none');
+    expect(await productImage.evaluate((node) => getComputedStyle(node).transform)).toBe(
+      'matrix(1.015, 0, 0, 1.015, 0, 0)',
+    );
   });
 
   test('loads every rendered image asset', async ({ page }) => {

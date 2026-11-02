@@ -121,6 +121,9 @@ $rmDiscussTaskRowHeight = 148 + (trim((string)$rmDiscussOptions['task_help']) !=
 		trigger.addEventListener('click', function () {
 			var scrollX = window.scrollX;
 			var scrollY = window.scrollY;
+			var restoreScroll = function () {
+				window.scrollTo(scrollX, scrollY);
+			};
 			if (typeof dialog.showModal === 'function') {
 				dialog.showModal();
 			} else {
@@ -130,7 +133,13 @@ $rmDiscussTaskRowHeight = 148 + (trim((string)$rmDiscussOptions['task_help']) !=
 			if (closeButton && typeof closeButton.focus === 'function') {
 				closeButton.focus({ preventScroll: true });
 			}
-			window.scrollTo(scrollX, scrollY);
+			restoreScroll();
+			window.requestAnimationFrame(function () {
+				restoreScroll();
+				window.requestAnimationFrame(restoreScroll);
+			});
+			window.setTimeout(restoreScroll, 0);
+			window.setTimeout(restoreScroll, 220);
 		});
 	});
 	dialog.querySelectorAll('[data-rm-discuss-close]').forEach(function (button) {

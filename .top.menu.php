@@ -1,6 +1,13 @@
 <?
 $aMenuLinks = Array(
 	Array(
+		"Услуги",
+		"/services/",
+		Array(),
+		Array("RM_SERVICES_MENU"=>"Y"),
+		""
+	),
+	Array(
 		"Продукция",
 		"/product/",
 		Array(),
@@ -8,28 +15,14 @@ $aMenuLinks = Array(
 		""
 	),
 	Array(
-		"Металлообработка",
-		"/services/",
-		Array(),
-		Array(),
-		""
-	),
-	Array(
-		"Порошковая окраска",
-		"/painting/",
-		Array(),
-		Array(),
-		""
-	),
-	Array(
-		"О производстве",
+		"О компании",
 		"/company/",
 		Array(),
 		Array(),
 		""
 	),
 	Array(
-		"Реализованные проекты",
+		"Проекты",
 		"/projects/",
 		Array(),
 		Array(),

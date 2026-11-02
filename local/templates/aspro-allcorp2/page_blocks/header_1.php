@@ -16,6 +16,7 @@ else
 
 $logoPath = SITE_TEMPLATE_PATH.'/images/ralmaster/';
 $bRalHome = CSite::InDir(SITE_DIR.'index.php');
+$bRalCart = CSite::InDir(SITE_DIR.'cart/');
 ?>
 <header class="<?=basename(__FILE__, '.php')?> long rm-header<?=$bRalHome ? ' rm-header--overlay' : ''?>" data-rm-shell="header">
 	<div class="rm-header__inner">
@@ -42,21 +43,10 @@ $bRalHome = CSite::InDir(SITE_DIR.'index.php');
 				);?>
 			</nav>
 
-			<div class="rm-header__tools" aria-label="Сервисы сайта">
-				<button class="inline-search-show twosmallfont rm-header__tool" type="button" title="<?=GetMessage('SEARCH_TITLE')?>">
-					<?=CAllcorp2::showIconSvg('search', SITE_TEMPLATE_PATH.'/images/svg/Search_black.svg');?>
-				</button>
-				<?if($bOrder):?>
-					<div class="rm-header__tool rm-header__basket">
-						<?=CAllcorp2::showBasketLink('', '', '');?>
-					</div>
-				<?endif;?>
-				<?if($bCabinet):?>
-					<div class="rm-header__tool rm-header__cabinet">
-						<?=CAllcorp2::showCabinetLink(true, false);?>
-					</div>
-				<?endif;?>
-			</div>
+		</div>
+
+		<div class="rm-header__email">
+			<?CAllcorp2::showEmail('rm-header__email-link');?>
 		</div>
 
 		<div class="rm-header__contact">
@@ -69,5 +59,11 @@ $bRalHome = CSite::InDir(SITE_DIR.'index.php');
 				<?CAllcorp2::showHeaderSchedule();?>
 			</div>
 		</div>
+
+		<?if($bOrder):?>
+			<div class="rm-header__tool rm-header__basket<?=$bRalCart ? ' is-active' : ''?>" role="group" aria-label="Корзина">
+				<?=CAllcorp2::showBasketLink('', '', '');?>
+			</div>
+		<?endif;?>
 	</div>
 </header>

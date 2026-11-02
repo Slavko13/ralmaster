@@ -5,7 +5,7 @@
 		"ALLOW_MULTI_SELECT" => "N",
 		"CHILD_MENU_TYPE" => "left",
 		"COMPONENT_TEMPLATE" => "ralmaster_flat",
-		"COUNT_ITEM" => "6",
+		"COUNT_ITEM" => "5",
 		"DELAY" => "N",
 		"MAX_LEVEL" => "1",
 		"MENU_CACHE_GET_VARS" => array(),

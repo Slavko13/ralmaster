@@ -156,7 +156,7 @@ test.describe('P0 redesigned products root', () => {
         submitSize: submitStyle?.fontSize,
       };
     });
-    expect(arrows).toEqual({ hero: '↗', heroSize: '22px', submit: '"↗"', submitSize: '22px' });
+    expect(arrows).toEqual({ hero: '↗', heroSize: '22px', submit: '"↗"', submitSize: '26px' });
 
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();

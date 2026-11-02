@@ -3,16 +3,16 @@ import { expect, test, type ConsoleMessage, type Page, type TestInfo } from '@pl
 import { expectHealthyDocument } from '../helpers/site';
 
 const expectedSections = [
-  { name: 'hero', top: 106, height: 716 },
-  { name: 'how', top: 822, height: 598 },
-  { name: 'capabilities', top: 1420, height: 1094 },
-  { name: 'order', top: 2514, height: 600 },
-  { name: 'repeat', top: 3114, height: 636 },
-  { name: 'shipping', top: 3750, height: 766 },
-  { name: 'partners', top: 4516, height: 532 },
-  { name: 'faq', top: 5048, height: 810 },
-  { name: 'contact', top: 5858, height: 372 },
-  { name: 'photo', top: 6230, height: 543 },
+  { name: 'hero', top: 72, height: 716 },
+  { name: 'how', top: 788, height: 598 },
+  { name: 'capabilities', top: 1402, height: 1094 },
+  { name: 'order', top: 2496, height: 600 },
+  { name: 'repeat', top: 3096, height: 636 },
+  { name: 'shipping', top: 3732, height: 766 },
+  { name: 'partners', top: 4498, height: 532 },
+  { name: 'faq', top: 5030, height: 810 },
+  { name: 'contact', top: 5840, height: 372 },
+  { name: 'photo', top: 6212, height: 543 },
 ] as const;
 
 const faqQuestions = [
@@ -298,12 +298,15 @@ test.describe('Redesigned production root', () => {
     await expect(capabilitiesTrigger).toBeVisible();
     await capabilitiesTrigger.scrollIntoViewIfNeeded();
     const scrollBefore = await page.evaluate(() => window.scrollY);
-    await capabilitiesTrigger.click();
+    // The trigger is already visible after scrollIntoViewIfNeeded(). Using a
+    // forced click keeps Playwright from performing an additional actionability
+    // scroll between the measurement above and the actual click.
+    await capabilitiesTrigger.click({ force: true });
     await expect(dialog).toBeVisible();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(scrollBefore);
     await expect(dialog.locator('[data-SID="CONTEXT"]')).toHaveValue(
       'production; contact=telegram',
     );
-    expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
 
@@ -359,10 +362,10 @@ test.describe('Redesigned production root', () => {
     });
 
     expect(geometry).toEqual({
-      rootTop: 106,
+      rootTop: 72,
       width: 1440,
-      documentHeight: 7203,
-      footerTop: 6773,
+      documentHeight: 7169,
+      footerTop: 6739,
       footerHeight: 430,
       sections: expectedSections,
     });

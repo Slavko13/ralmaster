@@ -209,12 +209,12 @@
 }
 
 .rm-production-capabilities > h2 {
-  height: 30px;
+  height: auto;
   color: #111e35;
   font-family: var(--rm-font-heading, "Inter Tight", Arial, sans-serif);
-  font-size: 50px;
+  font-size: 56px;
   font-weight: 600;
-  line-height: 30px;
+  line-height: 60px;
   letter-spacing: -0.8px;
 }
 

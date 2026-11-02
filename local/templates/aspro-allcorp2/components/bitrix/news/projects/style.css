@@ -839,7 +839,7 @@
 }
 
 .rm-project-detail__intro h1 {
-  max-width: 930px;
+  max-width: 1180px;
   color: #182337;
   font: 600 55px/60px "Inter Tight", Arial, sans-serif;
   letter-spacing: -0.02em;
@@ -872,7 +872,7 @@
 
 .rm-project-detail--symbol .rm-project-detail__hero-media {
   height: 760px;
-  margin-top: 32px !important;
+  margin-top: 72px !important;
 }
 
 .rm-project-detail__hero-media img {
@@ -885,6 +885,7 @@
 
 .rm-project-detail--symbol .rm-project-detail__hero-media img {
   height: 760px;
+  object-position: 50% 38%;
 }
 
 .rm-project-detail__hero-media figcaption,

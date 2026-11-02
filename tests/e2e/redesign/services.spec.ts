@@ -282,9 +282,9 @@ test.describe('Redesigned metalworking root', () => {
     });
 
     expect(geometry.width).toBe(1440);
-    expect(geometry.rootTop).toBe(106);
-    expect(geometry.footerTop).toBe(5311);
-    expect(geometry.documentHeight).toBe(5741);
+    expect(geometry.rootTop).toBe(72);
+    expect(geometry.footerTop).toBe(5277);
+    expect(geometry.documentHeight).toBe(5707);
     expect(geometry.sections).toEqual([
       { name: 'hero', height: 302 },
       { name: 'services', height: 1760 },

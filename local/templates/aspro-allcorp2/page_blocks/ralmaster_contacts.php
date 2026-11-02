@@ -81,7 +81,10 @@ $rmContactsBank = array(
 				<div class="rm-contacts-summary__label">Телефон</div>
 				<div class="rm-contacts-summary__phone"><?CAllcorp2::ShowHeaderPhones('', 'Phone_black.svg');?></div>
 				<div class="rm-contacts-summary__label">Электронная почта</div>
-				<div class="rm-contacts-summary__email"><?CAllcorp2::showEmail('rm-contacts-summary__email-value');?></div>
+				<div class="rm-contacts-summary__email-row">
+					<div class="rm-contacts-summary__email"><?CAllcorp2::showEmail('rm-contacts-summary__email-value');?></div>
+					<button type="button" class="rm-contacts-summary__copy-email" data-rm-copy-email="ralmaster@inbox.ru" aria-live="polite">Скопировать</button>
+				</div>
 				<p>Для запросов, чертежей и технических заданий</p>
 				<?if ($rmContactsEstimateFormId > 0):?>
 					<button type="button" class="rm-contacts-button" data-rm-discuss-open="contacts">Отправить запрос <span aria-hidden="true">↗</span></button>
@@ -191,6 +194,9 @@ require $_SERVER['DOCUMENT_ROOT'].SITE_TEMPLATE_PATH.'/page_blocks/ralmaster_dis
 
 	document.querySelectorAll('[data-rm-copy-value]').forEach(function (button) {
 		button.addEventListener('click', function () { copyText(button.getAttribute('data-rm-copy-value'), button); });
+	});
+	document.querySelectorAll('[data-rm-copy-email]').forEach(function (button) {
+		button.addEventListener('click', function () { copyText(button.getAttribute('data-rm-copy-email'), button); });
 	});
 	var copyAll = document.querySelector('[data-rm-copy-requisites]');
 	if (copyAll) {

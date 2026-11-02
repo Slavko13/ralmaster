@@ -21,7 +21,7 @@ $rmProductionImage = SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powde
 				<a href="/">Главная</a><span aria-hidden="true">/</span><a href="/projects/">Реализованные проекты</a><span aria-hidden="true">/</span><span><?=htmlspecialcharsbx($rmProject['NAME'])?></span>
 			</nav>
 			<div class="rm-project-detail__intro">
-				<h1><?=htmlspecialcharsbx($rmProject['TITLE'])?></h1>
+				<h1><?if ($rmProject['IS_SYMBOL']):?>Декоративные корзины<br>для кондиционеров в ЖК «Символ»<?else:?><?=htmlspecialcharsbx($rmProject['TITLE'])?><?endif;?></h1>
 				<p><?=htmlspecialcharsbx($rmProject['SUMMARY'])?></p>
 				<?if ($rmProject['IS_SYMBOL']):?>
 					<a class="rm-project-detail__product-link" href="<?=htmlspecialcharsbx($rmProject['PRODUCT_URL'])?>">Корзины для кондиционеров <span aria-hidden="true">↗</span></a>

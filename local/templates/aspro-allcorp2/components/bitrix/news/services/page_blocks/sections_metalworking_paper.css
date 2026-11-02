@@ -203,7 +203,7 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
   font-size: 36px;
   font-weight: 600;
   letter-spacing: -0.02em;
-  line-height: 42px;
+  line-height: 44px;
 }
 
 .rm-metal-service-card h3 a:hover {
