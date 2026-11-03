@@ -216,7 +216,7 @@ test.describe('P0 redesigned products root', () => {
       descriptionTop: geometry.descriptionTop,
       imageInsetTop: geometry.imageInsetTop,
       imageInsetBottom: geometry.imageInsetBottom,
-      objectFit: 'contain',
+      objectFit: 'fill',
       overflow: 'hidden',
     });
     expect(Math.abs(geometry.imageInsetTop)).toBeLessThanOrEqual(1);

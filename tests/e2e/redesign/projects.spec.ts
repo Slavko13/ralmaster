@@ -167,7 +167,7 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     expect(Math.abs(productGeometry[0].imageInsetBottom)).toBeLessThanOrEqual(1);
     await expect(page.locator('.rm-projects-product-card img').first()).toHaveCSS(
       'object-fit',
-      'contain',
+      'fill',
     );
 
     await expect(page.locator('.rm-projects-operation-grid img')).toHaveCount(3);

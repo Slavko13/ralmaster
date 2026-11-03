@@ -214,7 +214,7 @@
 }
 
 .rm-product-card:first-child .rm-product-card__image {
-  object-fit: contain;
+  object-fit: fill;
 }
 
 .rm-product-card:hover .rm-product-card__image,

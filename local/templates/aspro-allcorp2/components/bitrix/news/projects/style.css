@@ -344,7 +344,7 @@
 }
 
 .rm-projects-product-card:first-child img {
-  object-fit: contain;
+  object-fit: fill;
 }
 
 .rm-projects-product-card:hover img,
