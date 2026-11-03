@@ -144,6 +144,8 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
             imageTop: Math.round(media.top),
             imageBottom: Math.round(media.bottom),
             imageInsetTop: Math.round(image.top - media.top),
+            imageInsetBottom: Math.round(media.bottom - image.bottom),
+            objectFit: getComputedStyle(card.querySelector('img')!).objectFit,
             mediaOverflow: getComputedStyle(mediaElement).overflow,
             descriptionTop: Math.round(description.top),
             descriptionFits:
@@ -161,10 +163,11 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     ).toBe(true);
     expect(productGeometry.every(({ descriptionFits }) => descriptionFits)).toBe(true);
     expect(productGeometry.every(({ mediaOverflow }) => mediaOverflow === 'hidden')).toBe(true);
-    expect(productGeometry[0].imageInsetTop).toBeGreaterThanOrEqual(10);
+    expect(Math.abs(productGeometry[0].imageInsetTop)).toBeLessThanOrEqual(1);
+    expect(Math.abs(productGeometry[0].imageInsetBottom)).toBeLessThanOrEqual(1);
     await expect(page.locator('.rm-projects-product-card img').first()).toHaveCSS(
       'object-fit',
-      'cover',
+      'contain',
     );
 
     await expect(page.locator('.rm-projects-operation-grid img')).toHaveCount(3);

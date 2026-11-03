@@ -214,8 +214,7 @@
 }
 
 .rm-product-card:first-child .rm-product-card__image {
-  height: calc(100% - 12px);
-  margin-top: 12px;
+  object-fit: contain;
 }
 
 .rm-product-card:hover .rm-product-card__image,

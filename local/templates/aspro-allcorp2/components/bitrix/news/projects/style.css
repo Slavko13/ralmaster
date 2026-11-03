@@ -344,8 +344,7 @@
 }
 
 .rm-projects-product-card:first-child img {
-  height: calc(100% - 12px);
-  margin-top: 12px;
+  object-fit: contain;
 }
 
 .rm-projects-product-card:hover img,

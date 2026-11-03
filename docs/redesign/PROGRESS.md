@@ -716,11 +716,12 @@ Legacy `header_fixed` теперь не рендерится только при
   устранено наложение строк процесса. Powder-карточки на 390 px показывают
   изображения целиком без обрезки.
 - Результат фильтра каталога остаётся внутри sidebar и исчезает после снятия
-  checkbox. Product/projects images получили отдельный clipping media-row и
-  верхний safe inset, поэтому не заходят под заголовки на desktop/mobile.
+  checkbox. Product/projects images получили отдельный clipping media-row;
+  первая кассета масштабируется через `object-fit: contain` без зазора между
+  заголовком и фотографией и полностью помещается на desktop/mobile.
 - Одностраничный PDF и 33 контрольных PNG сохранены в
   `J:\ralmaster\redesign-report\2026-11-03\after`. Связанная desktop/mobile
-  регрессия **84/84 PASS**, финальный карточный gate **5/5 PASS**, PHP lint
+  регрессия **84/84 PASS**, корректирующий карточный gate **17/17 PASS**, PHP lint
   **3/3 PASS**.
 
 ## Следующий допустимый шаг

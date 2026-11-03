@@ -203,6 +203,8 @@ test.describe('P0 redesigned products root', () => {
         mediaBottom: Math.round(media.bottom),
         descriptionTop: Math.round(description.top),
         imageInsetTop: Math.round(image.top - media.top),
+        imageInsetBottom: Math.round(media.bottom - image.bottom),
+        objectFit: getComputedStyle(card.querySelector('.rm-product-card__image')!).objectFit,
         overflow: getComputedStyle(mediaElement).overflow,
       };
     });
@@ -213,9 +215,12 @@ test.describe('P0 redesigned products root', () => {
       mediaBottom: geometry.descriptionTop,
       descriptionTop: geometry.descriptionTop,
       imageInsetTop: geometry.imageInsetTop,
+      imageInsetBottom: geometry.imageInsetBottom,
+      objectFit: 'contain',
       overflow: 'hidden',
     });
-    expect(geometry.imageInsetTop).toBeGreaterThanOrEqual(10);
+    expect(Math.abs(geometry.imageInsetTop)).toBeLessThanOrEqual(1);
+    expect(Math.abs(geometry.imageInsetBottom)).toBeLessThanOrEqual(1);
   });
 
   test('blocks an empty task and file on the shared estimate form without a POST', async ({ page }) => {
