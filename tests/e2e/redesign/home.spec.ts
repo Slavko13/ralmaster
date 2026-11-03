@@ -148,12 +148,15 @@ test.describe('P0 redesigned home', () => {
     const arrows = await home.locator('.rm-link-arrow').evaluateAll((nodes) =>
       nodes.map((node) => {
         const style = getComputedStyle(node, '::after');
-        return { content: style.content, backgroundImage: style.backgroundImage };
+        return {
+          content: style.content,
+          maskImage: style.maskImage || style.getPropertyValue('-webkit-mask-image'),
+        };
       }),
     );
     expect(arrows.length).toBeGreaterThan(0);
-    expect(arrows.every((arrow) => arrow.content === '"↗"')).toBe(true);
-    expect(arrows.every((arrow) => arrow.backgroundImage === 'none')).toBe(true);
+    expect(arrows.every((arrow) => arrow.content === '""')).toBe(true);
+    expect(arrows.every((arrow) => arrow.maskImage !== 'none')).toBe(true);
 
     const productHeading = home
       .locator('.rm-home-group-heading h3', { hasText: 'Изготовление металлических изделий' })
