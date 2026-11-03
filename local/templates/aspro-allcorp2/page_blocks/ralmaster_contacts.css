@@ -151,8 +151,12 @@
 
 .rm-contacts-summary__copy-email:hover,
 .rm-contacts-summary__copy-email:focus-visible {
-  color: #0f4ed7;
+  color: var(--rm-primary-hover, #0d4bd7);
   background: transparent;
+}
+
+.rm-contacts-summary__copy-email:active {
+  transform: scale(var(--rm-interactive-press-scale, .99));
 }
 
 .rm-contacts-summary__copy-email svg {
@@ -182,12 +186,18 @@
   background: #175bef;
   font: 500 16px/24px var(--rm-font-body, Onest, Arial, sans-serif);
   cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease,
+    color 160ms ease, transform 160ms ease;
 }
 
 .rm-contacts-button:hover,
 .rm-contacts-button:focus-visible {
   color: #fff !important;
-  background: #0f4ed7;
+  background: var(--rm-primary-hover, #0d4bd7);
+}
+
+.rm-contacts-button:active {
+  transform: scale(var(--rm-interactive-press-scale, .99));
 }
 
 .rm-contacts-summary__locations {

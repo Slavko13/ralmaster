@@ -96,6 +96,9 @@
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease,
+    color 160ms ease, transform 160ms ease;
 }
 
 .rm-powder-button svg {
@@ -117,6 +120,7 @@
   font-size: 22px;
   font-weight: 400;
   line-height: 20px;
+  transition: transform 160ms ease;
 }
 
 .rm-powder-button--primary {
@@ -129,8 +133,8 @@
 .rm-powder-button--primary:hover,
 .rm-powder-button--primary:focus-visible {
   color: #fff !important;
-  border-color: #0f4fd1;
-  background: #0f4fd1;
+  border-color: var(--rm-primary-hover, #0d4bd7);
+  background: var(--rm-primary-hover, #0d4bd7);
 }
 
 .rm-powder-button--secondary {
@@ -138,6 +142,17 @@
   color: #175bef !important;
   border-color: #175bef;
   background: #fff;
+}
+
+.rm-powder-button--secondary:hover,
+.rm-powder-button--secondary:focus-visible {
+  color: var(--rm-primary, #175bef) !important;
+  border-color: var(--rm-primary, #175bef);
+  background: #eef4ff;
+}
+
+.rm-powder-button:active {
+  transform: scale(var(--rm-interactive-press-scale, .99));
 }
 
 .rm-powder-hero__image,
@@ -230,6 +245,10 @@
   object-fit: cover;
   object-position: center;
   transition: transform 500ms cubic-bezier(.2, .65, .3, 1);
+}
+
+.rm-powder-accepted__card:first-child > img {
+  object-fit: fill;
 }
 
 .rm-powder-accepted__card:hover > img {
@@ -1278,6 +1297,10 @@ body:has(.rm-powder-page) .main > .container .right_block {
   .rm-powder-accepted__card > img {
     background: #eef0f3;
     object-fit: contain;
+  }
+
+  .rm-powder-accepted__card:first-child > img {
+    object-fit: fill;
   }
 
   .rm-powder-dimensions__grid {

@@ -112,15 +112,20 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
   font-size: 15px;
   font-weight: 500;
   line-height: 20px;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 160ms ease, border-color 160ms ease,
+    color 160ms ease, transform 160ms ease;
   cursor: pointer;
 }
 
 .rm-metal-button:hover,
 .rm-metal-button:focus-visible {
   color: #fff !important;
-  background: #0e49c8;
-  border-color: #0e49c8;
+  background: var(--rm-primary-hover, #0d4bd7);
+  border-color: var(--rm-primary-hover, #0d4bd7);
+}
+
+.rm-metal-button:active {
+  transform: scale(var(--rm-interactive-press-scale, .99));
 }
 
 .rm-metal-link-arrow::after {
@@ -134,15 +139,19 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
   background-color: currentColor;
   -webkit-mask: var(--rm-arrow-mask) center / contain no-repeat;
   mask: var(--rm-arrow-mask) center / contain no-repeat;
+  transition: transform 160ms ease;
 }
 
 .rm-metal-link-arrow {
-  transition: transform 180ms ease;
+  transition: color 160ms ease, background-color 160ms ease,
+    border-color 160ms ease, transform 160ms ease;
 }
 
-.rm-metal-link-arrow:hover,
-.rm-metal-link-arrow:focus-visible {
-  transform: translateY(-4px);
+@media (hover: hover) and (pointer: fine) {
+  .rm-metal-link-arrow:hover::after,
+  .rm-metal-link-arrow:focus-visible::after {
+    transform: translate(var(--rm-interactive-arrow-shift, 2px), calc(-1 * var(--rm-interactive-arrow-shift, 2px)));
+  }
 }
 
 .rm-metal-services {

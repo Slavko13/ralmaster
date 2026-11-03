@@ -1,11 +1,38 @@
 document.addEventListener('DOMContentLoaded', function () {
   initHomeFaq();
+  initHomeProjectFilters();
   initRalmasterMotion();
   preserveDialogTriggerScroll();
   labelLegacyControls();
   initLegacyBannerScaler();
   initHeaderBasketCount();
 });
+
+function initHomeProjectFilters() {
+  const toolbar = document.querySelector('.rm-home-projects__filters');
+  if (!toolbar) return;
+
+  const buttons = Array.from(toolbar.querySelectorAll('[data-rm-project-filter]'));
+  const cards = Array.from(document.querySelectorAll('.rm-home-project-card[data-rm-project-categories]'));
+  if (!buttons.length || !cards.length) return;
+
+  buttons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      const filter = button.getAttribute('data-rm-project-filter') || 'all';
+
+      buttons.forEach(function (candidate) {
+        const active = candidate === button;
+        candidate.classList.toggle('is-active', active);
+        candidate.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+
+      cards.forEach(function (card) {
+        const categories = (card.getAttribute('data-rm-project-categories') || '').split(/\s+/);
+        card.hidden = filter !== 'all' && categories.indexOf(filter) === -1;
+      });
+    });
+  });
+}
 
 function initHeaderBasketCount() {
   const syncCounts = function () {

@@ -613,8 +613,12 @@
 
 .rm-estimate-success-dialog button:hover,
 .rm-estimate-success-dialog button:focus-visible {
-  border-color: #0e49c8;
-  background: #0e49c8;
+  border-color: var(--rm-primary-hover, #0d4bd7);
+  background: var(--rm-primary-hover, #0d4bd7);
+}
+
+.rm-estimate-success-dialog button:active {
+  transform: scale(var(--rm-interactive-press-scale, .99));
 }
 
 @media (min-width: 768px) {

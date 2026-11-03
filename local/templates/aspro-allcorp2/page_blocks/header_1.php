@@ -27,8 +27,8 @@ if ($bRalCart && class_exists('CAllcorp2')) {
 <header class="<?=basename(__FILE__, '.php')?> long rm-header<?=$bRalHome ? ' rm-header--overlay' : ''?>" data-rm-shell="header">
 	<div class="rm-header__inner">
 		<a class="rm-header__logo" href="<?=SITE_DIR?>" aria-label="РАЛМАСТЕР — на главную">
-			<img class="rm-header__logo-image rm-header__logo-image--dark" src="<?=$logoPath?>logo-dark@2x.png" width="152" height="24" alt="РАЛМАСТЕР">
-			<img class="rm-header__logo-image rm-header__logo-image--light" src="<?=$logoPath?>logo-light@2x.png" width="152" height="24" alt="" aria-hidden="true">
+			<img class="rm-header__logo-image rm-header__logo-image--dark" src="<?=$logoPath?>ralmaster-logo-dark.svg" width="152" height="24" alt="РАЛМАСТЕР">
+			<img class="rm-header__logo-image rm-header__logo-image--light" src="<?=$logoPath?>ralmaster-logo-light.svg" width="152" height="24" alt="" aria-hidden="true">
 		</a>
 
 		<div class="rm-header__middle menu-row">

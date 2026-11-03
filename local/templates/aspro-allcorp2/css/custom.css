@@ -63,6 +63,9 @@
 :root {
   --rm-primary: #175bef;
   --rm-primary-hover: #0d4bd7;
+  --rm-primary-soft: #eaf0ff;
+  --rm-interactive-press-scale: .99;
+  --rm-interactive-arrow-shift: 2px;
   --rm-navy: #111e35;
   --rm-text: #182337;
   --rm-body: #526073;
@@ -211,6 +214,7 @@ a {
 .rm-button--secondary:hover,
 .rm-button--secondary:focus {
   color: var(--rm-primary) !important;
+  background: #eef4ff !important;
   border-color: var(--rm-primary) !important;
 }
 
@@ -778,7 +782,8 @@ body.front-banners-big-short .rm-header__tool:focus-visible,
 }
 
 .rm-footer__social {
-  padding-top: 10px;
+  margin-top: 28px;
+  padding-top: 0;
 }
 
 .rm-footer__messengers {
@@ -1402,7 +1407,7 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   scrollbar-width: none;
 }
 
-.rm-home-projects__filters > span {
+.rm-home-projects__filters > button {
   display: flex;
   height: 44px;
   flex: 0 0 auto;
@@ -1412,15 +1417,36 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   background: var(--rm-white);
   border: 1px solid #d9e0e8;
   border-radius: var(--rm-radius);
+  cursor: pointer;
+  font-family: inherit;
   font-size: 16px;
   font-weight: 500;
   line-height: 23px;
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
 }
 
-.rm-home-projects__filters > .is-active {
+.rm-home-projects__filters > button:hover,
+.rm-home-projects__filters > button:focus-visible {
+  color: var(--rm-primary);
+  background: var(--rm-primary-soft);
+  border-color: var(--rm-primary);
+  outline: 0;
+}
+
+.rm-home-projects__filters > button:focus-visible {
+  box-shadow: 0 0 0 3px rgba(23, 91, 239, 0.22);
+}
+
+.rm-home-projects__filters > button.is-active,
+.rm-home-projects__filters > button.is-active:hover,
+.rm-home-projects__filters > button.is-active:focus-visible {
   color: var(--rm-white);
   background: var(--rm-primary);
   border-color: var(--rm-primary);
+}
+
+.rm-home-project-card[hidden] {
+  display: none;
 }
 
 .rm-home-project-grid {
@@ -3577,6 +3603,22 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   text-align: left;
 }
 
+:where(
+  .rm-button,
+  .rm-detail-button,
+  .rm-contacts-button,
+  .rm-content-button,
+  .rm-powder-button,
+  .rm-metal-button,
+  .rm-products-button,
+  .rm-system-button,
+  .rm-project-detail__cta-primary,
+  .rm-production-contact__actions button
+):focus {
+  outline: 2px solid var(--rm-primary) !important;
+  outline-offset: 3px !important;
+}
+
 .rm-link-arrow {
   transition: color var(--motion-ui) var(--ease-ui), transform var(--motion-ui) var(--ease-ui);
 }
@@ -3587,8 +3629,15 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
 .rm-content-button:active,
 .rm-production-contact__actions button:active,
 .rm-powder-example__action:active,
-.rm-powder-orders__action:active {
-  transform: scale(.99);
+.rm-powder-orders__action:active,
+.rm-powder-button:active,
+.rm-metal-button:active,
+.rm-products-button:active,
+.rm-system-button:active,
+.rm-system-content .btn:active,
+.rm-system-content input[type="submit"]:active,
+.rm-project-detail__cta-primary:active {
+  transform: scale(var(--rm-interactive-press-scale)) !important;
 }
 
 .rm-link-arrow:hover,
@@ -3628,8 +3677,15 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   .rm-production-contact__fallback:focus-visible > span,
   .rm-powder-example__action:hover > span:last-child,
   .rm-powder-orders__action:hover > span:last-child,
-  .rm-project-detail__cta-primary:hover > span {
-    transform: translate(2px, -2px);
+  .rm-powder-button:hover .rm-powder-button__arrow,
+  .rm-powder-button:focus-visible .rm-powder-button__arrow,
+  .rm-products-button:hover .rm-products-button__arrow,
+  .rm-products-button:focus-visible .rm-products-button__arrow,
+  .rm-metal-link-arrow:hover::after,
+  .rm-metal-link-arrow:focus-visible::after,
+  .rm-project-detail__cta-primary:hover > span,
+  .rm-project-detail__cta-primary:focus-visible > span {
+    transform: translate(var(--rm-interactive-arrow-shift), calc(-1 * var(--rm-interactive-arrow-shift)));
   }
 
   .rm-motion-card > img,

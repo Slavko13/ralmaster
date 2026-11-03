@@ -317,7 +317,7 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     expect(ctaFlow).toEqual({ cardHeight: 248, copyAboveButton: true, headingLeftOfActions: true });
     const primary = cta.locator('.rm-project-detail__cta-primary');
     await primary.hover();
-    await expect(primary).toHaveCSS('background-color', 'rgb(15, 79, 209)');
+    await expect(primary).toHaveCSS('background-color', 'rgb(13, 75, 215)');
     await expect(primary).toHaveCSS('color', 'rgb(255, 255, 255)');
   });
 

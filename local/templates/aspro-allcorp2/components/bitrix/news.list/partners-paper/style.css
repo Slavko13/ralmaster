@@ -248,7 +248,11 @@
 .rm-partners-contact a:hover,
 .rm-partners-contact a:focus-visible {
   color: #fff;
-  background: #0f4ed2;
+  background: var(--rm-primary-hover, #0d4bd7);
+}
+
+.rm-partners-contact a:active {
+  transform: scale(var(--rm-interactive-press-scale, .99));
 }
 
 body:has(.rm-partners-page) > .style-switcher,

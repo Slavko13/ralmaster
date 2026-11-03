@@ -195,6 +195,27 @@ while (count($rmProjects) < 4) {
 	);
 }
 
+$rmHasPowderProject = false;
+foreach ($rmProjects as &$project) {
+	$rmProjectFilterText = mb_strtolower(
+		(string)($project['NAME'] ?? '').' '.(string)($project['TEXT'] ?? '').' '.(string)($project['CODE'] ?? '')
+	);
+	$rmProjectFilters = array('manufacturing');
+	if (preg_match('~металл|изготов|резк|гибк|свар|кроншт|metal|cut|bend|weld~u', $rmProjectFilterText)) {
+		$rmProjectFilters[] = 'metalworking';
+	}
+	if (preg_match('~порош|окрас|корзин|кассет|фасад|powder|paint|basket|facad~u', $rmProjectFilterText)) {
+		$rmProjectFilters[] = 'powder';
+		$rmHasPowderProject = true;
+	}
+	$project['FILTERS'] = implode(' ', array_unique($rmProjectFilters));
+}
+unset($project);
+
+if (!$rmHasPowderProject && $rmProjects) {
+	$rmProjects[count($rmProjects) - 1]['FILTERS'] .= ' powder';
+}
+
 $partnerFallbackImages = array(
 	$rmAsset('partner-capital-repair-fund.png'),
 	$rmAsset('partner-logo-mint.png'),
@@ -333,9 +354,15 @@ if ($rmOrderFormId <= 0) {
 	<section class="rm-home-projects" data-rm-section="projects">
 		<div class="rm-home-container">
 			<header class="rm-home-section-heading"><h2>Выполненные заказы</h2><a class="rm-link-arrow" href="/projects/">Все выполненные заказы</a></header>
+			<div class="rm-home-projects__filters" role="toolbar" aria-label="Фильтр выполненных заказов">
+				<button class="is-active" type="button" data-rm-project-filter="all" aria-pressed="true">Все работы</button>
+				<button type="button" data-rm-project-filter="manufacturing" aria-pressed="false">Изготовление изделий</button>
+				<button type="button" data-rm-project-filter="metalworking" aria-pressed="false">Металлообработка</button>
+				<button type="button" data-rm-project-filter="powder" aria-pressed="false">Порошковая окраска</button>
+			</div>
 			<div class="rm-home-project-grid">
 				<?foreach ($rmProjects as $project):?>
-					<a class="rm-home-project-card" data-rm-card="project" href="<?=$rmEscape($project['URL'])?>">
+					<a class="rm-home-project-card" data-rm-card="project" data-rm-project-categories="<?=$rmEscape($project['FILTERS'])?>" href="<?=$rmEscape($project['URL'])?>">
 						<span class="rm-home-project-card__copy"><small><?=$rmEscape($project['YEAR'])?></small><strong><?=$rmEscape($project['NAME'])?></strong><span><?=$rmEscape($project['TEXT'])?></span><em class="rm-link-arrow">Подробнее о заказе</em></span>
 						<img src="<?=$rmEscape($project['IMAGE'])?>"<?if (!empty($project['IMAGE_SMALL'])):?> srcset="<?=$rmEscape($project['IMAGE_SMALL'])?> 768w, <?=$rmEscape($project['IMAGE'])?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 344px"<?endif;?> alt="<?=$rmEscape($project['NAME'])?>" loading="lazy">
 					</a>

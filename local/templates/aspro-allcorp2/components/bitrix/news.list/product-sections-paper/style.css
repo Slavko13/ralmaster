@@ -85,6 +85,8 @@
   text-align: left;
   text-decoration: none;
   cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease,
+    color 160ms ease, transform 160ms ease;
 }
 
 .rm-products-button__arrow {
@@ -113,7 +115,11 @@
 .rm-products-button--primary:hover,
 .rm-products-button--primary:focus-visible {
   color: #fff !important;
-  background: var(--rm-primary-hover, #0f4ed2);
+  background: var(--rm-primary-hover, #0d4bd7);
+}
+
+.rm-products-button:active {
+  transform: scale(var(--rm-interactive-press-scale, .99));
 }
 
 .rm-products-catalog {

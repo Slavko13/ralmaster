@@ -388,12 +388,18 @@ a.rm-content-card:focus-visible .rm-content-card__media img {
   line-height: 22px;
   text-align: left;
   text-decoration: none;
+  transition: background-color 160ms ease, border-color 160ms ease,
+    color 160ms ease, transform 160ms ease;
 }
 
 .rm-content-button:hover,
 .rm-content-button:focus-visible {
   color: #fff;
-  background: #0f4ed2;
+  background: var(--rm-primary-hover, #0d4bd7);
+}
+
+.rm-content-button:active {
+  transform: scale(var(--rm-interactive-press-scale, .99));
 }
 
 .rm-content-detail {

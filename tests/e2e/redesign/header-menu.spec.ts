@@ -77,6 +77,32 @@ test.describe('P0 Paper flat navigation', () => {
     }
   });
 
+  test('desktop shell uses the approved vector logos and linked footer credit', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+    const darkLogo = page.locator('.rm-header__logo-image--dark');
+    const lightLogo = page.locator('.rm-header__logo-image--light');
+    await expect(darkLogo).toHaveAttribute('src', /ralmaster-logo-dark\.svg$/);
+    await expect(lightLogo).toHaveAttribute('src', /ralmaster-logo-light\.svg$/);
+    await expect(darkLogo).toHaveCSS('opacity', '0');
+    await expect(lightLogo).toHaveCSS('opacity', '1');
+
+    const footer = page.locator('.rm-footer');
+    await expect(footer.locator('.rm-footer__logo img')).toHaveAttribute(
+      'src',
+      /ralmaster-logo-light\.svg$/,
+    );
+    const dualweb = footer.getByRole('link', { name: 'Dualweb', exact: true });
+    await expect(dualweb).toHaveAttribute('href', 'https://dualweb.ru/');
+    await expect(dualweb).toHaveAttribute('target', '_blank');
+    await expect(dualweb).toHaveAttribute('rel', /noopener/);
+    await expect(footer.locator('.rm-footer__social')).toHaveCSS('margin-top', '28px');
+
+    await page.goto('/company/', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('.rm-header__logo-image--dark')).toHaveCSS('opacity', '1');
+    await expect(page.locator('.rm-header__logo-image--light')).toHaveCSS('opacity', '0');
+  });
+
   test('partners page does not inherit the production active state', async ({ page }) => {
     await page.goto('/company/partners/', { waitUntil: 'domcontentloaded' });
 
@@ -125,6 +151,14 @@ test.describe('P0 Paper flat navigation', () => {
     });
     expect(rowGeometry).toEqual({ leftDelta: 0, rightDelta: 0 });
     await expect(menu.locator('.dropdown, .dropdown-menu, .parent')).toHaveCount(0);
+  });
+
+  test('P0 @mobile mobile header uses the approved dark vector logo', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#mobileheader .rm-mobile-header__logo img')).toHaveAttribute(
+      'src',
+      /ralmaster-logo-dark\.svg$/,
+    );
   });
 
   test('P0 @mobile cart icon stays black and aligned without search on the cart route', async ({ page }) => {

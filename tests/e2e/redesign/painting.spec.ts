@@ -138,7 +138,7 @@ test.describe('P0 redesigned powder coating page', () => {
       card: { width: 421, height: 401 },
       cardHeading: { width: 421, height: 74 },
       image: { width: 421, height: 254 },
-      imageFit: 'cover',
+      imageFit: 'fill',
       description: { width: 421, height: 73 },
       childOrder: [
         'rm-powder-accepted__card-heading',
@@ -435,7 +435,7 @@ test.describe('P0 redesigned powder coating page', () => {
     await expect(page.locator('[data-rm-powder-page]')).toBeVisible();
     await expect(page.locator('.rm-powder-accepted__card > img').first()).toHaveCSS(
       'object-fit',
-      'contain',
+      'fill',
     );
     await page.waitForTimeout(1_500);
     const mobileUploader = page.locator('.rm-powder-estimate__form .uploader');

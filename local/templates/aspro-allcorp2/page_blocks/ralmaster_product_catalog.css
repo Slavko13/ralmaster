@@ -230,15 +230,20 @@ body .rm-product-category .bx_filter .bx_filter_search_reset.btn.btn-default {
 
 .rm-product-category .bx_filter .bx_filter_search_button:hover,
 .rm-product-category .bx_filter .bx_filter_search_button:focus-visible {
-  border-color: #0f4fd1 !important;
-  background: #0f4fd1 !important;
+  border-color: var(--rm-primary-hover, #0d4bd7) !important;
+  background: var(--rm-primary-hover, #0d4bd7) !important;
 }
 
 body .rm-product-category .bx_filter .bx_filter_search_reset.btn.btn-default:hover,
 body .rm-product-category .bx_filter .bx_filter_search_reset.btn.btn-default:focus-visible {
-  border-color: #0f4fd1 !important;
-  color: #0f4fd1 !important;
-  background: #f4f7ff !important;
+  border-color: var(--rm-primary, #175bef) !important;
+  color: var(--rm-primary, #175bef) !important;
+  background: #eef4ff !important;
+}
+
+.rm-product-category .bx_filter .bx_filter_search_button:active,
+body .rm-product-category .bx_filter .bx_filter_search_reset.btn.btn-default:active {
+  transform: scale(var(--rm-interactive-press-scale, .99));
 }
 
 body .rm-product-category .bx_filter input[type="checkbox"] + label::before {
@@ -632,9 +637,14 @@ body .rm-product-category .bx_filter .bx_filter_popup_result a {
 .rm-product-category .catalog.item-views.table .item .buttons .to_cart:focus-visible,
 .rm-product-category .catalog.item-views.table .item .buttons .in_cart:hover,
 .rm-product-category .catalog.item-views.table .item .buttons .in_cart:focus-visible {
-  border-color: #0f4fd1;
+  border-color: var(--rm-primary-hover, #0d4bd7);
   color: #fff !important;
-  background: #0f4fd1;
+  background: var(--rm-primary-hover, #0d4bd7);
+}
+
+.rm-product-category .catalog.item-views.table .item .buttons .to_cart:active,
+.rm-product-category .catalog.item-views.table .item .buttons .in_cart:active {
+  transform: scale(var(--rm-interactive-press-scale, .99));
 }
 
 .rm-product-category .text_after_items {

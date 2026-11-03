@@ -174,6 +174,41 @@ test.describe('P0 redesigned home', () => {
     );
   });
 
+  test('restores the Paper project filters and filters project cards', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+    const filters = page.locator('.rm-home-projects__filters [data-rm-project-filter]');
+    await expect(filters).toHaveText([
+      'Все работы',
+      'Изготовление изделий',
+      'Металлообработка',
+      'Порошковая окраска',
+    ]);
+    await expect(filters.first()).toHaveAttribute('aria-pressed', 'true');
+
+    const cards = page.locator('.rm-home-project-card');
+    const total = await cards.count();
+    expect(total).toBeGreaterThanOrEqual(4);
+
+    await filters.filter({ hasText: 'Порошковая окраска' }).click();
+    await expect(filters.filter({ hasText: 'Порошковая окраска' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    const visiblePowder = await cards.evaluateAll((nodes) =>
+      nodes.filter((node) => !(node as HTMLElement).hidden).length,
+    );
+    expect(visiblePowder).toBeGreaterThan(0);
+    expect(visiblePowder).toBeLessThan(total);
+
+    await filters.filter({ hasText: 'Все работы' }).click();
+    expect(
+      await cards.evaluateAll((nodes) =>
+        nodes.filter((node) => !(node as HTMLElement).hidden).length,
+      ),
+    ).toBe(total);
+  });
+
   test('loads every rendered image asset', async ({ page }) => {
     await page.goto('/', { waitUntil: 'networkidle' });
     const images = page.locator('[data-rm-home] img');

@@ -12,7 +12,7 @@ else
 		<div class="rm-footer__main">
 			<div class="rm-footer__brand">
 				<a class="rm-footer__logo" href="<?=SITE_DIR?>" aria-label="РАЛМАСТЕР — на главную">
-					<img src="<?=SITE_TEMPLATE_PATH?>/images/ralmaster/logo-light@2x.png" width="240" height="38" alt="РАЛМАСТЕР">
+					<img src="<?=SITE_TEMPLATE_PATH?>/images/ralmaster/ralmaster-logo-light.svg" width="240" height="38" alt="РАЛМАСТЕР">
 				</a>
 				<p>Производство в Видном</p>
 			</div>
@@ -77,7 +77,7 @@ else
 				<a href="/include/licenses_detail.php">Политика конфиденциальности</a>
 				<a href="/include/licenses_detail.php">Согласие на обработку персональных данных</a>
 			</nav>
-			<div class="rm-footer__developer">Разработка сайта Dualweb</div>
+			<div class="rm-footer__developer">Разработка сайта <a href="https://dualweb.ru/" target="_blank" rel="noopener noreferrer">Dualweb</a></div>
 		</div>
 	</div>
 </footer>

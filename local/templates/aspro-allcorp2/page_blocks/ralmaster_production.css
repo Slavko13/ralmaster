@@ -782,13 +782,21 @@
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
+  transition: background-color 160ms ease, border-color 160ms ease,
+    color 160ms ease, transform 160ms ease;
 }
 
 .rm-production-contact__actions button:hover,
 .rm-production-contact__actions button:focus-visible,
 .rm-production-contact__fallback:hover,
 .rm-production-contact__fallback:focus-visible {
-  background: #0f4fd1;
+  background: var(--rm-primary-hover, #0d4bd7);
+  border-color: var(--rm-primary-hover, #0d4bd7);
+}
+
+.rm-production-contact__actions button:active,
+.rm-production-contact__fallback:active {
+  transform: scale(var(--rm-interactive-press-scale, .99));
 }
 
 .rm-production-photo {

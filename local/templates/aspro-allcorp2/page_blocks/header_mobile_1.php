@@ -14,7 +14,7 @@ if (class_exists('CAllcorp2')) {
 	</button>
 	<div class="logo-block pull-left rm-mobile-header__logo">
 		<a href="<?=SITE_DIR?>" aria-label="РАЛМАСТЕР — на главную">
-			<img src="<?=SITE_TEMPLATE_PATH?>/images/ralmaster/logo-dark@2x.png" width="152" height="24" alt="РАЛМАСТЕР">
+			<img src="<?=SITE_TEMPLATE_PATH?>/images/ralmaster/ralmaster-logo-dark.svg" width="152" height="24" alt="РАЛМАСТЕР">
 		</a>
 	</div>
 	<div class="right-icons pull-right">

@@ -110,13 +110,19 @@
   border-radius: 4px;
   font: 500 16px/22px var(--rm-font-body, Onest, Arial, sans-serif);
   text-align: left;
+  transition: background-color 160ms ease, border-color 160ms ease,
+    color 160ms ease, transform 160ms ease;
 }
 
 .rm-detail-button:hover,
 .rm-detail-button:focus-visible {
   color: #fff;
-  background: #0f4ed2;
-  border-color: #0f4ed2;
+  background: var(--rm-primary-hover, #0d4bd7);
+  border-color: var(--rm-primary-hover, #0d4bd7);
+}
+
+.rm-detail-button:active {
+  transform: scale(var(--rm-interactive-press-scale, .99));
 }
 
 .rm-detail-button:focus-visible {

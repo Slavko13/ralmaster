@@ -174,6 +174,8 @@
   font-weight: 650;
   line-height: 22px;
   text-decoration: none;
+  transition: background-color 160ms ease, border-color 160ms ease,
+    color 160ms ease, transform 160ms ease;
 }
 
 .rm-system-button:hover,
@@ -183,7 +185,13 @@
 .rm-system-content input[type="submit"]:hover,
 .rm-system-content input[type="submit"]:focus-visible {
   color: #fff;
-  background: #0f4ed2;
+  background: var(--rm-primary-hover, #0d4bd7);
+}
+
+.rm-system-button:active,
+.rm-system-content .btn:active,
+.rm-system-content input[type="submit"]:active {
+  transform: scale(var(--rm-interactive-press-scale, .99));
 }
 
 .rm-search-results {
@@ -666,9 +674,9 @@ body .rm-system-page--cart .basket.default .buy_block .counter input {
 
 .rm-system-page--cart .basket.default .buttons .btn:hover,
 .rm-system-page--cart .basket.default .buttons .btn:focus-visible {
-  border-color: #0f4ed2 !important;
+  border-color: var(--rm-primary-hover, #0d4bd7) !important;
   color: #fff !important;
-  background: #0f4ed2 !important;
+  background: var(--rm-primary-hover, #0d4bd7) !important;
 }
 
 .rm-system-page--cart .basket.default .buttons .btn.btn-transparent-bg {
@@ -981,9 +989,9 @@ body .rm-system-page--cart .basket.default .buy_block .counter input {
 
 .rm-system-page--order .form.order input[type="submit"]:hover,
 .rm-system-page--order .form.order input[type="submit"]:focus-visible {
-  border-color: #0f4ed2 !important;
+  border-color: var(--rm-primary-hover, #0d4bd7) !important;
   color: #fff !important;
-  background: #0f4ed2 !important;
+  background: var(--rm-primary-hover, #0d4bd7) !important;
 }
 
 .rm-system-page--order .form.order .more_text_small {
