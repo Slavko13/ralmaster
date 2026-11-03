@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 const navigation = [
   ['Услуги', '/services/'],
   ['Продукция', '/product/'],
-  ['О компании', '/company/'],
+  ['О производстве', '/company/'],
   ['Проекты', '/projects/'],
   ['Контакты', '/contacts/'],
 ] as const;
@@ -82,7 +82,7 @@ test.describe('P0 Paper flat navigation', () => {
 
     const productionItem = page
       .locator('.rm-header .rm-flat-menu__item')
-      .filter({ hasText: 'О компании' });
+      .filter({ hasText: 'О производстве' });
     await expect(productionItem).not.toHaveClass(/\bactive\b/);
     await expect(productionItem.locator('a')).not.toHaveAttribute('aria-current', 'page');
   });

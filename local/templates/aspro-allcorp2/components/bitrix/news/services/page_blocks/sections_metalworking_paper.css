@@ -124,19 +124,16 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 }
 
 .rm-metal-link-arrow::after {
-  display: grid;
+  display: block;
   width: 20px;
   height: 20px;
   flex: 0 0 20px;
-  place-items: center;
   margin-left: 16px;
-  content: "↗";
+  content: "";
   border: 0;
-  background: none;
-  font-family: Arial, sans-serif;
-  font-size: 22px;
-  font-weight: 400;
-  line-height: 20px;
+  background-color: currentColor;
+  -webkit-mask: var(--rm-arrow-mask) center / contain no-repeat;
+  mask: var(--rm-arrow-mask) center / contain no-repeat;
 }
 
 .rm-metal-link-arrow {
@@ -356,6 +353,7 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
 }
 
 .rm-metal-operations__steps i {
+  --rm-arrow-size: 26px;
   position: absolute;
   top: 4px;
   right: 0;
@@ -484,15 +482,24 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
   cursor: pointer;
 }
 
-.rm-metal-example-card .rm-metal-link-arrow::after {
+.rm-metal-example-card__link::after {
+  display: none;
+}
+
+.rm-metal-example-card__arrow {
+  display: grid;
   width: 40px;
   height: 40px;
-  flex-basis: 40px;
+  flex: 0 0 40px;
   margin-left: 20px;
+  place-items: center;
   color: var(--rm-primary, #175bef);
   border: 1px solid #d0d9e5;
   border-radius: 4px;
-  font-size: 20px;
+}
+
+.rm-metal-example-card__arrow .rm-ui-arrow {
+  --rm-arrow-size: 20px;
 }
 
 .rm-metal-example-card small {

@@ -27,7 +27,7 @@ $this->setFrameMode(true);
 							<?if ($rmProject['RM_PROJECT']['TYPE']):?><span><?=htmlspecialcharsbx($rmProject['RM_PROJECT']['TYPE'])?></span><?endif;?>
 						</div>
 					</div>
-					<a class="rm-project-card__link" href="<?=htmlspecialcharsbx($rmProject['DETAIL_PAGE_URL'])?>">Подробнее о заказе <span aria-hidden="true">↗</span></a>
+					<a class="rm-project-card__link" href="<?=htmlspecialcharsbx($rmProject['DETAIL_PAGE_URL'])?>">Подробнее о заказе <span aria-hidden="true"><span class="rm-ui-arrow"></span></span></a>
 				</div>
 				<a class="rm-project-card__image" href="<?=htmlspecialcharsbx($rmProject['DETAIL_PAGE_URL'])?>" aria-label="Открыть проект <?=htmlspecialcharsbx($rmProject['RM_PROJECT']['NAME'])?>">
 					<?if ($rmProjectImage):?>

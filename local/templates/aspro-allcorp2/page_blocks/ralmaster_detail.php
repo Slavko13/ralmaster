@@ -63,7 +63,7 @@ if ($rmDetailImageSmall && !is_file($_SERVER['DOCUMENT_ROOT'].$rmDetailImageSmal
 					<?if ($rmDetailPage['eyebrow'] !== ''):?><p class="rm-detail-eyebrow"><?=$rmDetailEscape($rmDetailPage['eyebrow'])?></p><?endif;?>
 					<h1><?=$rmDetailEscape($rmDetailPage['title'])?></h1>
 					<p class="rm-detail-lead"><?=$rmDetailEscape($rmDetailPage['lead'])?></p>
-					<button type="button" class="rm-detail-button" data-rm-discuss-open="<?=$rmDetailEscape($rmDetailPage['context'])?>"><?=$rmDetailEscape($rmDetailPage['cta_label'])?><span aria-hidden="true">↗</span></button>
+					<button type="button" class="rm-detail-button" data-rm-discuss-open="<?=$rmDetailEscape($rmDetailPage['context'])?>"><?=$rmDetailEscape($rmDetailPage['cta_label'])?><span class="rm-ui-arrow" aria-hidden="true"></span></button>
 				</div>
 				<figure class="rm-detail-hero__visual">
 					<img src="<?=$rmDetailEscape($rmDetailPage['image'])?>"<?if ($rmDetailImageSmall):?> srcset="<?=$rmDetailEscape($rmDetailImageSmall)?> 768w, <?=$rmDetailEscape($rmDetailPage['image'])?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 50vw"<?endif;?> alt="<?=$rmDetailEscape($rmDetailPage['image_alt'])?>" fetchpriority="high">
@@ -131,7 +131,7 @@ if ($rmDetailImageSmall && !is_file($_SERVER['DOCUMENT_ROOT'].$rmDetailImageSmal
 			<div class="rm-detail-contact__actions">
 				<div class="rm-detail-contact__phone"><?CAllcorp2::ShowHeaderPhones('', 'Phone_black.svg');?></div>
 				<?if (CAllcorp2::checkContentBlock(SITE_DIR.'include/footer/site-email.php', 'PROPERTY_EMAIL_VALUE')):?><?CAllcorp2::showEmail('rm-detail-contact__email');?><?endif;?>
-				<button type="button" class="rm-detail-button rm-detail-button--light" data-rm-discuss-open="<?=$rmDetailEscape($rmDetailPage['context'])?>"><?=$rmDetailEscape($rmDetailPage['cta_label'])?><span aria-hidden="true">↗</span></button>
+				<button type="button" class="rm-detail-button rm-detail-button--light" data-rm-discuss-open="<?=$rmDetailEscape($rmDetailPage['context'])?>"><?=$rmDetailEscape($rmDetailPage['cta_label'])?><span class="rm-ui-arrow" aria-hidden="true"></span></button>
 			</div>
 		</div>
 	</section>

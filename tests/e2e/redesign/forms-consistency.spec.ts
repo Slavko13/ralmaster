@@ -66,8 +66,10 @@ async function formSignature(root: Locator) {
         return arrow
           ? {
               content: arrow.content,
-              fontSize: arrow.fontSize,
-              lineHeight: arrow.lineHeight,
+              width: arrow.width,
+              height: arrow.height,
+              maskImage: arrow.maskImage,
+              webkitMaskImage: arrow.webkitMaskImage,
               top: arrow.top,
               transform: arrow.transform,
             }
@@ -153,10 +155,14 @@ function expectSharedContract(signature: Awaited<ReturnType<typeof formSignature
     height: 60,
   });
   expect(signature.submitArrow).toMatchObject({
-    content: '"↗"',
-    fontSize: '26px',
-    lineHeight: '26px',
+    content: '""',
+    width: '26px',
+    height: '26px',
   });
+  expect(
+    signature.submitArrow?.maskImage !== 'none' ||
+      signature.submitArrow?.webkitMaskImage !== 'none',
+  ).toBe(true);
   expect(signature.submitArrow?.transform).not.toBe('none');
 }
 

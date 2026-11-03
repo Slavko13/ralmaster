@@ -71,7 +71,7 @@ $rmProductionImage = SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powde
 			</div>
 			<div class="rm-project-detail__result-links">
 				<span>Подробнее о возможностях:</span>
-				<div><a href="/services/">Металлообработка <span aria-hidden="true">↗</span></a><a href="/painting/">Порошковая окраска <span aria-hidden="true">↗</span></a></div>
+				<div><a href="/services/">Металлообработка <span class="rm-ui-arrow" aria-hidden="true"></span></a><a href="/painting/">Порошковая окраска <span class="rm-ui-arrow" aria-hidden="true"></span></a></div>
 			</div>
 		</div>
 	</section>
@@ -82,7 +82,7 @@ $rmProductionImage = SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powde
 				<h2>Нужен похожий заказ?</h2>
 				<div class="rm-project-detail__cta-actions">
 					<p>Пришлите чертежи или опишите задачу. Укажите количество изделий и необходимые работы.</p>
-					<a class="rm-project-detail__cta-primary" href="/projects/#projects-estimate">Рассчитать похожий заказ <span aria-hidden="true">↗</span></a>
+					<a class="rm-project-detail__cta-primary" href="/projects/#projects-estimate">Рассчитать похожий заказ <span class="rm-ui-arrow" aria-hidden="true"></span></a>
 				</div>
 			</div>
 			<a class="rm-project-detail__cta-secondary" href="/projects/"><span aria-hidden="true">←</span> Все выполненные заказы</a>

@@ -184,6 +184,7 @@
 }
 
 .rm-product-card__arrow {
+  --rm-arrow-size: 25px;
   flex: 0 0 34px;
   color: var(--rm-primary, #175bef);
   font-size: 25px;
@@ -686,12 +687,14 @@
   position: absolute;
   top: 50%;
   right: 20px;
+  display: block;
+  width: 20px;
+  height: 20px;
   color: #fff;
-  content: "↗";
-  font-family: Arial, sans-serif;
-  font-size: 22px;
-  font-weight: 400;
-  line-height: 20px;
+  content: "";
+  background-color: currentColor;
+  -webkit-mask: var(--rm-arrow-mask) center / contain no-repeat;
+  mask: var(--rm-arrow-mask) center / contain no-repeat;
   transform: translateY(-50%);
   pointer-events: none;
 }

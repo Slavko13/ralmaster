@@ -80,6 +80,20 @@
   --rm-font-body: "Onest", Arial, sans-serif;
   --rm-font-heading: "Inter Tight", Arial, sans-serif;
   --rm-font-accent: "Manrope", Arial, sans-serif;
+  --rm-arrow-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 15L15 5M8 5h7v7' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='square' stroke-linejoin='miter'/%3E%3C/svg%3E");
+}
+
+.rm-ui-arrow {
+  display: inline-block;
+  width: var(--rm-arrow-size, 20px);
+  height: var(--rm-arrow-size, 20px);
+  flex: 0 0 var(--rm-arrow-size, 20px);
+  color: inherit;
+  background-color: currentColor;
+  -webkit-mask: var(--rm-arrow-mask) center / contain no-repeat;
+  mask: var(--rm-arrow-mask) center / contain no-repeat;
+  font-size: 0;
+  line-height: 0;
 }
 
 html {
@@ -606,18 +620,15 @@ body.front-banners-big-short .rm-header__tool:focus-visible,
 
 .banner_btns .banner_btn a::after,
 .banner_btns .banner_btn span::after {
-  display: grid;
+  display: block;
   width: 20px;
   height: 20px;
-  place-items: center;
   margin: 0;
   color: var(--rm-white);
-  content: "↗";
-  background: none;
-  font-family: Arial, sans-serif;
-  font-size: 22px;
-  font-weight: 400;
-  line-height: 20px;
+  content: "";
+  background-color: currentColor;
+  -webkit-mask: var(--rm-arrow-mask) center / contain no-repeat;
+  mask: var(--rm-arrow-mask) center / contain no-repeat;
   transition: transform 160ms ease;
 }
 
@@ -918,8 +929,8 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   color: var(--rm-primary);
   content: "";
   background-color: currentColor;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 15L15 5M8 5h7v7' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='square' stroke-linejoin='miter'/%3E%3C/svg%3E") center / 20px 20px no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 15L15 5M8 5h7v7' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='square' stroke-linejoin='miter'/%3E%3C/svg%3E") center / 20px 20px no-repeat;
+  -webkit-mask: var(--rm-arrow-mask) center / 20px 20px no-repeat;
+  mask: var(--rm-arrow-mask) center / 20px 20px no-repeat;
   transition: transform 160ms ease;
 }
 
@@ -2281,12 +2292,14 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   position: absolute;
   top: 17px;
   right: 22px;
+  display: block;
+  width: 22px;
+  height: 22px;
   color: var(--rm-white);
-  content: "↗";
-  font-family: Arial, sans-serif;
-  font-size: 22px;
-  font-weight: 400;
-  line-height: 22px;
+  content: "";
+  background-color: currentColor;
+  -webkit-mask: var(--rm-arrow-mask) center / contain no-repeat;
+  mask: var(--rm-arrow-mask) center / contain no-repeat;
   pointer-events: none;
 }
 

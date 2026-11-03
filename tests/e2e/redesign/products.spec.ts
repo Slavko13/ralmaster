@@ -150,13 +150,22 @@ test.describe('P0 redesigned products root', () => {
       const heroStyle = hero ? getComputedStyle(hero) : null;
       const submitStyle = submit ? getComputedStyle(submit, '::after') : null;
       return {
-        hero: hero?.textContent?.trim(),
-        heroSize: heroStyle?.fontSize,
-        submit: submitStyle?.content,
-        submitSize: submitStyle?.fontSize,
+        heroText: hero?.textContent?.trim(),
+        heroWidth: heroStyle?.width,
+        heroMask: heroStyle?.maskImage !== 'none' || heroStyle?.webkitMaskImage !== 'none',
+        submitContent: submitStyle?.content,
+        submitWidth: submitStyle?.width,
+        submitMask: submitStyle?.maskImage !== 'none' || submitStyle?.webkitMaskImage !== 'none',
       };
     });
-    expect(arrows).toEqual({ hero: '↗', heroSize: '22px', submit: '"↗"', submitSize: '26px' });
+    expect(arrows).toEqual({
+      heroText: '',
+      heroWidth: '20px',
+      heroMask: true,
+      submitContent: '""',
+      submitWidth: '26px',
+      submitMask: true,
+    });
 
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();

@@ -117,7 +117,7 @@ $rmExamples = array(
 					<p>Окрашиваем плоские изделия, металлические профили и партии деталей на собственном производстве в Видном. Принимаем готовые изделия заказчика и выполняем окраску в составе заказа на изготовление.</p>
 					<button class="rm-powder-button rm-powder-button--primary" type="button" data-rm-discuss-open="powder-coating">
 						<span>Рассчитать окраску</span>
-						<span class="rm-powder-button__arrow" aria-hidden="true">↗</span>
+						<span class="rm-powder-button__arrow rm-ui-arrow" aria-hidden="true"></span>
 					</button>
 				</div>
 				<div class="rm-powder-hero__image">
@@ -157,7 +157,7 @@ $rmExamples = array(
 					<p>Возможность окраски проверим по размерам, весу и конструкции изделия.</p>
 					<button class="rm-powder-button rm-powder-button--secondary" type="button" data-rm-discuss-open="powder-coating">
 						<span>Проверить возможность окраски</span>
-						<span class="rm-powder-button__arrow" aria-hidden="true">↗</span>
+						<span class="rm-powder-button__arrow rm-ui-arrow" aria-hidden="true"></span>
 					</button>
 				</div>
 			</div>
@@ -225,7 +225,7 @@ $rmExamples = array(
 							<h3><?=htmlspecialcharsbx($rmExample['title'])?></h3>
 							<p><?=htmlspecialcharsbx($rmExample['text'])?></p>
 							<div class="rm-powder-example__meta"><?=$rmExample['meta']?></div>
-							<button type="button" class="rm-powder-example__action" data-rm-discuss-open="powder-coating"><span>Подробнее о заказе</span><span aria-hidden="true">↗</span></button>
+							<button type="button" class="rm-powder-example__action" data-rm-discuss-open="powder-coating"><span>Подробнее о заказе</span><span class="rm-ui-arrow" aria-hidden="true"></span></button>
 							<small>Демонстрационный пример. Данные и фотографию необходимо заменить реальным заказом перед публикацией.</small>
 						</div>
 					</article>
@@ -242,13 +242,13 @@ $rmExamples = array(
 					<div class="rm-powder-orders__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7H13V17H4ZM13 10H17L20 13V17H13M7 7V4H16V8M8 17V18M17 17V18"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div>
 					<h3>Передать готовые изделия</h3>
 					<p>Принимаем изделия заказчика на порошковую окраску. Работаем с разовыми и повторными партиями. Постоянные клиенты размещают у нас заказы на окраску металлических изделий.</p>
-					<button type="button" class="rm-powder-orders__action" data-rm-discuss-open="powder-coating"><span>Рассчитать окраску</span><span aria-hidden="true">↗</span></button>
+					<button type="button" class="rm-powder-orders__action" data-rm-discuss-open="powder-coating"><span>Рассчитать окраску</span><span class="rm-ui-arrow" aria-hidden="true"></span></button>
 				</article>
 				<article>
 					<div class="rm-powder-orders__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3H14L19 8V21H5ZM14 3V8H19M8 12H16M8 16H13"/></svg></div>
 					<h3>Заказать изготовление с окраской</h3>
 					<p>Выполняем резку, гибку, сварку, порошковую окраску и сборку на собственном производстве. Можно заказать готовое изделие по чертежу или техническому заданию.</p>
-					<a href="/services/"><span>Услуги металлообработки</span><span aria-hidden="true">↗</span></a>
+					<a href="/services/"><span>Услуги металлообработки</span><span class="rm-ui-arrow" aria-hidden="true"></span></a>
 				</article>
 			</div>
 		</div>

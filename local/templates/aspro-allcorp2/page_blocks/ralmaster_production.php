@@ -175,7 +175,7 @@ if ($rmProductionEstimateFormId <= 0) {
 			</table>
 			<p class="rm-production-capabilities__note">* Примерные данные для согласования. Фактические материалы, размеры и ограничения подтвердим после проверки чертежа или технического задания.</p>
 		</div>
-		<div class="rm-production-capabilities__cta"><div><h3>Проверим ваше изделие по чертежу</h3><p>Пришлите чертёж или техническое задание. Проверим размеры, материал и необходимые операции.</p></div><button type="button" data-rm-discuss-open="production">Отправить чертёж на проверку <span aria-hidden="true">↗</span></button></div>
+		<div class="rm-production-capabilities__cta"><div><h3>Проверим ваше изделие по чертежу</h3><p>Пришлите чертёж или техническое задание. Проверим размеры, материал и необходимые операции.</p></div><button type="button" data-rm-discuss-open="production">Отправить чертёж на проверку <span class="rm-ui-arrow" aria-hidden="true"></span></button></div>
 	</section>
 
 	<section class="rm-production-order" data-rm-production-section="order">
@@ -236,13 +236,13 @@ if ($rmProductionEstimateFormId <= 0) {
 	<section class="rm-production-faq" data-rm-production-section="faq">
 		<div class="rm-production-container"><h2>Ответы на вопросы</h2><div class="rm-production-faq__list">
 			<?foreach ($rmProductionFaq as $rmProductionFaqIndex => $rmProductionFaqItem):?>
-				<details name="rm-production-faq"><summary><span><?=str_pad((string)($rmProductionFaqIndex + 1), 2, '0', STR_PAD_LEFT)?></span><strong><?=$rmProductionEscape($rmProductionFaqItem[0])?></strong><i aria-hidden="true">↗</i></summary><div class="rm-production-faq__answer"><p><?=$rmProductionEscape($rmProductionFaqItem[1])?></p></div></details>
+				<details name="rm-production-faq"><summary><span><?=str_pad((string)($rmProductionFaqIndex + 1), 2, '0', STR_PAD_LEFT)?></span><strong><?=$rmProductionEscape($rmProductionFaqItem[0])?></strong><i aria-hidden="true"><span class="rm-ui-arrow"></span></i></summary><div class="rm-production-faq__answer"><p><?=$rmProductionEscape($rmProductionFaqItem[1])?></p></div></details>
 			<?endforeach;?>
 		</div></div>
 	</section>
 
 	<section class="rm-production-contact" id="rm-production-contact" data-rm-production-section="contact" data-rm-estimate-context="production">
-		<div class="rm-production-contact__inner"><div><h2>Обсудить заказ или регулярные поставки</h2><p>Расскажите, какие изделия нужны, в каком количестве и планируются ли повторные партии. Прикрепите документацию, если она уже подготовлена.</p></div><div class="rm-production-contact__actions"><div class="rm-production-contact__phone"><?CAllcorp2::ShowHeaderPhones('', 'Phone_black.svg');?></div><?if (CAllcorp2::checkContentBlock(SITE_DIR.'include/footer/site-email.php', 'PROPERTY_EMAIL_VALUE')):?><?CAllcorp2::showEmail('rm-production-contact__email');?><?endif;?><?if ($rmProductionEstimateFormId):?><button type="button" data-rm-discuss-open="production">Обсудить заказ <span aria-hidden="true">↗</span></button><?else:?><a class="rm-production-contact__fallback" href="/contacts/">Обсудить заказ <span aria-hidden="true">↗</span></a><?endif;?></div></div>
+		<div class="rm-production-contact__inner"><div><h2>Обсудить заказ или регулярные поставки</h2><p>Расскажите, какие изделия нужны, в каком количестве и планируются ли повторные партии. Прикрепите документацию, если она уже подготовлена.</p></div><div class="rm-production-contact__actions"><div class="rm-production-contact__phone"><?CAllcorp2::ShowHeaderPhones('', 'Phone_black.svg');?></div><?if (CAllcorp2::checkContentBlock(SITE_DIR.'include/footer/site-email.php', 'PROPERTY_EMAIL_VALUE')):?><?CAllcorp2::showEmail('rm-production-contact__email');?><?endif;?><?if ($rmProductionEstimateFormId):?><button type="button" data-rm-discuss-open="production">Обсудить заказ <span class="rm-ui-arrow" aria-hidden="true"></span></button><?else:?><a class="rm-production-contact__fallback" href="/contacts/">Обсудить заказ <span class="rm-ui-arrow" aria-hidden="true"></span></a><?endif;?></div></div>
 	</section>
 
 	<section class="rm-production-photo" data-rm-production-section="photo" aria-label="Порошковая линия РАЛМАСТЕР"><img src="<?=$rmProductionEscape($rmProductionAssetRoot.'home/production-powder-line.webp')?>" srcset="<?=$rmProductionEscape($rmProductionSmallAsset('home/production-powder-line.webp'))?> 768w, <?=$rmProductionEscape($rmProductionAssetRoot.'home/production-powder-line.webp')?> 1672w" sizes="100vw" alt="Порошковая линия на производстве РАЛМАСТЕР" loading="lazy"></section>

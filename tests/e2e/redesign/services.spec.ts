@@ -156,8 +156,8 @@ test.describe('Redesigned metalworking root', () => {
     const arrows = page.locator('.rm-metal-operations__steps li > i');
     await expect(arrows).toHaveCount(3);
     for (let index = 0; index < 3; index += 1) {
-      await expect(arrows.nth(index)).toHaveText('↗');
-      await expect(arrows.nth(index)).toHaveCSS('font-size', '26px');
+      await expect(arrows.nth(index)).toHaveCSS('width', '26px');
+      await expect(arrows.nth(index)).toHaveCSS('height', '26px');
     }
 
     const numberAlignment = await page.locator('.rm-metal-operations__steps li').evaluateAll((items) =>
@@ -206,12 +206,18 @@ test.describe('Redesigned metalworking root', () => {
     const arrows = await page.locator('.rm-metal-link-arrow').evaluateAll((nodes) =>
       nodes.map((node) => {
         const style = getComputedStyle(node, '::after');
-        return { content: style.content, backgroundImage: style.backgroundImage };
+        return {
+          content: style.content,
+          maskImage: style.maskImage,
+          webkitMaskImage: style.webkitMaskImage,
+        };
       }),
     );
     expect(arrows.length).toBeGreaterThan(0);
-    expect(arrows.every((arrow) => arrow.content === '"↗"')).toBe(true);
-    expect(arrows.every((arrow) => arrow.backgroundImage === 'none')).toBe(true);
+    expect(arrows.every((arrow) => arrow.content === '""')).toBe(true);
+    expect(
+      arrows.every((arrow) => arrow.maskImage !== 'none' || arrow.webkitMaskImage !== 'none'),
+    ).toBe(true);
 
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
@@ -288,10 +294,10 @@ test.describe('Redesigned metalworking root', () => {
       const heading = section.querySelector('h2')!;
       const card = section.querySelector<HTMLElement>('.rm-metal-example-card')!;
       const copy = card.querySelector<HTMLElement>('.rm-metal-example-card__copy')!;
-      const action = card.querySelector<HTMLElement>('.rm-metal-link-arrow')!;
+      const arrow = card.querySelector<HTMLElement>('.rm-metal-example-card__arrow')!;
       const sectionStyle = getComputedStyle(section);
       const headingStyle = getComputedStyle(heading);
-      const arrowStyle = getComputedStyle(action, '::after');
+      const arrowStyle = getComputedStyle(arrow);
       return {
         paddingTop: sectionStyle.paddingTop,
         paddingBottom: sectionStyle.paddingBottom,

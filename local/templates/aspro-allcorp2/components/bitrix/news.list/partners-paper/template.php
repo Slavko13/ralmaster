@@ -43,7 +43,7 @@ $rmPartnerEscape = static function ($value) {
 							<div class="rm-partner-card__body">
 								<h3><?=$rmPartnerEscape($rmPartnerName)?></h3>
 								<?if (trim((string)$arItem['PREVIEW_TEXT']) !== ''):?><div class="rm-partner-card__text"><?=$arItem['PREVIEW_TEXT']?></div><?endif;?>
-								<?if ($rmPartnerHref !== ''):?><a href="<?=$rmPartnerEscape($rmPartnerHref)?>" rel="nofollow noopener" target="_blank">Перейти на сайт <span aria-hidden="true">↗</span></a><?endif;?>
+								<?if ($rmPartnerHref !== ''):?><a href="<?=$rmPartnerEscape($rmPartnerHref)?>" rel="nofollow noopener" target="_blank">Перейти на сайт <span class="rm-ui-arrow" aria-hidden="true"></span></a><?endif;?>
 							</div>
 						</article>
 					<?endforeach;?>
@@ -58,7 +58,7 @@ $rmPartnerEscape = static function ($value) {
 	<section class="rm-partners-contact">
 		<div class="rm-partners-container rm-partners-contact__layout">
 			<div><p class="rm-partners-kicker">Новый проект</p><h2>Ищете производственного партнёра?</h2><p>Обсудим задачу, требования к изделиям и формат регулярных поставок.</p></div>
-			<a href="/contacts/">Связаться с нами <span aria-hidden="true">↗</span></a>
+			<a href="/contacts/">Связаться с нами <span class="rm-ui-arrow" aria-hidden="true"></span></a>
 		</div>
 	</section>
 </main>

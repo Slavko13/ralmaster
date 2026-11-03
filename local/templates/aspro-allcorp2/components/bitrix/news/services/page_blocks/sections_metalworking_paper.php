@@ -194,9 +194,9 @@ $rmMetalHasPhone = $arRegion ? !empty($arRegion['PHONES']) : (bool)(int)$arTheme
 			</div>
 			<img class="rm-metal-operations__image" src="<?=$rmMetalEscape($rmMetalAsset('production-chain.webp'))?>" srcset="<?=$rmMetalEscape($rmMetalAsset('production-chain-768.webp'))?> 768w, <?=$rmMetalEscape($rmMetalAsset('production-chain.webp'))?> 2172w" sizes="(max-width: 767px) calc(100vw - 32px), 1050px" alt="Последовательность изготовления металлического изделия" loading="lazy">
 			<ol class="rm-metal-operations__steps">
-				<li><span>01.</span><div><strong>После резки</strong><p>Заготовки с отверстиями и заданным контуром.</p></div><i aria-hidden="true">↗</i></li>
-				<li><span>02.</span><div><strong>После гибки</strong><p>Деталь с формой и углами по чертежу.</p></div><i aria-hidden="true">↗</i></li>
-				<li><span>03.</span><div><strong>После окраски</strong><p>Готовая деталь с согласованным покрытием.</p></div><i aria-hidden="true">↗</i></li>
+				<li><span>01.</span><div><strong>После резки</strong><p>Заготовки с отверстиями и заданным контуром.</p></div><i class="rm-ui-arrow" aria-hidden="true"></i></li>
+				<li><span>02.</span><div><strong>После гибки</strong><p>Деталь с формой и углами по чертежу.</p></div><i class="rm-ui-arrow" aria-hidden="true"></i></li>
+				<li><span>03.</span><div><strong>После окраски</strong><p>Готовая деталь с согласованным покрытием.</p></div><i class="rm-ui-arrow" aria-hidden="true"></i></li>
 			</ol>
 			<div class="rm-metal-operations__links"><span>При необходимости включаем в заказ сварку и сборку.</span><nav aria-label="Связанные услуги"><a class="rm-metal-link-arrow" href="/product/">Изготовление по чертежам</a><a class="rm-metal-link-arrow" href="/painting/">Порошковая окраска</a></nav></div>
 		</div>
@@ -209,7 +209,7 @@ $rmMetalHasPhone = $arRegion ? !empty($arRegion['PHONES']) : (bool)(int)$arTheme
 				<?foreach ($rmMetalExamples as $rmMetalExample):?>
 					<article class="rm-metal-example-card">
 						<img src="<?=$rmMetalEscape($rmMetalExample['IMAGE'])?>" srcset="<?=$rmMetalEscape($rmMetalExample['IMAGE_SMALL'])?> 768w, <?=$rmMetalEscape($rmMetalExample['IMAGE'])?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 33vw" alt="" aria-hidden="true" loading="lazy">
-						<div class="rm-metal-example-card__copy"><h3><?=$rmMetalEscape($rmMetalExample['TITLE'])?></h3><p><?=$rmMetalEscape($rmMetalExample['TEXT'])?></p><strong><?=$rmMetalEscape($rmMetalExample['META'])?></strong><button class="rm-metal-link-arrow" type="button" data-rm-discuss-open="metalworking">Подробнее о заказе</button><small>Демонстрационный пример. Заменить реальным заказом.</small></div>
+						<div class="rm-metal-example-card__copy"><h3><?=$rmMetalEscape($rmMetalExample['TITLE'])?></h3><p><?=$rmMetalEscape($rmMetalExample['TEXT'])?></p><strong><?=$rmMetalEscape($rmMetalExample['META'])?></strong><button class="rm-metal-link-arrow rm-metal-example-card__link" type="button" data-rm-discuss-open="metalworking"><span>Подробнее о заказе</span><span class="rm-metal-example-card__arrow" aria-hidden="true"><i class="rm-ui-arrow"></i></span></button><small>Демонстрационный пример. Заменить реальным заказом.</small></div>
 					</article>
 				<?endforeach;?>
 			</div>

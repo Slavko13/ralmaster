@@ -296,8 +296,10 @@ test.describe('Redesigned production root', () => {
     const dialog = page.locator('dialog[data-rm-discuss-variant="production"]');
 
     await expect(capabilitiesTrigger).toBeVisible();
-    await expect(capabilitiesTrigger.locator('span')).toHaveText('↗');
-    await expect(capabilitiesTrigger.locator('span')).toHaveCSS('font-size', '22px');
+    const capabilitiesArrow = capabilitiesTrigger.locator('.rm-ui-arrow');
+    await expect(capabilitiesArrow).toBeVisible();
+    await expect(capabilitiesArrow).toHaveCSS('width', '20px');
+    await expect(capabilitiesArrow).toHaveCSS('height', '20px');
     await capabilitiesTrigger.scrollIntoViewIfNeeded();
     const scrollBefore = await page.evaluate(() => window.scrollY);
     // The trigger is already visible after scrollIntoViewIfNeeded(). Using a

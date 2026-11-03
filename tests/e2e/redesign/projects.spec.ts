@@ -287,9 +287,10 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
       'Подробнее о возможностях:',
     );
     await expect(detail.locator('.rm-project-detail__result-links a')).toHaveText([
-      'Металлообработка ↗',
-      'Порошковая окраска ↗',
+      'Металлообработка',
+      'Порошковая окраска',
     ]);
+    await expect(detail.locator('.rm-project-detail__result-links .rm-ui-arrow')).toHaveCount(2);
 
     const resultLink = detail.locator('.rm-project-detail__result-links a').first();
     const resultTransformBefore = await resultLink.evaluate((node) => getComputedStyle(node).transform);
@@ -301,7 +302,7 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     const cta = detail.locator('[data-rm-project-detail-section="cta"]');
     await expect(cta.locator('.rm-project-detail__cta-actions > p')).toBeVisible();
     await expect(cta.locator('.rm-project-detail__cta-primary')).toHaveText(/Рассчитать похожий заказ/);
-    await expect(cta.locator('.rm-project-detail__cta-primary > span')).toHaveText('↗');
+    await expect(cta.locator('.rm-project-detail__cta-primary > .rm-ui-arrow')).toBeVisible();
     await expect(cta.locator('.rm-project-detail__cta-secondary')).toHaveText(/Все выполненные заказы/);
     const ctaFlow = await cta.locator('.rm-project-detail__cta-card').evaluate((card) => {
       const heading = card.querySelector('h2')!.getBoundingClientRect();

@@ -1,7 +1,7 @@
 <?
 $aMenuLinks = Array(
 	Array(
-		"О компании", 
+		"О производстве",
 		"/company/index.php", 
 		Array(), 
 		Array(), 

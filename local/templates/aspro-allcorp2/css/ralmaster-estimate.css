@@ -340,9 +340,13 @@
   right: 22px !important;
   bottom: auto !important;
   display: block !important;
+  width: 26px !important;
+  height: 26px !important;
   color: #fff !important;
-  content: "↗" !important;
-  font: 400 26px/26px Arial, sans-serif !important;
+  content: "" !important;
+  background-color: currentColor !important;
+  -webkit-mask: var(--rm-arrow-mask) center / contain no-repeat !important;
+  mask: var(--rm-arrow-mask) center / contain no-repeat !important;
   transform: translateY(-50%) !important;
   pointer-events: none !important;
 }

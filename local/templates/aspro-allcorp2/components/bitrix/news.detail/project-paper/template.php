@@ -24,7 +24,7 @@ $rmProductionImage = SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powde
 				<h1><?if ($rmProject['IS_SYMBOL']):?>Декоративные корзины<br>для кондиционеров в ЖК «Символ»<?else:?><?=htmlspecialcharsbx($rmProject['TITLE'])?><?endif;?></h1>
 				<p><?=htmlspecialcharsbx($rmProject['SUMMARY'])?></p>
 				<?if ($rmProject['IS_SYMBOL']):?>
-					<a class="rm-project-detail__product-link" href="<?=htmlspecialcharsbx($rmProject['PRODUCT_URL'])?>">Корзины для кондиционеров <span aria-hidden="true">↗</span></a>
+					<a class="rm-project-detail__product-link" href="<?=htmlspecialcharsbx($rmProject['PRODUCT_URL'])?>">Корзины для кондиционеров <span class="rm-ui-arrow" aria-hidden="true"></span></a>
 				<?endif;?>
 			</div>
 			<?if ($rmProject['HERO_IMAGE']):?>
@@ -98,7 +98,7 @@ $rmProductionImage = SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powde
 				<h2><?=$rmProject['IS_SYMBOL'] ? 'Нужны корзины для вашего объекта?' : 'Нужен похожий заказ?'?></h2>
 				<div class="rm-project-detail__cta-actions">
 					<p>Пришлите чертежи или опишите задачу. Укажите количество изделий и необходимые работы.</p>
-					<a class="rm-project-detail__cta-primary" href="/projects/#projects-estimate">Рассчитать похожий заказ <span aria-hidden="true">↗</span></a>
+					<a class="rm-project-detail__cta-primary" href="/projects/#projects-estimate">Рассчитать похожий заказ <span class="rm-ui-arrow" aria-hidden="true"></span></a>
 				</div>
 			</div>
 			<a class="rm-project-detail__cta-secondary" href="/projects/"><span aria-hidden="true">←</span> Все выполненные заказы</a>

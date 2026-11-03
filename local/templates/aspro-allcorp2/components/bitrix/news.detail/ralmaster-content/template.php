@@ -72,7 +72,7 @@ foreach ($rmAsideFields as $rmCode => $rmLabel) {
 					<?if (!empty($arResult['DISPLAY_ACTIVE_FROM'])):?><dt>Дата</dt><dd><?=$rmEscape($arResult['DISPLAY_ACTIVE_FROM'])?></dd><?endif;?>
 					<?foreach ($rmAsideFields as $rmCode => $rmLabel):?><?$rmValue = $rmPropertyValue($arResult, $rmCode);?><?if ($rmValue !== ''):?><dt><?=$rmEscape($rmLabel)?></dt><dd><?if ($rmCode === 'EMAIL'):?><a href="mailto:<?=$rmEscape($rmValue)?>"><?=$rmEscape($rmValue)?></a><?elseif ($rmCode === 'PHONE'):?><a href="tel:<?=preg_replace('/[^0-9+]/', '', $rmValue)?>"><?=$rmEscape($rmValue)?></a><?elseif ($rmCode === 'SITE'):?><a href="<?=$rmEscape(preg_match('~^https?://~i', $rmValue) ? $rmValue : 'https://'.$rmValue)?>" rel="nofollow noopener" target="_blank"><?=$rmEscape($rmValue)?></a><?else:?><?=$rmEscape($rmValue)?><?endif;?></dd><?endif;?><?endforeach;?>
 				</dl><?else:?><p>Нужны подробности? Свяжитесь с нами — ответим на вопросы.</p><?endif;?>
-				<a class="rm-content-button" href="/contacts/">Связаться с нами <span aria-hidden="true">↗</span></a>
+				<a class="rm-content-button" href="/contacts/">Связаться с нами <span class="rm-ui-arrow" aria-hidden="true"></span></a>
 			</aside>
 		</div>
 	</section>

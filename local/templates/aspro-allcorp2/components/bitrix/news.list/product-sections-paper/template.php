@@ -17,7 +17,7 @@ $this->setFrameMode(true);
 			<a class="rm-product-card<?=$rmIndex < 3 ? ' rm-product-card--large' : ' rm-product-card--small'?>" href="<?=htmlspecialcharsbx($rmProduct['URL'])?>" id="<?=$this->GetEditAreaId($rmProduct['ID'])?>">
 				<span class="rm-product-card__header">
 					<strong><?=$rmProduct['NAME']?></strong>
-					<span class="rm-product-card__arrow" aria-hidden="true">↗</span>
+					<span class="rm-product-card__arrow rm-ui-arrow" aria-hidden="true"></span>
 				</span>
 				<span class="rm-product-card__media">
 					<img class="rm-product-card__image" src="<?=htmlspecialcharsbx($rmProduct['IMAGE'])?>" srcset="<?=htmlspecialcharsbx($rmProduct['IMAGE_SMALL'])?> 768w, <?=htmlspecialcharsbx($rmProduct['IMAGE'])?> 1448w" sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) calc(50vw - 32px), 438px" alt=""<?=$rmIndex === 0 ? ' fetchpriority="high"' : ' loading="lazy"'?>>

@@ -261,7 +261,7 @@ if ($rmOrderFormId <= 0) {
 			</div>
 			<a class="rm-home-hero__feature" href="/product/facadecassettes/">
 				<img src="<?=$rmEscape($rmAsset('facade-cassettes.webp'))?>" srcset="<?=$rmEscape($rmAsset('facade-cassettes-768.webp'))?> 768w, <?=$rmEscape($rmAsset('facade-cassettes.webp'))?> 1448w" sizes="118px" width="118" height="118" alt="Фасадные металлокассеты">
-				<span class="rm-home-hero__feature-copy"><strong>Фасадные металлокассеты</strong><span class="rm-link-arrow">Подробнее об изделии</span></span>
+				<span class="rm-home-hero__feature-copy"><strong>Фасадные металлокассеты</strong><span class="rm-link-arrow">Вся продукция</span></span>
 			</a>
 		</div>
 		<div class="rm-home-hero__cut" aria-hidden="true"></div>
@@ -289,8 +289,8 @@ if ($rmOrderFormId <= 0) {
 				<p>Окрашиваем партии металлических изделий. Выполняем подготовку поверхности перед окраской</p>
 			</div>
 			<div class="rm-home-powder-grid">
-				<a class="rm-home-split-card" href="/painting/"><span class="rm-home-split-card__copy"><strong>Окраска плоских изделий</strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span><img src="<?=$rmEscape($rmAsset('powder-flat-panels.webp'))?>" srcset="<?=$rmEscape($rmAsset('powder-flat-panels-768.webp'))?> 768w, <?=$rmEscape($rmAsset('powder-flat-panels.webp'))?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) calc(50vw - 32px), 658px" alt="Порошковая окраска плоских изделий" loading="lazy"></a>
-				<a class="rm-home-split-card" href="/painting/"><span class="rm-home-split-card__copy"><strong>Окраска профилей</strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span><img src="<?=$rmEscape($rmAsset('powder-profiles.webp'))?>" srcset="<?=$rmEscape($rmAsset('powder-profiles-768.webp'))?> 768w, <?=$rmEscape($rmAsset('powder-profiles.webp'))?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) calc(50vw - 32px), 658px" alt="Порошковая окраска профилей" loading="lazy"></a>
+				<a class="rm-home-split-card" href="/painting/"><span class="rm-home-split-card__copy"><strong>Окраска плоских изделий</strong><span class="rm-card-arrow" aria-hidden="true"><span class="rm-ui-arrow"></span></span></span><img src="<?=$rmEscape($rmAsset('powder-flat-panels.webp'))?>" srcset="<?=$rmEscape($rmAsset('powder-flat-panels-768.webp'))?> 768w, <?=$rmEscape($rmAsset('powder-flat-panels.webp'))?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) calc(50vw - 32px), 658px" alt="Порошковая окраска плоских изделий" loading="lazy"></a>
+				<a class="rm-home-split-card" href="/painting/"><span class="rm-home-split-card__copy"><strong>Окраска профилей</strong><span class="rm-card-arrow" aria-hidden="true"><span class="rm-ui-arrow"></span></span></span><img src="<?=$rmEscape($rmAsset('powder-profiles.webp'))?>" srcset="<?=$rmEscape($rmAsset('powder-profiles-768.webp'))?> 768w, <?=$rmEscape($rmAsset('powder-profiles.webp'))?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) calc(50vw - 32px), 658px" alt="Порошковая окраска профилей" loading="lazy"></a>
 			</div>
 
 			<div class="rm-home-group-heading">
@@ -304,7 +304,7 @@ if ($rmOrderFormId <= 0) {
 				?>
 				<?foreach ($rmProductCards as $index => $card):?>
 					<a class="rm-home-product-card" href="<?=$rmEscape($card['URL'])?>">
-						<span><strong><?=$rmEscape($card['NAME'])?></strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span>
+						<span><strong><?=$rmEscape($card['NAME'])?></strong><span class="rm-card-arrow" aria-hidden="true"><span class="rm-ui-arrow"></span></span></span>
 						<img src="<?=$rmEscape($rmAsset($productImages[$index]))?>" srcset="<?=$rmEscape($rmAsset($productResponsiveImages[$index]))?> 768w, <?=$rmEscape($rmAsset($productImages[$index]))?> 1448w" sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) calc(33vw - 24px), 438px" alt="" aria-hidden="true" loading="lazy">
 					</a>
 				<?endforeach;?>
@@ -323,7 +323,7 @@ if ($rmOrderFormId <= 0) {
 				<?foreach ($rmServiceCards as $index => $card):?>
 					<a class="rm-home-service-card" href="<?=$rmEscape($card['URL'])?>">
 						<img src="<?=$rmEscape($rmAsset($serviceImages[$index]))?>" srcset="<?=$rmEscape($rmAsset($serviceResponsiveImages[$index]))?> 768w, <?=$rmEscape($rmAsset($serviceImages[$index]))?> <?=$serviceImageWidths[$index]?>w" sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) calc(33vw - 24px), 438px" alt="" aria-hidden="true" loading="lazy">
-						<span><strong><?=$rmEscape($card['NAME'])?></strong><span class="rm-card-arrow" aria-hidden="true">↗</span></span>
+						<span><strong><?=$rmEscape($card['NAME'])?></strong><span class="rm-card-arrow" aria-hidden="true"><span class="rm-ui-arrow"></span></span></span>
 					</a>
 				<?endforeach;?>
 			</div>
@@ -404,7 +404,7 @@ if ($rmOrderFormId <= 0) {
 				<?foreach ($rmFaq as $index => $item):?>
 					<?$panelId = 'rm-home-faq-panel-'.($index + 1);?>
 					<article class="rm-home-faq__item<?=$index === 0 ? ' is-open' : ''?>">
-						<button type="button" aria-expanded="<?=$index === 0 ? 'true' : 'false'?>" aria-controls="<?=$panelId?>"><small><?=str_pad((string)($index + 1), 2, '0', STR_PAD_LEFT)?></small><strong><?=$rmEscape($item[0])?></strong><span aria-hidden="true">↗</span></button>
+						<button type="button" aria-expanded="<?=$index === 0 ? 'true' : 'false'?>" aria-controls="<?=$panelId?>"><small><?=str_pad((string)($index + 1), 2, '0', STR_PAD_LEFT)?></small><strong><?=$rmEscape($item[0])?></strong><span aria-hidden="true"><span class="rm-ui-arrow"></span></span></button>
 						<div id="<?=$panelId?>" class="rm-home-faq__answer"<?=$index === 0 ? '' : ' hidden'?>><p><?=$rmEscape($item[1])?></p></div>
 					</article>
 				<?endforeach;?>

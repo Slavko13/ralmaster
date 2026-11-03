@@ -87,20 +87,20 @@ $rmContactsBank = array(
 				</div>
 				<p>Для запросов, чертежей и технических заданий</p>
 				<?if ($rmContactsEstimateFormId > 0):?>
-					<button type="button" class="rm-contacts-button" data-rm-discuss-open="contacts">Отправить запрос <span aria-hidden="true">↗</span></button>
+					<button type="button" class="rm-contacts-button" data-rm-discuss-open="contacts">Отправить запрос <span class="rm-ui-arrow" aria-hidden="true"></span></button>
 				<?else:?>
-					<a class="rm-contacts-button" href="mailto:ralmaster@inbox.ru">Отправить запрос <span aria-hidden="true">↗</span></a>
+					<a class="rm-contacts-button" href="mailto:ralmaster@inbox.ru">Отправить запрос <span class="rm-ui-arrow" aria-hidden="true"></span></a>
 				<?endif;?>
 			</div>
 			<div class="rm-contacts-summary__locations">
 				<article>
-					<a href="#route-production" aria-label="Перейти к схеме проезда на производство">↗</a>
+					<a href="#route-production" aria-label="Перейти к схеме проезда на производство"><span class="rm-ui-arrow" aria-hidden="true"></span></a>
 					<h3>Производство</h3>
 					<p><?=$rmContactsEscape($rmContactsProductionAddress)?></p>
 					<dl><dt>Время работы</dt><dd>Понедельник – пятница, 8:00–18:00</dd></dl>
 				</article>
 				<article>
-					<a href="#route-production" aria-label="Перейти к схеме проезда от офиса продаж">↗</a>
+					<a href="#route-production" aria-label="Перейти к схеме проезда от офиса продаж"><span class="rm-ui-arrow" aria-hidden="true"></span></a>
 					<h3>Офис продаж</h3>
 					<p><?=$rmContactsEscape($rmContactsOfficeAddress)?>, офис 328</p>
 					<dl><dt>Время работы</dt><dd>Понедельник – пятница, 9:00–18:00</dd></dl>
@@ -116,7 +116,7 @@ $rmContactsBank = array(
 				<div class="rm-contacts-route__copy">
 					<h3>Производство в Видном</h3>
 					<p><?=$rmContactsEscape($rmContactsProductionAddress)?></p>
-					<a class="rm-contacts-button" href="https://yandex.ru/maps/?rtext=~55.54758061777226,37.77257843324959&amp;rtt=auto" target="_blank" rel="noopener noreferrer">Построить маршрут <span aria-hidden="true">↗</span></a>
+					<a class="rm-contacts-button" href="https://yandex.ru/maps/?rtext=~55.54758061777226,37.77257843324959&amp;rtt=auto" target="_blank" rel="noopener noreferrer">Построить маршрут <span class="rm-ui-arrow" aria-hidden="true"></span></a>
 					<div class="rm-contacts-route__notice"><h4>Въезд на территорию</h4><p>Свяжитесь с нами, чтобы уточнить время посещения и порядок прохода на территорию.</p><div><?CAllcorp2::ShowHeaderPhones('', 'Phone_black.svg');?></div></div>
 				</div>
 				<div class="rm-contacts-route__map" data-rm-lazy-map data-map-src="https://yandex.ru/map-widget/v1/?ll=37.772578%2C55.547581&amp;z=15&amp;pt=37.772578%2C55.547581%2Cpm2rdm" aria-label="Карта проезда на производство">
@@ -133,19 +133,19 @@ $rmContactsBank = array(
 
 	<section class="rm-contacts-requisites" id="requisites" data-rm-contacts-section="requisites">
 		<div class="rm-contacts-container">
-			<header><h2>Реквизиты компании</h2><button type="button" data-rm-copy-requisites>Скопировать реквизиты <span aria-hidden="true">↗</span></button></header>
+			<header><h2>Реквизиты компании</h2><button type="button" data-rm-copy-requisites>Скопировать реквизиты <span class="rm-ui-arrow" aria-hidden="true"></span></button></header>
 			<div class="rm-contacts-requisites__table" data-rm-requisites-content>
 				<?foreach ($rmContactsCompany as $rmContactsRow):?>
 					<div class="rm-contacts-requisites__row"><span><?=$rmContactsEscape($rmContactsRow[0])?></span><strong><?=$rmContactsEscape($rmContactsRow[1])?></strong><?if (!empty($rmContactsRow[2])):?><button type="button" data-rm-copy-value="<?=$rmContactsEscape($rmContactsRow[1])?>">Скопировать ИНН</button><?endif;?></div>
 				<?endforeach;?>
 			</div>
-			<div class="rm-contacts-requisites__bank-title"><h3>Банковские реквизиты</h3><span aria-hidden="true">↗</span></div>
+			<div class="rm-contacts-requisites__bank-title"><h3>Банковские реквизиты</h3><span aria-hidden="true"><span class="rm-ui-arrow"></span></span></div>
 			<div class="rm-contacts-requisites__table">
 				<?foreach ($rmContactsBank as $rmContactsRow):?>
 					<div class="rm-contacts-requisites__row"><span><?=$rmContactsEscape($rmContactsRow[0])?></span><strong><?=$rmContactsEscape($rmContactsRow[1])?></strong></div>
 				<?endforeach;?>
 			</div>
-			<a class="rm-contacts-requisites__download" href="/output/pdf/ralmaster-company-card.pdf" target="_blank" rel="noopener" download="Карточка-компании-РАЛМАСТЕР.pdf">Скачать карточку компании · PDF <span aria-hidden="true">↗</span></a>
+			<a class="rm-contacts-requisites__download" href="/output/pdf/ralmaster-company-card.pdf" target="_blank" rel="noopener" download="Карточка-компании-РАЛМАСТЕР.pdf">Скачать карточку компании · PDF <span class="rm-ui-arrow" aria-hidden="true"></span></a>
 		</div>
 	</section>
 

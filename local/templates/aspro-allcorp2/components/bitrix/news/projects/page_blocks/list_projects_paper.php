@@ -66,7 +66,7 @@ if (\Bitrix\Main\Loader::includeModule('form')) {
 		<div class="rm-projects-container">
 			<div class="rm-projects-heading">
 				<h2>Продукция</h2>
-				<a class="rm-projects-text-link" href="/product/">Вся продукция <span aria-hidden="true">↗</span></a>
+				<a class="rm-projects-text-link" href="/product/">Вся продукция <span class="rm-ui-arrow" aria-hidden="true"></span></a>
 			</div>
 			<?$APPLICATION->IncludeComponent(
 				'bitrix:news.list',
@@ -103,7 +103,7 @@ if (\Bitrix\Main\Loader::includeModule('form')) {
 			</div>
 			<div class="rm-projects-operations__footer">
 				<p>При необходимости включим в заказ сварку и сборку.</p>
-				<nav aria-label="Связанные услуги"><a href="/product/">Изготовление по чертежам <span aria-hidden="true">↗</span></a><a href="/painting/">Порошковая окраска <span aria-hidden="true">↗</span></a></nav>
+				<nav aria-label="Связанные услуги"><a href="/product/">Изготовление по чертежам <span class="rm-ui-arrow" aria-hidden="true"></span></a><a href="/painting/">Порошковая окраска <span class="rm-ui-arrow" aria-hidden="true"></span></a></nav>
 			</div>
 		</div>
 	</section>

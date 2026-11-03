@@ -12,7 +12,7 @@
 			</div>
 			<button class="rm-products-button rm-products-button--primary" type="button" data-rm-discuss-open="product">
 				<span>Отправить чертёж на расчёт</span>
-				<span class="rm-products-button__arrow" aria-hidden="true">↗</span>
+				<span class="rm-products-button__arrow rm-ui-arrow" aria-hidden="true"></span>
 			</button>
 		</div>
 	</div>

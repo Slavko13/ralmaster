@@ -952,9 +952,14 @@ body .rm-system-page--cart .basket.default .buy_block .counter input {
   position: absolute;
   top: 50%;
   right: 22px;
+  display: block;
+  width: 26px;
+  height: 26px;
   color: #fff;
-  content: "↗";
-  font: 400 26px/26px Arial, sans-serif;
+  content: "";
+  background-color: currentColor;
+  -webkit-mask: var(--rm-arrow-mask) center / contain no-repeat;
+  mask: var(--rm-arrow-mask) center / contain no-repeat;
   transform: translateY(-50%);
   pointer-events: none;
 }

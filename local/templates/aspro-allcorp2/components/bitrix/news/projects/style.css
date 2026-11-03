@@ -1218,6 +1218,7 @@
 }
 
 .rm-project-detail__cta-primary span {
+  --rm-arrow-size: 22px;
   font-size: 22px;
   line-height: 1;
 }

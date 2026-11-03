@@ -492,11 +492,14 @@ dialog.rm-discuss .rm-discuss__form form .form-footer .licence_block > label {
   position: absolute;
   top: 17px;
   right: 20px;
+  display: block;
+  width: 26px;
+  height: 26px;
   color: #fff;
-  content: "↗";
-  font-size: 26px;
-  font-weight: 300;
-  line-height: 26px;
+  content: "";
+  background-color: currentColor;
+  -webkit-mask: var(--rm-arrow-mask) center / contain no-repeat;
+  mask: var(--rm-arrow-mask) center / contain no-repeat;
   pointer-events: none;
 }
 

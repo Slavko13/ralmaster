@@ -98,7 +98,7 @@ $rmListUrl = (string)($arParams['RM_LIST_URL'] ?? '/');
 									<?if ($rmMeta !== ''):?><p class="rm-content-card__meta"><?=$rmEscape($rmMeta)?></p><?endif;?>
 									<h3><?=$rmEscape($arItem['NAME'])?></h3>
 									<?if ($rmText($arItem) !== ''):?><div class="rm-content-card__text"><?=$rmText($arItem)?></div><?endif;?>
-									<?if ($rmCanOpen):?><span class="rm-content-card__action">Подробнее <span aria-hidden="true">↗</span></span><?endif;?>
+									<?if ($rmCanOpen):?><span class="rm-content-card__action">Подробнее <span class="rm-ui-arrow" aria-hidden="true"></span></span><?endif;?>
 								</div>
 							</<?=$rmTag?>>
 						<?endforeach;?>
@@ -120,11 +120,11 @@ $rmListUrl = (string)($arParams['RM_LIST_URL'] ?? '/');
 				$rmReviewId = $rmReviewId ?: $arParams['IBLOCK_ID'];
 				$rmReviewParams = base64_encode(serialize(array('iblock_type' => $arParams['IBLOCK_TYPE'], 'set_name' => 'Y')));
 				?>
-				<button class="rm-content-button animate-load" type="button" data-event="jqm" data-param-additional="<?=$rmEscape($rmReviewParams)?>" data-param-id="<?=$rmEscape($rmReviewId)?>" data-name="feedback">Оставить отзыв <span aria-hidden="true">↗</span></button>
+				<button class="rm-content-button animate-load" type="button" data-event="jqm" data-param-additional="<?=$rmEscape($rmReviewParams)?>" data-param-id="<?=$rmEscape($rmReviewId)?>" data-name="feedback">Оставить отзыв <span class="rm-ui-arrow" aria-hidden="true"></span></button>
 			<?elseif (($arParams['RM_SHOW_QUESTION_FORM'] ?? 'N') === 'Y'):?>
-				<button class="rm-content-button animate-load" type="button" data-event="jqm" data-param-id="<?=$rmEscape(CAllcorp2::getFormID('aspro_allcorp2_question'))?>" data-name="question">Задать вопрос <span aria-hidden="true">↗</span></button>
+				<button class="rm-content-button animate-load" type="button" data-event="jqm" data-param-id="<?=$rmEscape(CAllcorp2::getFormID('aspro_allcorp2_question'))?>" data-name="question">Задать вопрос <span class="rm-ui-arrow" aria-hidden="true"></span></button>
 			<?else:?>
-				<a class="rm-content-button" href="/contacts/"><?=$rmIsVacancy ? 'Отправить резюме' : 'Обсудить задачу'?> <span aria-hidden="true">↗</span></a>
+				<a class="rm-content-button" href="/contacts/"><?=$rmIsVacancy ? 'Отправить резюме' : 'Обсудить задачу'?> <span class="rm-ui-arrow" aria-hidden="true"></span></a>
 			<?endif;?>
 		</div>
 	</section>

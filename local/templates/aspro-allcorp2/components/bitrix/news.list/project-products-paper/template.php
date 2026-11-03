@@ -15,7 +15,7 @@ $this->setFrameMode(true);
 			$this->AddDeleteAction($rmProduct['ID'], $rmButtons['edit']['delete_section']['ACTION_URL'], CIBlock::GetArrayByID($rmProduct['IBLOCK_ID'], 'SECTION_DELETE'), array('CONFIRM' => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
 			?>
 			<a class="rm-projects-product-card" href="<?=htmlspecialcharsbx($rmProduct['URL'])?>" id="<?=$this->GetEditAreaId($rmProduct['ID'])?>" data-product-code="<?=htmlspecialcharsbx($rmProduct['CODE'])?>">
-				<span class="rm-projects-product-card__header"><strong><?=$rmProduct['NAME']?></strong><span aria-hidden="true">↗</span></span>
+				<span class="rm-projects-product-card__header"><strong><?=$rmProduct['NAME']?></strong><span aria-hidden="true"><span class="rm-ui-arrow"></span></span></span>
 				<span class="rm-projects-product-card__media">
 					<img src="<?=htmlspecialcharsbx($rmProduct['IMAGE'])?>" alt="" loading="lazy">
 				</span>
