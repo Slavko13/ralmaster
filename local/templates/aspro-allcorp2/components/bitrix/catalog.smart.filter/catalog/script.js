@@ -211,6 +211,18 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 
 		if (!!modef && !!modef_num)
 		{
+			var hasActiveFilters = false;
+			if (this.form)
+			{
+				hasActiveFilters = $(this.form).find('input[type="checkbox"]:checked, input[type="radio"]:checked').length > 0;
+				if (!hasActiveFilters)
+				{
+					hasActiveFilters = $(this.form).find('input[type="text"], input[type="number"], select').filter(function () {
+						return $.trim($(this).val() || '') !== '';
+					}).length > 0;
+				}
+			}
+
 			if(this.position_input)
 				$('#modef').css({'top':this.position_input - $(".smartfilter").offset().top})
 			else
@@ -251,16 +263,23 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 			}
 			else
 			{
-				if (modef.style.display === 'none')
+				if (!hasActiveFilters)
+				{
+					modef.style.display = 'none';
+					if (!!modef_num_mobile && !!modef_mobile)
+						modef_mobile.style.display = 'none';
+				}
+				else if (modef.style.display === 'none')
 				{
 					modef.style.display = 'inline-block';
 					if (!!modef_num_mobile && !!modef_mobile)
 						modef_mobile.style.display = 'inline-block';
 				}
-				if (this.viewMode == "VERTICAL")
-			{
-					curProp = BX.findChild(BX.findParent(this.curFilterinput, {'class':'bx_filter_parameters_box'}), {'class':'bx_filter_container_modef'}, true, false);
-					curProp.appendChild(modef);
+				if (this.viewMode == "VERTICAL" && hasActiveFilters)
+				{
+					var buttonContainer = $(this.form).find('.bx_filter_button_box .bx_filter_parameters_box_container').get(0);
+					if (buttonContainer)
+						buttonContainer.insertBefore(modef, buttonContainer.firstChild);
 				}
 
 				if (result.SEF_SET_FILTER_URL)

@@ -1,3 +1,12 @@
+<?
+$rmMobileCartActive = CSite::InDir(SITE_DIR.'cart/');
+$rmMobileBasketCount = 0;
+if (class_exists('CAllcorp2')) {
+	foreach ((array)CAllcorp2::getBasketItems() as $rmMobileBasketItem) {
+		$rmMobileBasketCount += max(1, (int)($rmMobileBasketItem['QUANTITY'] ?? 1));
+	}
+}
+?>
 <div class="mobileheader-v1 rm-mobile-header">
 	<button class="burger pull-left" type="button" aria-label="Открыть меню" aria-controls="mobilemenu" aria-expanded="false">
 		<?=CAllcorp2::showIconSvg("burger dark", SITE_TEMPLATE_PATH."/images/svg/Burger_big_white.svg");?>
@@ -10,22 +19,13 @@
 	</div>
 	<div class="right-icons pull-right">
 		<div class="pull-right">
-			<div class="wrap_icon wrap_basket">
-				<?=CAllcorp2::showBasketLink('', 'big', '', '', true);?>
+			<div class="wrap_icon wrap_basket basket rm-mobile-basket<?=$rmMobileCartActive ? ' is-active' : ''?>">
+				<a rel="nofollow" href="<?=SITE_DIR?>cart/" class="basket-link" aria-label="Корзина<?=$rmMobileBasketCount > 0 ? ': '.$rmMobileBasketCount : ''?>"<?=$rmMobileCartActive ? ' aria-current="page"' : ''?>>
+					<svg class="rm-header__basket-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 4h2l2.1 9.8a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="20" r="1.2" fill="currentColor"/><circle cx="18" cy="20" r="1.2" fill="currentColor"/></svg>
+					<span class="count<?=$rmMobileBasketCount > 0 ? '' : ' empted'?>"><?=$rmMobileBasketCount?></span>
+				</a>
 			</div>
 		</div>
-		<div class="pull-right">
-			<div class="wrap_icon">
-				<button class="inline-search-show twosmallfont" title="<?=GetMessage("SEARCH_TITLE")?>">
-					<?=CAllcorp2::showIconSvg("search", SITE_TEMPLATE_PATH."/images/svg/Search_big_black.svg");?>
-				</button>
-			</div>
-		</div>
-		<div class="pull-right">
-			<div class="wrap_icon wrap_phones">
-				<?CAllcorp2::ShowHeaderMobilePhones("big");?>
-			</div>
-		</div>	
 	</div>
 </div>
 
@@ -34,10 +34,6 @@
 	function initRalmasterMobileMenuA11y() {
 		var menu = document.getElementById('mobilemenu');
 		var trigger = document.querySelector('#mobileheader .burger');
-		var phoneLinks = document.querySelectorAll('#mobileheader .wrap_phones a[href^="tel:"]');
-		phoneLinks.forEach(function (link) {
-			if (!link.getAttribute('aria-label')) link.setAttribute('aria-label', 'Позвонить в РАЛМАСТЕР');
-		});
 		if (!menu || !trigger || trigger.getAttribute('data-rm-a11y-ready') === 'true') return;
 
 		function syncState() {

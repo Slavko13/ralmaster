@@ -93,15 +93,15 @@ $rmProductionImage = SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powde
 	<?endif;?>
 
 	<section class="rm-project-detail__cta" data-rm-project-detail-section="cta" data-rm-project-section="cta">
-		<div class="rm-project-detail__container rm-project-detail__cta-card">
-			<div>
+		<div class="rm-project-detail__container">
+			<div class="rm-project-detail__cta-card">
 				<h2><?=$rmProject['IS_SYMBOL'] ? 'Нужны корзины для вашего объекта?' : 'Нужен похожий заказ?'?></h2>
-				<p>Пришлите чертёж или техническое задание — уточним возможность изготовления и подготовим расчёт.</p>
+				<div class="rm-project-detail__cta-actions">
+					<p>Пришлите чертежи или опишите задачу. Укажите количество изделий и необходимые работы.</p>
+					<a class="rm-project-detail__cta-primary" href="/projects/#projects-estimate">Рассчитать похожий заказ <span aria-hidden="true">↗</span></a>
+				</div>
 			</div>
-			<div class="rm-project-detail__cta-actions">
-				<a class="rm-project-detail__cta-primary" href="/projects/#projects-estimate">Рассчитать похожий заказ <span aria-hidden="true">↗</span></a>
-				<a class="rm-project-detail__cta-secondary" href="/projects/">Все выполненные заказы</a>
-			</div>
+			<a class="rm-project-detail__cta-secondary" href="/projects/"><span aria-hidden="true">←</span> Все выполненные заказы</a>
 		</div>
 	</section>
 

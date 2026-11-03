@@ -145,7 +145,7 @@ $rmContactsBank = array(
 					<div class="rm-contacts-requisites__row"><span><?=$rmContactsEscape($rmContactsRow[0])?></span><strong><?=$rmContactsEscape($rmContactsRow[1])?></strong></div>
 				<?endforeach;?>
 			</div>
-			<span class="rm-contacts-requisites__download" role="link" aria-disabled="true" title="PDF-файл карточки компании пока не опубликован">Скачать карточку компании · PDF <span aria-hidden="true">↗</span></span>
+			<a class="rm-contacts-requisites__download" href="/output/pdf/ralmaster-company-card.pdf" target="_blank" rel="noopener" download="Карточка-компании-РАЛМАСТЕР.pdf">Скачать карточку компании · PDF <span aria-hidden="true">↗</span></a>
 		</div>
 	</section>
 

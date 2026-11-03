@@ -166,6 +166,7 @@ test.describe('P0 redesigned products root', () => {
     await page.goto('/product/', { waitUntil: 'domcontentloaded' });
     const card = page.locator('.rm-product-card').first();
     const image = card.locator('.rm-product-card__image');
+    const media = card.locator('.rm-product-card__media');
     const before = await card.evaluate((node) => ({
       transform: getComputedStyle(node).transform,
       boxShadow: getComputedStyle(node).boxShadow,
@@ -183,6 +184,38 @@ test.describe('P0 redesigned products root', () => {
     expect(after.transform).toBe('none');
     expect(after.boxShadow).not.toBe('none');
     expect(imageTransform).not.toBe('none');
+    await expect(media).toHaveCSS('overflow', 'hidden');
+  });
+
+  test('@mobile keeps product images inside their dedicated media rows', async ({ page }) => {
+    await page.goto('/product/', { waitUntil: 'networkidle' });
+    const geometry = await page.locator('.rm-product-card').first().evaluate((card) => {
+      const header = card.querySelector('.rm-product-card__header')!.getBoundingClientRect();
+      const mediaElement = card.querySelector('.rm-product-card__media') as HTMLElement;
+      const media = mediaElement.getBoundingClientRect();
+      const image = card.querySelector('.rm-product-card__image')!.getBoundingClientRect();
+      const description = card
+        .querySelector('.rm-product-card__description')!
+        .getBoundingClientRect();
+      return {
+        headerBottom: Math.round(header.bottom),
+        mediaTop: Math.round(media.top),
+        mediaBottom: Math.round(media.bottom),
+        descriptionTop: Math.round(description.top),
+        imageInsetTop: Math.round(image.top - media.top),
+        overflow: getComputedStyle(mediaElement).overflow,
+      };
+    });
+
+    expect(geometry).toEqual({
+      headerBottom: geometry.mediaTop,
+      mediaTop: geometry.mediaTop,
+      mediaBottom: geometry.descriptionTop,
+      descriptionTop: geometry.descriptionTop,
+      imageInsetTop: geometry.imageInsetTop,
+      overflow: 'hidden',
+    });
+    expect(geometry.imageInsetTop).toBeGreaterThanOrEqual(10);
   });
 
   test('blocks an empty task and file on the shared estimate form without a POST', async ({ page }) => {

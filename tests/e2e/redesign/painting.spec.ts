@@ -433,6 +433,10 @@ test.describe('P0 redesigned powder coating page', () => {
     await page.goto('/painting/', { waitUntil: 'domcontentloaded' });
     await expectHealthyDocument(page);
     await expect(page.locator('[data-rm-powder-page]')).toBeVisible();
+    await expect(page.locator('.rm-powder-accepted__card > img').first()).toHaveCSS(
+      'object-fit',
+      'contain',
+    );
     await page.waitForTimeout(1_500);
     const mobileUploader = page.locator('.rm-powder-estimate__form .uploader');
     await expect(mobileUploader).toBeVisible();

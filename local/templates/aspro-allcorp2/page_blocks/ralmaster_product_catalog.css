@@ -190,6 +190,7 @@ body .rm-product-category .bx_filter .bx_filter_parameters_box_title:focus-visib
 
 .rm-product-category .bx_filter .bx_filter_button_box .bx_filter_parameters_box_container {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   text-align: left;
@@ -251,12 +252,32 @@ body .rm-product-category .bx_filter input[type="checkbox"]:checked + label::aft
 
 body .rm-product-category .bx_filter.bx_filter_vertical .bx_filter_popup_result,
 body .rm-product-category .bx_filter .bx_filter_popup_result {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  z-index: auto;
+  width: 100%;
+  min-height: 40px;
+  margin: 0 0 10px !important;
+  padding: 6px 8px 6px 12px;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 24px;
   border-radius: 4px;
   color: #fff !important;
   background-color: var(--rm-product-blue) !important;
 }
 
+body .rm-product-category .bx_filter .bx_filter_popup_result[style*="inline-block"] {
+  display: flex !important;
+}
+
 body .rm-product-category .bx_filter .bx_filter_popup_result a {
+  display: inline-flex;
+  min-height: 28px;
+  margin: 0 0 0 12px;
+  padding: 3px 10px;
+  align-items: center;
   border: 1px solid #fff !important;
   color: var(--rm-product-blue) !important;
   background: #fff !important;

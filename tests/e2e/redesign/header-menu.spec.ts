@@ -87,7 +87,7 @@ test.describe('P0 Paper flat navigation', () => {
     await expect(productionItem.locator('a')).not.toHaveAttribute('aria-current', 'page');
   });
 
-  test('P0 @mobile mobile menu remains accessible with visible service choices', async ({ page }) => {
+  test('P0 @mobile mobile menu opens services on intent and highlights a full submenu row', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     const trigger = page.locator('#mobileheader button.burger');
@@ -99,11 +99,76 @@ test.describe('P0 Paper flat navigation', () => {
 
     const menu = page.locator('#mobilemenu');
     await expect(menu.locator('.rm-flat-menu__link')).toHaveCount(5);
-    await expect(menu.locator('.rm-flat-menu__submenu a')).toHaveText([
+    const services = menu.locator('.rm-flat-menu__item--services');
+    const servicesTrigger = services.locator(':scope > .rm-flat-menu__link');
+    const chevron = servicesTrigger.locator('.rm-flat-menu__chevron');
+    const submenu = services.locator('.rm-flat-menu__submenu');
+    await expect(submenu).toBeHidden();
+    await expect(servicesTrigger).toHaveAttribute('aria-expanded', 'false');
+    const closedChevronTransform = await chevron.evaluate((node) => getComputedStyle(node).transform);
+    await servicesTrigger.click();
+    await expect(servicesTrigger).toHaveAttribute('aria-expanded', 'true');
+    await expect(submenu).toBeVisible();
+    const openChevronTransform = await chevron.evaluate((node) => getComputedStyle(node).transform);
+    expect(openChevronTransform).not.toBe(closedChevronTransform);
+    await expect(submenu.locator('a')).toHaveText([
       'Металлообработка',
       'Порошковая окраска',
     ]);
+    const rowGeometry = await submenu.locator('a').first().evaluate((row) => {
+      const rowBox = row.getBoundingClientRect();
+      const menuBox = row.closest('ul')!.getBoundingClientRect();
+      return {
+        leftDelta: Math.round(rowBox.left - menuBox.left),
+        rightDelta: Math.round(menuBox.right - rowBox.right),
+      };
+    });
+    expect(rowGeometry).toEqual({ leftDelta: 0, rightDelta: 0 });
     await expect(menu.locator('.dropdown, .dropdown-menu, .parent')).toHaveCount(0);
+  });
+
+  test('P0 @mobile cart icon stays black and aligned without search on the cart route', async ({ page }) => {
+    await page.goto('/cart/', { waitUntil: 'domcontentloaded' });
+    const basket = page.locator('#mobileheader .rm-mobile-basket');
+    const link = basket.locator('.basket-link');
+    await expect(link).toBeVisible();
+    await expect(link).toHaveAttribute('aria-current', 'page');
+    await expect(link).toHaveCSS('color', 'rgb(24, 35, 55)');
+    await expect(link).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+    await expect(basket.locator('.count')).toBeHidden();
+    await expect(page.locator('#mobileheader .wrap_search, #mobileheader .search_wrap')).toHaveCount(0);
+
+    const alignment = await page.locator('#mobileheader .rm-mobile-header').evaluate((header) => {
+      const basketBox = header.querySelector('.rm-mobile-basket')!.getBoundingClientRect();
+      const headerBox = header.getBoundingClientRect();
+      return {
+        centerDelta: Math.round(Math.abs((basketBox.top + basketBox.bottom) / 2 - (headerBox.top + headerBox.bottom) / 2)),
+        rightGap: Math.round(headerBox.right - basketBox.right),
+      };
+    });
+    expect(alignment.centerDelta).toBeLessThanOrEqual(1);
+    expect(alignment.rightGap).toBeGreaterThanOrEqual(16);
+  });
+
+  test('P0 @mobile mobile menu uses the blue basket badge for live catalog items', async ({ page }) => {
+    await page.goto('/product/pannier/', { waitUntil: 'networkidle' });
+    const item = page.locator('[data-rm-product-category] .catalog_table_2 .item').first();
+    await expect(item).toBeVisible();
+    const basketRequest = page.waitForResponse(
+      (response) =>
+        response.request().method() === 'POST' &&
+        response.url().includes('/include/footer/site-basket.php'),
+    );
+    await item.locator('.to_cart').click();
+    await basketRequest;
+
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await page.locator('#mobileheader button.burger').click();
+    const badge = page.locator('#mobilemenu .menu > ul > li.counters .count');
+    await expect(badge).toBeVisible();
+    await expect(badge).not.toHaveText('0');
+    await expect(badge).toHaveCSS('background-color', 'rgb(23, 91, 239)');
+    await expect(badge).toHaveCSS('color', 'rgb(255, 255, 255)');
   });
 
   test('desktop basket reflects an item added from the live catalog', async ({ page }) => {

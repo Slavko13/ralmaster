@@ -1275,6 +1275,11 @@ body:has(.rm-powder-page) .main > .container .right_block {
     width: 100%;
   }
 
+  .rm-powder-accepted__card > img {
+    background: #eef0f3;
+    object-fit: contain;
+  }
+
   .rm-powder-dimensions__grid {
     grid-template-columns: 1fr;
   }

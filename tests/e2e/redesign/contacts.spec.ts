@@ -58,6 +58,14 @@ test.describe('P0 redesigned contacts and discuss-order dialog', () => {
     await expect(page.locator('.rm-contacts-route__map')).toBeVisible();
     await expect(page.locator('.rm-contacts-requisites__row')).toHaveCount(9);
 
+    const companyCard = page.locator('.rm-contacts-requisites__download');
+    await expect(companyCard).toHaveAttribute('href', '/output/pdf/ralmaster-company-card.pdf');
+    await expect(companyCard).toHaveAttribute('download', 'Карточка-компании-РАЛМАСТЕР.pdf');
+    const pdf = await request.get('/output/pdf/ralmaster-company-card.pdf');
+    expect(pdf.status()).toBe(200);
+    expect(pdf.headers()['content-type']).toContain('application/pdf');
+    expect((await pdf.body()).byteLength).toBeGreaterThan(10_000);
+
     const copyButton = page.locator('.rm-contacts-summary__copy-email');
     await expect(copyButton).toHaveCSS('border-top-width', '0px');
     await expect(copyButton.locator('svg')).toHaveCSS('width', '18px');

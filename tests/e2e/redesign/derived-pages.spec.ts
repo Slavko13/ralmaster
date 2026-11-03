@@ -257,10 +257,26 @@ test.describe('P0 redesigned derived pages', () => {
     await expect(statusCheckbox).toBeChecked();
     await expect(root.locator('#modef')).toBeVisible();
     await expect(root.locator('#modef')).toHaveCSS('background-color', 'rgb(23, 91, 239)');
+    const filterFlowGeometry = await root.evaluate((element) => {
+      const sidebar = element.querySelector('.sidebar')?.getBoundingClientRect();
+      const popup = element.querySelector('#modef')?.getBoundingClientRect();
+      const product = element.querySelector('.catalog_table_2 .item')?.getBoundingClientRect();
+      return {
+        popupInsideSidebar: Boolean(
+          sidebar && popup && popup.left >= sidebar.left && popup.right <= sidebar.right + 1,
+        ),
+        popupClearOfProduct: Boolean(popup && product && popup.right <= product.left),
+      };
+    });
+    expect(filterFlowGeometry).toEqual({ popupInsideSidebar: true, popupClearOfProduct: true });
     const checkedColor = await statusLabel.evaluate((label) =>
       getComputedStyle(label, '::after').backgroundColor,
     );
     expect(checkedColor).toBe('rgb(23, 91, 239)');
+
+    await statusLabel.click();
+    await expect(statusCheckbox).not.toBeChecked();
+    await expect(root.locator('#modef')).toBeHidden();
 
     const firstProduct = root.locator('.catalog_table_2 .item').first();
     await firstProduct.hover();

@@ -129,6 +129,10 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
           const header = card
             .querySelector('.rm-projects-product-card__header')!
             .getBoundingClientRect();
+          const mediaElement = card.querySelector(
+            '.rm-projects-product-card__media',
+          ) as HTMLElement;
+          const media = mediaElement.getBoundingClientRect();
           const image = card.querySelector('img')!.getBoundingClientRect();
           const descriptionElement = card.querySelector(
             '.rm-projects-product-card__description',
@@ -137,8 +141,10 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
           return {
             headerTop: Math.round(header.top),
             headerBottom: Math.round(header.bottom),
-            imageTop: Math.round(image.top),
-            imageBottom: Math.round(image.bottom),
+            imageTop: Math.round(media.top),
+            imageBottom: Math.round(media.bottom),
+            imageInsetTop: Math.round(image.top - media.top),
+            mediaOverflow: getComputedStyle(mediaElement).overflow,
             descriptionTop: Math.round(description.top),
             descriptionFits:
               descriptionElement.scrollHeight <= descriptionElement.clientHeight,
@@ -154,6 +160,8 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
       ),
     ).toBe(true);
     expect(productGeometry.every(({ descriptionFits }) => descriptionFits)).toBe(true);
+    expect(productGeometry.every(({ mediaOverflow }) => mediaOverflow === 'hidden')).toBe(true);
+    expect(productGeometry[0].imageInsetTop).toBeGreaterThanOrEqual(10);
     await expect(page.locator('.rm-projects-product-card img').first()).toHaveCSS(
       'object-fit',
       'cover',
@@ -270,6 +278,43 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     await expect(detail.locator('.rm-project-detail__passport dl > div')).toHaveCount(6);
     await expect(detail.locator('.rm-project-detail__steps > li')).toHaveCount(3);
     await expect(detail.locator('.rm-project-detail__result-grid img')).toHaveCount(2);
+    await expect(detail.locator('.rm-projects-kicker')).toHaveCount(0);
+    await expect(detail.locator('.rm-project-detail__result-heading h2')).toHaveText('Результат');
+    await expect(detail.locator('.rm-project-detail__result-links > span')).toHaveText(
+      'Подробнее о возможностях:',
+    );
+    await expect(detail.locator('.rm-project-detail__result-links a')).toHaveText([
+      'Металлообработка ↗',
+      'Порошковая окраска ↗',
+    ]);
+
+    const resultLink = detail.locator('.rm-project-detail__result-links a').first();
+    const resultTransformBefore = await resultLink.evaluate((node) => getComputedStyle(node).transform);
+    await resultLink.hover();
+    await page.waitForTimeout(220);
+    const resultTransformAfter = await resultLink.evaluate((node) => getComputedStyle(node).transform);
+    expect(resultTransformAfter).not.toBe(resultTransformBefore);
+
+    const cta = detail.locator('[data-rm-project-detail-section="cta"]');
+    await expect(cta.locator('.rm-project-detail__cta-actions > p')).toBeVisible();
+    await expect(cta.locator('.rm-project-detail__cta-primary')).toHaveText(/Рассчитать похожий заказ/);
+    await expect(cta.locator('.rm-project-detail__cta-primary > span')).toHaveText('↗');
+    await expect(cta.locator('.rm-project-detail__cta-secondary')).toHaveText(/Все выполненные заказы/);
+    const ctaFlow = await cta.locator('.rm-project-detail__cta-card').evaluate((card) => {
+      const heading = card.querySelector('h2')!.getBoundingClientRect();
+      const copy = card.querySelector('.rm-project-detail__cta-actions > p')!.getBoundingClientRect();
+      const button = card.querySelector('.rm-project-detail__cta-primary')!.getBoundingClientRect();
+      return {
+        cardHeight: Math.round(card.getBoundingClientRect().height),
+        copyAboveButton: copy.bottom < button.top,
+        headingLeftOfActions: heading.right < copy.left,
+      };
+    });
+    expect(ctaFlow).toEqual({ cardHeight: 248, copyAboveButton: true, headingLeftOfActions: true });
+    const primary = cta.locator('.rm-project-detail__cta-primary');
+    await primary.hover();
+    await expect(primary).toHaveCSS('background-color', 'rgb(15, 79, 209)');
+    await expect(primary).toHaveCSS('color', 'rgb(255, 255, 255)');
   });
 
   test('matches the desktop Paper section heights for the listing', async ({ page }) => {
@@ -446,4 +491,20 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
       expect(diagnostics).toEqual([]);
     });
   }
+
+  test('@mobile listing keeps breadcrumbs clear of the header and product images uncropped', async ({ page }) => {
+    await page.goto('/projects/', { waitUntil: 'networkidle' });
+    const header = page.locator('#mobileheader');
+    const breadcrumbs = page.locator('.rm-projects-breadcrumbs');
+    const image = page.locator('.rm-projects-product-card img').first();
+    await expect(image).toHaveCSS('object-fit', 'contain');
+    const geometry = await page.evaluate(() => {
+      const headerBox = document.querySelector('#mobileheader')!.getBoundingClientRect();
+      const breadcrumbBox = document.querySelector('.rm-projects-breadcrumbs')!.getBoundingClientRect();
+      return { gap: Math.round(breadcrumbBox.top - headerBox.bottom) };
+    });
+    expect(geometry.gap).toBeGreaterThanOrEqual(20);
+    await expect(header).toBeVisible();
+    await expect(breadcrumbs).toContainText('Главная');
+  });
 });

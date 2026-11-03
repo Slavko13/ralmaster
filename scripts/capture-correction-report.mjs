@@ -4,7 +4,7 @@ import { chromium } from '@playwright/test';
 
 const baseUrl = process.env.BASE_URL ?? 'http://127.0.0.1:8084';
 const outputRoot = resolve(
-  process.env.REPORT_DIR ?? '../../redesign-report/2026-11-02/after',
+  process.env.REPORT_DIR ?? '../../redesign-report/2026-11-03/after',
 );
 
 await mkdir(outputRoot, { recursive: true });
@@ -61,6 +61,16 @@ try {
   await page.keyboard.press('Escape');
 
   await open('/product/pannier/');
+  const statusCheckbox = page.locator('.bx_filter input[type="checkbox"]').first();
+  const statusCheckboxId = await statusCheckbox.getAttribute('id');
+  await page.locator(`label[for="${statusCheckboxId}"]`).click();
+  await page.locator('#modef').waitFor({ state: 'visible' });
+  await captureElement(
+    page.locator('[data-rm-product-category]'),
+    '27-catalog-filter-flow.png',
+  );
+  await page.locator(`label[for="${statusCheckboxId}"]`).click();
+  await page.locator('#modef').waitFor({ state: 'hidden' });
   const product = page.locator('[data-rm-product-category] .catalog_table_2 .item').first();
   await product.waitFor({ state: 'visible' });
   const basketResponse = page.waitForResponse(
@@ -86,6 +96,18 @@ try {
 
   await open('/projects/krepezhnye-kronshteyny/');
   await capturePage('18-brackets-project-page.png');
+  await captureElement(
+    page.locator('.rm-project-detail__project'),
+    '20-brackets-project-task.png',
+  );
+  await captureElement(
+    page.locator('.rm-project-detail__result'),
+    '21-brackets-project-result.png',
+  );
+  await captureElement(
+    page.locator('.rm-project-detail__cta'),
+    '28-project-detail-cta-paper.png',
+  );
 
   await open('/painting/');
   await captureElement(page.locator('.rm-powder-accepted'), '10-powder-products-layout.png');
@@ -96,6 +118,10 @@ try {
 
   await open('/projects/');
   await captureElement(page.locator('.rm-projects-products'), '11-project-products-layout.png');
+  const projectsProductCard = page.locator('.rm-projects-product-card').first();
+  await projectsProductCard.hover();
+  await page.waitForTimeout(550);
+  await captureElement(projectsProductCard, '31-projects-product-card-safe-media.png');
 
   await open('/services/');
   await captureElement(page.locator('.rm-metal-operations'), '12-metalworking-operations.png');
@@ -106,9 +132,62 @@ try {
 
   await page.setViewportSize({ width: 390, height: 844 });
   await open('/');
-  await page.locator('#mobileheader button.burger').click({ force: true });
+  const mobileTrigger = page.locator('#mobileheader button.burger');
+  await mobileTrigger.click();
+  await page.waitForFunction(() =>
+    document.querySelector('#mobileheader button.burger')?.getAttribute('aria-expanded') === 'true',
+  );
   await page.locator('#mobilemenu').waitFor({ state: 'visible' });
+  const mobileServices = page.locator('#mobilemenu .rm-flat-menu__item--services');
+  await mobileServices.locator(':scope > a').click();
+  await page.waitForFunction(() =>
+    document
+      .querySelector('#mobilemenu .rm-flat-menu__item--services > a')
+      ?.getAttribute('aria-expanded') === 'true',
+  );
   await capturePage('08-mobile-menu.png');
+
+  await open('/');
+  await captureElement(
+    page.locator('.rm-home-split-card').first(),
+    '22-home-mobile-card-arrow.png',
+  );
+  await captureElement(
+    page.locator('.rm-home-production__panel'),
+    '23-home-mobile-production-panel.png',
+  );
+  await captureElement(
+    page.locator('.rm-home-process__steps'),
+    '24-home-mobile-process-steps.png',
+  );
+
+  await open('/painting/');
+  await captureElement(
+    page.locator('.rm-powder-accepted__card').first(),
+    '25-powder-mobile-product-card.png',
+  );
+
+  await open('/cart/');
+  await captureElement(
+    page.locator('#mobileheader'),
+    '26-mobile-cart-header.png',
+  );
+
+  await open('/projects/');
+  await captureElement(
+    page.locator('.rm-projects-hero'),
+    '29-projects-mobile-breadcrumbs.png',
+  );
+  await captureElement(
+    page.locator('.rm-projects-product-card').first(),
+    '30-projects-mobile-product-card.png',
+  );
+
+  await open('/product/');
+  await captureElement(
+    page.locator('.rm-product-card').first(),
+    '32-product-mobile-safe-media.png',
+  );
 
   const mobileContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const mobilePage = await mobileContext.newPage();

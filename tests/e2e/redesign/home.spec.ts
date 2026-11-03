@@ -340,6 +340,31 @@ test.describe('P0 redesigned home', () => {
 
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     await expectHealthyDocument(page);
+    const splitAlignment = await page.locator('.rm-home-split-card').first().evaluate((card) => {
+      const title = card.querySelector('strong')!.getBoundingClientRect();
+      const arrow = card.querySelector('.rm-card-arrow')!.getBoundingClientRect();
+      return Math.abs(title.top - arrow.top);
+    });
+    expect(splitAlignment).toBeLessThanOrEqual(2);
+
+    const processRows = await page.locator('.rm-home-process__steps li').evaluateAll((rows) =>
+      rows.map((row, index) => {
+        const box = row.getBoundingClientRect();
+        const next = rows[index + 1]?.getBoundingClientRect();
+        return { height: box.height, gapToNext: next ? next.top - box.bottom : 0 };
+      }),
+    );
+    expect(processRows.every(({ height }) => height >= 120)).toBe(true);
+    expect(processRows.slice(0, -1).every(({ gapToNext }) => gapToNext >= -1)).toBe(true);
+
+    const square = await page
+      .locator('.rm-home-production__panel li')
+      .first()
+      .evaluate((item) => {
+        const style = getComputedStyle(item, '::before');
+        return { width: style.width, height: style.height };
+      });
+    expect(square).toEqual({ width: '7px', height: '7px' });
     await expect(page.locator('[data-rm-home]')).toBeVisible();
     await page.waitForTimeout(2_000);
     await expectNoHorizontalOverflow(page);

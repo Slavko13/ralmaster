@@ -16,7 +16,9 @@ $this->setFrameMode(true);
 			?>
 			<a class="rm-projects-product-card" href="<?=htmlspecialcharsbx($rmProduct['URL'])?>" id="<?=$this->GetEditAreaId($rmProduct['ID'])?>" data-product-code="<?=htmlspecialcharsbx($rmProduct['CODE'])?>">
 				<span class="rm-projects-product-card__header"><strong><?=$rmProduct['NAME']?></strong><span aria-hidden="true">↗</span></span>
-				<img src="<?=htmlspecialcharsbx($rmProduct['IMAGE'])?>" alt="" loading="lazy">
+				<span class="rm-projects-product-card__media">
+					<img src="<?=htmlspecialcharsbx($rmProduct['IMAGE'])?>" alt="" loading="lazy">
+				</span>
 				<span class="rm-projects-product-card__description"><?=$rmProduct['DESCRIPTION']?></span>
 			</a>
 		<?endforeach;?>

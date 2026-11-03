@@ -19,7 +19,9 @@ $this->setFrameMode(true);
 					<strong><?=$rmProduct['NAME']?></strong>
 					<span class="rm-product-card__arrow" aria-hidden="true">↗</span>
 				</span>
-				<img class="rm-product-card__image" src="<?=htmlspecialcharsbx($rmProduct['IMAGE'])?>" srcset="<?=htmlspecialcharsbx($rmProduct['IMAGE_SMALL'])?> 768w, <?=htmlspecialcharsbx($rmProduct['IMAGE'])?> 1448w" sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) calc(50vw - 32px), 438px" alt=""<?=$rmIndex === 0 ? ' fetchpriority="high"' : ' loading="lazy"'?>>
+				<span class="rm-product-card__media">
+					<img class="rm-product-card__image" src="<?=htmlspecialcharsbx($rmProduct['IMAGE'])?>" srcset="<?=htmlspecialcharsbx($rmProduct['IMAGE_SMALL'])?> 768w, <?=htmlspecialcharsbx($rmProduct['IMAGE'])?> 1448w" sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) calc(50vw - 32px), 438px" alt=""<?=$rmIndex === 0 ? ' fetchpriority="high"' : ' loading="lazy"'?>>
+				</span>
 				<span class="rm-product-card__description"><?=$rmProduct['DESCRIPTION']?></span>
 			</a>
 		<?endforeach;?>
