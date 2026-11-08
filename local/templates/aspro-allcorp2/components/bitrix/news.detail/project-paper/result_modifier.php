@@ -39,21 +39,64 @@ $rmProjectFilePath = static function ($rmFile) {
 $rmProjectCode = mb_strtolower(trim((string)($arResult['CODE'] ?? '')));
 $rmProjectRawName = (string)($arResult['~NAME'] ?? $arResult['NAME'] ?? '');
 $rmProjectName = trim(preg_replace('/\s+/u', ' ', html_entity_decode($rmProjectRawName, ENT_QUOTES | ENT_HTML5, LANG_CHARSET)));
-$rmProjectIsSymbol = $rmProjectCode === 'zhk-simvol';
 $rmProjectAssetRoot = SITE_TEMPLATE_PATH.'/images/ralmaster/projects/';
 
 $rmProjectPresentationMap = array(
-	'zhk-simvol' => 'project-symbol.webp',
-	'zhk-belyy-grad' => 'project-white-city.webp',
-	'zhk-simvol-2' => 'project-symbol-2.webp',
+	'zhk-simvol' => array(
+		'IMAGE' => 'project-symbol.webp',
+		'TITLE_LINES' => array('Декоративные корзины', 'для кондиционеров в ЖК «Символ»'),
+		'SUMMARY' => 'Для жилого комплекса выполнен заказ на декоративные корзины для кондиционеров по индивидуальному проекту.',
+		'TASK_PARAGRAPHS' => array(
+			'Для ЖК «Символ» выполнен заказ на декоративные корзины для кондиционеров по индивидуальному проекту.',
+			'На фотографии показаны изделия на фасаде жилого комплекса.',
+		),
+		'PASSPORT' => array(
+			array('LABEL' => 'Объект', 'VALUE' => 'ЖК «Символ»'),
+			array('LABEL' => 'Продукция', 'VALUE' => 'Декоративные корзины для кондиционеров'),
+			array('LABEL' => 'Исполнение', 'VALUE' => 'По индивидуальному проекту'),
+			array('LABEL' => 'Год', 'VALUE' => '2025'),
+		),
+	),
+	'zhk-belyy-grad' => array(
+		'IMAGE' => 'project-white-city.webp',
+		'TITLE_LINES' => array('Декоративные корзины', 'для кондиционеров в ЖК «Белый град»'),
+		'SUMMARY' => 'Для жилого комплекса выполнен заказ на декоративные корзины для кондиционеров по индивидуальному проекту.',
+		'TASK_PARAGRAPHS' => array(
+			'Для ЖК «Белый град» выполнен заказ на декоративные корзины для кондиционеров по индивидуальному проекту.',
+			'На фотографии показаны изделия на фасаде жилого комплекса.',
+		),
+		'PASSPORT' => array(
+			array('LABEL' => 'Объект', 'VALUE' => 'ЖК «Белый град»'),
+			array('LABEL' => 'Продукция', 'VALUE' => 'Декоративные корзины для кондиционеров'),
+			array('LABEL' => 'Исполнение', 'VALUE' => 'По индивидуальному проекту'),
+			array('LABEL' => 'Год', 'VALUE' => '2025'),
+		),
+	),
+	'zhk-simvol-2' => array(
+		'IMAGE' => 'project-symbol-2.webp',
+		'TITLE_LINES' => array('Декоративные корзины', 'для кондиционеров в ЖК «Символ 2»'),
+		'SUMMARY' => 'Для жилого комплекса выполнен заказ на декоративные корзины для кондиционеров по индивидуальному проекту.',
+		'TASK_PARAGRAPHS' => array(
+			'Для ЖК «Символ 2» выполнен заказ на декоративные корзины для кондиционеров по индивидуальному проекту.',
+			'На фотографии показаны изделия на фасаде жилого комплекса.',
+		),
+		'PASSPORT' => array(
+			array('LABEL' => 'Объект', 'VALUE' => 'ЖК «Символ 2»'),
+			array('LABEL' => 'Продукция', 'VALUE' => 'Декоративные корзины для кондиционеров'),
+			array('LABEL' => 'Исполнение', 'VALUE' => 'По индивидуальному проекту'),
+			array('LABEL' => 'Год', 'VALUE' => '2025'),
+		),
+	),
 );
+$rmProjectPresentation = $rmProjectPresentationMap[$rmProjectCode] ?? null;
+$rmProjectIsRealized = is_array($rmProjectPresentation);
 
 $rmProjectDynamicImage = $rmProjectFilePath($arResult['DETAIL_PICTURE'] ?? null);
 if ($rmProjectDynamicImage === '') {
 	$rmProjectDynamicImage = $rmProjectFilePath($arResult['PREVIEW_PICTURE'] ?? null);
 }
-$rmProjectHeroImage = isset($rmProjectPresentationMap[$rmProjectCode])
-	? $rmProjectAssetRoot.$rmProjectPresentationMap[$rmProjectCode]
+$rmProjectHeroImage = $rmProjectIsRealized
+	? $rmProjectAssetRoot.$rmProjectPresentation['IMAGE']
 	: $rmProjectDynamicImage;
 
 $rmProjectSummary = $rmProjectText($arResult['~DETAIL_TEXT'] ?? $arResult['DETAIL_TEXT'] ?? '');
@@ -79,6 +122,9 @@ foreach ($rmPassportLabels as $rmPropertyCode => $rmPropertyLabel) {
 	if ($rmPropertyValue !== '') {
 		$rmProjectPassport[] = array('LABEL' => $rmPropertyLabel, 'VALUE' => $rmPropertyValue);
 	}
+}
+if ($rmProjectIsRealized) {
+	$rmProjectPassport = $rmProjectPresentation['PASSPORT'];
 }
 
 $rmProjectGallery = array();
@@ -108,10 +154,12 @@ if (Loader::includeModule('iblock')) {
 $arResult['RM_PROJECT'] = array(
 	'CODE' => $rmProjectCode,
 	'NAME' => $rmProjectName,
-	'IS_SYMBOL' => $rmProjectIsSymbol,
-	'TITLE' => $rmProjectIsSymbol ? 'Декоративные корзины для кондиционеров в ЖК «Символ»' : $rmProjectName,
-	'SUMMARY' => $rmProjectSummary ?: 'Выполненный проект РАЛМАСТЕР.',
-	'TASK' => $rmProjectTask ?: 'Описание задачи не опубликовано.',
+	'IS_REALIZED' => $rmProjectIsRealized,
+	'TITLE' => $rmProjectIsRealized ? implode(' ', $rmProjectPresentation['TITLE_LINES']) : $rmProjectName,
+	'TITLE_LINES' => $rmProjectIsRealized ? $rmProjectPresentation['TITLE_LINES'] : array($rmProjectName),
+	'SUMMARY' => $rmProjectIsRealized ? $rmProjectPresentation['SUMMARY'] : ($rmProjectSummary ?: 'Выполненный проект РАЛМАСТЕР.'),
+	'TASK' => $rmProjectIsRealized ? implode(' ', $rmProjectPresentation['TASK_PARAGRAPHS']) : ($rmProjectTask ?: 'Описание задачи не опубликовано.'),
+	'TASK_PARAGRAPHS' => $rmProjectIsRealized ? $rmProjectPresentation['TASK_PARAGRAPHS'] : array($rmProjectTask ?: 'Описание задачи не опубликовано.'),
 	'HERO_IMAGE' => $rmProjectHeroImage,
 	'DYNAMIC_IMAGE' => $rmProjectDynamicImage,
 	'PASSPORT' => $rmProjectPassport,

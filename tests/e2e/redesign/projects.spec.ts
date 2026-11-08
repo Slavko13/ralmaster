@@ -9,6 +9,8 @@ const expectedProjects = [
     image: 'project-symbol.webp',
     width: 1920,
     height: 1280,
+    object: 'ЖК «Символ»',
+    title: 'Декоративные корзины для кондиционеров в ЖК «Символ»',
   },
   {
     code: 'zhk-belyy-grad',
@@ -16,6 +18,8 @@ const expectedProjects = [
     image: 'project-white-city.webp',
     width: 1920,
     height: 1535,
+    object: 'ЖК «Белый град»',
+    title: 'Декоративные корзины для кондиционеров в ЖК «Белый град»',
   },
   {
     code: 'zhk-simvol-2',
@@ -23,6 +27,8 @@ const expectedProjects = [
     image: 'project-symbol-2.webp',
     width: 1536,
     height: 1024,
+    object: 'ЖК «Символ 2»',
+    title: 'Декоративные корзины для кондиционеров в ЖК «Символ 2»',
   },
 ] as const;
 
@@ -107,6 +113,35 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
       );
       const response = await request.get(project.href, { maxRedirects: 5 });
       expect(response.status(), `Broken project route: ${project.href}`).toBeLessThan(400);
+    }
+  });
+
+  test('keeps every card arrow centered inside its bordered square', async ({ page }) => {
+    await page.goto('/projects/', { waitUntil: 'networkidle' });
+
+    const arrows = await page.locator('.rm-project-card__link').evaluateAll((links) =>
+      links.map((link) => {
+        const square = link.querySelector(':scope > span')!.getBoundingClientRect();
+        const arrow = link.querySelector('.rm-ui-arrow')!.getBoundingClientRect();
+        return {
+          squareWidth: Math.round(square.width),
+          squareHeight: Math.round(square.height),
+          arrowWidth: Math.round(arrow.width),
+          arrowHeight: Math.round(arrow.height),
+          centerDeltaX: Math.abs(square.x + square.width / 2 - (arrow.x + arrow.width / 2)),
+          centerDeltaY: Math.abs(square.y + square.height / 2 - (arrow.y + arrow.height / 2)),
+        };
+      }),
+    );
+
+    expect(arrows).toHaveLength(3);
+    for (const arrow of arrows) {
+      expect(arrow.squareWidth).toBe(40);
+      expect(arrow.squareHeight).toBe(40);
+      expect(arrow.arrowWidth).toBe(20);
+      expect(arrow.arrowHeight).toBe(20);
+      expect(arrow.centerDeltaX).toBeLessThanOrEqual(1);
+      expect(arrow.centerDeltaY).toBeLessThanOrEqual(1);
     }
   });
 
@@ -228,42 +263,44 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     ]);
   });
 
-  test('renders Symbol from the universal dynamic template without generic demo sections', async ({ page }) => {
-    await page.goto('/projects/zhk-simvol/', { waitUntil: 'networkidle' });
-    await expectHealthyDocument(page);
+  test('renders every realized project with its Paper content and a completed order passport', async ({ page }) => {
+    for (const project of expectedProjects) {
+      await page.goto(project.href, { waitUntil: 'networkidle' });
+      await expectHealthyDocument(page);
 
-    const detail = page.locator('[data-rm-project-detail]');
-    await expect(detail).toHaveClass(/rm-project-detail--symbol/);
-    await expect(detail).toHaveAttribute('data-project-code', 'zhk-simvol');
-    await expect(detail.locator('h1')).toContainText('ЖК «Символ»');
-    await expect(detail.locator('.rm-project-detail__hero-media img')).toHaveAttribute(
-      'src',
-      /\/images\/ralmaster\/projects\/project-symbol\.webp$/,
-    );
-    await expect(detail.locator('[data-rm-project-detail-section="work"]')).toHaveCount(0);
-    await expect(detail.locator('[data-rm-project-detail-section="result"]')).toHaveCount(0);
-    await expect(detail.locator('.rm-project-detail__passport-empty')).toBeVisible();
-  });
-
-  test('renders a generic detail with dynamic project data and honest optional fallbacks', async ({ page }) => {
-    await page.goto('/projects/zhk-belyy-grad/', { waitUntil: 'networkidle' });
-    await expectHealthyDocument(page);
-
-    const detail = page.locator('[data-rm-project-detail]');
-    await expect(detail).toHaveClass(/rm-project-detail--generic/);
-    await expect(detail).toHaveAttribute('data-project-code', 'zhk-belyy-grad');
-    await expect(detail.locator('h1')).toContainText('Белый град');
-    await expect(detail.locator('.rm-project-detail__intro')).toContainText('2025');
-    await expect(detail.locator('.rm-project-detail__passport dl > div')).toHaveCount(0);
-    await expect(detail.locator('.rm-project-detail__passport-empty')).toBeVisible();
-    await expect(detail.locator('.rm-project-detail__notice')).toContainText(
-      'Дополнительные характеристики заказа',
-    );
-    await expect(detail.locator('[data-rm-project-detail-section="work"] img')).toHaveAttribute(
-      'src',
-      /\/images\/ralmaster\/projects\/generic-project-work\.webp$/,
-    );
-    await expect(detail.locator('[data-rm-project-detail-section="result"] img')).toHaveCount(2);
+      const detail = page.locator('[data-rm-project-detail]');
+      await expect(detail).toHaveClass(/rm-project-detail--realized/);
+      await expect(detail).toHaveAttribute('data-project-code', project.code);
+      await expect(detail.locator('h1')).toHaveText(project.title.replace('корзины ', 'корзины'));
+      await expect(detail.locator('.rm-project-detail__hero-media img')).toHaveAttribute(
+        'src',
+        new RegExp(`/images/ralmaster/projects/${project.image.replace('.', '\\.')}\\??`),
+      );
+      await expect(detail.locator('.rm-project-detail__project-copy h2')).toHaveText('О проекте');
+      await expect(detail.locator('.rm-project-detail__project-copy p')).toHaveCount(2);
+      await expect(detail.locator('.rm-project-detail__passport h3')).toHaveText('О заказе');
+      await expect(detail.locator('.rm-project-detail__passport dl > div')).toHaveCount(4);
+      await expect(detail.locator('.rm-project-detail__passport dt')).toHaveText([
+        'Объект',
+        'Продукция',
+        'Исполнение',
+        'Год',
+      ]);
+      await expect(detail.locator('.rm-project-detail__passport dd')).toHaveText([
+        project.object,
+        'Декоративные корзины для кондиционеров',
+        'По индивидуальному проекту',
+        '2025',
+      ]);
+      await expect(detail.locator('.rm-project-detail__passport-empty')).toHaveCount(0);
+      await expect(detail.locator('.rm-project-detail__notice')).toHaveCount(0);
+      await expect(detail.locator('[data-rm-project-detail-section="work"]')).toHaveCount(0);
+      await expect(detail.locator('[data-rm-project-detail-section="result"]')).toHaveCount(0);
+      await expect(detail.locator('.rm-project-detail__cta-footer a')).toHaveText([
+        'Все выполненные заказы',
+        'Корзины для кондиционеров',
+      ]);
+    }
   });
 
   test('renders the brackets project linked from the home drawings card', async ({ page }) => {
@@ -342,8 +379,22 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     });
   });
 
-  test('matches the desktop Paper section heights for a generic detail', async ({ page }) => {
-    await page.goto('/projects/zhk-belyy-grad/', { waitUntil: 'networkidle' });
+  test('matches the desktop Paper section heights for every realized detail', async ({ page }) => {
+    for (const project of expectedProjects) {
+      await page.goto(project.href, { waitUntil: 'networkidle' });
+      expect(
+        await sectionHeights(page, '[data-rm-project-detail-section]', [
+          'hero',
+          'project',
+          'cta',
+          'production-photo',
+        ]),
+      ).toEqual({ hero: 1186, project: 507, cta: 412, 'production-photo': 543 });
+    }
+  });
+
+  test('matches the desktop Paper section heights for the detailed brackets template', async ({ page }) => {
+    await page.goto('/projects/krepezhnye-kronshteyny/', { waitUntil: 'networkidle' });
     expect(
       await sectionHeights(page, '[data-rm-project-detail-section]', [
         'hero',
@@ -357,22 +408,10 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
       hero: 1206,
       project: 682,
       work: 688,
-      result: 766,
+      result: 860,
       cta: 412,
       'production-photo': 543,
     });
-  });
-
-  test('matches the desktop Paper section heights for the Symbol detail', async ({ page }) => {
-    await page.goto('/projects/zhk-simvol/', { waitUntil: 'networkidle' });
-    expect(
-      await sectionHeights(page, '[data-rm-project-detail-section]', [
-        'hero',
-        'project',
-        'cta',
-        'production-photo',
-      ]),
-    ).toEqual({ hero: 1186, project: 507, cta: 412, 'production-photo': 543 });
   });
 
   test('validates the compact estimate form without sending a POST', async ({ page }) => {
@@ -483,7 +522,7 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
   for (const mobileRoute of [
     { label: 'listing', href: '/projects/' },
     { label: 'Symbol detail', href: '/projects/zhk-simvol/' },
-    { label: 'generic detail', href: '/projects/zhk-belyy-grad/' },
+    { label: 'White City detail', href: '/projects/zhk-belyy-grad/' },
     { label: 'brackets detail', href: '/projects/krepezhnye-kronshteyny/' },
   ] as const) {
     test(`P0 @mobile ${mobileRoute.label} has no horizontal overflow or browser errors`, async ({ page }, testInfo) => {
@@ -501,7 +540,7 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     const header = page.locator('#mobileheader');
     const breadcrumbs = page.locator('.rm-projects-breadcrumbs');
     const image = page.locator('.rm-projects-product-card img').first();
-    await expect(image).toHaveCSS('object-fit', 'contain');
+    await expect(image).toHaveCSS('object-fit', 'fill');
     const geometry = await page.evaluate(() => {
       const headerBox = document.querySelector('#mobileheader')!.getBoundingClientRect();
       const breadcrumbBox = document.querySelector('.rm-projects-breadcrumbs')!.getBoundingClientRect();

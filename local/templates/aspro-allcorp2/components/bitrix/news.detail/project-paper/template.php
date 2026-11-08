@@ -9,28 +9,31 @@ $rmProjectButtons = CIBlock::GetPanelButtons($arResult['IBLOCK_ID'], $arResult['
 $this->AddEditAction($arResult['ID'], $rmProjectButtons['edit']['edit_element']['ACTION_URL'], CIBlock::GetArrayByID($arResult['IBLOCK_ID'], 'ELEMENT_EDIT'));
 $this->AddDeleteAction($arResult['ID'], $rmProjectButtons['edit']['delete_element']['ACTION_URL'], CIBlock::GetArrayByID($arResult['IBLOCK_ID'], 'ELEMENT_DELETE'), array('CONFIRM' => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
 $rmProductionImage = SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powder-line.webp';
+$rmProjectLayoutClass = $rmProject['IS_REALIZED']
+	? ' rm-project-detail--symbol rm-project-detail--realized'
+	: ' rm-project-detail--generic';
 ?>
 
-<main class="rm-project-detail<?=$rmProject['IS_SYMBOL'] ? ' rm-project-detail--symbol' : ' rm-project-detail--generic'?>" id="<?=$this->GetEditAreaId($arResult['ID'])?>" data-rm-project-detail data-project-code="<?=htmlspecialcharsbx($rmProject['CODE'])?>">
+<main class="rm-project-detail<?=$rmProjectLayoutClass?>" id="<?=$this->GetEditAreaId($arResult['ID'])?>" data-rm-project-detail data-project-code="<?=htmlspecialcharsbx($rmProject['CODE'])?>">
 	<section class="rm-project-detail__hero" data-rm-project-detail-section="hero" data-rm-project-section="hero">
 		<div class="rm-project-detail__container">
-			<?if (!$rmProject['IS_SYMBOL']):?>
+			<?if (!$rmProject['IS_REALIZED']):?>
 				<div class="rm-project-detail__notice" role="note"><strong>О данных проекта</strong><span>Дополнительные характеристики заказа в исходных данных не опубликованы; демонстрационные изображения ниже отмечены отдельно.</span></div>
 			<?endif;?>
 			<nav class="rm-project-detail__breadcrumbs" aria-label="Хлебные крошки">
 				<a href="/">Главная</a><span aria-hidden="true">/</span><a href="/projects/">Реализованные проекты</a><span aria-hidden="true">/</span><span><?=htmlspecialcharsbx($rmProject['NAME'])?></span>
 			</nav>
 			<div class="rm-project-detail__intro">
-				<h1><?if ($rmProject['IS_SYMBOL']):?>Декоративные корзины<br>для кондиционеров в ЖК «Символ»<?else:?><?=htmlspecialcharsbx($rmProject['TITLE'])?><?endif;?></h1>
+				<h1><?foreach ($rmProject['TITLE_LINES'] as $rmTitleIndex => $rmTitleLine):?><?=$rmTitleIndex ? '<br> ' : ''?><?=htmlspecialcharsbx($rmTitleLine)?><?endforeach;?></h1>
 				<p><?=htmlspecialcharsbx($rmProject['SUMMARY'])?></p>
-				<?if ($rmProject['IS_SYMBOL']):?>
-					<a class="rm-project-detail__product-link" href="<?=htmlspecialcharsbx($rmProject['PRODUCT_URL'])?>">Корзины для кондиционеров <span class="rm-ui-arrow" aria-hidden="true"></span></a>
+				<?if ($rmProject['IS_REALIZED']):?>
+					<a class="rm-project-detail__product-link" href="<?=htmlspecialcharsbx($rmProject['PRODUCT_URL'])?>">Подробнее о корзинах для кондиционеров <span class="rm-ui-arrow" aria-hidden="true"></span></a>
 				<?endif;?>
 			</div>
 			<?if ($rmProject['HERO_IMAGE']):?>
 				<figure class="rm-project-detail__hero-media">
 					<img src="<?=htmlspecialcharsbx($rmProject['HERO_IMAGE'])?>" alt="<?=htmlspecialcharsbx($rmProject['NAME'])?>" fetchpriority="high">
-					<?if (!$rmProject['IS_SYMBOL']):?><figcaption>Фотография из материалов проекта</figcaption><?endif;?>
+					<?if (!$rmProject['IS_REALIZED']):?><figcaption>Фотография из материалов проекта</figcaption><?endif;?>
 				</figure>
 			<?endif;?>
 		</div>
@@ -39,9 +42,11 @@ $rmProductionImage = SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powde
 	<section class="rm-project-detail__project" data-rm-project-detail-section="project" data-rm-project-section="project">
 		<div class="rm-project-detail__container rm-project-detail__project-layout">
 			<div class="rm-project-detail__project-copy">
-				<span class="rm-projects-kicker">Проект</span>
-				<h2><?=$rmProject['IS_SYMBOL'] ? 'Задача проекта' : 'Что было выполнено'?></h2>
-				<p><?=htmlspecialcharsbx($rmProject['TASK'])?></p>
+				<?if (!$rmProject['IS_REALIZED']):?><span class="rm-projects-kicker">Проект</span><?endif;?>
+				<h2><?=$rmProject['IS_REALIZED'] ? 'О проекте' : 'Что было выполнено'?></h2>
+				<?foreach ($rmProject['TASK_PARAGRAPHS'] as $rmTaskParagraph):?>
+					<p><?=htmlspecialcharsbx($rmTaskParagraph)?></p>
+				<?endforeach;?>
 			</div>
 			<aside class="rm-project-detail__passport" aria-label="Данные заказа">
 				<h3>О заказе</h3>
@@ -58,7 +63,7 @@ $rmProductionImage = SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powde
 		</div>
 	</section>
 
-	<?if (!$rmProject['IS_SYMBOL']):?>
+	<?if (!$rmProject['IS_REALIZED']):?>
 		<section class="rm-project-detail__work" data-rm-project-detail-section="work" data-rm-project-section="work">
 			<div class="rm-project-detail__container rm-project-detail__work-layout">
 				<div>
@@ -95,13 +100,16 @@ $rmProductionImage = SITE_TEMPLATE_PATH.'/images/ralmaster/home/production-powde
 	<section class="rm-project-detail__cta" data-rm-project-detail-section="cta" data-rm-project-section="cta">
 		<div class="rm-project-detail__container">
 			<div class="rm-project-detail__cta-card">
-				<h2><?=$rmProject['IS_SYMBOL'] ? 'Нужны корзины для вашего объекта?' : 'Нужен похожий заказ?'?></h2>
+				<h2><?=$rmProject['IS_REALIZED'] ? 'Нужны корзины для вашего объекта?' : 'Нужен похожий заказ?'?></h2>
 				<div class="rm-project-detail__cta-actions">
-					<p>Пришлите чертежи или опишите задачу. Укажите количество изделий и необходимые работы.</p>
+					<p><?=$rmProject['IS_REALIZED'] ? 'Пришлите чертежи или техническое задание. Укажите размеры, количество изделий и требования к внешнему виду.' : 'Пришлите чертежи или опишите задачу. Укажите количество изделий и необходимые работы.'?></p>
 					<a class="rm-project-detail__cta-primary" href="/projects/#projects-estimate">Рассчитать похожий заказ <span class="rm-ui-arrow" aria-hidden="true"></span></a>
 				</div>
 			</div>
-			<a class="rm-project-detail__cta-secondary" href="/projects/"><span aria-hidden="true">←</span> Все выполненные заказы</a>
+			<div class="rm-project-detail__cta-footer">
+				<a class="rm-project-detail__cta-secondary" href="/projects/"><span class="rm-project-detail__back-arrow" aria-hidden="true"></span> Все выполненные заказы</a>
+				<?if ($rmProject['IS_REALIZED']):?><a class="rm-project-detail__cta-product" href="<?=htmlspecialcharsbx($rmProject['PRODUCT_URL'])?>">Корзины для кондиционеров <span class="rm-ui-arrow" aria-hidden="true"></span></a><?endif;?>
+			</div>
 		</div>
 	</section>
 

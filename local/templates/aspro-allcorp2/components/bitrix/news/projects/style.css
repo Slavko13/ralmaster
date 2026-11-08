@@ -224,7 +224,7 @@
   line-height: 24px;
 }
 
-.rm-project-card__link span {
+.rm-project-card__link > span {
   display: grid;
   width: 40px;
   height: 40px;
@@ -234,6 +234,12 @@
   border: 1px solid #cad6e7;
   border-radius: 4px;
   font: 400 22px/20px Arial, sans-serif;
+}
+
+.rm-project-card__link > span .rm-ui-arrow {
+  --rm-arrow-size: 20px;
+  margin: 0;
+  border: 0;
 }
 
 .rm-projects-text-link span {
@@ -871,7 +877,10 @@
 }
 
 .rm-project-detail__product-link {
+  display: inline-flex;
   margin-top: 18px;
+  align-items: center;
+  gap: 12px;
   color: #175bef;
   font-size: 16px;
   font-weight: 500;
@@ -963,6 +972,32 @@
   border: 1px solid #dbe2ea;
   border-radius: 4px;
   background: #f8fafc;
+}
+
+.rm-project-detail--realized .rm-project-detail__project-copy {
+  padding-top: 0;
+}
+
+.rm-project-detail--realized .rm-project-detail__project-copy h2 {
+  margin-bottom: 24px;
+}
+
+.rm-project-detail--realized .rm-project-detail__project-copy > p {
+  margin: 0 0 20px;
+}
+
+.rm-project-detail--realized .rm-project-detail__passport {
+  min-height: 363px;
+  padding: 32px;
+  border: 0;
+  background: #f2f4f5;
+}
+
+.rm-project-detail--realized .rm-project-detail__passport dl > div {
+  min-height: 59px;
+  padding: 17px 0;
+  align-items: start;
+  grid-template-columns: 180px minmax(0, 1fr);
 }
 
 .rm-project-detail--generic .rm-project-detail__passport {
@@ -1245,6 +1280,46 @@
   font-weight: 500;
   line-height: 24px;
   transition: color 180ms ease, transform 180ms ease;
+}
+
+.rm-project-detail__cta-footer {
+  display: flex;
+  min-height: 24px;
+  margin-top: 28px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.rm-project-detail__cta-footer .rm-project-detail__cta-secondary {
+  margin-top: 0;
+}
+
+.rm-project-detail__back-arrow {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 12H5M11 6L5 12L11 18' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 12H5M11 6L5 12L11 18' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.rm-project-detail__cta-product {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: #175bef;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.rm-project-detail__cta-product:hover,
+.rm-project-detail__cta-product:focus-visible {
+  color: var(--rm-primary-hover, #0d4bd7);
+  transform: translateY(-3px);
 }
 
 .rm-project-detail__cta-secondary span {
@@ -1678,6 +1753,17 @@ body:has(.rm-project-detail) .main > .container .right_block {
 
   .rm-project-detail__cta-secondary {
     margin-top: 14px;
+  }
+
+  .rm-project-detail__cta-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 14px;
+  }
+
+  .rm-project-detail__cta-footer .rm-project-detail__cta-secondary {
+    margin-top: 0;
   }
 
   .rm-projects-product-card img {
