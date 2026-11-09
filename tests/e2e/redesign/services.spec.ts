@@ -95,7 +95,17 @@ test.describe('Redesigned metalworking root', () => {
       'src',
       /\/images\/ralmaster\/metalworking\/brackets-batch\.webp$/,
     );
-    await expect(exampleCards.first().locator('img')).toHaveCSS('object-fit', 'contain');
+    const firstExampleImageStyle = await exampleCards.first().locator('img').evaluate((node) => {
+      const style = window.getComputedStyle(node);
+      return {
+        objectFit: style.objectFit,
+        backgroundImage: style.backgroundImage,
+        backgroundSize: style.backgroundSize,
+      };
+    });
+    expect(firstExampleImageStyle.objectFit).toBe('contain');
+    expect(firstExampleImageStyle.backgroundImage).toContain('brackets-batch.webp');
+    expect(firstExampleImageStyle.backgroundSize).toBe('cover');
 
     const images = page.locator('[data-rm-metalworking] img');
     const count = await images.count();

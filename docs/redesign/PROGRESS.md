@@ -861,3 +861,12 @@ Legacy `header_fixed` теперь не рендерится только при
 - PHP lint **4/4 PASS**; связанная desktop/mobile регрессия **80/80 PASS**;
   Docker `db`/`web` healthy. Фотоотчёт:
   `docs/redesign/evidence/iteration-61/`.
+
+## Media-блок примера металлообработки — 2026-11-09
+
+- На `/services/` убраны светлые боковые полосы у изображения крепёжных
+  кронштейнов: предмет остаётся целиком, а свободные области заполняются тем
+  же локальным кадром без белых зазоров.
+- Services desktop/mobile Playwright **10/10 PASS**; Docker `db`/`web`
+  healthy.
+- Desktop/mobile фотоотчёт: `docs/redesign/evidence/iteration-62/`.
