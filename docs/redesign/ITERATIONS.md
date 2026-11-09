@@ -1700,3 +1700,37 @@
 - **Оставшиеся ограничения:** отправка формы расчёта не выполнялась; тест
   проверял клиентскую валидацию без POST.
 - **Статус:** `PASSED`.
+
+## Итерация 58 — AppSec-аудит и защитный baseline (2026-11-08)
+
+- **Цель:** провести ручной и автоматизированный аудит приложения по OWASP
+  ASVS L2, устранить подтверждённые code-level уязвимости без активного
+  воздействия на production и сформировать выпускной security gate.
+- **Область изменений:** custom PHP endpoints, auth/redirect, CAPTCHA,
+  формы/вложения, каталог/корзина, региональный UI, Apache/PHP/Compose,
+  зависимости, секреты, threat model и incident response.
+- **Связанные макеты Paper:** не затрагивались; визуальные макеты не изменялись.
+- **Затронутые файлы и компоненты:** `ajax/*`, `form/index.php`, basket/catalog,
+  `ralmaster_estimate_form.php`, новый `ralmaster_security.php`, `.htaccess`,
+  `upload/.htaccess`, Docker/Apache/PHP config, npm lockfile и security tests.
+- **Функциональные автотесты:** PHP helper regression; 14 Playwright security
+  checks; 32 route smoke checks; PHP lint всех 18 изменённых/новых PHP-файлов;
+  npm dependency audit; production-like health/header checks.
+- **Визуальные проверки:** не требовались — внешнее оформление не менялось.
+- **Критерии приёмки:** закрыты open redirect, CSRF, CAPTCHA oracle, DOM-XSS,
+  unsafe upload и serialized-payload risks; служебные файлы недоступны по HTTP;
+  отсутствуют `X-Powered-*`; тесты проходят без регрессий.
+- **Фактический результат:** code-level high-risk findings устранены; создан
+  реестр findings, модель угроз и DDoS/incident runbook. Security suite
+  **14/14 PASS**, route smoke **32/32 PASS**, PHP lint **18/18 PASS**,
+  `npm audit` — **0**, dev и production-like `db`/`web` healthy.
+- **Обнаруженные дефекты:** open redirect, CSRF, CAPTCHA oracle, DOM injection,
+  слабая upload-защита, публичные артефакты, hardcoded legacy token,
+  serialized AJAX без bounds, version disclosure и четыре moderate npm issue.
+- **Исправленные дефекты:** все перечисленные code-level проблемы; token
+  удалён из HEAD, но его отзыв остаётся обязательным внешним действием.
+- **Оставшиеся ограничения:** production HTTPS недоступен; Bitrix/Aspro требуют
+  staged update; MFA/event log/proactive protection и Beget WAF/backups/logs
+  требуют владельца; DKIM/DMARC и отзыв token выполняются вне репозитория.
+- **Статус:** `BLOCKED` для production release до выполнения внешних gates;
+  локальная инженерная итерация `PASSED`.

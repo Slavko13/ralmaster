@@ -2973,19 +2973,9 @@ $(document).ready(function () {
   $.validator.addMethod(
     "captcha",
     function (value, element, params) {
-      return $.validator.methods.remote.call(this, value, element, {
-        url: arAllcorp2Options["SITE_DIR"] + "ajax/check-captcha.php",
-        type: "post",
-        data: {
-          captcha_word: value,
-          captcha_sid: function () {
-            return $(element)
-              .closest("form")
-              .find('input[name="captcha_sid"]')
-              .val();
-          },
-        },
-      });
+      // Final CAPTCHA validation is authoritative on the server. A remote
+      // true/false validator would expose a reusable CAPTCHA oracle.
+      return this.optional(element) || (value.length >= 1 && value.length <= 50);
     },
     BX.message("JS_ERROR")
   );
@@ -3011,6 +3001,11 @@ $(document).ready(function () {
     e.preventDefault();
     $.ajax({
       url: arAllcorp2Options["SITE_DIR"] + "ajax/captcha.php",
+      type: "POST",
+      data: {
+        captcha_sid: $(this).closest("form").find('input[name="captcha_sid"]').val(),
+        sessid: BX.bitrix_sessid(),
+      },
     }).done(function (text) {
       if ($(".captcha_sid").length) {
         $(".captcha_sid").val(text);
@@ -4077,6 +4072,7 @@ $(document).ready(function () {
         type: "POST",
         data: {
           AJAX_POST: "Y",
+          sessid: BX.bitrix_sessid(),
           AJAX_PARAMS: $(this)
             .closest(".item-views.catalog")
             .find(".request-data")
@@ -4400,7 +4396,7 @@ $(document).ready(function () {
       $.ajax({
         url: arAllcorp2Options["SITE_DIR"] + "include/footer/site-basket.php",
         type: "POST",
-        data: { itemData: itemData, quantity: itemQuantity },
+        data: { itemData: itemData, quantity: itemQuantity, sessid: BX.bitrix_sessid() },
         success: function (html) {
           var eventdata = { action: "loadForm" };
           BX.onCustomEvent("onCompleteAction", [eventdata, _this[0]]);
@@ -4485,7 +4481,8 @@ $(document).ready(function () {
     var _ajax = function () {
       $.ajax({
         url: arAllcorp2Options["SITE_DIR"] + "include/footer/site-basket.php",
-        data: { itemData: itemData, remove: bRemove, removeAll: bRemoveAll },
+        type: "POST",
+        data: { itemData: itemData, remove: bRemove, removeAll: bRemoveAll, sessid: BX.bitrix_sessid() },
         success: function (html) {
           if (bBasketTop) {
             $(".ajax_basket").html(html);
@@ -5039,7 +5036,8 @@ BasketUpdate = function (el, counterInputValueNew) {
       $.ajax({
         // url: arAllcorp2Options['SITE_DIR'] + 'ajax/basket_items.php',
         url: arAllcorp2Options["SITE_DIR"] + "include/footer/site-basket.php",
-        data: { itemData: itemData, quantity: counterInputValueNew },
+        type: "POST",
+        data: { itemData: itemData, quantity: counterInputValueNew, sessid: BX.bitrix_sessid() },
         success: function (data) {
           if (typeof data === "object") {
             arBasketItems = data;

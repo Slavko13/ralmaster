@@ -19,6 +19,7 @@
 # Runtime and user-generated data
 /upload/*
 !/upload/.gitkeep
+!/upload/.htaccess
 /.cache/
 /local/cache/
 /local/managed_cache/
@@ -47,6 +48,8 @@
 # Local archives and editor/OS files
 *.tar.gz
 *.zip
+*.bak
+.htaccess_back
 Thumbs.db
 .DS_Store
 .idea/

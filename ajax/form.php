@@ -4,10 +4,21 @@
 use CAllcorp2 as Solution;
 if(\Bitrix\Main\Loader::includeModule('aspro.allcorp2'))
 	$arTheme = CAllcorp2::GetFrontParametrsValues(SITE_ID);
-$id = (isset($_REQUEST["id"]) ? $_REQUEST["id"] : false);
+$id = max(0, (int) ($_REQUEST["id"] ?? 0));
+$additionalParams = [];
 
-if (isset($_REQUEST["additional"])){
-    $additionalParams = Solution::unserialize(base64_decode($_REQUEST["additional"]));
+if (isset($_REQUEST["additional"]) && is_string($_REQUEST["additional"]) && strlen($_REQUEST["additional"]) <= 4096){
+    $decodedAdditional = base64_decode($_REQUEST["additional"], true);
+    if (is_string($decodedAdditional) && strlen($decodedAdditional) <= 2048) {
+        $candidate = Solution::unserialize($decodedAdditional);
+        if (is_array($candidate)) {
+            foreach (['set_name', 'deactivate'] as $key) {
+                if (isset($candidate[$key]) && in_array($candidate[$key], ['Y', 'N'], true)) {
+                    $additionalParams[$key] = $candidate[$key];
+                }
+            }
+        }
+    }
 }
 
 $isCallBack = $id == CCache::$arIBlocks[SITE_ID]["aspro_allcorp2_form"]["aspro_allcorp2_callback"][0];

@@ -4,7 +4,12 @@
 global $USER;
 $bSuccessConfigSave = false;
 
-if($USER->IsAdmin() && (isset($_POST['SAVE_OPTIONS']) && $_POST['SAVE_OPTIONS'] == 'Y'))
+if(
+	$_SERVER['REQUEST_METHOD'] === 'POST'
+	&& check_bitrix_sessid()
+	&& $USER->IsAdmin()
+	&& (isset($_POST['SAVE_OPTIONS']) && $_POST['SAVE_OPTIONS'] == 'Y')
+)
 {
 	if(isset($_SESSION['THEME']) && $_SESSION['THEME'])
 	{
@@ -106,6 +111,11 @@ if($bSuccessConfigSave)
 else
 	$addResult = array('STATUS' => 'ERROR', 'MESSAGE' => 'CONFIG_SAVE_FAIL');
 
-echo json_encode($addResult);
+header('Content-Type: application/json; charset=UTF-8');
+header('Cache-Control: no-store, private');
+if (!$bSuccessConfigSave) {
+	http_response_code(403);
+}
+echo json_encode($addResult, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 die();
 ?>

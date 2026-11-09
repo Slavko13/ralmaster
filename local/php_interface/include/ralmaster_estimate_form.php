@@ -10,6 +10,10 @@ final class RalMasterEstimateFormValidator
 {
     private const FORM_SID = 'ralmaster_estimate_s1';
     private const MAX_FILE_SIZE = 20 * 1024 * 1024;
+    private const MAX_IMAGE_PIXELS = 40_000_000;
+    private const MAX_IMAGE_DIMENSION = 12_000;
+    private const MAX_ARCHIVE_ENTRIES = 1_000;
+    private const MAX_ARCHIVE_UNCOMPRESSED_SIZE = 100 * 1024 * 1024;
     private const ALLOWED_EXTENSIONS = [
         'pdf',
         'png',
@@ -41,6 +45,16 @@ final class RalMasterEstimateFormValidator
         $task = trim((string) ($inputs['TASK']['value'] ?? ''));
         $file = $inputs['FILE']['file'] ?? null;
         $errors = [];
+
+        if (mb_strlen($contact) > 320 || preg_match('/[\r\n]/u', $contact) === 1) {
+            $errors[] = 'Контактные данные содержат недопустимые символы или слишком длинные.';
+        }
+        if (mb_strlen($context) > 2000) {
+            $errors[] = 'Служебные данные формы превышают допустимый размер.';
+        }
+        if (mb_strlen($task) > 10000) {
+            $errors[] = 'Описание задачи превышает допустимый размер.';
+        }
 
         $contactError = self::getContactError($contact, self::getContactMethod($context));
         if ($contactError !== null) {
@@ -203,13 +217,154 @@ final class RalMasterEstimateFormValidator
             return 'Размер файла превышает допустимый лимит 20 МБ.';
         }
 
-        $fileName = basename(str_replace("\0", '', (string) ($file['name'] ?? '')));
+        if ((int) ($file['size'] ?? 0) <= 0) {
+            return 'Загруженный файл пуст.';
+        }
+
+        $rawFileName = str_replace("\0", '', (string) ($file['name'] ?? ''));
+        $fileName = basename(str_replace('\\', '/', $rawFileName));
+        if (
+            $fileName === ''
+            || $fileName !== $rawFileName
+            || mb_strlen($fileName) > 180
+            || preg_match('/[\x00-\x1F\x7F]/u', $fileName) === 1
+        ) {
+            return 'Имя файла содержит недопустимые символы.';
+        }
+
         $extension = mb_strtolower((string) pathinfo($fileName, PATHINFO_EXTENSION));
         if ($extension === '' || !in_array($extension, self::ALLOWED_EXTENSIONS, true)) {
             return 'Недопустимый формат файла. Разрешены PDF, изображения, Office, DWG и DXF.';
         }
 
+        $tmpName = (string) ($file['tmp_name'] ?? '');
+        if ($tmpName === '' || !is_file($tmpName) || !is_readable($tmpName)) {
+            return 'Не удалось проверить загруженный файл.';
+        }
+        if (PHP_SAPI !== 'cli' && !is_uploaded_file($tmpName)) {
+            return 'Источник загруженного файла не подтверждён.';
+        }
+
+        $contentError = self::validateFileContent($tmpName, $extension);
+        if ($contentError !== null) {
+            return $contentError;
+        }
+
         return null;
+    }
+
+    private static function validateFileContent(string $path, string $extension): ?string
+    {
+        $prefix = file_get_contents($path, false, null, 0, 8192);
+        if (!is_string($prefix)) {
+            return 'Не удалось проверить содержимое файла.';
+        }
+
+        if ($extension === 'pdf') {
+            return str_starts_with($prefix, '%PDF-') ? null : self::contentMismatchError();
+        }
+
+        if (in_array($extension, ['png', 'jpg', 'jpeg', 'webp'], true)) {
+            $expectedTypes = [
+                'png' => IMAGETYPE_PNG,
+                'jpg' => IMAGETYPE_JPEG,
+                'jpeg' => IMAGETYPE_JPEG,
+                'webp' => IMAGETYPE_WEBP,
+            ];
+            $type = @exif_imagetype($path);
+            $dimensions = @getimagesize($path);
+            if ($type !== $expectedTypes[$extension] || !is_array($dimensions)) {
+                return self::contentMismatchError();
+            }
+
+            $width = (int) ($dimensions[0] ?? 0);
+            $height = (int) ($dimensions[1] ?? 0);
+            if (
+                $width <= 0
+                || $height <= 0
+                || $width > self::MAX_IMAGE_DIMENSION
+                || $height > self::MAX_IMAGE_DIMENSION
+                || ($width * $height) > self::MAX_IMAGE_PIXELS
+            ) {
+                return 'Размеры изображения превышают безопасный лимит.';
+            }
+
+            return null;
+        }
+
+        if (in_array($extension, ['doc', 'xls'], true)) {
+            return str_starts_with($prefix, "\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1")
+                ? null
+                : self::contentMismatchError();
+        }
+
+        if (in_array($extension, ['docx', 'xlsx'], true)) {
+            return self::validateOfficeArchive($path, $extension);
+        }
+
+        if ($extension === 'dwg') {
+            return preg_match('/^AC10[0-9]{2}/D', $prefix) === 1 ? null : self::contentMismatchError();
+        }
+
+        if ($extension === 'dxf') {
+            $isBinary = str_starts_with($prefix, "AutoCAD Binary DXF\r\n\x1A\0");
+            $isAscii = preg_match('/(?:^|\R)\s*0\s*\R\s*SECTION\s*(?:\R|$)/i', $prefix) === 1;
+            return ($isBinary || $isAscii) ? null : self::contentMismatchError();
+        }
+
+        return self::contentMismatchError();
+    }
+
+    private static function validateOfficeArchive(string $path, string $extension): ?string
+    {
+        if (!class_exists(ZipArchive::class)) {
+            return 'Проверка Office-файлов временно недоступна.';
+        }
+
+        $archive = new ZipArchive();
+        if ($archive->open($path) !== true) {
+            return self::contentMismatchError();
+        }
+
+        try {
+            if ($archive->numFiles <= 0 || $archive->numFiles > self::MAX_ARCHIVE_ENTRIES) {
+                return 'Архив Office-файла содержит недопустимое количество элементов.';
+            }
+
+            $totalSize = 0;
+            $hasContentTypes = false;
+            $hasExpectedFolder = false;
+            $expectedPrefix = $extension === 'docx' ? 'word/' : 'xl/';
+
+            for ($index = 0; $index < $archive->numFiles; $index++) {
+                $stat = $archive->statIndex($index);
+                if (!is_array($stat)) {
+                    return self::contentMismatchError();
+                }
+
+                $name = str_replace('\\', '/', (string) ($stat['name'] ?? ''));
+                if ($name === '' || str_starts_with($name, '/') || preg_match('~(?:^|/)\.\.(?:/|$)~', $name) === 1) {
+                    return 'Office-файл содержит небезопасный путь внутри архива.';
+                }
+
+                $totalSize += max(0, (int) ($stat['size'] ?? 0));
+                if ($totalSize > self::MAX_ARCHIVE_UNCOMPRESSED_SIZE) {
+                    return 'Распакованный размер Office-файла превышает безопасный лимит.';
+                }
+
+                $hasContentTypes = $hasContentTypes || $name === '[Content_Types].xml';
+                $hasExpectedFolder = $hasExpectedFolder || str_starts_with($name, $expectedPrefix);
+            }
+
+            return ($hasContentTypes && $hasExpectedFolder) ? null : self::contentMismatchError();
+        } finally {
+            $archive->close();
+        }
+    }
+
+    private static function contentMismatchError(): string
+    {
+        return 'Содержимое файла не соответствует заявленному формату.';
     }
 }
 

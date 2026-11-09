@@ -16,7 +16,7 @@ $APPLICATION->SetTitle("");
 			"COMPOSITE_FRAME_MODE" => "A",
 			"COMPOSITE_FRAME_TYPE" => "AUTO",
 			"TITLE" => "Последние новости",
-			"TOKEN" => \Bitrix\Main\Config\Option::get("aspro.allcorp2", "API_TOKEN_INSTAGRAMM", "1056017790.9b6cbfe.4dfb9d965b5c4c599121872c23b4dfd0")
+			"TOKEN" => \Bitrix\Main\Config\Option::get("aspro.allcorp2", "API_TOKEN_INSTAGRAMM", "")
 		)
 	);?>
 <?endif;?>

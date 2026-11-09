@@ -788,6 +788,20 @@ Legacy `header_fixed` теперь не рендерится только при
 
 ## Следующий допустимый шаг
 
+## Security hardening и выпускной gate — 2026-11-08
+
+- Устранены подтверждённые open redirect, CSRF, CAPTCHA oracle, DOM-XSS,
+  unsafe upload/serialized payload и version disclosure.
+- Служебные/backup-файлы закрыты от HTTP, tracked `.htaccess_back` удалён,
+  hardcoded legacy token удалён из HEAD, npm audit приведён к нулю.
+- Созданы `docs/security/THREAT_MODEL.md`, `SECURITY_AUDIT.md` и
+  `DDOS_AND_INCIDENT_RUNBOOK.md`.
+- Проверки: PHP lint **18/18 PASS**, security **14/14 PASS**, smoke
+  **32/32 PASS**, `npm audit` **0**, dev и production-like healthy.
+- Production release остаётся заблокирован до восстановления HTTPS, обновления
+  Bitrix/Aspro, включения MFA/event log/proactive protection, отзыва legacy
+  token и подтверждения защит/backup/logging Beget.
+
 ### Коррекция header — 2026-10-31
 
 - Подтверждён актуальный источник: `Мария's Team` → `Ралмастер` → `Дизайн`.

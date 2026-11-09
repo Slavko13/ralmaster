@@ -27,12 +27,14 @@ RUN apt-get update \
         opcache \
         pdo_mysql \
         zip \
-    && a2enmod deflate expires headers rewrite \
+    && a2enmod deflate expires headers rewrite reqtimeout \
     && rm -rf /var/lib/apt/lists/*
 
 RUN install -d -m 0755 /opt/ralmaster
 
 COPY --chmod=0644 docker/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY --chmod=0644 docker/apache/security.conf /etc/apache2/conf-available/zz-ralmaster-security.conf
+RUN a2enconf zz-ralmaster-security
 COPY --chmod=0644 docker/php/bitrix.ini /usr/local/etc/php/conf.d/90-bitrix.ini
 COPY --chmod=0644 docker/healthz.php /opt/ralmaster/healthz.php
 COPY --chmod=0755 docker/entrypoint.sh /usr/local/bin/ralmaster-entrypoint

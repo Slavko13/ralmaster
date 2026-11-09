@@ -2,9 +2,8 @@
 
 <?global $APPLICATION;
 $arThemePopup = CAllcorp2::GetFrontParametrsValues(SITE_ID);
-$url = '';
-if(isset($_GET['url']) && $_GET['url'])
-	$url = htmlspecialchars($_GET['url']);?>
+$url = ralmaster_safe_local_path($_GET['url'] ?? '', SITE_DIR);
+$urlJs = json_encode($url, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);?>
 
 <div class="form popup v_POPUP">
 <div class="wrap">
@@ -84,7 +83,7 @@ if(isset($_GET['url']) && $_GET['url'])
 					source: function(request, response){
 						$.getJSON( arAllcorp2Options['SITE_DIR']+'ajax/city_select.php', {
 				            term: request.term,
-				            url: '<?=$url;?>'
+							url: <?=$urlJs?>
 				          }, response );
 						
 					},
@@ -111,9 +110,8 @@ if(isset($_GET['url']) && $_GET['url'])
 			      }
 				}).data("ui-autocomplete")._renderItem = function(ul, item){
 					var region = (item.REGION ? " ("+item.REGION +")" : "");
-			    	return $("<li>")
-			       		.append("<a href='" + item.HREF + "' class='cityLink'>" + item.label +region +"</a>")
-			        	.appendTo(ul);
+					var link = $("<a>", {href: item.HREF, "class": "cityLink"}).text(item.label + region);
+					return $("<li>").append(link).appendTo(ul);
 			    }
 			}
 			else
@@ -155,9 +153,8 @@ if(isset($_GET['url']) && $_GET['url'])
 			      }
 				}).data("ui-autocomplete")._renderItem = function(ul, item){
 					var region = (item.REGION ? " ("+item.REGION +")" : "");
-			    	return $("<li>")
-			       		.append("<a href='" + item.HREF + "' class='cityLink dark-color'>" + item.label +region +"</a>")
-			        	.appendTo(ul);
+					var link = $("<a>", {href: item.HREF, "class": "cityLink dark-color"}).text(item.label + region);
+					return $("<li>").append(link).appendTo(ul);
 			    }
 			}
 		}

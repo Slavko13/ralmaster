@@ -2,9 +2,9 @@
 define("NEED_AUTH", true);
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 
-if (is_string($_REQUEST["backurl"]) && mb_strpos($_REQUEST["backurl"], "/") === 0)
+if (isset($_REQUEST["backurl"]) && is_string($_REQUEST["backurl"]))
 {
-	LocalRedirect($_REQUEST["backurl"]);
+	LocalRedirect(ralmaster_safe_local_path($_REQUEST["backurl"], SITE_DIR));
 }
 
 $APPLICATION->SetTitle("Вход на сайт");

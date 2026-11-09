@@ -9,10 +9,21 @@ section.page-top {display:none;}
 </style>
 <?
 
-$id = (isset($_REQUEST["id"]) ? $_REQUEST["id"] : false);
+$id = max(0, (int) ($_REQUEST["id"] ?? 0));
 $isCallBack = $id == CCache::$arIBlocks[SITE_ID]["aspro_allcorp2_form"]["aspro_allcorp2_callback"][0];
 $successMessage = ($isCallBack ? "<p>Наш менеджер перезвонит вам в ближайшее время.</p><p>Спасибо за ваше обращение!</p>" : "Спасибо! Ваше сообщение отправлено!");
-$arDataTrigger = json_decode((isset($_REQUEST["data-trigger"]) ? $_REQUEST["data-trigger"] : '{}'), true); // allways UTF-8
+$rawDataTrigger = (isset($_REQUEST["data-trigger"]) && is_string($_REQUEST["data-trigger"]) && strlen($_REQUEST["data-trigger"]) <= 8192)
+	? $_REQUEST["data-trigger"]
+	: '{}';
+$arDataTrigger = json_decode($rawDataTrigger, true); // always UTF-8
+if (!is_array($arDataTrigger)) {
+	$arDataTrigger = [];
+}
+$arDataTrigger = array_filter(
+	$arDataTrigger,
+	static fn($value, $key) => is_string($key) && preg_match('/^data-[a-z0-9_-]{1,80}$/D', $key) === 1 && is_scalar($value) && strlen((string) $value) <= 1000,
+	ARRAY_FILTER_USE_BOTH
+);
 ?>
 <?if(isset($_REQUEST['type']) && $_REQUEST['type'] == 'review'):?>
 	<?include_once('../ajax/review.php');?>

@@ -1,6 +1,30 @@
 Options -Indexes 
 ErrorDocument 404 /404.php
 
+<IfModule mod_headers.c>
+  Header unset X-Powered-By
+  Header always unset X-Powered-By
+  Header unset X-Powered-CMS
+  Header always unset X-Powered-CMS
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Content-Security-Policy "frame-ancestors 'self'"
+</IfModule>
+
+<IfModule mod_setenvif.c>
+  SetEnvIf Request_URI "^/(ajax|login|cabinet|cart|form|bitrix/admin)(/|$)" RALMASTER_NOSTORE=1
+</IfModule>
+<IfModule mod_headers.c>
+  Header always set Cache-Control "no-store, private" env=RALMASTER_NOSTORE
+  Header always set Pragma "no-cache" env=RALMASTER_NOSTORE
+</IfModule>
+
+<FilesMatch "(?i)(^\.|^\.htaccess_back$|^(?:Dockerfile|compose(?:\.[^.]+)?\.ya?ml|package(?:-lock)?\.json|playwright\.config\..*|deploy\.log|README(?:\..*)?)$|\.(?:env|ini|log|sql|sqlite3?|bak|backup|old|orig|save|swp)$)">
+  Require all denied
+</FilesMatch>
+
 <IfModule mod_php5.c>
   php_flag allow_call_time_pass_reference 1
   php_flag session.use_trans_sid off

@@ -1,6 +1,14 @@
 <?php require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php");
 
-$isAjax = (((isset($_POST["itemData"]) || (isset($_POST["ajaxPost"]) && $_POST["ajaxPost"] == "Y")) && $_SERVER["REQUEST_METHOD"] == "POST") || ((isset($_GET["itemData"]) || isset($_GET["remove"])) && $_SERVER["REQUEST_METHOD"] == "GET")); ?>
+$isMutation = isset($_REQUEST['itemData']) || isset($_REQUEST['remove']) || isset($_REQUEST['removeAll']);
+if ($isMutation && ($_SERVER['REQUEST_METHOD'] !== 'POST' || !check_bitrix_sessid())) {
+    http_response_code(403);
+    header('Cache-Control: no-store, private');
+    exit;
+}
+
+$isAjax = $_SERVER['REQUEST_METHOD'] === 'POST'
+    && (isset($_POST['itemData']) || (isset($_POST['ajaxPost']) && $_POST['ajaxPost'] === 'Y')); ?>
 <? if ($isAjax): ?>
     <? \Bitrix\Main\Loader::includeModule('aspro.allcorp2');
 
