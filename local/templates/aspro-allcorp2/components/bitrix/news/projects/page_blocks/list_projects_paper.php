@@ -6,6 +6,20 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 global $APPLICATION, $arTheme;
 
 $rmProjectsAssetRoot = SITE_TEMPLATE_PATH.'/images/ralmaster/';
+$rmProjectsGalleryRoot = $rmProjectsAssetRoot.'projects/galleries/';
+$rmProjectsGalleries = array(
+	'one' => array(
+		array('FILE' => 'gallery-one-01.webp', 'ALT' => 'Корзины для кондиционеров на фасаде жилого комплекса'),
+		array('FILE' => 'gallery-one-02.webp', 'ALT' => 'Декоративные корзины для кондиционеров на фасаде'),
+		array('FILE' => 'gallery-one-03.webp', 'ALT' => 'Крупный план корзины для кондиционера'),
+	),
+	'two' => array(
+		array('FILE' => 'gallery-two-01.webp', 'ALT' => 'Фасад жилого комплекса с установленными корзинами для кондиционеров'),
+		array('FILE' => 'gallery-two-02.webp', 'ALT' => 'Входная группа жилого комплекса'),
+		array('FILE' => 'gallery-two-03.webp', 'ALT' => 'Облицовка входной группы жилого комплекса'),
+		array('FILE' => 'gallery-two-04.webp', 'ALT' => 'Белые корзины для кондиционеров на фасаде жилого комплекса'),
+	),
+);
 $rmProjectsEstimateFormId = (int)CAllcorp2::getFormID('aspro_allcorp2_order_services');
 
 if (\Bitrix\Main\Loader::includeModule('form')) {
@@ -59,6 +73,24 @@ if (\Bitrix\Main\Loader::includeModule('form')) {
 				),
 				$component
 			);?>
+		</div>
+	</section>
+
+	<section class="rm-projects-gallery" data-rm-projects-section="gallery" aria-labelledby="rm-projects-gallery-title">
+		<div class="rm-projects-container">
+			<div class="rm-projects-heading">
+				<h2 id="rm-projects-gallery-title">Галерея проектов</h2>
+				<a class="rm-projects-text-link" href="/product/">Посмотреть продукцию <span class="rm-ui-arrow" aria-hidden="true"></span></a>
+			</div>
+			<?foreach ($rmProjectsGalleries as $rmGalleryVariant => $rmGalleryItems):?>
+				<div class="rm-projects-gallery__grid rm-projects-gallery__grid--<?=htmlspecialcharsbx($rmGalleryVariant)?>" data-rm-projects-gallery="<?=htmlspecialcharsbx($rmGalleryVariant)?>">
+					<?foreach ($rmGalleryItems as $rmGalleryIndex => $rmGalleryItem):?>
+						<figure class="rm-projects-gallery__item rm-projects-gallery__item--<?=($rmGalleryIndex + 1)?>">
+							<img src="<?=htmlspecialcharsbx($rmProjectsGalleryRoot.$rmGalleryItem['FILE'])?>" srcset="<?=htmlspecialcharsbx($rmProjectsGalleryRoot.preg_replace('/\.webp$/', '-768.webp', $rmGalleryItem['FILE']))?> 768w, <?=htmlspecialcharsbx($rmProjectsGalleryRoot.$rmGalleryItem['FILE'])?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 44vw" alt="<?=htmlspecialcharsbx($rmGalleryItem['ALT'])?>" loading="lazy">
+						</figure>
+					<?endforeach;?>
+				</div>
+			<?endforeach;?>
 		</div>
 	</section>
 

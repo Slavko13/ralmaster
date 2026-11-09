@@ -105,6 +105,16 @@ test.describe('P0 redesigned products root', () => {
       await expect(image).toHaveAttribute('src', /\/images\/ralmaster\/products\//);
       await expect(image).toHaveAttribute('srcset', /\/images\/ralmaster\/products\/.+-768\.webp 768w/);
     }
+
+    const cards = page.locator('.rm-product-card');
+    await expect(cards.filter({ hasText: 'Кронштейны' }).locator('img')).toHaveAttribute(
+      'src',
+      /\/images\/ralmaster\/products\/brackets\.webp$/,
+    );
+    await expect(cards.filter({ hasText: 'Экраны' }).locator('img')).toHaveAttribute(
+      'src',
+      /\/images\/ralmaster\/products\/screens\.webp$/,
+    );
   });
 
   test('keeps section and detail SEF routes available', async ({ request }) => {

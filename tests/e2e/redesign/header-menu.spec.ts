@@ -252,4 +252,13 @@ test.describe('P0 Paper flat navigation', () => {
     await expect(cartBasket.locator('.rm-header__basket-icon')).toBeVisible();
     await expect(cartBasket.locator('.count')).toBeHidden();
   });
+
+  test('homepage basket uses the same blue hover emphasis as the menu links', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    const basketLink = page.locator('.rm-header .rm-header__basket .basket-link');
+    await expect(basketLink).toHaveCSS('color', 'rgb(255, 255, 255)');
+    await basketLink.hover();
+    await expect(basketLink).toHaveCSS('color', 'rgb(23, 91, 239)');
+    await expect(basketLink).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+  });
 });

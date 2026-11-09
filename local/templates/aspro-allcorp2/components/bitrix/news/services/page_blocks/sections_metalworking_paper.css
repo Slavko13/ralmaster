@@ -439,6 +439,11 @@ body:has(.rm-metalworking) .body:not(.index) .main > .container {
   object-fit: cover;
 }
 
+.rm-metal-example-card:first-child > img {
+  object-fit: contain;
+  background: #eef0f2;
+}
+
 .rm-metal-example-card__copy {
   display: flex;
   height: 390px;

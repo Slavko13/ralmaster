@@ -93,8 +93,9 @@ test.describe('Redesigned metalworking root', () => {
     ]);
     await expect(exampleCards.first().locator('img')).toHaveAttribute(
       'src',
-      /\/images\/ralmaster\/home\/custom-metalwork\.webp$/,
+      /\/images\/ralmaster\/metalworking\/brackets-batch\.webp$/,
     );
+    await expect(exampleCards.first().locator('img')).toHaveCSS('object-fit', 'contain');
 
     const images = page.locator('[data-rm-metalworking] img');
     const count = await images.count();

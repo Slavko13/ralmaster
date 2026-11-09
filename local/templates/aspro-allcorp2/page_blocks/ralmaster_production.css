@@ -1247,8 +1247,11 @@ body:has(.rm-production) .main > .container .right_block {
     grid-column: span 1;
   }
 
-  .rm-production-partners__grid > :last-child {
-    grid-column: 1 / -1;
+  .rm-production-partners__grid > :last-child,
+  .rm-production-partners__grid > :nth-last-child(1) {
+    width: 100%;
+    grid-column: 1 / -1 !important;
+    background: #fff;
   }
 
   .rm-production-partners__grid img,

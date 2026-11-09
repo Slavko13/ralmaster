@@ -141,34 +141,6 @@ if (!empty($arResult['PROPERTIES']['PHOTOS']['VALUE'])) {
 	}
 }
 
-$rmProjectPresentationGallery = array();
-$rmProjectGalleryVariant = '';
-if ($rmProjectIsRealized) {
-	$rmProjectGalleryVariant = (string)($rmProjectPresentation['GALLERY_VARIANT'] ?? '');
-	$rmGalleryAssetRoot = $rmProjectAssetRoot.'galleries/';
-	$rmGalleryAssets = array(
-		'one' => array(
-			array('FILE' => 'gallery-one-01.webp', 'ALT' => 'Корзины для кондиционеров на фасаде жилого комплекса'),
-			array('FILE' => 'gallery-one-02.webp', 'ALT' => 'Две декоративные корзины для кондиционеров на фасаде'),
-			array('FILE' => 'gallery-one-03.webp', 'ALT' => 'Крупный план декоративной корзины для кондиционера'),
-		),
-		'two' => array(
-			array('FILE' => 'gallery-two-01.webp', 'ALT' => 'Фасад жилого комплекса с установленными корзинами для кондиционеров'),
-			array('FILE' => 'gallery-two-02.webp', 'ALT' => 'Входная группа и фасад жилого комплекса'),
-			array('FILE' => 'gallery-two-03.webp', 'ALT' => 'Облицовка входной группы жилого комплекса'),
-			array('FILE' => 'gallery-two-04.webp', 'ALT' => 'Белые корзины для кондиционеров на фасаде жилого комплекса'),
-		),
-	);
-	foreach ($rmGalleryAssets[$rmProjectGalleryVariant] ?? array() as $rmGalleryAsset) {
-		$rmGalleryFile = (string)$rmGalleryAsset['FILE'];
-		$rmProjectPresentationGallery[] = array(
-			'SRC' => $rmGalleryAssetRoot.$rmGalleryFile,
-			'SRC_SMALL' => $rmGalleryAssetRoot.preg_replace('/\.webp$/', '-768.webp', $rmGalleryFile),
-			'ALT' => (string)$rmGalleryAsset['ALT'],
-		);
-	}
-}
-
 $rmProjectProductUrl = '/product/baskets/';
 if (Loader::includeModule('iblock')) {
 	$rmProductSections = CIBlockSection::GetList(
@@ -195,8 +167,6 @@ $arResult['RM_PROJECT'] = array(
 	'DYNAMIC_IMAGE' => $rmProjectDynamicImage,
 	'PASSPORT' => $rmProjectPassport,
 	'GALLERY' => $rmProjectGallery,
-	'PRESENTATION_GALLERY' => $rmProjectPresentationGallery,
-	'GALLERY_VARIANT' => $rmProjectGalleryVariant,
 	'PRODUCT_URL' => $rmProjectProductUrl,
 	'PRESENTATION' => array(
 		'WORK_IMAGE' => $rmProjectAssetRoot.'generic-project-work.webp',

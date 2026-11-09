@@ -201,7 +201,7 @@ if ($rmProductionEstimateFormId <= 0) {
 						<span>Повтор предыдущего заказа</span>
 					</li>
 					<li>
-						<span class="rm-production-repeat__icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 4L20 10M5 15L4 21L10 20L21 9L15 3ZM7 13L13 19" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+						<span class="rm-production-repeat__icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.6 4.4L20 10M4.6 14.9L4 21L9.9 20.4L21 9L15 3L4.6 14.9ZM7 13L12.1 17.901" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
 						<span>Изменения в изделии</span>
 					</li>
 					<li>

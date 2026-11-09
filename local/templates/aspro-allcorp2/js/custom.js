@@ -121,19 +121,8 @@ function initRalmasterMotion() {
     heroItems.forEach(function (item) { item.classList.add('is-visible'); });
   });
 
-  const observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      });
-    },
-    { threshold: 0.12 }
-  );
-
   revealGroups.forEach(function (group) {
-    group.classList.add('rm-reveal');
+    group.classList.add('rm-reveal', 'is-visible');
     const cards = Array.from(
       group.querySelectorAll(
         '.rm-home-split-card, .rm-home-product-card, .rm-home-service-card, ' +
@@ -143,7 +132,6 @@ function initRalmasterMotion() {
     cards.forEach(function (card, index) {
       card.style.setProperty('--rm-reveal-delay', Math.min(index * 60, 180) + 'ms');
     });
-    observer.observe(group);
   });
 }
 

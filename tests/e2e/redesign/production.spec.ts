@@ -5,14 +5,14 @@ import { expectHealthyDocument } from '../helpers/site';
 const expectedSections = [
   { name: 'hero', top: 72, height: 716 },
   { name: 'how', top: 788, height: 598 },
-  { name: 'capabilities', top: 1402, height: 1094 },
-  { name: 'order', top: 2496, height: 600 },
-  { name: 'repeat', top: 3096, height: 636 },
-  { name: 'shipping', top: 3732, height: 766 },
-  { name: 'partners', top: 4498, height: 532 },
-  { name: 'faq', top: 5030, height: 810 },
-  { name: 'contact', top: 5840, height: 372 },
-  { name: 'photo', top: 6212, height: 543 },
+  { name: 'capabilities', top: 1386, height: 1094 },
+  { name: 'order', top: 2480, height: 600 },
+  { name: 'repeat', top: 3080, height: 636 },
+  { name: 'shipping', top: 3716, height: 766 },
+  { name: 'partners', top: 4482, height: 532 },
+  { name: 'faq', top: 5014, height: 810 },
+  { name: 'contact', top: 5824, height: 372 },
+  { name: 'photo', top: 6196, height: 543 },
 ] as const;
 
 const faqQuestions = [
@@ -136,6 +136,25 @@ test.describe('Redesigned production root', () => {
     expect(hrefs).toEqual(Array(7).fill('/company/partners/'));
   });
 
+  test('P0 @mobile stretches the final partner across the full grid row', async ({ page }) => {
+    await page.goto('/company/', { waitUntil: 'networkidle' });
+
+    const geometry = await page.locator('.rm-production-partners__grid').evaluate((grid) => {
+      const gridBox = grid.getBoundingClientRect();
+      const lastBox = grid.lastElementChild!.getBoundingClientRect();
+      return {
+        left: Math.round(lastBox.left - gridBox.left),
+        right: Math.round(gridBox.right - lastBox.right),
+        width: Math.round(lastBox.width),
+        gridWidth: Math.round(gridBox.width),
+      };
+    });
+
+    expect(geometry.left).toBeLessThanOrEqual(1);
+    expect(geometry.right).toBeLessThanOrEqual(1);
+    expect(Math.abs(geometry.width - geometry.gridWidth)).toBeLessThanOrEqual(1);
+  });
+
   test('uses the three Paper icons for repeat orders without legacy list bullets', async ({ page }) => {
     await page.goto('/company/', { waitUntil: 'domcontentloaded' });
 
@@ -148,7 +167,7 @@ test.describe('Redesigned production root', () => {
     );
     expect(iconPaths).toEqual([
       'M4 8H17L14 5M20 16H7L10 19M17 8L14 11M7 16L10 13M20 8V12M4 16V12',
-      'M14 4L20 10M5 15L4 21L10 20L21 9L15 3ZM7 13L13 19',
+      'M14.6 4.4L20 10M4.6 14.9L4 21L9.9 20.4L21 9L15 3L4.6 14.9ZM7 13L12.1 17.901',
       'M4 6H20V21H4ZM8 3V9M16 3V9M4 11H20M8 15H11M14 15H17M8 18H11',
     ]);
 

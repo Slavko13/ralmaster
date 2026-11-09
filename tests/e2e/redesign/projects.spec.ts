@@ -11,8 +11,6 @@ const expectedProjects = [
     height: 1280,
     object: 'ЖК «Символ»',
     title: 'Декоративные корзины для кондиционеров в ЖК «Символ»',
-    galleryVariant: 'one',
-    galleryCount: 3,
   },
   {
     code: 'zhk-belyy-grad',
@@ -22,8 +20,6 @@ const expectedProjects = [
     height: 1535,
     object: 'ЖК «Белый град»',
     title: 'Декоративные корзины для кондиционеров в ЖК «Белый град»',
-    galleryVariant: 'two',
-    galleryCount: 4,
   },
   {
     code: 'zhk-simvol-2',
@@ -33,8 +29,6 @@ const expectedProjects = [
     height: 1024,
     object: 'ЖК «Символ 2»',
     title: 'Декоративные корзины для кондиционеров в ЖК «Символ 2»',
-    galleryVariant: 'one',
-    galleryCount: 3,
   },
 ] as const;
 
@@ -269,6 +263,30 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
     ]);
   });
 
+  test('keeps both Paper gallery layouts on the projects listing only', async ({ page }) => {
+    await page.goto('/projects/', { waitUntil: 'networkidle' });
+
+    const gallery = page.locator('[data-rm-projects-section="gallery"]');
+    await expect(gallery).toBeVisible();
+    await expect(gallery.locator('h2')).toHaveText('Галерея проектов');
+    await expect(gallery.locator('[data-rm-projects-gallery="one"] img')).toHaveCount(3);
+    await expect(gallery.locator('[data-rm-projects-gallery="two"] img')).toHaveCount(4);
+    await expect
+      .poll(() =>
+        gallery.locator('img').evaluateAll((images) =>
+          images.every((image) => {
+            const element = image as HTMLImageElement;
+            return (
+              element.complete &&
+              element.naturalWidth > 0 &&
+              element.currentSrc.includes('/images/ralmaster/projects/galleries/')
+            );
+          }),
+        ),
+      )
+      .toBe(true);
+  });
+
   test('renders every realized project with its Paper content and a completed order passport', async ({ page }) => {
     for (const project of expectedProjects) {
       await page.goto(project.href, { waitUntil: 'networkidle' });
@@ -302,25 +320,7 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
       await expect(detail.locator('.rm-project-detail__notice')).toHaveCount(0);
       await expect(detail.locator('[data-rm-project-detail-section="work"]')).toHaveCount(0);
       await expect(detail.locator('[data-rm-project-detail-section="result"]')).toHaveCount(0);
-      const gallery = detail.locator('[data-rm-project-detail-section="gallery"]');
-      await expect(gallery).toHaveClass(
-        new RegExp(`rm-project-detail__gallery--${project.galleryVariant}`),
-      );
-      await expect(gallery.locator('img')).toHaveCount(project.galleryCount);
-      await expect
-        .poll(() =>
-          gallery.locator('img').evaluateAll((images) =>
-            images.every((image) => {
-              const element = image as HTMLImageElement;
-              return (
-                element.complete &&
-                element.naturalWidth > 0 &&
-                element.currentSrc.includes('/images/ralmaster/projects/galleries/')
-              );
-            }),
-          ),
-        )
-        .toBe(true);
+      await expect(detail.locator('[data-rm-project-detail-section="gallery"]')).toHaveCount(0);
       await expect(detail.locator('.rm-project-detail__cta-footer a')).toHaveText([
         'Все выполненные заказы',
         'Корзины для кондиционеров',

@@ -86,6 +86,15 @@ test.describe('P0 redesigned home', () => {
     expect(sections).toEqual(expectedSections);
   });
 
+  test('shows the first section below the hero immediately without an observer placeholder', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+
+    const workModel = page.locator('[data-rm-section="work-model"]');
+    await expect(workModel).toBeVisible();
+    await expect(workModel).toHaveClass(/\bis-visible\b/);
+    await expect(workModel).toHaveCSS('opacity', '1');
+  });
+
   test('keeps card data dynamic and all redesigned links local', async ({ page, request }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     const home = page.locator('[data-rm-home]');
@@ -188,7 +197,9 @@ test.describe('P0 redesigned home', () => {
 
     const cards = page.locator('.rm-home-project-card');
     const total = await cards.count();
-    expect(total).toBeGreaterThanOrEqual(4);
+    // The approved content keeps the three unique realized projects and removes
+    // the duplicate Symbol card from the previous data set.
+    expect(total).toBe(3);
 
     await filters.filter({ hasText: 'Порошковая окраска' }).click();
     await expect(filters.filter({ hasText: 'Порошковая окраска' })).toHaveAttribute(

@@ -3508,7 +3508,7 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   place-items: center;
   border-radius: 2px;
   color: var(--rm-primary) !important;
-  transition: background-color var(--motion-ui) var(--ease-ui);
+  transition: color var(--motion-ui) var(--ease-ui);
 }
 
 .rm-header__basket .count {
@@ -3551,7 +3551,8 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
 
 .rm-header__basket .basket-link:hover,
 .rm-header__basket .basket-link:focus-visible {
-  background: #eaf0ff !important;
+  color: var(--rm-primary) !important;
+  background: transparent !important;
 }
 
 .rm-header__tool.rm-header__basket.is-active,
@@ -3561,7 +3562,8 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
 
 .rm-header__basket.is-active .basket-link:hover,
 .rm-header__basket.is-active .basket-link:focus-visible {
-  background: #eaf0ff !important;
+  color: var(--rm-primary) !important;
+  background: transparent !important;
 }
 
 .rm-header--overlay .rm-header__email,
@@ -3585,7 +3587,8 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
 
 .rm-header--overlay .rm-header__basket .basket-link:hover,
 .rm-header--overlay .rm-header__basket .basket-link:focus-visible {
-  background: rgba(255, 255, 255, .12);
+  color: var(--rm-primary) !important;
+  background: transparent !important;
 }
 
 .rm-home-hero {
