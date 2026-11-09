@@ -3572,6 +3572,13 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   color: var(--rm-white) !important;
 }
 
+.rm-header--overlay .rm-header__email a:hover,
+.rm-header--overlay .rm-header__email a:focus-visible,
+.rm-header--overlay .rm-header__phone a:hover,
+.rm-header--overlay .rm-header__phone a:focus-visible {
+  color: var(--rm-primary) !important;
+}
+
 .rm-header--overlay .rm-header__basket .basket-link {
   color: var(--rm-white) !important;
 }

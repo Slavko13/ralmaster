@@ -30,19 +30,19 @@ $rmAcceptedItems = array(
 	array(
 		'title' => 'Плоские изделия',
 		'text' => 'Листовые детали, панели и металлокассеты.',
-		'image' => 'home/facade-cassettes.webp',
+		'image' => 'powder/accepted-flat-products.webp',
 		'alt' => 'Металлические панели и фасадные кассеты',
 	),
 	array(
 		'title' => 'Металлические профили',
 		'text' => 'Профили и профильные элементы.',
-		'image' => 'home/powder-profiles.webp',
+		'image' => 'powder/accepted-profiles.webp',
 		'alt' => 'Партия металлических профилей',
 	),
 	array(
 		'title' => 'Изделия и детали',
 		'text' => 'Корзины для кондиционеров и другие изделия по согласованию.',
-		'image' => 'powder/painted-ac-basket.webp',
+		'image' => 'powder/accepted-items.webp',
 		'alt' => 'Окрашенная корзина для кондиционера',
 	),
 );

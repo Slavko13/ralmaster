@@ -111,7 +111,7 @@ $rmMetalExamples = array(
 		'TITLE' => 'Крепёжные кронштейны по чертежам заказчика',
 		'TEXT' => 'Выполнены лазерная резка заготовок и гибка кронштейнов по заданным размерам.',
 		'META' => 'Сталь 3 мм · Партия 300 шт.',
-		'IMAGE' => $rmMetalHomeAsset('custom-metalwork.webp'),
+		'IMAGE' => $rmMetalAsset('brackets-batch.webp'),
 	),
 	array(
 		'TITLE' => 'Листовые панели для оборудования',

@@ -77,3 +77,30 @@ foreach ($arResult['ITEMS'] as &$rmProjectItem) {
 	);
 }
 unset($rmProjectItem);
+
+$rmPreferredSymbolIndex = null;
+foreach ($arResult['ITEMS'] as $rmProjectIndex => $rmProjectItem) {
+	$rmNormalizedProjectName = mb_strtolower((string)($rmProjectItem['RM_PROJECT']['NAME'] ?? $rmProjectItem['NAME'] ?? ''));
+	$rmNormalizedProjectName = trim(preg_replace('~[«»"“”]+~u', '', $rmNormalizedProjectName));
+	$rmNormalizedProjectName = preg_replace('~\s+~u', ' ', $rmNormalizedProjectName);
+	$rmProjectDescription = mb_strtolower((string)($rmProjectItem['RM_PROJECT']['DESCRIPTION'] ?? ''));
+
+	if ($rmNormalizedProjectName === 'жк символ' && preg_match('~декоративн.*корзин.*кондиционер~u', $rmProjectDescription)) {
+		$rmPreferredSymbolIndex = $rmProjectIndex;
+		break;
+	}
+}
+
+if ($rmPreferredSymbolIndex !== null) {
+	$arResult['ITEMS'] = array_values(array_filter(
+		$arResult['ITEMS'],
+		static function ($rmProjectItem, $rmProjectIndex) use ($rmPreferredSymbolIndex) {
+			$rmNormalizedProjectName = mb_strtolower((string)($rmProjectItem['RM_PROJECT']['NAME'] ?? $rmProjectItem['NAME'] ?? ''));
+			$rmNormalizedProjectName = trim(preg_replace('~[«»"“”]+~u', '', $rmNormalizedProjectName));
+			$rmNormalizedProjectName = preg_replace('~\s+~u', ' ', $rmNormalizedProjectName);
+
+			return $rmNormalizedProjectName !== 'жк символ' || $rmProjectIndex === $rmPreferredSymbolIndex;
+		},
+		ARRAY_FILTER_USE_BOTH
+	));
+}

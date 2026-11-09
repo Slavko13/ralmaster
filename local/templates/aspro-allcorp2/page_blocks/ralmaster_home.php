@@ -175,6 +175,33 @@ foreach ($rmProjects as $index => &$project) {
 }
 unset($project);
 
+$rmPreferredSymbolIndex = null;
+foreach ($rmProjects as $rmProjectIndex => $project) {
+	$rmNormalizedProjectName = mb_strtolower((string)($project['NAME'] ?? ''));
+	$rmNormalizedProjectName = trim(preg_replace('~[«»"“”]+~u', '', $rmNormalizedProjectName));
+	$rmNormalizedProjectName = preg_replace('~\s+~u', ' ', $rmNormalizedProjectName);
+	$rmProjectDescription = mb_strtolower((string)($project['TEXT'] ?? ''));
+
+	if ($rmNormalizedProjectName === 'жк символ' && preg_match('~декоративн.*корзин.*кондиционер~u', $rmProjectDescription)) {
+		$rmPreferredSymbolIndex = $rmProjectIndex;
+		break;
+	}
+}
+
+if ($rmPreferredSymbolIndex !== null) {
+	$rmProjects = array_values(array_filter(
+		$rmProjects,
+		static function ($project, $rmProjectIndex) use ($rmPreferredSymbolIndex) {
+			$rmNormalizedProjectName = mb_strtolower((string)($project['NAME'] ?? ''));
+			$rmNormalizedProjectName = trim(preg_replace('~[«»"“”]+~u', '', $rmNormalizedProjectName));
+			$rmNormalizedProjectName = preg_replace('~\s+~u', ' ', $rmNormalizedProjectName);
+
+			return $rmNormalizedProjectName !== 'жк символ' || $rmProjectIndex === $rmPreferredSymbolIndex;
+		},
+		ARRAY_FILTER_USE_BOTH
+	));
+}
+
 if (!$rmProjects) {
 	$rmProjects = array(
 		array('NAME' => 'ЖК «Символ»', 'URL' => '/projects/zhk-simvol/', 'TEXT' => 'Декоративные корзины для кондиционеров по индивидуальному проекту', 'IMAGE' => $projectFallbackImages[0][0], 'IMAGE_SMALL' => $projectFallbackImages[0][1], 'YEAR' => '2025'),
@@ -183,7 +210,7 @@ if (!$rmProjects) {
 	);
 }
 
-while (count($rmProjects) < 4) {
+while (count($rmProjects) < 3) {
 	$index = count($rmProjects);
 	$rmProjects[] = array(
 		'NAME' => $index === 3 ? 'ЖК «Символ 2»' : 'Выполненный заказ',
