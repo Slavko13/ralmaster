@@ -11,6 +11,8 @@ const expectedProjects = [
     height: 1280,
     object: 'ЖК «Символ»',
     title: 'Декоративные корзины для кондиционеров в ЖК «Символ»',
+    galleryVariant: 'one',
+    galleryCount: 3,
   },
   {
     code: 'zhk-belyy-grad',
@@ -20,6 +22,8 @@ const expectedProjects = [
     height: 1535,
     object: 'ЖК «Белый град»',
     title: 'Декоративные корзины для кондиционеров в ЖК «Белый град»',
+    galleryVariant: 'two',
+    galleryCount: 4,
   },
   {
     code: 'zhk-simvol-2',
@@ -29,6 +33,8 @@ const expectedProjects = [
     height: 1024,
     object: 'ЖК «Символ 2»',
     title: 'Декоративные корзины для кондиционеров в ЖК «Символ 2»',
+    galleryVariant: 'one',
+    galleryCount: 3,
   },
 ] as const;
 
@@ -271,7 +277,7 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
       const detail = page.locator('[data-rm-project-detail]');
       await expect(detail).toHaveClass(/rm-project-detail--realized/);
       await expect(detail).toHaveAttribute('data-project-code', project.code);
-      await expect(detail.locator('h1')).toHaveText(project.title.replace('корзины ', 'корзины'));
+      await expect(detail.locator('h1')).toHaveText(project.title);
       await expect(detail.locator('.rm-project-detail__hero-media img')).toHaveAttribute(
         'src',
         new RegExp(`/images/ralmaster/projects/${project.image.replace('.', '\\.')}\\??`),
@@ -296,6 +302,25 @@ test.describe('P0 redesigned projects listing and dynamic details', () => {
       await expect(detail.locator('.rm-project-detail__notice')).toHaveCount(0);
       await expect(detail.locator('[data-rm-project-detail-section="work"]')).toHaveCount(0);
       await expect(detail.locator('[data-rm-project-detail-section="result"]')).toHaveCount(0);
+      const gallery = detail.locator('[data-rm-project-detail-section="gallery"]');
+      await expect(gallery).toHaveClass(
+        new RegExp(`rm-project-detail__gallery--${project.galleryVariant}`),
+      );
+      await expect(gallery.locator('img')).toHaveCount(project.galleryCount);
+      await expect
+        .poll(() =>
+          gallery.locator('img').evaluateAll((images) =>
+            images.every((image) => {
+              const element = image as HTMLImageElement;
+              return (
+                element.complete &&
+                element.naturalWidth > 0 &&
+                element.currentSrc.includes('/images/ralmaster/projects/galleries/')
+              );
+            }),
+          ),
+        )
+        .toBe(true);
       await expect(detail.locator('.rm-project-detail__cta-footer a')).toHaveText([
         'Все выполненные заказы',
         'Корзины для кондиционеров',

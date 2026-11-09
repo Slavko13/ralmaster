@@ -1279,7 +1279,20 @@ body:has(.rm-powder-page) .main > .container .right_block {
   }
 
   .rm-powder-split-heading {
+    display: flex;
+    min-width: 0;
+    height: auto;
     padding-bottom: 32px;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .rm-powder-split-heading > *,
+  .rm-powder-requirements__layout,
+  .rm-powder-requirements__list,
+  .rm-powder-requirements__list article,
+  .rm-powder-requirements__list article > div {
+    min-width: 0;
   }
 
   .rm-powder-accepted__cards,
@@ -1335,7 +1348,18 @@ body:has(.rm-powder-page) .main > .container .right_block {
   }
 
   .rm-powder-requirements__list article {
-    padding-inline: 20px;
+    min-height: 0;
+    padding: 22px 18px;
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .rm-powder-requirements__list h3,
+  .rm-powder-requirements__list p,
+  .rm-powder-split-heading h2,
+  .rm-powder-split-heading p {
+    overflow-wrap: break-word;
+    text-wrap: pretty;
   }
 
   .rm-powder-orders__grid {

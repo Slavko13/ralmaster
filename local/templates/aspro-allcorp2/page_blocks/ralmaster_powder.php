@@ -11,6 +11,14 @@ $rmAssetRoot = SITE_TEMPLATE_PATH.'/images/ralmaster/';
 $rmSmallAsset = static function ($file) use ($rmAssetRoot) {
 	return $rmAssetRoot.preg_replace('~\.webp$~', '-768.webp', ltrim((string)$file, '/'));
 };
+$rmTypograph = static function ($text) {
+	$escaped = htmlspecialcharsbx((string)$text);
+	return preg_replace(
+		'~(^|[\s>])(а|без|в|во|для|до|за|из|и|к|ко|на|над|не|ни|но|о|об|от|по|под|при|про|с|со|у)\s+(?=[\p{L}\p{N}])~iu',
+		'$1$2&nbsp;',
+		$escaped
+	);
+};
 $rmEstimateFormId = 0;
 $rmEstimateFormSid = 'legacy';
 
@@ -191,15 +199,15 @@ $rmExamples = array(
 	<section class="rm-powder-requirements" data-rm-powder-section="requirements">
 		<div class="rm-powder-container">
 			<header class="rm-powder-split-heading">
-				<h2>Согласуем требования к покрытию</h2>
-				<p>Укажите желаемый цвет, внешний вид покрытия и условия эксплуатации изделия. Если окраска должна соответствовать образцу или техническому заданию, приложите их к запросу.</p>
+				<h2><?=$rmTypograph('Согласуем требования к покрытию')?></h2>
+				<p><?=$rmTypograph('Укажите желаемый цвет, внешний вид покрытия и условия эксплуатации изделия. Если окраска должна соответствовать образцу или техническому заданию, приложите их к запросу.')?></p>
 			</header>
 			<div class="rm-powder-requirements__layout">
 				<div class="rm-powder-requirements__list">
 					<?foreach ($rmRequirements as $rmRequirement):?>
 						<article>
 							<svg aria-hidden="true" viewBox="0 0 24 24"><?=$rmRequirement['icon']?></svg>
-							<div><h3><?=htmlspecialcharsbx($rmRequirement['title'])?></h3><p><?=htmlspecialcharsbx($rmRequirement['text'])?></p></div>
+							<div><h3><?=$rmTypograph($rmRequirement['title'])?></h3><p><?=$rmTypograph($rmRequirement['text'])?></p></div>
 						</article>
 					<?endforeach;?>
 				</div>

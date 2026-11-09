@@ -437,6 +437,23 @@ test.describe('P0 redesigned powder coating page', () => {
       'object-fit',
       'fill',
     );
+    const requirements = page.locator('.rm-powder-requirements');
+    expect(await requirements.locator('.rm-powder-split-heading').innerHTML()).toContain('&nbsp;');
+    const requirementGeometry = await requirements
+      .locator('.rm-powder-requirements__list article')
+      .evaluateAll((items) =>
+        items.map((item, index) => {
+          const box = item.getBoundingClientRect();
+          const nextBox = items[index + 1]?.getBoundingClientRect();
+          return {
+            contentFits: item.scrollHeight <= item.clientHeight + 1,
+            clearsNext: !nextBox || box.bottom <= nextBox.top + 1,
+          };
+        }),
+      );
+    expect(requirementGeometry.every(({ contentFits, clearsNext }) => contentFits && clearsNext)).toBe(
+      true,
+    );
     await page.waitForTimeout(1_500);
     const mobileUploader = page.locator('.rm-powder-estimate__form .uploader');
     await expect(mobileUploader).toBeVisible();

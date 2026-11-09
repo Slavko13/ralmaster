@@ -63,6 +63,18 @@ $rmProjectLayoutClass = $rmProject['IS_REALIZED']
 		</div>
 	</section>
 
+	<?if ($rmProject['IS_REALIZED'] && $rmProject['PRESENTATION_GALLERY']):?>
+		<section class="rm-project-detail__gallery rm-project-detail__gallery--<?=htmlspecialcharsbx($rmProject['GALLERY_VARIANT'])?>" data-rm-project-detail-section="gallery" data-rm-project-section="gallery" aria-label="Галерея реализованного проекта">
+			<div class="rm-project-detail__container rm-project-detail__gallery-grid">
+				<?foreach ($rmProject['PRESENTATION_GALLERY'] as $rmGalleryIndex => $rmGalleryImage):?>
+					<figure class="rm-project-detail__gallery-item rm-project-detail__gallery-item--<?=($rmGalleryIndex + 1)?>">
+						<img src="<?=htmlspecialcharsbx($rmGalleryImage['SRC'])?>" srcset="<?=htmlspecialcharsbx($rmGalleryImage['SRC_SMALL'])?> 768w, <?=htmlspecialcharsbx($rmGalleryImage['SRC'])?> 1536w" sizes="(max-width: 767px) calc(100vw - 32px), 44vw" alt="<?=htmlspecialcharsbx($rmGalleryImage['ALT'])?>" loading="lazy">
+					</figure>
+				<?endforeach;?>
+			</div>
+		</section>
+	<?endif;?>
+
 	<?if (!$rmProject['IS_REALIZED']):?>
 		<section class="rm-project-detail__work" data-rm-project-detail-section="work" data-rm-project-section="work">
 			<div class="rm-project-detail__container rm-project-detail__work-layout">
