@@ -226,6 +226,10 @@ test.describe('P0 Paper flat navigation', () => {
       const style = getComputedStyle(node);
       return { color: style.color, background: style.backgroundColor };
     });
+    expect(catalogBasketAppearance).toEqual({
+      color: 'rgb(24, 35, 55)',
+      background: 'rgba(0, 0, 0, 0)',
+    });
 
     await basket.locator('.basket-link').click();
     await expect(page).toHaveURL(/\/cart\/$/);

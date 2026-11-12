@@ -1116,6 +1116,21 @@ body .rm-system-page--cart .basket.default .buy_block .counter input {
   line-height: 24px;
 }
 
+.rm-system-page--order .basket_order .confirm .description .btn.btn-transparent-bg,
+.rm-system-page--order .basket_order .confirm .description .btn.btn-transparent-bg:not(:hover) {
+  border-color: #175bef !important;
+  color: #fff !important;
+  background: #175bef !important;
+}
+
+.rm-system-page--order .basket_order .confirm .description .btn.btn-transparent-bg:hover,
+.rm-system-page--order .basket_order .confirm .description .btn.btn-transparent-bg:focus-visible,
+.rm-system-page--order .basket_order .confirm .description .btn.btn-transparent-bg:active {
+  border-color: var(--rm-primary-hover, #0d4bd7) !important;
+  color: #fff !important;
+  background: var(--rm-primary-hover, #0d4bd7) !important;
+}
+
 .rm-auth-shell {
   display: grid;
   width: 100vw;

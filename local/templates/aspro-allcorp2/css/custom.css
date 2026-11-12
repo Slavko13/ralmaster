@@ -3507,7 +3507,8 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   height: 38px;
   place-items: center;
   border-radius: 2px;
-  color: var(--rm-primary) !important;
+  color: var(--rm-text) !important;
+  background: transparent !important;
   transition: color var(--motion-ui) var(--ease-ui);
 }
 
@@ -3872,10 +3873,14 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   }
 
   #mobileheader .wrap_basket .basket-link,
-  #mobileheader .wrap_basket .basket-link:hover,
-  #mobileheader .wrap_basket .basket-link:focus-visible,
   #mobileheader .wrap_basket .basket-link:active {
     color: var(--rm-text) !important;
+    background: transparent !important;
+  }
+
+  #mobileheader .wrap_basket .basket-link:hover,
+  #mobileheader .wrap_basket .basket-link:focus-visible {
+    color: var(--rm-primary) !important;
     background: transparent !important;
   }
 
