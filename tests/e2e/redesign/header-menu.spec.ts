@@ -249,20 +249,35 @@ test.describe('P0 Paper flat navigation', () => {
     const homeBasket = page.locator('.rm-header .rm-header__basket');
     await expect(homeBasket.locator('.basket-link')).toBeVisible();
     await expect(homeBasket.locator('.count')).toBeHidden();
+    const homeIconPath = await homeBasket.locator('.rm-header__basket-icon path').getAttribute('d');
 
     await page.goto('/cart/', { waitUntil: 'domcontentloaded' });
     const cartBasket = page.locator('.rm-header .rm-header__basket');
     await expect(cartBasket.locator('.basket-link')).toBeVisible();
     await expect(cartBasket.locator('.rm-header__basket-icon')).toBeVisible();
     await expect(cartBasket.locator('.count')).toBeHidden();
+    await expect(cartBasket.locator('.rm-header__basket-icon path')).toHaveAttribute('d', homeIconPath!);
   });
 
-  test('homepage basket uses the same blue hover emphasis as the menu links', async ({ page }) => {
+  test('basket uses one icon and transparent blue-hover treatment on dark and white headers', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
-    const basketLink = page.locator('.rm-header .rm-header__basket .basket-link');
-    await expect(basketLink).toHaveCSS('color', 'rgb(255, 255, 255)');
-    await basketLink.hover();
-    await expect(basketLink).toHaveCSS('color', 'rgb(23, 91, 239)');
-    await expect(basketLink).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+    const homeBasket = page.locator('.rm-header .rm-header__basket');
+    const homeBasketLink = homeBasket.locator('.basket-link');
+    await expect(homeBasket).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+    await expect(homeBasketLink).toHaveCSS('color', 'rgb(255, 255, 255)');
+    await homeBasketLink.hover();
+    await expect(homeBasket).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+    await expect(homeBasketLink).toHaveCSS('color', 'rgb(23, 91, 239)');
+    await expect(homeBasketLink).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+
+    await page.goto('/cart/', { waitUntil: 'domcontentloaded' });
+    const cartBasket = page.locator('.rm-header .rm-header__basket');
+    const cartBasketLink = cartBasket.locator('.basket-link');
+    await expect(cartBasket).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+    await expect(cartBasketLink).toHaveCSS('color', 'rgb(24, 35, 55)');
+    await cartBasketLink.hover();
+    await expect(cartBasket).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+    await expect(cartBasketLink).toHaveCSS('color', 'rgb(23, 91, 239)');
+    await expect(cartBasketLink).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
   });
 });

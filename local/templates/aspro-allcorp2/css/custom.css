@@ -3500,6 +3500,13 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   margin: 0;
 }
 
+.rm-header .rm-header__tool.rm-header__basket,
+.rm-header .rm-header__tool.rm-header__basket:hover,
+.rm-header .rm-header__tool.rm-header__basket:focus-visible,
+.rm-header .rm-header__tool.rm-header__basket:focus-within {
+  background: transparent !important;
+}
+
 .rm-header__basket .basket-link {
   position: relative;
   display: grid;
@@ -3537,17 +3544,16 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
 
 .rm-header__basket-icon {
   display: block;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   color: currentColor;
+  fill: currentColor;
+  filter: none !important;
 }
 
 .rm-header__basket-icon path {
-  stroke: currentColor !important;
-}
-
-.rm-header__basket-icon circle {
   fill: currentColor !important;
+  stroke: none !important;
 }
 
 .rm-header__basket .basket-link:hover,
@@ -3919,7 +3925,8 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
 
   #mobileheader .wrap_basket .basket-link svg path,
   #mobileheader .wrap_basket .basket-link svg circle {
-    stroke: currentColor !important;
+    fill: currentColor !important;
+    stroke: none !important;
   }
 
   #mobileheader .wrap_basket .basket-link .count {
