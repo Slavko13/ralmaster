@@ -308,7 +308,7 @@ if ($rmOrderFormId <= 0) {
 				</div>
 			</div>
 			<a class="rm-home-hero__feature" href="/product/facadecassettes/">
-				<img src="<?=$rmEscape($rmAsset('facade-cassettes.webp'))?>" srcset="<?=$rmEscape($rmAsset('facade-cassettes-768.webp'))?> 768w, <?=$rmEscape($rmAsset('facade-cassettes.webp'))?> 1448w" sizes="118px" width="118" height="118" alt="Фасадные металлокассеты">
+				<img src="<?=$rmEscape($rmAsset('hero-facade-panel.webp'))?>" srcset="<?=$rmEscape($rmAsset('hero-facade-panel-768.webp'))?> 768w, <?=$rmEscape($rmAsset('hero-facade-panel.webp'))?> 1448w" sizes="118px" width="118" height="118" alt="Фасадные металлокассеты">
 				<span class="rm-home-hero__feature-copy"><strong>Фасадные металлокассеты</strong><span class="rm-link-arrow">Вся продукция</span></span>
 			</a>
 		</div>
