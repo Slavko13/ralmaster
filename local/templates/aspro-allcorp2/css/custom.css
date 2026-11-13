@@ -3337,6 +3337,10 @@ body:has(.rm-home) > .ajax_basket > .fixed_wrapper {
   .rm-home-partner-grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  .rm-home-partner:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
 }
 
 /* 2026-11 correction pass: 72px design header, motion contract and stable CTA alignment. */
